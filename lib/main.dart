@@ -1,5 +1,6 @@
 import 'package:cook_app/utils/add_ingredients.dart';
 import 'package:cook_app/utils/create_recipe.dart';
+import 'package:cook_app/utils/dialbox_add_ingredient_quantity.dart';
 import 'package:cook_app/utils/show_steps.dart';
 import 'package:flutter/material.dart';
 import 'package:cook_app/pages/home.dart';
@@ -31,6 +32,8 @@ class MyApp extends StatelessWidget {
         '/steps': (context) => ShowSteps(),
         '/create_recipe': (context) => CreateRecipe(),
         '/add_ingredients': (context) => AddIngred(),
+        '/dialbox_add_ingredient_and_quantity': (context) =>
+            const AddIngredientQuantity(),
       },
       theme: ThemeData(primarySwatch: Colors.lightGreen),
     );
