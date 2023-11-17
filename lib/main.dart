@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:cook_app/utils/add_ingredients.dart';
 import 'package:cook_app/utils/create_recipe.dart';
 import 'package:cook_app/utils/dialbox_add_ingredient_quantity.dart';
@@ -31,7 +33,9 @@ class MyApp extends StatelessWidget {
         //'/recipe': (context) => RecipeStruct(),
         '/steps': (context) => ShowSteps(),
         '/create_recipe': (context) => CreateRecipe(),
-        '/add_ingredients': (context) => AddIngred(),
+        '/add_ingredients': (context) => AddIngred(
+              dataDialBox: [],
+            ),
         '/dialbox_add_ingredient_and_quantity': (context) =>
             const AddIngredientQuantity(),
       },
