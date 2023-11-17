@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'package:cook_app/utils/edit_recipe.dart';
 import 'package:cook_app/utils/recipe_struct.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -69,6 +70,21 @@ class _HomeState extends State<Home> {
               );
             },
             child: Text('Go to Recipe 1'),
+            onLongPress: () async {
+              final result = await Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => EditRecipe(),
+                ),
+              );
+              if (result != null) {
+                String recipeNameEdited = result;
+                print('Received data from SecondScreen: $recipeNameEdited');
+                setState(() {});
+                db.recipeList[0][0] = recipeNameEdited;
+                db.updateDataBase();
+              }
+            },
           ),
           ElevatedButton(
             onPressed: () {
