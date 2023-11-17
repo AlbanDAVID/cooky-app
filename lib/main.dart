@@ -33,9 +33,7 @@ class MyApp extends StatelessWidget {
         //'/recipe': (context) => RecipeStruct(),
         '/steps': (context) => ShowSteps(),
         '/create_recipe': (context) => CreateRecipe(),
-        '/add_ingredients': (context) => AddIngred(
-              dataDialBox: [],
-            ),
+        '/add_ingredients': (context) => AddIngred(),
         '/dialbox_add_ingredient_and_quantity': (context) =>
             const AddIngredientQuantity(),
       },

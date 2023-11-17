@@ -1,54 +1,42 @@
+// ignore_for_file: prefer_const_constructors
+
+import 'package:cook_app/utils/dialbox_add_ingredient_quantity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:flutter_picker/flutter_picker.dart';
 
 class AddIngred extends StatefulWidget {
-  const AddIngred({
-    Key? key,
-    required this.dataDialBox,
-  }) : super(key: key);
-
-  final List dataDialBox;
+  const AddIngred({super.key});
 
   @override
   State<AddIngred> createState() => _AddIngredState();
 }
 
-final List ingredientList = [
-  "Beurre",
-  "Farine",
-  "Oeuf(s)",
-  "Lait",
-  "Sucre",
-  "Poulet",
-  "Boeuf",
-  "Carotte",
-  "Tomates",
-  "Sel",
-  "Poivre",
-  "Huile d'olive",
-  "Ail"
-];
-
-final List allIngredientSelected = [""];
-
-Widget displayAllIngredientSelected() {
-  return ListView.builder(
-    itemCount: allIngredientSelected.length,
-    itemBuilder: (context, index) {
-      return ListTile(
-        title: Text('${allIngredientSelected[index]}'),
-      );
-    },
-  );
-}
-
 class _AddIngredState extends State<AddIngred> {
+  final List ingredientList = [
+    "Beurre",
+    "Farine",
+    "Oeuf(s)",
+    "Lait",
+    "Sucre",
+    "Poulet",
+    "Boeuf",
+    "Carotte",
+    "Tomates",
+    "Sel",
+    "Poivre",
+    "Huile d'olive",
+    "Ail"
+  ];
+
+  final List selectedIngredientName = [];
+
+  final List allIngredientSelected = [];
+
   @override
   Widget build(BuildContext context) {
-    allIngredientSelected.add(widget
-        .dataDialBox); // add list from dialbox_add_ingredient to allIngredientSelected
+    // add list from dialbox_add_ingredient to allIngredientSelected
     return Scaffold(
         appBar: AppBar(
           title: const Text('Add ingredients'),
@@ -64,9 +52,22 @@ class _AddIngredState extends State<AddIngred> {
               itemBuilder: (context, index) {
                 return ListTile(
                   // UI
-                  onLongPress: () {
-                    Navigator.pushNamed(
-                        context, '/dialbox_add_ingredient_and_quantity');
+                  onLongPress: () async {
+                    final result = await Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => AddIngredientQuantity(),
+                      ),
+                    );
+
+                    // Handle the result (finalQuantity) here
+                    if (result != null) {
+                      List finalQuantity = result;
+                      print('Received data from SecondScreen: $finalQuantity');
+                      setState(() {});
+                      finalQuantity.insert(0, ingredientList[index]);
+                      allIngredientSelected.add(finalQuantity);
+                    }
                   },
                   title: Text(ingredientList[index]),
                   // pour ajouter un contour au texet (attenion bug : le scroll prend toute la page)
@@ -83,13 +84,26 @@ class _AddIngredState extends State<AddIngred> {
           Expanded(
             child: ListView.builder(
               itemCount: allIngredientSelected.length,
-              itemBuilder: (context, innerIndex) {
+              itemBuilder: (context, index) {
+                final ingredient = allIngredientSelected[index][0];
+                final quantity = allIngredientSelected[index][1];
+                final unit = allIngredientSelected[index][2];
+
+                final formattedString = '$ingredient : ($quantity$unit)';
                 return ListTile(
-                  title: Text(allIngredientSelected.join(" ")),
+                  title: Text(formattedString),
                 );
               },
             ),
           ),
+          Container(
+              alignment: Alignment.centerRight,
+              child: MaterialButton(
+                onPressed: () {
+                  Navigator.pop(context, allIngredientSelected);
+                },
+                child: const Text('Add'),
+              ))
         ]));
   }
 }

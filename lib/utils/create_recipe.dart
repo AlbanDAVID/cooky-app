@@ -2,6 +2,7 @@
 
 import 'package:cook_app/data/database.dart';
 import 'package:cook_app/data/database.dart';
+import 'package:cook_app/utils/add_ingredients.dart';
 import 'package:flutter/material.dart';
 import 'package:cook_app/utils/recipe_struct.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -31,6 +32,7 @@ class _CreateRecipeState extends State<CreateRecipe> {
   List<String> availableFields = ['Beurre', 'Farine', 'Oeuf(s)'];
   List<String> selectedFields = [];
   String? searchQuery;
+  List allIngredientSelectedCreateRecipe = [];
 
   @override
   Widget build(BuildContext context) {
@@ -78,10 +80,43 @@ class _CreateRecipeState extends State<CreateRecipe> {
 
               // test select ingredient from al list
               ElevatedButton(
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/add_ingredients');
+                  onPressed: () async {
+                    final result = await Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => AddIngred(),
+                      ),
+                    );
+
+                    // Handle the result (finalQuantity) here
+                    if (result != null) {
+                      List allIngredientSelected = result;
+                      print(
+                          'Received data from SecondScreen: $allIngredientSelected');
+                      setState(() {});
+                      allIngredientSelectedCreateRecipe
+                          .addAll(allIngredientSelected);
+                    }
                   },
                   child: Text("Add ingredients")),
+
+              Expanded(
+                child: ListView.builder(
+                  itemCount: allIngredientSelectedCreateRecipe.length,
+                  itemBuilder: (context, index) {
+                    final ingredient =
+                        allIngredientSelectedCreateRecipe[index][0];
+                    final quantity =
+                        allIngredientSelectedCreateRecipe[index][1];
+                    final unit = allIngredientSelectedCreateRecipe[index][2];
+
+                    final formattedString = '$ingredient : ($quantity$unit)';
+                    return ListTile(
+                      title: Text(formattedString),
+                    );
+                  },
+                ),
+              ),
 
               ElevatedButton(
                 onPressed: () {
@@ -93,6 +128,7 @@ class _CreateRecipeState extends State<CreateRecipe> {
                     totalTimeController.text,
                     difficultyController.text,
                     costController.text,
+                    allIngredientSelectedCreateRecipe
                   ]);
 
                   // Mettre à jour la liste de listes dans Hive
@@ -113,6 +149,7 @@ class _CreateRecipeState extends State<CreateRecipe> {
                     totalTime: totalTime,
                     difficulty: difficulty,
                     cost: cost,
+                    allIngredientSelected: allIngredientSelectedCreateRecipe,
                   );
 
                   // Naviguer et vers la nouvelle page avec les données du formulaire et sauvegarder

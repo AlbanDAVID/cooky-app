@@ -54,11 +54,11 @@ class _HomeState extends State<Home> {
             onPressed: () {
               loadAllData();
               RecipeStruct recipeInstance = RecipeStruct(
-                recipeName: db.recipeList[0][0],
-                totalTime: db.recipeList[0][1],
-                difficulty: db.recipeList[0][2],
-                cost: db.recipeList[0][3],
-              );
+                  recipeName: db.recipeList[0][0],
+                  totalTime: db.recipeList[0][1],
+                  difficulty: db.recipeList[0][2],
+                  cost: db.recipeList[0][3],
+                  allIngredientSelected: db.recipeList[0][4]);
 
               // ignore: use_build_context_synchronously
               Navigator.push(
@@ -74,11 +74,11 @@ class _HomeState extends State<Home> {
             onPressed: () {
               loadAllData();
               RecipeStruct recipeInstance = RecipeStruct(
-                recipeName: db.recipeList[1][0],
-                totalTime: db.recipeList[1][1],
-                difficulty: db.recipeList[1][2],
-                cost: db.recipeList[1][3],
-              );
+                  recipeName: db.recipeList[1][0],
+                  totalTime: db.recipeList[1][1],
+                  difficulty: db.recipeList[1][2],
+                  cost: db.recipeList[1][3],
+                  allIngredientSelected: db.recipeList[1][4]);
 
               // ignore: use_build_context_synchronously
               Navigator.push(
@@ -94,11 +94,11 @@ class _HomeState extends State<Home> {
             onPressed: () {
               loadAllData();
               RecipeStruct recipeInstance = RecipeStruct(
-                recipeName: db.recipeList[2][0],
-                totalTime: db.recipeList[2][1],
-                difficulty: db.recipeList[2][2],
-                cost: db.recipeList[2][3],
-              );
+                  recipeName: db.recipeList[2][0],
+                  totalTime: db.recipeList[2][1],
+                  difficulty: db.recipeList[2][2],
+                  cost: db.recipeList[2][3],
+                  allIngredientSelected: db.recipeList[2][4]);
 
               // ignore: use_build_context_synchronously
               Navigator.push(

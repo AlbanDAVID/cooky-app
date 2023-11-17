@@ -9,12 +9,14 @@ class RecipeStruct extends StatelessWidget {
   final String totalTime;
   final String difficulty;
   final String cost;
+  final List allIngredientSelected;
   const RecipeStruct({
     super.key,
     required this.recipeName,
     required this.totalTime,
     required this.difficulty,
     required this.cost,
+    required this.allIngredientSelected,
   });
 
   @override
@@ -86,21 +88,19 @@ class RecipeStruct extends StatelessWidget {
                 ),
               ),
               // Ingrédients (ajouter une case à cocher)
-              Container(
-                height: 300,
-                child: ListView(
-                  padding: EdgeInsets.zero,
-                  children: [
-                    // Exemple d'ingrédient avec une case à cocher
-                    CheckboxListTile(
-                      title: Text("4 oignons"),
-                      value:
-                          false, // Définir la valeur en fonction de l'état de la case à cocher
-                      onChanged: (bool? value) {
-                        // Logique à exécuter lorsque la case à cocher est modifiée
-                      },
-                    ),
-                  ],
+              Expanded(
+                child: ListView.builder(
+                  itemCount: allIngredientSelected.length,
+                  itemBuilder: (context, index) {
+                    final ingredient = allIngredientSelected[index][0];
+                    final quantity = allIngredientSelected[index][1];
+                    final unit = allIngredientSelected[index][2];
+
+                    final formattedString = '$ingredient : ($quantity$unit)';
+                    return ListTile(
+                      title: Text(formattedString),
+                    );
+                  },
                 ),
               ),
 
