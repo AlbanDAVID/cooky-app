@@ -5,7 +5,7 @@ import 'dart:io';
 import 'package:cook_app/data/database.dart';
 import 'package:cook_app/data/database.dart';
 import 'package:cook_app/utils/add_ingredients.dart';
-import 'package:cook_app/utils/add_pics.dart';
+
 import 'package:flutter/material.dart';
 import 'package:cook_app/utils/recipe_struct.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -36,7 +36,6 @@ class _CreateRecipeState extends State<CreateRecipe> {
   List<String> selectedFields = [];
   String? searchQuery;
   List allIngredientSelectedCreateRecipe = [];
-  late File image;
 
   @override
   Widget build(BuildContext context) {
@@ -76,24 +75,6 @@ class _CreateRecipeState extends State<CreateRecipe> {
                 decoration: const InputDecoration(labelText: 'Cost'),
               ),
               const SizedBox(height: 16),
-
-              // add pic
-              ElevatedButton(
-                  onPressed: () async {
-                    final result = await Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => MyImagePickerPage(),
-                      ),
-                    );
-                    if (result != null) {
-                      File? _image = result;
-                      print('Received data from SecondScreen: $_image');
-                      image = _image;
-                      setState(() {});
-                    }
-                  },
-                  child: Text("Add pic")),
 
               // select ingredient from al list
               ElevatedButton(
@@ -164,7 +145,6 @@ class _CreateRecipeState extends State<CreateRecipe> {
                     difficulty: difficulty,
                     cost: cost,
                     allIngredientSelected: allIngredientSelectedCreateRecipe,
-                    image: image,
                   );
 
                   // Navigate to the new page with the form data and save

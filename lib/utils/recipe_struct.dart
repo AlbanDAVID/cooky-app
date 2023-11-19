@@ -12,7 +12,7 @@ class RecipeStruct extends StatelessWidget {
   final String difficulty;
   final String cost;
   final List allIngredientSelected;
-  final File image;
+
   const RecipeStruct({
     super.key,
     required this.recipeName,
@@ -20,7 +20,6 @@ class RecipeStruct extends StatelessWidget {
     required this.difficulty,
     required this.cost,
     required this.allIngredientSelected,
-    required this.image,
   });
 
   @override
@@ -48,7 +47,7 @@ class RecipeStruct extends StatelessWidget {
               Center(
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(10.0),
-                  child: Image.file(image),
+                  child: Image.asset('recipe_pics/photo_boeuf_bourguignon.jpg'),
                 ),
               ),
 

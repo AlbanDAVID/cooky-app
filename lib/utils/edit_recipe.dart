@@ -75,7 +75,6 @@ class _EditRecipeState extends State<EditRecipe> {
               const SizedBox(height: 16),
 
               // ingredients list
-              TextField(),
 
               // Create a button who will generate a new page from recipe_struct
 

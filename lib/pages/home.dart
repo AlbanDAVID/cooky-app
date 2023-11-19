@@ -47,87 +47,87 @@ class _HomeState extends State<Home> {
         actions: [IconButton(onPressed: () {}, icon: const Icon(Icons.search))],
       ),
       // COMMENT BELLOW FOR TESTING CAMERA AND GALERIE
-//      body: Center(
-//          child: Column(
-//        children: [
-//          ElevatedButton(
-//            onPressed: () {
-//              loadAllData();
-//              RecipeStruct recipeInstance = RecipeStruct(
-//                  recipeName: db.recipeList[0][0],
-//                  totalTime: db.recipeList[0][1],
-//                  difficulty: db.recipeList[0][2],
-//                  cost: db.recipeList[0][3],
-//                  allIngredientSelected: db.recipeList[0][4],
-//                  image: ,);
-//
-//              // ignore: use_build_context_synchronously
-//              Navigator.push(
-//                context,
-//                MaterialPageRoute(
-//                  builder: (context) => recipeInstance,
-//                ),
-//              );
-//            },
-//            child: Text('Go to Recipe 1'),
-//            onLongPress: () async {
-//              final result = await Navigator.push(
-//                context,
-//                MaterialPageRoute(
-//                  builder: (context) => EditRecipe(),
-//                ),
-//              );
-//              if (result != null) {
-//                String recipeNameEdited = result;
-//                print('Received data from SecondScreen: $recipeNameEdited');
-//                setState(() {});
-//                db.recipeList[0][0] = recipeNameEdited;
-//                db.updateDataBase();
-//              }
-//            },
-//          ),
-//          ElevatedButton(
-//            onPressed: () {
-//              loadAllData();
-//              RecipeStruct recipeInstance = RecipeStruct(
-//                  recipeName: db.recipeList[1][0],
-//                  totalTime: db.recipeList[1][1],
-//                  difficulty: db.recipeList[1][2],
-//                  cost: db.recipeList[1][3],
-//                  allIngredientSelected: db.recipeList[1][4]);
-//
-//              // ignore: use_build_context_synchronously
-//              Navigator.push(
-//                context,
-//                MaterialPageRoute(
-//                  builder: (context) => recipeInstance,
-//                ),
-//              );
-//            },
-//            child: Text('Go to Recipe 2'),
-//          ),
-//          ElevatedButton(
-//            onPressed: () {
-//              loadAllData();
-//              RecipeStruct recipeInstance = RecipeStruct(
-//                  recipeName: db.recipeList[2][0],
-//                  totalTime: db.recipeList[2][1],
-//                  difficulty: db.recipeList[2][2],
-//                  cost: db.recipeList[2][3],
-//                  allIngredientSelected: db.recipeList[2][4]);
-//
-//              // ignore: use_build_context_synchronously
-//              Navigator.push(
-//                context,
-//                MaterialPageRoute(
-//                  builder: (context) => recipeInstance,
-//                ),
-//              );
-//            },
-//            child: Text('Go to Recipe 3'),
-//          ),
-//        ],
-//      )),
+      body: Center(
+          child: Column(
+        children: [
+          ElevatedButton(
+            onPressed: () {
+              loadAllData();
+              RecipeStruct recipeInstance = RecipeStruct(
+                recipeName: db.recipeList[0][0],
+                totalTime: db.recipeList[0][1],
+                difficulty: db.recipeList[0][2],
+                cost: db.recipeList[0][3],
+                allIngredientSelected: db.recipeList[0][4],
+              );
+
+              // ignore: use_build_context_synchronously
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => recipeInstance,
+                ),
+              );
+            },
+            child: Text('Go to Recipe 1'),
+            onLongPress: () async {
+              final result = await Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => EditRecipe(),
+                ),
+              );
+              if (result != null) {
+                String recipeNameEdited = result;
+                print('Received data from SecondScreen: $recipeNameEdited');
+                setState(() {});
+                db.recipeList[0][0] = recipeNameEdited;
+                db.updateDataBase();
+              }
+            },
+          ),
+          ElevatedButton(
+            onPressed: () {
+              loadAllData();
+              RecipeStruct recipeInstance = RecipeStruct(
+                  recipeName: db.recipeList[1][0],
+                  totalTime: db.recipeList[1][1],
+                  difficulty: db.recipeList[1][2],
+                  cost: db.recipeList[1][3],
+                  allIngredientSelected: db.recipeList[1][4]);
+
+              // ignore: use_build_context_synchronously
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => recipeInstance,
+                ),
+              );
+            },
+            child: Text('Go to Recipe 2'),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              loadAllData();
+              RecipeStruct recipeInstance = RecipeStruct(
+                  recipeName: db.recipeList[2][0],
+                  totalTime: db.recipeList[2][1],
+                  difficulty: db.recipeList[2][2],
+                  cost: db.recipeList[2][3],
+                  allIngredientSelected: db.recipeList[2][4]);
+
+              // ignore: use_build_context_synchronously
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => recipeInstance,
+                ),
+              );
+            },
+            child: Text('Go to Recipe 3'),
+          ),
+        ],
+      )),
       drawer: Drawer(
         backgroundColor: Color.fromARGB(255, 113, 153, 187),
         child: Column(children: [
