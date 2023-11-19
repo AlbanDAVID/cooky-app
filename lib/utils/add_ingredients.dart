@@ -15,19 +15,19 @@ class AddIngred extends StatefulWidget {
 
 class _AddIngredState extends State<AddIngred> {
   final List ingredientList = [
-    "Beurre",
-    "Farine",
-    "Oeuf(s)",
-    "Lait",
-    "Sucre",
-    "Poulet",
-    "Boeuf",
-    "Carotte",
-    "Tomates",
-    "Sel",
-    "Poivre",
-    "Huile d'olive",
-    "Ail"
+    "Butter",
+    "Flour",
+    "Egg(s)",
+    "Milk",
+    "Sugar",
+    "Chicken",
+    "Beef",
+    "Carrot",
+    "Tomatoes",
+    "Salt",
+    "Pepper",
+    "Olive Oil",
+    "Garlic"
   ];
 
   final List selectedIngredientName = [];
@@ -42,8 +42,6 @@ class _AddIngredState extends State<AddIngred> {
           title: const Text('Add ingredients'),
         ),
         body: Column(children: [
-          // Votre contenu dans le Container de hauteur 200
-
           Expanded(
               child: Padding(
             padding: const EdgeInsets.only(left: 50.0, right: 50, top: 0),
@@ -70,7 +68,7 @@ class _AddIngredState extends State<AddIngred> {
                     }
                   },
                   title: Text(ingredientList[index]),
-                  // pour ajouter un contour au texet (attenion bug : le scroll prend toute la page)
+                  // to add an outline to the text (beware of bug: the scroll takes up the entire page) :
                   //contentPadding: EdgeInsets.all(20),
                   //shape: RoundedRectangleBorder(
                   //borderRadius: BorderRadius.circular(10),

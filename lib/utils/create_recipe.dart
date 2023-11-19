@@ -1,8 +1,11 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'dart:io';
+
 import 'package:cook_app/data/database.dart';
 import 'package:cook_app/data/database.dart';
 import 'package:cook_app/utils/add_ingredients.dart';
+import 'package:cook_app/utils/add_pics.dart';
 import 'package:flutter/material.dart';
 import 'package:cook_app/utils/recipe_struct.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -33,6 +36,7 @@ class _CreateRecipeState extends State<CreateRecipe> {
   List<String> selectedFields = [];
   String? searchQuery;
   List allIngredientSelectedCreateRecipe = [];
+  late File image;
 
   @override
   Widget build(BuildContext context) {
@@ -73,12 +77,25 @@ class _CreateRecipeState extends State<CreateRecipe> {
               ),
               const SizedBox(height: 16),
 
-              // ingredients list
-              TextField(),
+              // add pic
+              ElevatedButton(
+                  onPressed: () async {
+                    final result = await Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => MyImagePickerPage(),
+                      ),
+                    );
+                    if (result != null) {
+                      File? _image = result;
+                      print('Received data from SecondScreen: $_image');
+                      image = _image;
+                      setState(() {});
+                    }
+                  },
+                  child: Text("Add pic")),
 
-              // Create a button who will generate a new page from recipe_struct
-
-              // test select ingredient from al list
+              // select ingredient from al list
               ElevatedButton(
                   onPressed: () async {
                     final result = await Navigator.push(
@@ -122,7 +139,7 @@ class _CreateRecipeState extends State<CreateRecipe> {
                 onPressed: () {
                   List listOfLists = _myBox.get('ALL_LISTS') ?? [];
 
-                  // Ajouter une nouvelle liste à la liste de listes
+                  // Add a new list to the list of lists
                   listOfLists.add([
                     recipeNameController.text,
                     totalTimeController.text,
@@ -131,28 +148,26 @@ class _CreateRecipeState extends State<CreateRecipe> {
                     allIngredientSelectedCreateRecipe
                   ]);
 
-                  // Mettre à jour la liste de listes dans Hive
+                  // Update list of lists in Hive
                   _myBox.put('ALL_LISTS', listOfLists);
 
-                  // Récupérer les données du formulaire
+                  // Retrieve form data
                   String recipeName = recipeNameController.text;
-                  String totalTime = totalTimeController
-                      .text; // Ajoutez les contrôleurs nécessaires
+                  String totalTime = totalTimeController.text;
                   String difficulty = difficultyController.text;
                   String cost = costController.text;
-                  // Remplacez cela par les données réelles du formulaire
-                  // save in database :
 
-                  // Créer une instance de RecipeDetailsPage avec les données du formulaire
+                  // Create an instance of RecipeDetailsPage with the form data
                   RecipeStruct recipeDetailsPage = RecipeStruct(
                     recipeName: recipeName,
                     totalTime: totalTime,
                     difficulty: difficulty,
                     cost: cost,
                     allIngredientSelected: allIngredientSelectedCreateRecipe,
+                    image: image,
                   );
 
-                  // Naviguer et vers la nouvelle page avec les données du formulaire et sauvegarder
+                  // Navigate to the new page with the form data and save
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => recipeDetailsPage),

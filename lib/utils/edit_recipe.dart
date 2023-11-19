@@ -30,7 +30,7 @@ class _EditRecipeState extends State<EditRecipe> {
   final _myBox = Hive.box('mybox'); // pr charger la bdd sur home_page
   RecipeDatabase db = RecipeDatabase();
 
-  List<String> availableFields = ['Beurre', 'Farine', 'Oeuf(s)'];
+  List<String> availableFields = ['Butter', 'Flour', 'Egg(s)'];
   List<String> selectedFields = [];
   String? searchQuery;
   List allIngredientSelectedEditRecipe = [];

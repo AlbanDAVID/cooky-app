@@ -1,5 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:cook_app/data/database.dart';
@@ -10,6 +12,7 @@ class RecipeStruct extends StatelessWidget {
   final String difficulty;
   final String cost;
   final List allIngredientSelected;
+  final File image;
   const RecipeStruct({
     super.key,
     required this.recipeName,
@@ -17,6 +20,7 @@ class RecipeStruct extends StatelessWidget {
     required this.difficulty,
     required this.cost,
     required this.allIngredientSelected,
+    required this.image,
   });
 
   @override
@@ -37,18 +41,18 @@ class RecipeStruct extends StatelessWidget {
                 ),
               ),
 
-              // Espacement entre le titre et l'image
+              // Spacing between title and image
               SizedBox(height: 16),
 
               // Recipe picture
               Center(
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(10.0),
-                  child: Image.asset('recipe_pics/photo_boeuf_bourguignon.jpg'),
+                  child: Image.file(image),
                 ),
               ),
 
-              // Espacement entre le titre et l'image
+              // Spacing between title and image
               SizedBox(height: 16),
 
               // Row for info (time, difficulty, cost)
@@ -79,7 +83,7 @@ class RecipeStruct extends StatelessWidget {
                 ],
               ),
 
-              // Espacement entre le titre et l'image
+              // Spacing between title and image
               SizedBox(height: 30),
               Text(
                 "INGREDIENTS (0/?)",
@@ -87,7 +91,7 @@ class RecipeStruct extends StatelessWidget {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              // Ingrédients (ajouter une case à cocher)
+              // Ingrédients (TODO : add checkbox)
               Expanded(
                 child: ListView.builder(
                   itemCount: allIngredientSelected.length,
@@ -104,7 +108,7 @@ class RecipeStruct extends StatelessWidget {
                 ),
               ),
 
-              // Espacement entre le titre et l'image
+              // Spacing between title and image
               SizedBox(height: 16),
 
               FloatingActionButton.extended(
@@ -120,8 +124,3 @@ class RecipeStruct extends StatelessWidget {
     );
   }
 }
-
-
-// A FAIRE / AJOUTER : 
-// bouton edit etc.
-// espacer 

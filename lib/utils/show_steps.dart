@@ -18,7 +18,7 @@ class ShowSteps extends StatelessWidget {
         child: Container(
           child: Column(
             children: [
-              // Ingrédients (ajouter une case à cocher)
+              // Ingredients
               Expanded(
                 child: ListView(
                   children: [
