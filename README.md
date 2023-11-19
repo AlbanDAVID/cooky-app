@@ -8,7 +8,6 @@ Learning Flutter by creating a cook app from scratch.
   - intuitive data entry (search, suggestion, manual entry, add new fields)
   - elegant design
 - Add pics
-
 - Deploy the app for iOS and Android. 
 
  ## Other cool features (ideas) : 
