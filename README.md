@@ -1,5 +1,5 @@
 # COOKY APP
-Learning Flutter by creating an cook app from scratch.
+Learning Flutter by creating a cook app from scratch.
 
  ## Priority features : 
 - Create, Edit, Save, Delete recipes.
