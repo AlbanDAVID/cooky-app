@@ -9,6 +9,7 @@ Learning Flutter by creating a cook app from scratch.
   - elegant design
 - Add pics
 - Elegant design
+- Deploy the app for iOS and Android. 
 
  ## Other cool features (ideas) : 
  - Add Cooky mascot
