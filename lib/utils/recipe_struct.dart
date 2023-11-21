@@ -51,8 +51,9 @@ class RecipeStruct extends StatelessWidget {
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(10.0),
                   child: pathImageSelectedFromImagePicker != null
-                      ? Image.file(File(
-                          pathImageSelectedFromImagePicker!)) // File(imageSelectedFromImagePicker!) to transform string path to a widget (ClipRRect does not support Imge.file with just string path, need a widget)
+                      ? Image.file(
+                          File(pathImageSelectedFromImagePicker!),
+                        ) // File(imageSelectedFromImagePicker!) to transform string path to a widget (ClipRRect does not support Imge.file with just string path, need a widget)
                       : ElevatedButton(
                           onPressed: () {
                             Navigator.push(

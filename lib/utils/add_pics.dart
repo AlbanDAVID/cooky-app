@@ -12,7 +12,6 @@ class MyImagePickerPage extends StatefulWidget {
 
 class _MyImagePickerPageState extends State<MyImagePickerPage> {
   File? _image;
-
   String? pathImageSelected;
 
   Future<void> _pickImage(ImageSource source) async {
@@ -70,13 +69,7 @@ class _MyImagePickerPageState extends State<MyImagePickerPage> {
               child: Text('Take a picture'),
             ),
             ElevatedButton(
-              onPressed: () async {
-                // ask for permission
-                await [
-                  //Permission.camera,
-                  Permission.manageExternalStorage,
-                  Permission.photos,
-                ].request();
+              onPressed: () {
                 Navigator.pop(context, pathImageSelected);
               },
               child: Text('Add picture'),
