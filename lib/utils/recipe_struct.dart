@@ -2,6 +2,7 @@
 
 import 'dart:io';
 
+import 'package:cook_app/utils/add_pics.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:cook_app/data/database.dart';
@@ -12,6 +13,7 @@ class RecipeStruct extends StatelessWidget {
   final String difficulty;
   final String cost;
   final List allIngredientSelected;
+  final String? pathImageSelectedFromImagePicker;
 
   const RecipeStruct({
     super.key,
@@ -20,6 +22,7 @@ class RecipeStruct extends StatelessWidget {
     required this.difficulty,
     required this.cost,
     required this.allIngredientSelected,
+    required this.pathImageSelectedFromImagePicker,
   });
 
   @override
@@ -47,7 +50,18 @@ class RecipeStruct extends StatelessWidget {
               Center(
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(10.0),
-                  child: Image.asset('recipe_pics/photo_boeuf_bourguignon.jpg'),
+                  child: pathImageSelectedFromImagePicker != null
+                      ? Image.file(File(
+                          pathImageSelectedFromImagePicker!)) // File(imageSelectedFromImagePicker!) to transform string path to a widget (ClipRRect does not support Imge.file with just string path, need a widget)
+                      : ElevatedButton(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => MyImagePickerPage()),
+                            );
+                          },
+                          child: Text("Add pic")),
                 ),
               ),
 

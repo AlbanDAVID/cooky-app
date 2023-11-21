@@ -5,6 +5,7 @@ import 'dart:io';
 import 'package:cook_app/data/database.dart';
 import 'package:cook_app/data/database.dart';
 import 'package:cook_app/utils/add_ingredients.dart';
+import 'package:cook_app/utils/add_pics.dart';
 
 import 'package:flutter/material.dart';
 import 'package:cook_app/utils/recipe_struct.dart';
@@ -36,6 +37,7 @@ class _CreateRecipeState extends State<CreateRecipe> {
   List<String> selectedFields = [];
   String? searchQuery;
   List allIngredientSelectedCreateRecipe = [];
+  String? pathImageSelectedFromImagePicker;
 
   @override
   Widget build(BuildContext context) {
@@ -75,6 +77,27 @@ class _CreateRecipeState extends State<CreateRecipe> {
                 decoration: const InputDecoration(labelText: 'Cost'),
               ),
               const SizedBox(height: 16),
+
+              // add pics
+              ElevatedButton(
+                onPressed: () async {
+                  final result = await Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => MyImagePickerPage(),
+                    ),
+                  );
+
+                  // Handle the result (finalQuantity) here
+                  if (result != null) {
+                    String imageSelected = result;
+                    print('Received data from SecondScreen: $imageSelected');
+                    setState(() {});
+                    pathImageSelectedFromImagePicker = imageSelected;
+                  }
+                },
+                child: Text("Add pic"),
+              ),
 
               // select ingredient from al list
               ElevatedButton(
@@ -126,7 +149,8 @@ class _CreateRecipeState extends State<CreateRecipe> {
                     totalTimeController.text,
                     difficultyController.text,
                     costController.text,
-                    allIngredientSelectedCreateRecipe
+                    allIngredientSelectedCreateRecipe,
+                    pathImageSelectedFromImagePicker,
                   ]);
 
                   // Update list of lists in Hive
@@ -145,6 +169,8 @@ class _CreateRecipeState extends State<CreateRecipe> {
                     difficulty: difficulty,
                     cost: cost,
                     allIngredientSelected: allIngredientSelectedCreateRecipe,
+                    pathImageSelectedFromImagePicker:
+                        pathImageSelectedFromImagePicker,
                   );
 
                   // Navigate to the new page with the form data and save
