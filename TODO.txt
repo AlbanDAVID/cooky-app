@@ -13,3 +13,5 @@ Other :
 - see for size picture (when I add picture end when the widget is build)
 - camera right access iOS (for add pics)
 - check with differet police size (from smartphone user)
+
+- check to permanently save data even if app is deleted
