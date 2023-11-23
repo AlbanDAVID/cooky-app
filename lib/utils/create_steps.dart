@@ -2,11 +2,12 @@
 
 import 'package:flutter/material.dart';
 
-class DialogExample extends StatelessWidget {
+// dialog box for add steps (used in CreateSteps)
+class DialogAddSteps extends StatelessWidget {
   final controller;
   //VoidCallback onSave;
   //VoidCallback onCancel;
-  DialogExample({
+  DialogAddSteps({
     super.key,
     required this.controller,
     //required this.onSave,
@@ -15,43 +16,48 @@ class DialogExample extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-        title: const Text('STEP'),
         content: Container(
-          height: 500,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              // get user input
-              TextField(
+      height: 400,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          // get user input
+          SizedBox(
+              height: 330,
+              width: 500,
+              child: TextField(
+                maxLines:
+                    null, // for automatically increase th height of TextField
                 controller: controller,
                 decoration: InputDecoration(
                   border: OutlineInputBorder(),
-                  hintText: "Add a step",
+                  hintText: "Write the step here.",
                 ),
+              )),
+
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              // save button
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: const Text('Cancel'),
               ),
 
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  // save button
-                  TextButton(
-                    onPressed: () => Navigator.pop(context, 'Cancel'),
-                    child: const Text('Cancel'),
-                  ),
-
-                  // cancel button
-                  TextButton(
-                    onPressed: () => Navigator.pop(context, controller.text),
-                    child: const Text('OK'),
-                  )
-                ],
-              ),
+              // cancel button
+              TextButton(
+                onPressed: () => Navigator.pop(context, controller.text),
+                child: const Text('OK'),
+              )
             ],
           ),
-        ));
+        ],
+      ),
+    ));
   }
 }
 
+// page for adding steps and show steps added before submit
 class CreateSteps extends StatefulWidget {
   const CreateSteps({super.key});
 
@@ -78,7 +84,7 @@ class _CreateStepsState extends State<CreateSteps> {
               itemCount: stepsRecipe.length,
               itemBuilder: (context, index) {
                 return ListTile(
-                    title: Text(' Step ${index + 1} :  ${stepsRecipe[index]}'));
+                    title: Text(' Step ${index + 1}:\n${stepsRecipe[index]}'));
               },
             )),
             Row(mainAxisAlignment: MainAxisAlignment.end, children: [
@@ -87,7 +93,7 @@ class _CreateStepsState extends State<CreateSteps> {
                   final result = await showDialog(
                       context: context,
                       builder: (context) {
-                        return DialogExample(
+                        return DialogAddSteps(
                           controller: _controller,
                         );
                       });

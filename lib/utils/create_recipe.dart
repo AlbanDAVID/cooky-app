@@ -160,6 +160,18 @@ class _CreateRecipeState extends State<CreateRecipe> {
                   },
                   child: Text("Add steps")),
 
+              // show steps added
+              Expanded(
+                child: ListView.builder(
+                  itemCount: stepsRecipeFromCreateSteps.length,
+                  itemBuilder: (context, index) {
+                    return ListTile(
+                        title: Text(
+                            ' Step ${index + 1}:\n${stepsRecipeFromCreateSteps[index]}'));
+                  },
+                ),
+              ),
+
               ElevatedButton(
                 onPressed: () {
                   List listOfLists = _myBox.get('ALL_LISTS') ?? [];

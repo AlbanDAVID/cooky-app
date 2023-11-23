@@ -133,7 +133,7 @@ class RecipeStruct extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => ShowRecipe(
+                        builder: (context) => ShowRecipeSteps(
                               steps: stepsRecipeFromCreateSteps,
                             )),
                   );

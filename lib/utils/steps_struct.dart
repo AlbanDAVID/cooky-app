@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-class ShowRecipe extends StatelessWidget {
+class ShowRecipeSteps extends StatelessWidget {
   final List<String> steps;
-  const ShowRecipe({
+  const ShowRecipeSteps({
     super.key,
     required this.steps,
   });
