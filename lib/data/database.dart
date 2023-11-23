@@ -1,6 +1,7 @@
 import 'package:hive_flutter/hive_flutter.dart';
 
 class RecipeDatabase {
+  // recipeList contain : Recipe name, Totall Time, Difficulty, Cost, Path of the photo, List of ingredients.
   List recipeList = [];
   // reference our box
   final _myBox =

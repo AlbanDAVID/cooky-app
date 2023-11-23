@@ -3,6 +3,7 @@
 import 'dart:io';
 
 import 'package:cook_app/utils/add_pics.dart';
+import 'package:cook_app/utils/steps_struct.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:cook_app/data/database.dart';
@@ -14,6 +15,7 @@ class RecipeStruct extends StatelessWidget {
   final String cost;
   final List allIngredientSelected;
   final String? pathImageSelectedFromImagePicker;
+  final List<String> stepsRecipeFromCreateSteps;
 
   const RecipeStruct({
     super.key,
@@ -23,6 +25,7 @@ class RecipeStruct extends StatelessWidget {
     required this.cost,
     required this.allIngredientSelected,
     required this.pathImageSelectedFromImagePicker,
+    required this.stepsRecipeFromCreateSteps,
   });
 
   @override
@@ -127,7 +130,13 @@ class RecipeStruct extends StatelessWidget {
 
               FloatingActionButton.extended(
                 onPressed: () {
-                  Navigator.pushNamed(context, '/steps');
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => ShowRecipe(
+                              steps: stepsRecipeFromCreateSteps,
+                            )),
+                  );
                 },
                 label: Text("Start to cook!"),
               ),

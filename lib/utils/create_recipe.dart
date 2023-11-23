@@ -6,6 +6,7 @@ import 'package:cook_app/data/database.dart';
 import 'package:cook_app/data/database.dart';
 import 'package:cook_app/utils/add_ingredients.dart';
 import 'package:cook_app/utils/add_pics.dart';
+import 'package:cook_app/utils/create_steps.dart';
 
 import 'package:flutter/material.dart';
 import 'package:cook_app/utils/recipe_struct.dart';
@@ -38,6 +39,7 @@ class _CreateRecipeState extends State<CreateRecipe> {
   String? searchQuery;
   List allIngredientSelectedCreateRecipe = [];
   String? pathImageSelectedFromImagePicker;
+  List<String> stepsRecipeFromCreateSteps = [];
 
   @override
   Widget build(BuildContext context) {
@@ -99,7 +101,7 @@ class _CreateRecipeState extends State<CreateRecipe> {
                 child: Text("Add pic"),
               ),
 
-              // select ingredient from al list
+              // select ingredient from a list
               ElevatedButton(
                   onPressed: () async {
                     final result = await Navigator.push(
@@ -120,7 +122,7 @@ class _CreateRecipeState extends State<CreateRecipe> {
                     }
                   },
                   child: Text("Add ingredients")),
-
+              // show ingreient selected
               Expanded(
                 child: ListView.builder(
                   itemCount: allIngredientSelectedCreateRecipe.length,
@@ -139,6 +141,25 @@ class _CreateRecipeState extends State<CreateRecipe> {
                 ),
               ),
 
+              // add steps
+              ElevatedButton(
+                  onPressed: () async {
+                    final result = await Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => CreateSteps(),
+                      ),
+                    );
+
+                    if (result != null) {
+                      List<String> stepsRecipe = result;
+                      print('Received data from SecondScreen: $stepsRecipe');
+                      setState(() {});
+                      stepsRecipeFromCreateSteps.addAll(stepsRecipe);
+                    }
+                  },
+                  child: Text("Add steps")),
+
               ElevatedButton(
                 onPressed: () {
                   List listOfLists = _myBox.get('ALL_LISTS') ?? [];
@@ -151,6 +172,7 @@ class _CreateRecipeState extends State<CreateRecipe> {
                     costController.text,
                     allIngredientSelectedCreateRecipe,
                     pathImageSelectedFromImagePicker,
+                    stepsRecipeFromCreateSteps,
                   ]);
 
                   // Update list of lists in Hive
@@ -171,6 +193,7 @@ class _CreateRecipeState extends State<CreateRecipe> {
                     allIngredientSelected: allIngredientSelectedCreateRecipe,
                     pathImageSelectedFromImagePicker:
                         pathImageSelectedFromImagePicker,
+                    stepsRecipeFromCreateSteps: stepsRecipeFromCreateSteps,
                   );
 
                   // Navigate to the new page with the form data and save
@@ -180,7 +203,7 @@ class _CreateRecipeState extends State<CreateRecipe> {
                   );
                 },
                 child: Text("Submit"),
-              )
+              ),
             ],
           ),
         ),

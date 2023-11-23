@@ -60,6 +60,7 @@ class _HomeState extends State<Home> {
                 cost: db.recipeList[0][3],
                 allIngredientSelected: db.recipeList[0][4],
                 pathImageSelectedFromImagePicker: db.recipeList[0][5],
+                stepsRecipeFromCreateSteps: db.recipeList[0][6],
               );
 
               // ignore: use_build_context_synchronously
@@ -97,6 +98,7 @@ class _HomeState extends State<Home> {
                 cost: db.recipeList[1][3],
                 allIngredientSelected: db.recipeList[1][4],
                 pathImageSelectedFromImagePicker: db.recipeList[1][5],
+                stepsRecipeFromCreateSteps: db.recipeList[1][6],
               );
 
               // ignore: use_build_context_synchronously
@@ -119,6 +121,7 @@ class _HomeState extends State<Home> {
                 cost: db.recipeList[2][3],
                 allIngredientSelected: db.recipeList[2][4],
                 pathImageSelectedFromImagePicker: db.recipeList[2][5],
+                stepsRecipeFromCreateSteps: db.recipeList[2][6],
               );
 
               // ignore: use_build_context_synchronously
