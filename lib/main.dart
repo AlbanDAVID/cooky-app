@@ -17,6 +17,7 @@ void main() async {
 
   // open a box
   var box = await Hive.openBox('mybox');
+  var box2 = await Hive.openBox('mybox2');
 
   runApp(const MyApp());
 }

@@ -30,6 +30,8 @@ class _CreateRecipeState extends State<CreateRecipe> {
   final TextEditingController difficultyController = TextEditingController();
   final TextEditingController costController = TextEditingController();
   final TextEditingController ingredientController = TextEditingController();
+  final TextEditingController recipeCategoryController =
+      TextEditingController();
 
   final _myBox = Hive.box('mybox'); // pr charger la bdd sur home_page
   RecipeDatabase db = RecipeDatabase();
@@ -53,6 +55,13 @@ class _CreateRecipeState extends State<CreateRecipe> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              // recipe category
+              TextFormField(
+                controller: recipeCategoryController,
+                decoration: const InputDecoration(labelText: 'Recipe category'),
+              ),
+              const SizedBox(height: 16),
+
               // recipe name (string)
               TextFormField(
                 controller: recipeNameController,
@@ -185,6 +194,7 @@ class _CreateRecipeState extends State<CreateRecipe> {
                     allIngredientSelectedCreateRecipe,
                     pathImageSelectedFromImagePicker,
                     stepsRecipeFromCreateSteps,
+                    recipeCategoryController.text,
                   ]);
 
                   // Update list of lists in Hive

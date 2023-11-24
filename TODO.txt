@@ -9,12 +9,14 @@ Priority :
     add preview and possibilty to edit before submit
 - Edit & Delete recipe and steps (during reation or when the recipe is created)
 - Main menu with fields (sarters, main dishe, dessert others) + search bar (optional for now)
+- add tags (vege, spicy etc. and possibility to sort or search by tag)
 ----
 - check to permanently save data even if app is deleted
 - language french/english
 - check with different devices
 - coherente navigation (especially witk back return)
-- warning :form will not be saved if turn bak on the page add recipe 
+- warning :form will not be saved if turn bak on the page add recipe
+- sort by date  
 
 Other :
 - develop and collapse for ingredient 
@@ -22,6 +24,16 @@ Other :
 - see for size picture (when I add picture end when the widget is build)
 - camera right access iOS (for add pics)
 - check with differet police size (from smartphone user)
+
+
+A faire now : 
+
+- Creer nouvelles categories dans create recette ou home page 
+- champ obligatoire pour categorie
+- pouvoir déplacer une recette de catgérorie en editant ou bien renommer la catégorie
+- pouvoir supprimer une categorie et proposer de : 
+    - supprimer uniquement la catégrie et le recette se trouveront en unknown
+    - supprimer la categorie et les recettes
 
 
 

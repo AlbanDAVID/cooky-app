@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'package:cook_app/pages/filtered_name_recipe.dart';
 import 'package:cook_app/utils/edit_recipe.dart';
 import 'package:cook_app/utils/recipe_struct.dart';
 import 'package:flutter/material.dart';
@@ -15,8 +16,9 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   final _myBox = Hive.box('mybox');
+  final _myBox2 = Hive.box('mybox2');
   RecipeDatabase db = RecipeDatabase();
-  bool isHiveInitialized = false;
+  //CategoryRecipeDatabase db2 = CategoryRecipeDatabase();
 
   @override
   void initState() {
@@ -25,14 +27,23 @@ class _HomeState extends State<Home> {
       // Wait for Hive initialization to complete
       await Hive.initFlutter();
       await Hive.openBox('mybox');
+      await Hive.openBox('mybox2');
 
       // Load data after initialization is complete
+      // load data from RecipeDatabase :
       db.loadData();
+      //db.loadDataCategoryRecipeDatabase();
+      // load data from CategoryRecipeDatabase
+      //db2.loadDataCategoryRecipeDatabase();
     });
   }
 
-  void loadAllData() {
+  loadAllData() {
+    // load data from RecipeDatabase :
     db.loadData();
+    //db.loadDataCategoryRecipeDatabase();
+    // load data from CategoryRecipeDatabase
+
     setState(() {}); // Calling setState to force the widget to be rebuilt
   }
 
@@ -133,6 +144,41 @@ class _HomeState extends State<Home> {
               );
             },
             child: Text('Go to Recipe 3'),
+          ),
+          FutureBuilder(
+            // Need to wait loaAllData() before ListView.builder executed
+            future: loadAllData(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                // Shows a loading indicator if the function is running
+                return CircularProgressIndicator();
+              } else if (snapshot.hasError) {
+                // Show an error message if loadAllData() fails
+                return Text('Erreur: ${snapshot.error}');
+              } else {
+                // Once loadAllData() is complete, constructs the ListView.builder
+                return Expanded(
+                    child: ListView.builder(
+                  itemCount: db.categoryRecipeList.length,
+                  itemBuilder: (context, index) {
+                    return ListTile(
+                      title: Text(db.categoryRecipeList[index]),
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => FilteredNameRecipe(
+                              categoryName:
+                                  db.categoryRecipeList[index].toString(),
+                            ),
+                          ),
+                        );
+                      },
+                    );
+                  },
+                ));
+              }
+            },
           ),
         ],
       )),
