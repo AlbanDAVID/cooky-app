@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:cook_app/utils/add_ingredients.dart';
+import 'package:cook_app/utils/categories_names.dart';
 import 'package:cook_app/utils/create_recipe.dart';
 import 'package:cook_app/utils/dialbox_add_ingredient_quantity.dart';
 import 'package:cook_app/utils/steps_struct.dart';
@@ -14,6 +15,9 @@ void main() async {
 
   // init the hive
   await Hive.initFlutter();
+
+  // Call the hive adapter we created for caterogires recipe name
+  Hive.registerAdapter(CategoriesNamesAdapter());
 
   // open a box
   var box = await Hive.openBox('mybox');

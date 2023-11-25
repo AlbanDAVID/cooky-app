@@ -1,14 +1,21 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, use_build_context_synchronously
 
 import 'package:cook_app/pages/filtered_name_recipe.dart';
+import 'package:cook_app/utils/categories_names.dart';
+import 'package:cook_app/utils/categories_names_services.dart';
+import 'package:cook_app/utils/categories_names_services.dart';
 import 'package:cook_app/utils/edit_recipe.dart';
 import 'package:cook_app/utils/recipe_struct.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:cook_app/data/database.dart';
 
+import '../utils/categories_names_services.dart';
+
 class Home extends StatefulWidget {
-  const Home({super.key});
+  Home({super.key});
+
+  // Create a instance of CategoriesNames :
 
   @override
   State<Home> createState() => _HomeState();
@@ -29,6 +36,10 @@ class _HomeState extends State<Home> {
 
   RecipeDatabase db = RecipeDatabase();
 
+  final CategoriesNamesService _categoriesNamesService =
+      CategoriesNamesService();
+  final TextEditingController _controller = TextEditingController();
+  final String _boxName = "catBox";
   @override
   void initState() {
     super.initState();
@@ -37,6 +48,8 @@ class _HomeState extends State<Home> {
       await Hive.initFlutter();
       // await Hive.openBox('mybox');
       await Hive.openBox('mybox');
+
+      await Hive.openBox<CategoriesNames>(_boxName);
 
       // load data from RecipeDatabase :
       db.loadData();
@@ -60,79 +73,126 @@ class _HomeState extends State<Home> {
         actions: [IconButton(onPressed: () {}, icon: const Icon(Icons.search))],
       ),
       // COMMENT BELLOW FOR TESTING CAMERA AND GALERIE
-      body: Center(
-          child: Column(
-        children: [
-          Expanded(
-              child: ListView.builder(
-            itemCount: categories.length,
-            itemBuilder: (context, index) {
-              return Padding(
-                  padding: const EdgeInsets.fromLTRB(50, 30, 50, 0),
-                  child: TextButton(
+      body: Column(children: [
+        Expanded(
+            child: ValueListenableBuilder(
+          valueListenable: Hive.box<CategoriesNames>('catBox').listenable(),
+          builder: (context, Box<CategoriesNames> box, _) {
+            return ListView.builder(
+              itemCount: box.values.length,
+              itemBuilder: (context, index) {
+                var cat = box.getAt(index);
+                return ListTile(
+                  title: Text(cat!.categoryName),
+                  trailing: IconButton(
+                    icon: Icon(Icons.delete),
                     onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => FilteredNameRecipe(
-                            categoryName: categories[index].toString(),
-                          ),
-                        ),
-                      );
+                      _categoriesNamesService.deleteCategory(index);
                     },
-                    style: TextButton.styleFrom(
-                      backgroundColor: Colors.lightGreen, // Couleur du bouton
-                      shape: RoundedRectangleBorder(
-                        borderRadius:
-                            BorderRadius.circular(20.0), // Bords arrondis
-                      ),
+                  ),
+                );
+              },
+            );
+          },
+        )),
+        FloatingActionButton(
+          backgroundColor: Colors.green,
+          onPressed: () async {
+            showDialog(
+                context: context,
+                builder: (context) {
+                  return AlertDialog(
+                    title: Text('Add category'),
+                    content: TextField(
+                      controller: _controller,
                     ),
-                    child: Center(
-                      child: Text(
-                        categories[index],
-                        style: TextStyle(fontSize: 25.0, color: Colors.white),
-                      ),
-                    ),
-                  ));
-            },
-          ))
-          // For create dynamic CRUD categories list..
-          // FutureBuilder(
-          //   // Need to wait loaAllData() before ListView.builder executed
-          //   future: loadAllData(),
-          //   builder: (context, snapshot) {
-          //     if (snapshot.connectionState == ConnectionState.waiting) {
-          //       // Shows a loading indicator if the function is running
-          //       return CircularProgressIndicator();
-          //     } else if (snapshot.hasError) {
-          //       // Show an error message if loadAllData() fails
-          //       return Text('Erreur: ${snapshot.error}');
-          //     } else {
-          //       // Once loadAllData() is complete, constructs the ListView.builder
-          //       return Expanded(
-          //           child: ListView.builder(
-          //         itemCount: db.recipeList[8],
-          //         itemBuilder: (context, index) {
-          //           return ListTile(
-          //             title: Text(db.recipeList[index][8]),
-          //             onTap: () {
-          //               Navigator.push(
-          //                 context,
-          //                 MaterialPageRoute(
-          //                   builder: (context) => FilteredNameRecipe(
-          //                     categoryName: db.recipeList[index].toString(),
-          //                   ),
-          //                 ),
-          //               );
-          //             },
-          //           );
-          //         },
-          //       ));
-          //     }
-          //   },
-          // ),
-        ],
-      )),
+                    actions: [
+                      ElevatedButton(
+                        child: Text('Add'),
+                        onPressed: () async {
+                          var catName = CategoriesNames(_controller.text);
+                          await _categoriesNamesService.addCategory(catName);
+                          Navigator.pop(context);
+                        },
+                      )
+                    ],
+                  );
+                });
+          },
+          child: Icon(Icons.add),
+        ),
+
+        //     Expanded(
+        //         child: ListView.builder(
+        //       itemCount: categories.length,
+        //       itemBuilder: (context, index) {
+        //         return Padding(
+        //             padding: const EdgeInsets.fromLTRB(50, 30, 50, 0),
+        //             child: TextButton(
+        //               onPressed: () {
+        //                 Navigator.push(
+        //                   context,
+        //                   MaterialPageRoute(
+        //                     builder: (context) => FilteredNameRecipe(
+        //                       categoryName: categories[index].toString(),
+        //                     ),
+        //                   ),
+        //                 );
+        //               },
+        //               style: TextButton.styleFrom(
+        //                 backgroundColor: Colors.lightGreen, // Couleur du bouton
+        //                 shape: RoundedRectangleBorder(
+        //                   borderRadius:
+        //                       BorderRadius.circular(20.0), // Bords arrondis
+        //                 ),
+        //               ),
+        //               child: Center(
+        //                 child: Text(
+        //                   categories[index],
+        //                   style: TextStyle(fontSize: 25.0, color: Colors.white),
+        //                 ),
+        //               ),
+        //             ));
+        //       },
+        //     )),
+        // dial box for add categorie
+
+        // For create dynamic CRUD categories list..
+        // FutureBuilder(
+        //   // Need to wait loaAllData() before ListView.builder executed
+        //   future: loadAllData(),
+        //   builder: (context, snapshot) {
+        //     if (snapshot.connectionState == ConnectionState.waiting) {
+        //       // Shows a loading indicator if the function is running
+        //       return CircularProgressIndicator();
+        //     } else if (snapshot.hasError) {
+        //       // Show an error message if loadAllData() fails
+        //       return Text('Erreur: ${snapshot.error}');
+        //     } else {
+        //       // Once loadAllData() is complete, constructs the ListView.builder
+        //       return Expanded(
+        //           child: ListView.builder(
+        //         itemCount: db.recipeList[8],
+        //         itemBuilder: (context, index) {
+        //           return ListTile(
+        //             title: Text(db.recipeList[index][8]),
+        //             onTap: () {
+        //               Navigator.push(
+        //                 context,
+        //                 MaterialPageRoute(
+        //                   builder: (context) => FilteredNameRecipe(
+        //                     categoryName: db.recipeList[index].toString(),
+        //                   ),
+        //                 ),
+        //               );
+        //             },
+        //           );
+        //         },
+        //       ));
+        //     }
+        //   },
+        // ),
+      ]),
       drawer: Drawer(
         backgroundColor: Color.fromARGB(255, 113, 153, 187),
         child: Column(children: [
@@ -164,6 +224,9 @@ class _HomeState extends State<Home> {
           )
         ]),
       ),
+
+      // open a dialbox to add cotegory:
+
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
           Navigator.pushNamed(context, '/create_recipe');
@@ -171,5 +234,34 @@ class _HomeState extends State<Home> {
         label: const Text("Add delightful recipe"),
       ),
     );
+  }
+}
+
+// create stateless widget for get all data from CategoriesNamesService
+class GetAllCategoriesNames extends StatefulWidget {
+  const GetAllCategoriesNames({super.key});
+
+  @override
+  State<GetAllCategoriesNames> createState() => _GetAllCategoriesNamesState();
+}
+
+class _GetAllCategoriesNamesState extends State<GetAllCategoriesNames> {
+  final CategoriesNamesService _categoriesNamesService =
+      CategoriesNamesService();
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+        home: FutureBuilder(
+      future: _categoriesNamesService.getAllCategories(),
+      builder: (BuildContext context,
+          AsyncSnapshot<List<CategoriesNames>> snapshot) {
+        if (snapshot.connectionState == ConnectionState.done) {
+          return Home();
+        } else {
+          return const CircularProgressIndicator();
+        }
+      },
+    ));
   }
 }
