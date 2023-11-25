@@ -42,6 +42,7 @@ class _CreateRecipeState extends State<CreateRecipe> {
   List allIngredientSelectedCreateRecipe = [];
   String? pathImageSelectedFromImagePicker;
   List<String> stepsRecipeFromCreateSteps = [];
+  List<String> listCategory = ["Starter", "Main", "Dessert"];
 
   @override
   Widget build(BuildContext context) {
@@ -195,6 +196,7 @@ class _CreateRecipeState extends State<CreateRecipe> {
                     pathImageSelectedFromImagePicker,
                     stepsRecipeFromCreateSteps,
                     recipeCategoryController.text,
+                    listCategory
                   ]);
 
                   // Update list of lists in Hive

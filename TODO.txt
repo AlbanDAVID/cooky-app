@@ -27,7 +27,8 @@ Other :
 
 
 A faire now : 
-
+- ajouter date de création
+- ajouter tags
 - Creer nouvelles categories dans create recette ou home page 
 - champ obligatoire pour categorie
 - pouvoir déplacer une recette de catgérorie en editant ou bien renommer la catégorie
