@@ -43,24 +43,39 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
-      // Wait for Hive initialization to complete
-      await Hive.initFlutter();
-      // await Hive.openBox('mybox');
-      await Hive.openBox('mybox');
-
-      await Hive.openBox<CategoriesNames>(_boxName);
-
-      // load data from RecipeDatabase :
-      db.loadData();
-    });
+//    // WidgetsBinding.instance.addPostFrameCallback((_) async {
+//    // Wait for Hive initialization to complete
+//
+//    //});
+//
+//    // await Hive.initFlutter();
+//    // await Hive.openBox('mybox');
+//
+//    // load data from RecipeDatabase :
+//    //db.loadData();
+    initDatabase();
   }
 
-  loadAllData() {
-    // load data from RecipeDatabase :
-    db.loadData();
-    setState(() {}); // Calling setState to force the widget to be rebuilt
+//
+//  // Method to initialize the database
+  Future<void> initDatabase() async {
+//    // Wait for Hive initialization to complete
+    await Hive.initFlutter();
+    //await Hive.openBox("catBox");
+//    //await Hive.openBox('mybox');
+//
+//    //db.loadData();
+//    // Load data from RecipeDatabase
+    await _categoriesNamesService.getAllCategories();
+//
+//    // Optional: Load other data or perform additional initialization
   }
+//
+//  loadAllData() {
+//    // load data from RecipeDatabase :
+//    db.loadData();
+//    setState(() {}); // Calling setState to force the widget to be rebuilt
+//  }
 
   @override
   Widget build(BuildContext context) {
@@ -252,16 +267,17 @@ class _GetAllCategoriesNamesState extends State<GetAllCategoriesNames> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        home: FutureBuilder(
-      future: _categoriesNamesService.getAllCategories(),
-      builder: (BuildContext context,
-          AsyncSnapshot<List<CategoriesNames>> snapshot) {
-        if (snapshot.connectionState == ConnectionState.done) {
-          return Home();
-        } else {
-          return const CircularProgressIndicator();
-        }
-      },
-    ));
+      home: FutureBuilder(
+        future: _categoriesNamesService.getAllCategories(),
+        builder: (BuildContext context,
+            AsyncSnapshot<List<CategoriesNames>> snapshot) {
+          if (snapshot.connectionState == ConnectionState.done) {
+            return Home();
+          } else {
+            return const CircularProgressIndicator();
+          }
+        },
+      ),
+    );
   }
 }

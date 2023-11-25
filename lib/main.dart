@@ -2,6 +2,7 @@
 
 import 'package:cook_app/utils/add_ingredients.dart';
 import 'package:cook_app/utils/categories_names.dart';
+import 'package:cook_app/utils/categories_names_services.dart';
 import 'package:cook_app/utils/create_recipe.dart';
 import 'package:cook_app/utils/dialbox_add_ingredient_quantity.dart';
 import 'package:cook_app/utils/steps_struct.dart';
@@ -22,17 +23,30 @@ void main() async {
   // open a box
   var box = await Hive.openBox('mybox');
 
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  final CategoriesNamesService _categoriesNamesService =
+      CategoriesNamesService();
+
+  MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: Home(),
+      home: FutureBuilder(
+        future: _categoriesNamesService.getAllCategories(),
+        builder: (BuildContext context,
+            AsyncSnapshot<List<CategoriesNames>> snapshot) {
+          if (snapshot.connectionState == ConnectionState.done) {
+            return Home();
+          } else {
+            return const CircularProgressIndicator();
+          }
+        },
+      ),
       routes: {
         //'/recipe': (context) => RecipeStruct(),
 

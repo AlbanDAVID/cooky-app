@@ -8,7 +8,7 @@ class RecipeDatabase {
       Hive.box('mybox'); // pr charger la base de données sur database.dart
 
   // load the data from database
-  void loadData() {
+  Future<void> loadData() async {
     recipeList = _myBox.get("ALL_LISTS");
   }
 
