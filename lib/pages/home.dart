@@ -16,10 +16,18 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   final _myBox = Hive.box('mybox');
-  final List categories = ["Starter", "Main", "Dessert"];
+  final List categories = [
+    "Starter",
+    "Main",
+    "Side Dishes",
+    "Dessert",
+    "Snacks",
+    "Breakfast",
+    "Brunch",
+    "Drinks",
+  ];
 
   RecipeDatabase db = RecipeDatabase();
-  //CategoryRecipeDatabase db2 = CategoryRecipeDatabase();
 
   @override
   void initState() {
@@ -30,12 +38,8 @@ class _HomeState extends State<Home> {
       // await Hive.openBox('mybox');
       await Hive.openBox('mybox');
 
-      // Load data after initialization is complete
       // load data from RecipeDatabase :
       db.loadData();
-      //db.loadDataCategoryRecipeDatabase();
-      // load data from CategoryRecipeDatabase
-      //db2.loadDataCategoryRecipeDatabase();
     });
   }
 
@@ -63,21 +67,36 @@ class _HomeState extends State<Home> {
               child: ListView.builder(
             itemCount: categories.length,
             itemBuilder: (context, index) {
-              return ListTile(
-                title: Text(categories[index]),
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => FilteredNameRecipe(
-                        categoryName: categories[index].toString(),
+              return Padding(
+                  padding: const EdgeInsets.fromLTRB(50, 30, 50, 0),
+                  child: TextButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => FilteredNameRecipe(
+                            categoryName: categories[index].toString(),
+                          ),
+                        ),
+                      );
+                    },
+                    style: TextButton.styleFrom(
+                      backgroundColor: Colors.lightGreen, // Couleur du bouton
+                      shape: RoundedRectangleBorder(
+                        borderRadius:
+                            BorderRadius.circular(20.0), // Bords arrondis
                       ),
                     ),
-                  );
-                },
-              );
+                    child: Center(
+                      child: Text(
+                        categories[index],
+                        style: TextStyle(fontSize: 25.0, color: Colors.white),
+                      ),
+                    ),
+                  ));
             },
           ))
+          // For create dynamic CRUD categories list..
           // FutureBuilder(
           //   // Need to wait loaAllData() before ListView.builder executed
           //   future: loadAllData(),
