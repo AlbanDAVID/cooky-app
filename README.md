@@ -2,7 +2,7 @@
 Learning Flutter by creating a cook app from scratch.
 
 # Version 1.0.0-beta available in APK (for android only).
-- [Download APK](/build/app/outputs/flutter-apk.zip)
+- [Download APK](build/app/outputs/flutter-apk)
 
  ## Priority features : 
 - Create, Edit, Save, Delete recipes.
