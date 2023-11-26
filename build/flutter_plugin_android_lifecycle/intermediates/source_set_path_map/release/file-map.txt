@@ -1,0 +1,12 @@
+io.flutter.plugins.flutter_plugin_android_lifecycle-jetified-window-1.0.0-beta04-0 /home/ad/.gradle/caches/transforms-3/25cee5f028ac2a6b79fd6278ff5b59e2/transformed/jetified-window-1.0.0-beta04/res
+io.flutter.plugins.flutter_plugin_android_lifecycle-jetified-annotation-experimental-1.1.0-1 /home/ad/.gradle/caches/transforms-3/6c0c163cc77ae6c91f9f7dfcd179c29c/transformed/jetified-annotation-experimental-1.1.0/res
+io.flutter.plugins.flutter_plugin_android_lifecycle-core-1.6.0-2 /home/ad/.gradle/caches/transforms-3/7e9df2ac2213a6bd3cef0f2f27870d79/transformed/core-1.6.0/res
+io.flutter.plugins.flutter_plugin_android_lifecycle-jetified-window-java-1.0.0-beta04-3 /home/ad/.gradle/caches/transforms-3/ae81e06d24c799147c26814497a2a305/transformed/jetified-window-java-1.0.0-beta04/res
+io.flutter.plugins.flutter_plugin_android_lifecycle-main-4 /home/ad/.pub-cache/hosted/pub.dev/flutter_plugin_android_lifecycle-2.0.17/android/src/main/res
+io.flutter.plugins.flutter_plugin_android_lifecycle-release-5 /home/ad/.pub-cache/hosted/pub.dev/flutter_plugin_android_lifecycle-2.0.17/android/src/release/res
+io.flutter.plugins.flutter_plugin_android_lifecycle-pngs-6 /home/ad/flutter_projects/cook_app/build/flutter_plugin_android_lifecycle/generated/res/pngs/release
+io.flutter.plugins.flutter_plugin_android_lifecycle-resValues-7 /home/ad/flutter_projects/cook_app/build/flutter_plugin_android_lifecycle/generated/res/resValues/release
+io.flutter.plugins.flutter_plugin_android_lifecycle-rs-8 /home/ad/flutter_projects/cook_app/build/flutter_plugin_android_lifecycle/generated/res/rs/release
+io.flutter.plugins.flutter_plugin_android_lifecycle-mergeReleaseResources-9 /home/ad/flutter_projects/cook_app/build/flutter_plugin_android_lifecycle/intermediates/incremental/release/mergeReleaseResources/merged.dir
+io.flutter.plugins.flutter_plugin_android_lifecycle-mergeReleaseResources-10 /home/ad/flutter_projects/cook_app/build/flutter_plugin_android_lifecycle/intermediates/incremental/release/mergeReleaseResources/stripped.dir
+io.flutter.plugins.flutter_plugin_android_lifecycle-merged_res-11 /home/ad/flutter_projects/cook_app/build/flutter_plugin_android_lifecycle/intermediates/merged_res/release

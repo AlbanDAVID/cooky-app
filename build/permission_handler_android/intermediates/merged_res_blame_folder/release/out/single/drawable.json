@@ -1,0 +1,18 @@
+[
+    {
+        "merged": "com.baseflow.permissionhandler.permission_handler_android-merged_res-10:/drawable/notification_icon_background.xml",
+        "source": "com.baseflow.permissionhandler.permission_handler_android-core-1.6.0-2:/drawable/notification_icon_background.xml"
+    },
+    {
+        "merged": "com.baseflow.permissionhandler.permission_handler_android-merged_res-10:/drawable/notification_bg.xml",
+        "source": "com.baseflow.permissionhandler.permission_handler_android-core-1.6.0-2:/drawable/notification_bg.xml"
+    },
+    {
+        "merged": "com.baseflow.permissionhandler.permission_handler_android-merged_res-10:/drawable/notification_bg_low.xml",
+        "source": "com.baseflow.permissionhandler.permission_handler_android-core-1.6.0-2:/drawable/notification_bg_low.xml"
+    },
+    {
+        "merged": "com.baseflow.permissionhandler.permission_handler_android-merged_res-10:/drawable/notification_tile_bg.xml",
+        "source": "com.baseflow.permissionhandler.permission_handler_android-core-1.6.0-2:/drawable/notification_tile_bg.xml"
+    }
+]

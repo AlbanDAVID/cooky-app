@@ -1,0 +1,4 @@
+#Sun Nov 26 15:01:59 CET 2023
+base.0=/home/ad/flutter_projects/cook_app/build/app/intermediates/dex/release/minifyReleaseWithR8/classes.dex
+renamed.0=classes.dex
+path.0=classes.dex
