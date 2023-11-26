@@ -34,13 +34,14 @@ Other :
 
 
 A faire now :
+- saisie intuitive (toutes les mesure (fr et en) + 1 pincée de sel, cuillière etc.)
+- create recipe : espace automatique total time etc.
+- edition : create recipe et uen fois recette créée
 
 Autre: 
 - readme database
 - suggestion catégorie
 - champ obligatoire pour categorie OU automatiquement dans catégorie unknow si pas saisi
-
-
 - pouvoir déplacer une recette de catgérorie en editant 
 - pouvoir supprimer / renommer une catégorie
 
