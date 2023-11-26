@@ -49,5 +49,10 @@ Bug :
 - NE DECONNE PAS EN MODE REALSE mais en bebug : bug add picture (when taking a pics)
 
 
+- edit_create_recipe branch : 
+    - mise en garde retour en arrière (data non save)
+    - add tag, date
+
+
 
 

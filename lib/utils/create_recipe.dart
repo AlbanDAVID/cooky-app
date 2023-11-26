@@ -40,6 +40,8 @@ class _CreateRecipeState extends State<CreateRecipe> {
   List<String> stepsRecipeFromCreateSteps = [];
   late String recipeCategoryFromAddExistingCategory;
 
+  bool isButtonVisible = true;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -53,25 +55,32 @@ class _CreateRecipeState extends State<CreateRecipe> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // recipe category
-              ElevatedButton(
-                onPressed: () async {
-                  final result = await Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => AddExistingCategory(),
-                    ),
-                  );
+              isButtonVisible
+                  ? ElevatedButton(
+                      onPressed: () async {
+                        final result = await Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => AddExistingCategory(),
+                          ),
+                        );
 
-                  // Handle the result (finalQuantity) here
-                  if (result != null) {
-                    String categoryName = result;
-                    print('Received data from SecondScreen: $categoryName');
-                    setState(() {});
-                    recipeCategoryFromAddExistingCategory = categoryName;
-                  }
-                },
-                child: Text("Add category"),
-              ),
+                        // Handle the result (finalQuantity) here
+                        if (result != null) {
+                          String categoryName = result;
+                          print(
+                              'Received data from SecondScreen: $categoryName');
+                          setState(() {
+                            // Mettez à jour la visibilité du bouton
+                            isButtonVisible = false;
+                          });
+                          recipeCategoryFromAddExistingCategory = categoryName;
+                          // display the choosen category:
+                        }
+                      },
+                      child: Text("Add category"),
+                    )
+                  : Text(recipeCategoryFromAddExistingCategory),
 
               // recipe name (string)
               TextFormField(
