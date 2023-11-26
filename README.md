@@ -3,6 +3,7 @@ Learning Flutter by creating a cook app from scratch.
 
 # Version 1.0.0-beta available in APK (for android only).
 - [Download APK](cooky-APK-1.0.0-beta.zip) (.zip file)
+- unzip the file and run "app-release.apk"
 
  ## Priority features : 
 - Create, Edit, Save, Delete recipes.
