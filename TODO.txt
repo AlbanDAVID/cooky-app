@@ -1,5 +1,7 @@
 Priority : 
-- bug add picture (when taking a pics)
+
+- ajouter date de création (create recipe)
+- ajouter tags (create recipe)
 - Create and Read recipe : 
     - Ingredients, Recipe name, Total time, Difficulty, Cost -> 
     add intuitive fields : 
@@ -9,10 +11,12 @@ Priority :
         - search (optional for now)
     add preview and possibilty to edit before submit
 - Edit & Delete recipe and steps (during reation or when the recipe is created)
-- Main menu with fields (sarters, main dishe, dessert others) + search bar (optional for now)
+
 - add tags (vege, spicy etc. and possibility to sort or search by tag)
 ----
+- bug add picture (when taking a pics)
 - check to permanently save data even if app is deleted
+- search bar in home page to search a recipe (optional for now)
 - language french/english
 - check with different devices
 - coherente navigation (especially witk back return)
@@ -30,12 +34,12 @@ Other :
 
 A faire now :
 
+Autre: 
 - readme database
 - suggestion catégorie
 - champ obligatoire pour categorie OU automatiquement dans catégorie unknow si pas saisi
 
-- ajouter date de création (create recipe)
-- ajouter tags (create recipe)
+
 - pouvoir déplacer une recette de catgérorie en editant 
 - pouvoir supprimer / renommer une catégorie
 
