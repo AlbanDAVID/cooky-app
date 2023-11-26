@@ -1,8 +1,6 @@
 // ignore_for_file: prefer_const_constructors
 
-import 'dart:math';
-
-import 'package:cook_app/data/database.dart';
+import 'package:cook_app/data/recipe_database/database.dart';
 import 'package:cook_app/utils/recipe_struct.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
@@ -21,7 +19,7 @@ class _FilteredNameRecipeState extends State<FilteredNameRecipe> {
 
   RecipeDatabase db = RecipeDatabase();
 
-  // allow to loadAllData from database
+  // allow to loadAllData from database (recipe_database)
   loadAllData() {
     db.loadData();
     setState(() {}); // Calling setState to force the widget to be rebuilt

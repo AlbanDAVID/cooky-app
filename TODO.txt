@@ -1,4 +1,5 @@
 Priority : 
+- bug add picture (when taking a pics)
 - Create and Read recipe : 
     - Ingredients, Recipe name, Total time, Difficulty, Cost -> 
     add intuitive fields : 
@@ -27,13 +28,16 @@ Other :
 - check with differet police size (from smartphone user)
 
 
-A faire now : 
-- séléctionner catégorie
-- champ obligatoire pour categorie 
-- régler pb list null quand aucune recette n'& encore été crée et qu'on clique sur une catégorie
-- ajouter date de création
-- ajouter tags
+A faire now :
+
+- readme database
+- suggestion catégorie
+- champ obligatoire pour categorie OU automatiquement dans catégorie unknow si pas saisi
+
+- ajouter date de création (create recipe)
+- ajouter tags (create recipe)
 - pouvoir déplacer une recette de catgérorie en editant 
+- pouvoir supprimer / renommer une catégorie
 
 
 

@@ -1,12 +1,12 @@
 // ignore_for_file: prefer_const_constructors
 
-import 'package:cook_app/data/database.dart';
-import 'package:cook_app/data/database.dart';
+import 'package:cook_app/data/create_recipe_database/database.dart';
+import 'package:cook_app/data/create_recipe_database/database.dart';
 import 'package:cook_app/utils/add_ingredients.dart';
 import 'package:flutter/material.dart';
 import 'package:cook_app/utils/recipe_struct.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:cook_app/data/database.dart';
+import 'package:cook_app/data/create_recipe_database/database.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 class EditRecipe extends StatefulWidget {

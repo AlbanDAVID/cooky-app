@@ -2,16 +2,14 @@
 
 import 'dart:io';
 
-import 'package:cook_app/data/database.dart';
-import 'package:cook_app/data/database.dart';
+import 'package:cook_app/data/recipe_database/database.dart';
+import 'package:cook_app/utils/add_category.dart';
 import 'package:cook_app/utils/add_ingredients.dart';
 import 'package:cook_app/utils/add_pics.dart';
 import 'package:cook_app/utils/create_steps.dart';
 
 import 'package:flutter/material.dart';
 import 'package:cook_app/utils/recipe_struct.dart';
-import 'package:hive_flutter/hive_flutter.dart';
-import 'package:cook_app/data/database.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 class CreateRecipe extends StatefulWidget {
@@ -30,8 +28,6 @@ class _CreateRecipeState extends State<CreateRecipe> {
   final TextEditingController difficultyController = TextEditingController();
   final TextEditingController costController = TextEditingController();
   final TextEditingController ingredientController = TextEditingController();
-  final TextEditingController recipeCategoryController =
-      TextEditingController();
 
   final _myBox = Hive.box('mybox'); // pr charger la bdd sur home_page
   RecipeDatabase db = RecipeDatabase();
@@ -42,6 +38,7 @@ class _CreateRecipeState extends State<CreateRecipe> {
   List allIngredientSelectedCreateRecipe = [];
   String? pathImageSelectedFromImagePicker;
   List<String> stepsRecipeFromCreateSteps = [];
+  late String recipeCategoryFromAddExistingCategory;
 
   @override
   Widget build(BuildContext context) {
@@ -56,11 +53,25 @@ class _CreateRecipeState extends State<CreateRecipe> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // recipe category
-              TextFormField(
-                controller: recipeCategoryController,
-                decoration: const InputDecoration(labelText: 'Recipe category'),
+              ElevatedButton(
+                onPressed: () async {
+                  final result = await Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => AddExistingCategory(),
+                    ),
+                  );
+
+                  // Handle the result (finalQuantity) here
+                  if (result != null) {
+                    String categoryName = result;
+                    print('Received data from SecondScreen: $categoryName');
+                    setState(() {});
+                    recipeCategoryFromAddExistingCategory = categoryName;
+                  }
+                },
+                child: Text("Add category"),
               ),
-              const SizedBox(height: 16),
 
               // recipe name (string)
               TextFormField(
@@ -194,7 +205,7 @@ class _CreateRecipeState extends State<CreateRecipe> {
                     allIngredientSelectedCreateRecipe,
                     pathImageSelectedFromImagePicker,
                     stepsRecipeFromCreateSteps,
-                    recipeCategoryController.text,
+                    recipeCategoryFromAddExistingCategory,
                   ]);
 
                   // Update list of lists in Hive

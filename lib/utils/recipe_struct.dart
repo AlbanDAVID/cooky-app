@@ -6,7 +6,7 @@ import 'package:cook_app/utils/add_pics.dart';
 import 'package:cook_app/utils/steps_struct.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:cook_app/data/database.dart';
+import 'package:cook_app/data/recipe_database/database.dart';
 
 class RecipeStruct extends StatelessWidget {
   final String recipeName;

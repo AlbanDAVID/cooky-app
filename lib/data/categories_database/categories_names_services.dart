@@ -1,4 +1,4 @@
-import 'package:cook_app/utils/categories_names.dart';
+import 'package:cook_app/data/categories_database/categories_names.dart';
 import 'package:hive/hive.dart';
 
 class CategoriesNamesService {

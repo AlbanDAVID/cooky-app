@@ -1,11 +1,10 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:cook_app/utils/add_ingredients.dart';
-import 'package:cook_app/utils/categories_names.dart';
-import 'package:cook_app/utils/categories_names_services.dart';
+import 'package:cook_app/data/categories_database/categories_names.dart';
+import 'package:cook_app/data/categories_database/categories_names_services.dart';
 import 'package:cook_app/utils/create_recipe.dart';
 import 'package:cook_app/utils/dialbox_add_ingredient_quantity.dart';
-import 'package:cook_app/utils/steps_struct.dart';
 import 'package:flutter/material.dart';
 import 'package:cook_app/pages/home.dart';
 
@@ -20,7 +19,8 @@ void main() async {
   // Call the hive adapter we created for caterogires recipe name
   Hive.registerAdapter(CategoriesNamesAdapter());
 
-  // open a box
+  // open a box (my box is used to load all data selected in CreateRecipe)
+  // All the data are in a list "recipeList" which contain : [0] Recipe name, [1]Total Time, [2] Difficulty, [3] Cost, [4] Path of the photo, [5] List of ingredients, [6] List of steps, [7] Categorie of the recipe
   var box = await Hive.openBox('mybox');
 
   runApp(MyApp());
@@ -36,6 +36,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
+      // use FuturBuilder to load all data from "catBox" when app is started and go to the Home page(the hive box from CategoriesNamesService wih all the categories)
       home: FutureBuilder(
         future: _categoriesNamesService.getAllCategories(),
         builder: (BuildContext context,

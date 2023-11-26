@@ -27,7 +27,7 @@ class DialogAddSteps extends StatelessWidget {
               width: 500,
               child: TextField(
                 maxLines:
-                    null, // for automatically increase th height of TextField
+                    null, // for automatically increase the height of TextField
                 controller: controller,
                 decoration: InputDecoration(
                   border: OutlineInputBorder(),
