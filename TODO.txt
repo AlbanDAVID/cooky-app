@@ -11,6 +11,7 @@ Priority :
         - search (optional for now)
     add preview and possibilty to edit before submit
 - Edit & Delete recipe and steps (during reation or when the recipe is created)
+_ backup database
 
 - add tags (vege, spicy etc. and possibility to sort or search by tag)
 ----
@@ -50,6 +51,7 @@ Bug :
 
 
 - edit_create_recipe branch : 
+    - edit delete
     - mise en garde retour en arrière (data non save)
     - add tag, date
 
