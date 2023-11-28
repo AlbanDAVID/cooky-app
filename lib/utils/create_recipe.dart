@@ -27,14 +27,11 @@ class CreateRecipe extends StatefulWidget {
 class _CreateRecipeState extends State<CreateRecipe> {
   // ignore: unused_field
 
-  final TextEditingController ingredientController = TextEditingController();
-
-  final _myBox = Hive.box('mybox'); // pr charger la bdd sur home_page
+  // load database
+  final _myBox = Hive.box('mybox');
+  // initiate databse instance :
   RecipeDatabase db = RecipeDatabase();
 
-  List<String> availableFields = ['Beurre', 'Farine', 'Oeuf(s)'];
-  List<String> selectedFields = [];
-  String? searchQuery;
   List allIngredientSelectedCreateRecipe = [];
   String? pathImageSelectedFromImagePicker;
   List<String> stepsRecipeFromCreateSteps = [];
