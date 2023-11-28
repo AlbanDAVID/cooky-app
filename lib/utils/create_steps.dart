@@ -7,7 +7,7 @@ class DialogAddSteps extends StatelessWidget {
   final controller;
   //VoidCallback onSave;
   //VoidCallback onCancel;
-  DialogAddSteps({
+  const DialogAddSteps({
     super.key,
     required this.controller,
     //required this.onSave,
@@ -57,6 +57,62 @@ class DialogAddSteps extends StatelessWidget {
   }
 }
 
+// dialog box for edit a  steps (used in CreateSteps)
+class DialogEditStep extends StatelessWidget {
+  final controller;
+
+  //VoidCallback onSave;
+  //VoidCallback onCancel;
+  const DialogEditStep({
+    super.key,
+    required this.controller,
+
+    //required this.onSave,
+    //required this.onCancel,
+  });
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+        content: Container(
+      height: 400,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          // get user input
+          SizedBox(
+              height: 330,
+              width: 500,
+              child: TextField(
+                maxLines:
+                    null, // for automatically increase the height of TextField
+                controller: controller,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                ),
+              )),
+
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              // save button
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: const Text('Cancel'),
+              ),
+
+              // cancel button
+              TextButton(
+                onPressed: () => Navigator.pop(context, controller.text),
+                child: const Text('Save changes'),
+              )
+            ],
+          ),
+        ],
+      ),
+    ));
+  }
+}
+
 // page for adding steps and show steps added before submit
 class CreateSteps extends StatefulWidget {
   const CreateSteps({super.key});
@@ -84,7 +140,44 @@ class _CreateStepsState extends State<CreateSteps> {
               itemCount: stepsRecipe.length,
               itemBuilder: (context, index) {
                 return ListTile(
-                    title: Text(' Step ${index + 1}:\n${stepsRecipe[index]}'));
+                  title: Text(' Step ${index + 1}:\n${stepsRecipe[index]}'),
+                  trailing: Wrap(
+                    spacing: -16,
+                    children: [
+                      IconButton(
+                        icon: const Icon(Icons.edit),
+                        onPressed: () async {
+                          final result = await showDialog(
+                              context: context,
+                              builder: (context) {
+                                return DialogEditStep(
+                                  controller: TextEditingController(
+                                      text: stepsRecipe[index].toString()),
+                                );
+                              });
+                          if (result != null) {
+                            String stepEdited = result;
+                            print(
+                                'Received data from SecondScreen: $stepEdited');
+                            setState(() {});
+                            stepsRecipe[index] = stepEdited;
+                          }
+                        },
+                      ),
+                      IconButton(
+                        icon: const Icon(
+                          Icons.delete,
+                          color: Colors.redAccent,
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            stepsRecipe.removeAt(index);
+                          });
+                        },
+                      ),
+                    ],
+                  ),
+                );
               },
             )),
             Row(mainAxisAlignment: MainAxisAlignment.end, children: [

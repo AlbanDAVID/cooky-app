@@ -52,9 +52,11 @@ class _CreateRecipeState extends State<CreateRecipe> {
   bool isButtonAddCostVisible = true;
   bool isButtonAddPictureVisible = true;
   bool isButtonAddIngredVisible = true;
+  bool isButtonAddStepsVisible = true;
 
   ////// FUNCTIONS FOR RECIPE CATEGORY //////
 
+  // get data from class AddExistingCategory()
   void _getDataFromAddExistingCategory(BuildContext context) async {
     final result = await Navigator.push(
       context,
@@ -76,6 +78,7 @@ class _CreateRecipeState extends State<CreateRecipe> {
     }
   }
 
+  // widget with button for adding category, and display category selected with edition button
   Widget addCategory(bool isButtonAddCategoryVisible) {
     setState(() {});
     return isButtonAddCategoryVisible
@@ -120,6 +123,7 @@ class _CreateRecipeState extends State<CreateRecipe> {
 
   ///////// FUNCTIONS FOR RECIPE NAME //////
 
+  // get data from class AddRecipeName()
   void _getDataFromAddRecipeName(BuildContext context) async {
     final result = await Navigator.push(
       context,
@@ -141,6 +145,7 @@ class _CreateRecipeState extends State<CreateRecipe> {
     }
   }
 
+  // widget with button for adding recipe name , and display recipe name selected with edition button
   Widget addRecipeName(bool isButtonAddRecipeNameVisible) {
     setState(() {});
     return isButtonAddRecipeNameVisible
@@ -200,6 +205,7 @@ class _CreateRecipeState extends State<CreateRecipe> {
   ///
   //////////// FUNCTIONS FOR TOTAL TIME //////
 
+  // get data from class AddTotalTime()
   void _getDataFromAddTotalTime(BuildContext context) async {
     final result = await Navigator.push(
       context,
@@ -221,6 +227,7 @@ class _CreateRecipeState extends State<CreateRecipe> {
     }
   }
 
+  // widget with button for adding total time , and display time selected with edition button
   Widget addTotalTime(bool isButtonAddtotalTimeVisible) {
     setState(() {});
     return isButtonAddtotalTimeVisible
@@ -287,6 +294,7 @@ class _CreateRecipeState extends State<CreateRecipe> {
   ///
   /// //////////// FUNCTIONS FOR DIFFICULTY //////
 
+  // get data from class AddDifficulty()
   void _getDataFromAddDifficulty(BuildContext context) async {
     final result = await Navigator.push(
       context,
@@ -308,6 +316,7 @@ class _CreateRecipeState extends State<CreateRecipe> {
     }
   }
 
+  // widget with button for adding difficulty , and display difficulty selected with edition button
   Widget addDifficulty(bool isButtonAddDifficulty) {
     setState(() {});
     return isButtonAddDifficulty
@@ -366,6 +375,7 @@ class _CreateRecipeState extends State<CreateRecipe> {
   ///
   ////// //////////// FUNCTIONS FOR COST //////
 
+  // get data from class AddCost()
   void _getDataFromAddCost(BuildContext context) async {
     final result = await Navigator.push(
       context,
@@ -387,6 +397,7 @@ class _CreateRecipeState extends State<CreateRecipe> {
     }
   }
 
+  // widget with button for adding cost , and display cost selected with edition button
   Widget addCost(bool isButtonAddCost) {
     setState(() {});
     return isButtonAddCost
@@ -448,6 +459,7 @@ class _CreateRecipeState extends State<CreateRecipe> {
   ///
   ///
 
+  // function to display a dialog with picture preview
   void _showImagePreview(BuildContext context) {
     showDialog(
         context: context,
@@ -470,6 +482,7 @@ class _CreateRecipeState extends State<CreateRecipe> {
         });
   }
 
+  // get picture from class MyImagePickerPage()
   void getDataFromMyImagePickerPage(BuildContext context) async {
     final result = await Navigator.push(
       context,
@@ -488,6 +501,7 @@ class _CreateRecipeState extends State<CreateRecipe> {
     }
   }
 
+  // widget with button for adding picture , and display preview  with edition button
   Widget addPicture(bool isButtonAddPictureVisible) {
     setState(() {});
     return isButtonAddPictureVisible
@@ -558,6 +572,7 @@ class _CreateRecipeState extends State<CreateRecipe> {
   ///
   ///
 
+  // get  from class AddIngred()
   void getDataFromAddIngred(BuildContext context) async {
     final result = await Navigator.push(
       context,
@@ -576,6 +591,7 @@ class _CreateRecipeState extends State<CreateRecipe> {
     }
   }
 
+  // widget with button for adding ingredients , and display preview  with edition button
   Widget addIngred(bool isButtonAddIngredVisible) {
     setState(() {});
     return isButtonAddIngredVisible
@@ -623,7 +639,175 @@ class _CreateRecipeState extends State<CreateRecipe> {
             )
           ]);
   }
+
+  // widget list view to show all selected ingredient and possibilty to edit, delete
+  Widget showIngredientsSelected() {
+    return Expanded(
+        child: ListView.builder(
+      itemCount: allIngredientSelectedCreateRecipe.length,
+      itemBuilder: (context, index) {
+        final ingredient = allIngredientSelectedCreateRecipe[index][0];
+        final quantity = allIngredientSelectedCreateRecipe[index][1];
+        final unit = allIngredientSelectedCreateRecipe[index][2];
+
+        final formattedString = '$ingredient : ($quantity$unit)';
+        return ListTile(
+          title: Text(formattedString),
+          trailing: Wrap(
+            spacing: -16,
+            children: [
+              IconButton(
+                icon: const Icon(Icons.edit),
+                onPressed: () {
+                  allIngredientSelectedCreateRecipe.removeAt(index);
+                  getDataFromAddIngred(context);
+                },
+              ),
+              IconButton(
+                icon: const Icon(
+                  Icons.delete,
+                  color: Colors.redAccent,
+                ),
+                onPressed: () {
+                  setState(() {
+                    allIngredientSelectedCreateRecipe.removeAt(index);
+                  });
+                },
+              ),
+            ],
+          ),
+        );
+      },
+    ));
+  }
   ////////////////////////////////////////////////////////
+  ///
+
+  ///
+  /// ////// //////////// FUNCTIONS FOR ADD STEPS //////
+  ///
+  ///
+
+  // get  from class CreateSteps()
+  void getDataFromCreateSteps(BuildContext context) async {
+    final result = await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => CreateSteps(),
+      ),
+    );
+
+    if (result != null) {
+      List<String> stepsRecipe = result;
+      print('Received data from SecondScreen: $stepsRecipe');
+      setState(() {
+        isButtonAddStepsVisible = false;
+      });
+      stepsRecipeFromCreateSteps.addAll(stepsRecipe);
+    }
+  }
+
+  // widget with button for adding steps , and display preview  with edition button
+  Widget addSteps(bool isButtonAddStepsVisible) {
+    setState(() {});
+    return isButtonAddStepsVisible
+        ? ElevatedButton(
+            onPressed: () async {
+              setState(() {
+                isButtonAddStepsVisible = false;
+                getDataFromCreateSteps(context);
+              });
+            },
+            child: Text("Add steps"),
+          )
+        : Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            Text(
+              "Steps :",
+              style: TextStyle(
+                fontSize: 16,
+              ),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                InkWell(
+                  onTap: () {
+                    getDataFromCreateSteps(context);
+                  },
+                  child: Icon(
+                    Icons.add,
+                    size: 20,
+                  ),
+                ),
+                SizedBox(width: 16), // Ajustez cet espace selon vos besoins
+                InkWell(
+                  onTap: () {
+                    setState(() {
+                      stepsRecipeFromCreateSteps = [];
+                    });
+                  },
+                  child: Icon(
+                    Icons.delete,
+                    size: 20,
+                  ),
+                ),
+              ],
+            )
+          ]);
+  }
+
+  // widget list view to show all steps and possibilty to edit, delete
+  Widget showStepsAdded() {
+    return Expanded(
+      child: ListView.builder(
+        itemCount: stepsRecipeFromCreateSteps.length,
+        itemBuilder: (context, index) {
+          return ListTile(
+            title: Text(
+                ' Step ${index + 1}:\n${stepsRecipeFromCreateSteps[index]}'),
+            trailing: Wrap(
+              spacing: -16,
+              children: [
+                IconButton(
+                  icon: const Icon(Icons.edit),
+                  onPressed: () async {
+                    final result = await showDialog(
+                        context: context,
+                        builder: (context) {
+                          return DialogEditStep(
+                            controller: TextEditingController(
+                                text: stepsRecipeFromCreateSteps[index]
+                                    .toString()),
+                          );
+                        });
+                    if (result != null) {
+                      String stepEdited = result;
+                      print('Received data from SecondScreen: $stepEdited');
+                      setState(() {});
+                      stepsRecipeFromCreateSteps[index] = stepEdited;
+                    }
+                  },
+                ),
+                IconButton(
+                  icon: const Icon(
+                    Icons.delete,
+                    color: Colors.redAccent,
+                  ),
+                  onPressed: () {
+                    setState(() {
+                      stepsRecipeFromCreateSteps.removeAt(index);
+                    });
+                  },
+                ),
+              ],
+            ),
+          );
+        },
+      ),
+    );
+  }
+  ////////////////////////////////////////////////////////
+  ///
 
   @override
   Widget build(BuildContext context) {
@@ -659,84 +843,17 @@ class _CreateRecipeState extends State<CreateRecipe> {
               // SELECT INGREDIENT
               addIngred(isButtonAddIngredVisible),
 
-              // show ingreient selected
-              Expanded(
-                child: ListView.builder(
-                  itemCount: allIngredientSelectedCreateRecipe.length,
-                  itemBuilder: (context, index) {
-                    final ingredient =
-                        allIngredientSelectedCreateRecipe[index][0];
-                    final quantity =
-                        allIngredientSelectedCreateRecipe[index][1];
-                    final unit = allIngredientSelectedCreateRecipe[index][2];
+              // SHOW INGREDIENTS SELECTED
+              showIngredientsSelected(),
+              // ADD STEPS
+              addSteps(isButtonAddStepsVisible),
 
-                    final formattedString = '$ingredient : ($quantity$unit)';
-                    return ListTile(
-                      title: Text(formattedString),
-                      trailing: Wrap(
-                        spacing: -16,
-                        children: [
-                          IconButton(
-                            icon: const Icon(Icons.edit),
-                            onPressed: () {
-                              allIngredientSelectedCreateRecipe.removeAt(index);
-                              getDataFromAddIngred(context);
-                            },
-                          ),
-                          IconButton(
-                            icon: const Icon(
-                              Icons.delete,
-                              color: Colors.redAccent,
-                            ),
-                            onPressed: () {
-                              setState(() {
-                                allIngredientSelectedCreateRecipe
-                                    .removeAt(index);
-                              });
-                            },
-                          ),
-                        ],
-                      ),
-                    );
-                  },
-                ),
-              ),
+              // SHOW STEPS ADDED
+              showStepsAdded(),
 
-              // add steps
-              ElevatedButton(
-                  onPressed: () async {
-                    final result = await Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => CreateSteps(),
-                      ),
-                    );
-
-                    if (result != null) {
-                      List<String> stepsRecipe = result;
-                      print('Received data from SecondScreen: $stepsRecipe');
-                      setState(() {});
-                      stepsRecipeFromCreateSteps.addAll(stepsRecipe);
-                    }
-                  },
-                  child: Text("Add steps")),
-
-              // show steps added
-              Expanded(
-                child: ListView.builder(
-                  itemCount: stepsRecipeFromCreateSteps.length,
-                  itemBuilder: (context, index) {
-                    return ListTile(
-                        title: Text(
-                            ' Step ${index + 1}:\n${stepsRecipeFromCreateSteps[index]}'));
-                  },
-                ),
-              ),
-
+              // Button fot submit form
               ElevatedButton(
                 onPressed: () {
-                  List listOfLists = _myBox.get('ALL_LISTS') ?? [];
-
                   // handle deleted variable
                   final finalRecipeNameFromAddRecipeName =
                       recipeNameFromAddRecipeName == "Deleted"
@@ -755,6 +872,9 @@ class _CreateRecipeState extends State<CreateRecipe> {
 
                   final finalVarFromAddCost =
                       varFromAddCost == "Deleted" ? "" : varFromAddCost;
+
+                  // retrieve database list
+                  List listOfLists = _myBox.get('ALL_LISTS') ?? [];
 
                   // Add a new list to the list of lists
                   listOfLists.add([
