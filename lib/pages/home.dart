@@ -61,12 +61,17 @@ class _HomeState extends State<Home> {
           return Container(
               padding: EdgeInsetsDirectional.fromSTEB(0, 300, 0, 200),
               child: AlertDialog(
-                title: Text('Deletion options'),
+                title: Column(children: const [
+                  Text('Are you sure ?'),
+                  Text('Confirm the desired option with a long press',
+                      style:
+                          TextStyle(fontSize: 15, fontStyle: FontStyle.italic))
+                ]),
 
                 content: Column(
                   children: [
                     TextButton(
-                      onPressed: () async {
+                      onLongPress: () async {
                         setState(() {
                           isEditDeleteMode = false;
                         });
@@ -74,10 +79,12 @@ class _HomeState extends State<Home> {
                         await deleteAllRecipes();
                         Navigator.of(context).pop();
                       },
-                      child: Text('Delete all recipes'),
+                      onPressed: () {},
+                      child: Text('Delete all recipes',
+                          style: TextStyle(color: Colors.red)),
                     ),
                     TextButton(
-                      onPressed: () async {
+                      onLongPress: () async {
                         setState(() {
                           isEditDeleteMode = false;
                         });
@@ -85,7 +92,9 @@ class _HomeState extends State<Home> {
                         await deleteAllRecipesAndCategories();
                         Navigator.of(context).pop();
                       },
-                      child: Text('Delete all recipes and categories'),
+                      onPressed: () {},
+                      child: Text('Delete all recipes and categories',
+                          style: TextStyle(color: Colors.red)),
                     ),
                   ],
                 ),
@@ -118,9 +127,72 @@ class _HomeState extends State<Home> {
 
   Future<void> deleteAllRecipesAndCategories() async {
     // DELETE ALL DATA FROM mybox (where all recipe are saved) : //
-    await deleteAllRecipes();
+    deleteAllRecipes();
     // DELETE ALL DATA FROM catBox (where all catagories names are saved) : //
     Hive.box<CategoriesNames>('catBox').clear();
+  }
+
+  // function for delete a category and their recipes
+  Future<void> deleteCategoryAndTheirRecipes(categoryName, index) async {
+    // get all data with recipes :
+    List recipeList = _myBox.get('ALL_LISTS') ?? [];
+    // Remove all the lists with filtered name
+    // iterate over the list in reverse order (because with normal order all the elements are not deleted)
+
+    if (recipeList.isEmpty) {
+      Hive.box<CategoriesNames>('catBox').deleteAt(index);
+    } else {
+      for (int i = recipeList.length - 1; i >= 0; i--) {
+        if (recipeList[i][7].contains(categoryName)) {
+          recipeList.removeAt(i);
+          // Remove the category name :
+          Hive.box<CategoriesNames>('catBox').deleteAt(index);
+        }
+      }
+    }
+  }
+
+  void _dialogDeleteOneCategory(BuildContext context, categoryName, index) {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return Container(
+              padding: EdgeInsetsDirectional.fromSTEB(0, 300, 0, 200),
+              child: AlertDialog(
+                title: Column(children: const [
+                  Text('Are you sure ?'),
+                  Text('Confirm the deletion with a long press',
+                      style:
+                          TextStyle(fontSize: 15, fontStyle: FontStyle.italic))
+                ]),
+                content: TextButton(
+                  onLongPress: () async {
+                    setState(() {
+                      isEditDeleteMode = false;
+                    });
+                    deleteCategoryAndTheirRecipes(categoryName, index);
+                    Navigator.of(context).pop();
+                  },
+                  onPressed: () {},
+                  child: Text(
+                      'Yes, I want to delete this category and their recipes',
+                      style: TextStyle(color: Colors.red)),
+                ),
+
+                actions: [
+                  ElevatedButton(
+                    onPressed: () {
+                      setState(() {
+                        isEditDeleteMode = false;
+                      });
+                      Navigator.of(context).pop();
+                    },
+                    child: Text('Back'),
+                  ),
+                ],
+                // Ajustez les valeurs selon vos besoins
+              ));
+        });
   }
 
   @override
@@ -264,7 +336,10 @@ class _HomeState extends State<Home> {
                                         Icons.delete,
                                         color: Colors.redAccent,
                                       ),
-                                      onPressed: () {},
+                                      onPressed: () {
+                                        _dialogDeleteOneCategory(
+                                            context, cat!.categoryName, index);
+                                      },
                                     ),
                                   ],
                                 )

@@ -24,6 +24,12 @@ class _FilteredNameRecipeState extends State<FilteredNameRecipe> {
 
   bool isEditDeleteMode = false;
 
+  final String _confirmationTextDeleteOneRecipe =
+      "Yes, I want to delete this recipe";
+
+  final String _confirmationTextDeleteAllRecipe =
+      "Yes, I want to delete all recipes of this category";
+
   // allow to loadAllData from database (recipe_database)
   loadAllData() {
     setState(() {
@@ -78,7 +84,7 @@ class _FilteredNameRecipeState extends State<FilteredNameRecipe> {
     _myBox.put("ALL_LISTS", recipeList);
   }
 
-  void deleteAllRecipe() async {
+  void deleteAllRecipe(myBox) {
     // get all data
     List recipeList = _myBox.get('ALL_LISTS') ?? [];
     // Remove all the lists
@@ -103,6 +109,48 @@ class _FilteredNameRecipeState extends State<FilteredNameRecipe> {
     }
   }
 
+  void _dialogDelete(BuildContext context, String confirmText, deleteFunction,
+      {int? index, myBox}) {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return Container(
+              padding: EdgeInsetsDirectional.fromSTEB(0, 300, 0, 200),
+              child: AlertDialog(
+                title: Column(children: const [
+                  Text('Are you sure ?'),
+                  Text('Confirm the deletion with a long press',
+                      style:
+                          TextStyle(fontSize: 15, fontStyle: FontStyle.italic))
+                ]),
+                content: TextButton(
+                  onLongPress: () async {
+                    setState(() {
+                      isEditDeleteMode = false;
+                    });
+                    deleteFunction(index, myBox);
+                    Navigator.of(context).pop();
+                  },
+                  onPressed: () {},
+                  child: Text(confirmText, style: TextStyle(color: Colors.red)),
+                ),
+
+                actions: [
+                  ElevatedButton(
+                    onPressed: () {
+                      setState(() {
+                        isEditDeleteMode = false;
+                      });
+                      Navigator.of(context).pop();
+                    },
+                    child: Text('Back'),
+                  ),
+                ],
+                // Ajustez les valeurs selon vos besoins
+              ));
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -118,7 +166,9 @@ class _FilteredNameRecipeState extends State<FilteredNameRecipe> {
                       onPressed: () {
                         setState(() {
                           isEditDeleteMode = false;
-                          deleteAllRecipe();
+                          _dialogDelete(context,
+                              _confirmationTextDeleteAllRecipe, deleteAllRecipe,
+                              myBox: _myBox);
                         });
                       },
                       child: Text(
@@ -192,7 +242,11 @@ class _FilteredNameRecipeState extends State<FilteredNameRecipe> {
                                   ),
                                   onPressed: () {
                                     setState(() {
-                                      deleteOneRecipe(index);
+                                      _dialogDelete(
+                                          context,
+                                          _confirmationTextDeleteOneRecipe,
+                                          deleteOneRecipe,
+                                          index: index);
                                     });
                                   },
                                 ),
