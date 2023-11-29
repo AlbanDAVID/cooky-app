@@ -804,10 +804,11 @@ class _EditRecipeState extends State<EditRecipe> {
                   );
 
                   // Navigate to the new page with the form data and save
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => recipeDetailsPage),
-                  );
+                  // Navigator.push(
+                  //   context,
+                  //   MaterialPageRoute(builder: (context) => recipeDetailsPage),
+                  // );
+                  Navigator.pop(context, finalEditRecipeName);
                 },
                 child: Text("Save changes"),
               ),
