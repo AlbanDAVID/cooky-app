@@ -19,16 +19,75 @@ class _HomeState extends State<Home> {
       CategoriesNamesService();
   final TextEditingController _controller = TextEditingController();
 
+  // get recipe database
+  final _myBox = Hive.box('mybox');
+  RecipeDatabase db = RecipeDatabase();
+
+  bool isEditDeleteMode = false;
+
+  // function for handle click on popup menu
+  void handleClick(int item) {
+    switch (item) {
+      case 0:
+        setState(() {
+          isEditDeleteMode = true;
+        });
+    }
+  }
+
+  Future<void> renameCategoryRecipeAfterEditCategory(
+      categoryNameToReplace, newCategoryName) async {
+    // get all data
+    List recipeList = _myBox.get('ALL_LISTS') ?? [];
+    // Remove all the lists
+    // iterate over the list in reverse order (because with normal order all the elements are not deleted)
+    for (int i = recipeList.length - 1; i >= 0; i--) {
+      if (recipeList[i][7].contains(categoryNameToReplace)) {
+        recipeList[i][7] = newCategoryName;
+      }
+    }
+
+    // Update the data in the box
+    _myBox.put('ALL_LISTS', recipeList);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("COOKY"),
-        centerTitle: true,
-        elevation: 0,
-        //leading: const Icon(Icons.menu),
-        actions: [IconButton(onPressed: () {}, icon: const Icon(Icons.search))],
-      ),
+          title: const Text("COOKY"),
+          centerTitle: true,
+          elevation: 0,
+          //leading: const Icon(Icons.menu),
+          actions: isEditDeleteMode
+              ? <Widget>[
+                  TextButton(
+                    style: TextButton.styleFrom(
+                      foregroundColor: Colors.black,
+                    ),
+                    onPressed: () {},
+                    child: Text(
+                      "Delete All",
+                    ),
+                  ),
+                  IconButton(
+                    icon: const Icon(Icons.close),
+                    onPressed: () {
+                      setState(() {
+                        isEditDeleteMode = false;
+                      });
+                    },
+                  ),
+                ]
+              : <Widget>[
+                  IconButton(onPressed: () {}, icon: const Icon(Icons.search)),
+                  PopupMenuButton<int>(
+                    onSelected: (item) => handleClick(item),
+                    itemBuilder: (context) => [
+                      PopupMenuItem<int>(value: 0, child: Text('Edit/Delete')),
+                    ],
+                  ),
+                ]),
       body: Column(children: [
         SizedBox(
             height: 500,
@@ -36,37 +95,106 @@ class _HomeState extends State<Home> {
               valueListenable: Hive.box<CategoriesNames>('catBox').listenable(),
               builder: (context, Box<CategoriesNames> box, _) {
                 return Padding(
-                    padding: EdgeInsets.all(20),
+                    padding: EdgeInsets.all(100),
                     child: ListView.builder(
                       itemCount: box.values.length,
                       itemBuilder: (context, index) {
                         var cat = box.getAt(index);
-                        return TextButton(
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => FilteredNameRecipe(
-                                  categoryName: cat!.categoryName.toString(),
+                        return ListTile(
+                          title: TextButton(
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => FilteredNameRecipe(
+                                    categoryName: cat!.categoryName.toString(),
+                                  ),
                                 ),
+                              );
+                            },
+                            style: TextButton.styleFrom(
+                              backgroundColor:
+                                  Colors.lightGreen, // Couleur du bouton
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(
+                                    20.0), // Bords arrondis
                               ),
-                            );
-                          },
-                          style: TextButton.styleFrom(
-                            backgroundColor:
-                                Colors.lightGreen, // Couleur du bouton
-                            shape: RoundedRectangleBorder(
-                              borderRadius:
-                                  BorderRadius.circular(20.0), // Bords arrondis
+                            ),
+                            child: Center(
+                              child: Text(
+                                cat!.categoryName,
+                                style: TextStyle(
+                                    fontSize: 25.0, color: Colors.white),
+                              ),
                             ),
                           ),
-                          child: Center(
-                            child: Text(
-                              cat!.categoryName,
-                              style: TextStyle(
-                                  fontSize: 25.0, color: Colors.white),
-                            ),
-                          ),
+                          trailing: isEditDeleteMode
+                              ? Wrap(
+                                  children: [
+                                    IconButton(
+                                      icon: const Icon(Icons.edit),
+                                      onPressed: () async {
+                                        setState(() {
+                                          isEditDeleteMode = false;
+                                        });
+
+                                        showDialog(
+                                            context: context,
+                                            builder: (context) {
+                                              return AlertDialog(
+                                                title: Column(children: const [
+                                                  Text('Edit category'),
+                                                  Center(
+                                                      child: Text(
+                                                          'All recipes inside this category will get the new category name',
+                                                          style: TextStyle(
+                                                              fontSize: 15,
+                                                              fontStyle:
+                                                                  FontStyle
+                                                                      .italic)))
+                                                ]),
+                                                content: TextField(
+                                                  controller: _controller,
+                                                ),
+                                                actions: [
+                                                  ElevatedButton(
+                                                    child: Text('Edit'),
+                                                    onPressed: () async {
+                                                      var categoryNameToReplace =
+                                                          cat!.categoryName;
+                                                      var newCategoryName =
+                                                          _controller.text;
+                                                      var catName =
+                                                          CategoriesNames(
+                                                              _controller.text);
+                                                      await Hive.box<
+                                                                  CategoriesNames>(
+                                                              'catBox')
+                                                          .putAt(
+                                                              index, catName);
+
+                                                      await renameCategoryRecipeAfterEditCategory(
+                                                          categoryNameToReplace,
+                                                          newCategoryName);
+                                                      Navigator.pop(context);
+                                                      _controller.clear();
+                                                    },
+                                                  )
+                                                ],
+                                              );
+                                            });
+                                      },
+                                    ),
+                                    IconButton(
+                                      icon: const Icon(
+                                        Icons.delete,
+                                        color: Colors.redAccent,
+                                      ),
+                                      onPressed: () {},
+                                    ),
+                                  ],
+                                )
+                              : null,
                         );
                       },
                     ));
@@ -90,6 +218,7 @@ class _HomeState extends State<Home> {
                           var catName = CategoriesNames(_controller.text);
                           await _categoriesNamesService.addCategory(catName);
                           Navigator.pop(context);
+                          _controller.clear();
                         },
                       )
                     ],

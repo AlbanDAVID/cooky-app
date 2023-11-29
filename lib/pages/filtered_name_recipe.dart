@@ -16,8 +16,8 @@ class FilteredNameRecipe extends StatefulWidget {
 }
 
 class _FilteredNameRecipeState extends State<FilteredNameRecipe> {
+  // get recipe database
   final _myBox = Hive.box('mybox');
-
   RecipeDatabase db = RecipeDatabase();
 
   late final String finalEditRecipeName;

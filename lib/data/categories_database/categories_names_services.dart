@@ -26,10 +26,10 @@ class CategoriesNamesService {
   }
 
   // Update :
-  //Future<void> updateCategory(CategoriesNames categoriesNames) async {
-  //var box = await _box;
-
-//  }
+  Future<void> updateCategory(CategoriesNames categoriesName) async {
+    var box = await _box;
+    categoriesName != categoriesName;
+  }
 
   // Delete :
   Future<void> deleteCategory(int index) async {
