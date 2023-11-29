@@ -35,6 +35,7 @@ class _HomeState extends State<Home> {
     }
   }
 
+  // rename recipes categories after editing a category
   Future<void> renameCategoryRecipeAfterEditCategory(
       categoryNameToReplace, newCategoryName) async {
     // get all data
@@ -51,6 +52,77 @@ class _HomeState extends State<Home> {
     _myBox.put('ALL_LISTS', recipeList);
   }
 
+  // delete all catagories and recipes
+
+  void _dialogDeleteAll(BuildContext context) {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return Container(
+              padding: EdgeInsetsDirectional.fromSTEB(0, 300, 0, 200),
+              child: AlertDialog(
+                title: Text('Deletion options'),
+
+                content: Column(
+                  children: [
+                    TextButton(
+                      onPressed: () async {
+                        setState(() {
+                          isEditDeleteMode = false;
+                        });
+
+                        await deleteAllRecipes();
+                        Navigator.of(context).pop();
+                      },
+                      child: Text('Delete all recipes'),
+                    ),
+                    TextButton(
+                      onPressed: () async {
+                        setState(() {
+                          isEditDeleteMode = false;
+                        });
+
+                        await deleteAllRecipesAndCategories();
+                        Navigator.of(context).pop();
+                      },
+                      child: Text('Delete all recipes and categories'),
+                    ),
+                  ],
+                ),
+                actions: [
+                  ElevatedButton(
+                    onPressed: () {
+                      setState(() {
+                        isEditDeleteMode = false;
+                      });
+                      Navigator.of(context).pop();
+                    },
+                    child: Text('Back'),
+                  ),
+                ],
+                // Ajustez les valeurs selon vos besoins
+              ));
+        });
+  }
+
+  Future<void> deleteAllRecipes() async {
+    // DELETE ALL DATA FROM mybox (where all recipe are saved) : //
+    // get all data with recipes
+    List recipeList = _myBox.get('ALL_LISTS') ?? [];
+    // Remove all the list from recipelist
+    // iterate over the list in reverse order (because with normal order all the elements are not deleted)
+    recipeList = [];
+    // Update the data in the box
+    _myBox.put('ALL_LISTS', recipeList);
+  }
+
+  Future<void> deleteAllRecipesAndCategories() async {
+    // DELETE ALL DATA FROM mybox (where all recipe are saved) : //
+    await deleteAllRecipes();
+    // DELETE ALL DATA FROM catBox (where all catagories names are saved) : //
+    Hive.box<CategoriesNames>('catBox').clear();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -65,7 +137,9 @@ class _HomeState extends State<Home> {
                     style: TextButton.styleFrom(
                       foregroundColor: Colors.black,
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      _dialogDeleteAll(context);
+                    },
                     child: Text(
                       "Delete All",
                     ),

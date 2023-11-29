@@ -117,6 +117,7 @@ class _FilteredNameRecipeState extends State<FilteredNameRecipe> {
                       ),
                       onPressed: () {
                         setState(() {
+                          isEditDeleteMode = false;
                           deleteAllRecipe();
                         });
                       },
