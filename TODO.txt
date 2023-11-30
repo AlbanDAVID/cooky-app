@@ -9,52 +9,48 @@ Priority :
         - pre fields 
         - add manually 
         - search (optional for now)
-    add preview and possibilty to edit before submit
-- Edit & Delete recipe and steps (during reation or when the recipe is created)
-_ backup database
-
-- add tags (vege, spicy etc. and possibility to sort or search by tag)
-----
-- sort recipe by date add + filter by tag
-
-- check to permanently save data even if app is deleted
-- search bar in home page to search a recipe (optional for now)
-- language french/english
-- check with different devices
-- coherente navigation (especially witk back return)
-- warning :form will not be saved if turn bak on the page add recipe
-- sort by date  
-- Creer nouvelles categories dans create recette ou home page 
-
-Other :
-- develop and collapse for ingredient 
-- add possibilité to ass space in step recipe 
-- see for size picture (when I add picture end when the widget is build)
+    
+- fix preview image during editing + defaut image if no image or image deleted during editing
+- add required field for add category
+- add deletion or edition in add ingredients page lst view
+- scraping
+- backup database (possibilty to export, import, ask for conserv data if uninstall app)
 - camera right access iOS (for add pics)
+- check with all devices
+- language french/english
+- coherente navigation (especially witk back return)
+- create settings page
+- UI
 - check with differet police size (from smartphone user)
-- check list ce qu'on a dans les placards
 
+----
+- Interessting features : 
+- integer for ingredient (for automatic tell how many person)
+- checkbox ingredients
+_ possibility to enlarge the text steps
+- sort recipe by date add + filter by tag
+_ search bar for all suggestion fields during create recipe
+- search bar in home page to search a recipe (optional for now)
+- Creer nouvelles categories dans create recette ou home page 
+- deletion : select several items to delete ou edit the category
+- add creae recipe inside category
 
-A faire now :
-- saisie intuitive (toutes les mesure (fr et en) + 1 pincée de sel, cuillière etc.)
-- create recipe : espace automatique total time etc.
-- edition : create recipe et uen fois recette créée
 
 Autre: 
 - readme database
-- suggestion catégorie
-- champ obligatoire pour categorie OU automatiquement dans catégorie unknow si pas saisi
-- pouvoir déplacer une recette de catgérorie en editant 
-- pouvoir supprimer / renommer une catégorie
+- suggestion de catégories 
+- champ obligatoire pour categorie (spécifier après submit)
+- develop and collapse for ingredient 
 
-Bug : 
+
+
+
+Other idea :
+- check list ce qu'on a dans les placards
+
+BUG : 
 - NE DECONNE PAS EN MODE REALSE mais en bebug : bug add picture (when taking a pics)
 
-
-- edit_create_recipe branch : 
-    - edit delete
-    - mise en garde retour en arrière (data non save)
-    - add tag, date
 
 
 

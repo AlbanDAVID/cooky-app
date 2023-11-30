@@ -181,15 +181,13 @@ class _CreateRecipeState extends State<CreateRecipe> {
                   ),
                   SizedBox(width: 16), // Ajustez cet espace selon vos besoins
                   InkWell(
-                    onTap: () {
+                    onLongPress: () {
                       setState(() {
                         recipeNameFromAddRecipeName = "Deleted";
                       });
                     },
-                    child: Icon(
-                      Icons.delete,
-                      size: 20,
-                    ),
+                    child:
+                        Icon(Icons.delete, size: 20, color: Colors.redAccent),
                   ),
                 ],
               )
@@ -263,7 +261,7 @@ class _CreateRecipeState extends State<CreateRecipe> {
                   ),
                   SizedBox(width: 16), // Ajustez cet espace selon vos besoins
                   InkWell(
-                    onTap: () {
+                    onLongPress: () {
                       setState(() {
                         totalTimeFromAddTotalTime = "Deleted";
                         Text(
@@ -275,10 +273,8 @@ class _CreateRecipeState extends State<CreateRecipe> {
                         );
                       });
                     },
-                    child: Icon(
-                      Icons.delete,
-                      size: 20,
-                    ),
+                    child:
+                        Icon(Icons.delete, size: 20, color: Colors.redAccent),
                   ),
                 ],
               )
@@ -352,15 +348,13 @@ class _CreateRecipeState extends State<CreateRecipe> {
                   ),
                   SizedBox(width: 16), // Ajustez cet espace selon vos besoins
                   InkWell(
-                    onTap: () {
+                    onLongPress: () {
                       setState(() {
                         varFromAddDifficulty = "Deleted";
                       });
                     },
-                    child: Icon(
-                      Icons.delete,
-                      size: 20,
-                    ),
+                    child:
+                        Icon(Icons.delete, size: 20, color: Colors.redAccent),
                   ),
                 ],
               )
@@ -433,15 +427,13 @@ class _CreateRecipeState extends State<CreateRecipe> {
                   ),
                   SizedBox(width: 16), // Ajustez cet espace selon vos besoins
                   InkWell(
-                    onTap: () {
+                    onLongPress: () {
                       setState(() {
                         varFromAddCost = "Deleted";
                       });
                     },
-                    child: Icon(
-                      Icons.delete,
-                      size: 20,
-                    ),
+                    child:
+                        Icon(Icons.delete, size: 20, color: Colors.redAccent),
                   ),
                 ],
               )
@@ -535,7 +527,7 @@ class _CreateRecipeState extends State<CreateRecipe> {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   InkWell(
-                    onTap: () {
+                    onLongPress: () {
                       getDataFromMyImagePickerPage(context);
                     },
                     child: Icon(
@@ -550,10 +542,8 @@ class _CreateRecipeState extends State<CreateRecipe> {
                         pathImageSelectedFromImagePicker = "";
                       });
                     },
-                    child: Icon(
-                      Icons.delete,
-                      size: 20,
-                    ),
+                    child:
+                        Icon(Icons.delete, size: 20, color: Colors.redAccent),
                   ),
                 ],
               )
@@ -622,15 +612,12 @@ class _CreateRecipeState extends State<CreateRecipe> {
                 ),
                 SizedBox(width: 16), // Ajustez cet espace selon vos besoins
                 InkWell(
-                  onTap: () {
+                  onLongPress: () {
                     setState(() {
                       allIngredientSelectedCreateRecipe = [];
                     });
                   },
-                  child: Icon(
-                    Icons.delete,
-                    size: 20,
-                  ),
+                  child: Icon(Icons.delete, size: 20, color: Colors.redAccent),
                 ),
               ],
             )
@@ -660,17 +647,20 @@ class _CreateRecipeState extends State<CreateRecipe> {
                   getDataFromAddIngred(context);
                 },
               ),
-              IconButton(
-                icon: const Icon(
-                  Icons.delete,
-                  color: Colors.redAccent,
-                ),
-                onPressed: () {
+              GestureDetector(
+                onLongPress: () {
                   setState(() {
                     allIngredientSelectedCreateRecipe.removeAt(index);
                   });
                 },
-              ),
+                child: IconButton(
+                  icon: const Icon(
+                    Icons.delete,
+                    color: Colors.redAccent,
+                  ),
+                  onPressed: () {},
+                ),
+              )
             ],
           ),
         );
@@ -738,15 +728,12 @@ class _CreateRecipeState extends State<CreateRecipe> {
                 ),
                 SizedBox(width: 16), // Ajustez cet espace selon vos besoins
                 InkWell(
-                  onTap: () {
+                  onLongPress: () {
                     setState(() {
                       stepsRecipeFromCreateSteps = [];
                     });
                   },
-                  child: Icon(
-                    Icons.delete,
-                    size: 20,
-                  ),
+                  child: Icon(Icons.delete, size: 20, color: Colors.redAccent),
                 ),
               ],
             )
@@ -785,17 +772,20 @@ class _CreateRecipeState extends State<CreateRecipe> {
                     }
                   },
                 ),
-                IconButton(
-                  icon: const Icon(
-                    Icons.delete,
-                    color: Colors.redAccent,
-                  ),
-                  onPressed: () {
+                GestureDetector(
+                  onLongPress: () {
                     setState(() {
                       stepsRecipeFromCreateSteps.removeAt(index);
                     });
                   },
-                ),
+                  child: IconButton(
+                    icon: const Icon(
+                      Icons.delete,
+                      color: Colors.redAccent,
+                    ),
+                    onPressed: () {},
+                  ),
+                )
               ],
             ),
           );
@@ -808,110 +798,151 @@ class _CreateRecipeState extends State<CreateRecipe> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Add Recipe'),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Form(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // RECIPE CATEGORY :
-              addCategory(isButtonAddCategoryVisible),
+    // use WillPopScope for pop an alert dialog before exiting page. It works, but is deprecated
+    return WillPopScope(
+        onWillPop: () async {
+          final value = await showDialog<bool>(
+              context: context,
+              builder: (context) {
+                return AlertDialog(
+                  content: SizedBox(
+                      height: 40.0,
+                      child: Column(children: const [
+                        Text('Are you sure you want to exit?',
+                            style: TextStyle(
+                                fontSize: 20, fontWeight: FontWeight.bold)),
+                        Center(
+                            child: Text('You can save and edit later',
+                                style: TextStyle(
+                                    fontSize: 15, fontStyle: FontStyle.italic)))
+                      ])),
+                  actions: <Widget>[
+                    TextButton(
+                      child: Text('Yes, exit',
+                          style: TextStyle(color: Colors.red)),
+                      onPressed: () {
+                        Navigator.of(context).pop(true);
+                      },
+                    ),
+                    TextButton(
+                      child: Text('No',
+                          style: TextStyle(color: Colors.lightGreen)),
+                      onPressed: () {
+                        Navigator.of(context).pop(false);
+                      },
+                    ),
+                  ],
+                );
+              });
 
-              // RECIPE NAME :
-              addRecipeName(isButtonAddRecipeNameVisible),
-
-              // TOTAL TIME :
-              addTotalTime(isButtonAddTotalTimeVisible),
-
-              // DIFFICULTY :
-              addDifficulty(isButtonAddDifficultyVisible),
-
-              // COST:
-              addCost(isButtonAddCostVisible),
-
-              // ADD PICTURE
-
-              addPicture(isButtonAddPictureVisible),
-
-              // SELECT INGREDIENT
-              addIngred(isButtonAddIngredVisible),
-
-              // SHOW INGREDIENTS SELECTED
-              showIngredientsSelected(),
-              // ADD STEPS
-              addSteps(isButtonAddStepsVisible),
-
-              // SHOW STEPS ADDED
-              showStepsAdded(),
-
-              // Button fot submit form
-              ElevatedButton(
-                onPressed: () {
-                  // handle deleted variable
-                  final finalRecipeNameFromAddRecipeName =
-                      recipeNameFromAddRecipeName == "Deleted"
-                          ? "No title"
-                          : recipeNameFromAddRecipeName;
-
-                  final finalTotalTimeFromAddTotalTime =
-                      totalTimeFromAddTotalTime == "Deleted"
-                          ? ""
-                          : totalTimeFromAddTotalTime;
-
-                  final finalVarFromAddDifficulty =
-                      varFromAddDifficulty == "Deleted"
-                          ? ""
-                          : varFromAddDifficulty;
-
-                  final finalVarFromAddCost =
-                      varFromAddCost == "Deleted" ? "" : varFromAddCost;
-
-                  // retrieve database list
-                  List listOfLists = _myBox.get('ALL_LISTS') ?? [];
-
-                  // Add a new list to the list of lists
-                  listOfLists.add([
-                    finalRecipeNameFromAddRecipeName,
-                    finalTotalTimeFromAddTotalTime,
-                    finalVarFromAddDifficulty,
-                    finalVarFromAddCost,
-                    allIngredientSelectedCreateRecipe,
-                    pathImageSelectedFromImagePicker,
-                    stepsRecipeFromCreateSteps,
-                    recipeCategoryFromAddExistingCategory,
-                  ]);
-
-                  // Update list of lists in Hive
-                  _myBox.put('ALL_LISTS', listOfLists);
-
-                  // Create an instance of RecipeDetailsPage with the form data
-                  RecipeStruct recipeDetailsPage = RecipeStruct(
-                    recipeName: finalRecipeNameFromAddRecipeName,
-                    totalTime: finalTotalTimeFromAddTotalTime,
-                    difficulty: finalVarFromAddDifficulty,
-                    cost: finalVarFromAddCost,
-                    allIngredientSelected: allIngredientSelectedCreateRecipe,
-                    pathImageSelectedFromImagePicker:
-                        pathImageSelectedFromImagePicker,
-                    stepsRecipeFromCreateSteps: stepsRecipeFromCreateSteps,
-                  );
-
-                  // Navigate to the new page with the form data and save
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => recipeDetailsPage),
-                  );
-                },
-                child: Text("Submit"),
-              ),
-            ],
+          return value == true;
+        },
+        child: Scaffold(
+          appBar: AppBar(
+            title: const Text('Add Recipe'),
           ),
-        ),
-      ),
-    );
+          body: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Form(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // RECIPE CATEGORY :
+                  addCategory(isButtonAddCategoryVisible),
+
+                  // RECIPE NAME :
+                  addRecipeName(isButtonAddRecipeNameVisible),
+
+                  // TOTAL TIME :
+                  addTotalTime(isButtonAddTotalTimeVisible),
+
+                  // DIFFICULTY :
+                  addDifficulty(isButtonAddDifficultyVisible),
+
+                  // COST:
+                  addCost(isButtonAddCostVisible),
+
+                  // ADD PICTURE
+
+                  addPicture(isButtonAddPictureVisible),
+
+                  // SELECT INGREDIENT
+                  addIngred(isButtonAddIngredVisible),
+
+                  // SHOW INGREDIENTS SELECTED
+                  showIngredientsSelected(),
+                  // ADD STEPS
+                  addSteps(isButtonAddStepsVisible),
+
+                  // SHOW STEPS ADDED
+                  showStepsAdded(),
+
+                  // Button fot submit form
+                  ElevatedButton(
+                    onPressed: () {
+                      // handle deleted variable
+                      final finalRecipeNameFromAddRecipeName =
+                          recipeNameFromAddRecipeName == "Deleted"
+                              ? "No title"
+                              : recipeNameFromAddRecipeName;
+
+                      final finalTotalTimeFromAddTotalTime =
+                          totalTimeFromAddTotalTime == "Deleted"
+                              ? ""
+                              : totalTimeFromAddTotalTime;
+
+                      final finalVarFromAddDifficulty =
+                          varFromAddDifficulty == "Deleted"
+                              ? ""
+                              : varFromAddDifficulty;
+
+                      final finalVarFromAddCost =
+                          varFromAddCost == "Deleted" ? "" : varFromAddCost;
+
+                      // retrieve database list
+                      List listOfLists = _myBox.get('ALL_LISTS') ?? [];
+
+                      // Add a new list to the list of lists
+                      listOfLists.add([
+                        finalRecipeNameFromAddRecipeName,
+                        finalTotalTimeFromAddTotalTime,
+                        finalVarFromAddDifficulty,
+                        finalVarFromAddCost,
+                        allIngredientSelectedCreateRecipe,
+                        pathImageSelectedFromImagePicker,
+                        stepsRecipeFromCreateSteps,
+                        recipeCategoryFromAddExistingCategory,
+                      ]);
+
+                      // Update list of lists in Hive
+                      _myBox.put('ALL_LISTS', listOfLists);
+
+                      // Create an instance of RecipeDetailsPage with the form data
+                      RecipeStruct recipeDetailsPage = RecipeStruct(
+                        recipeName: finalRecipeNameFromAddRecipeName,
+                        totalTime: finalTotalTimeFromAddTotalTime,
+                        difficulty: finalVarFromAddDifficulty,
+                        cost: finalVarFromAddCost,
+                        allIngredientSelected:
+                            allIngredientSelectedCreateRecipe,
+                        pathImageSelectedFromImagePicker:
+                            pathImageSelectedFromImagePicker,
+                        stepsRecipeFromCreateSteps: stepsRecipeFromCreateSteps,
+                      );
+
+                      // Navigate to the new page with the form data and save
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => recipeDetailsPage),
+                      );
+                    },
+                    child: Text("Submit"),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ));
   }
 }

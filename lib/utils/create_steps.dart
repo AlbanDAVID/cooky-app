@@ -164,17 +164,20 @@ class _CreateStepsState extends State<CreateSteps> {
                           }
                         },
                       ),
-                      IconButton(
-                        icon: const Icon(
-                          Icons.delete,
-                          color: Colors.redAccent,
-                        ),
-                        onPressed: () {
+                      GestureDetector(
+                        onLongPress: () {
                           setState(() {
                             stepsRecipe.removeAt(index);
                           });
                         },
-                      ),
+                        child: IconButton(
+                          icon: const Icon(
+                            Icons.delete,
+                            color: Colors.redAccent,
+                          ),
+                          onPressed: () {},
+                        ),
+                      )
                     ],
                   ),
                 );

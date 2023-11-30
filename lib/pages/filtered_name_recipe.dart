@@ -155,132 +155,132 @@ class _FilteredNameRecipeState extends State<FilteredNameRecipe> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-            title: const Text("COOKY"),
-            centerTitle: true,
-            actions: isEditDeleteMode
-                ? <Widget>[
-                    TextButton(
-                      style: TextButton.styleFrom(
-                        foregroundColor: Colors.black,
-                      ),
-                      onPressed: () {
-                        _dialogDelete(
-                          context,
-                          _confirmationTextDeleteAllRecipe,
-                          deleteAllRecipe,
-                        );
-                      },
-                      child: Text(
-                        "Delete All",
-                      ),
+      appBar: AppBar(
+          title: const Text("COOKY"),
+          centerTitle: true,
+          actions: isEditDeleteMode
+              ? <Widget>[
+                  TextButton(
+                    style: TextButton.styleFrom(
+                      foregroundColor: Colors.black,
                     ),
-                    IconButton(
-                      icon: const Icon(Icons.close),
-                      onPressed: () {
-                        setState(() {
-                          isEditDeleteMode = false;
-                        });
-                      },
+                    onPressed: () {
+                      _dialogDelete(
+                        context,
+                        _confirmationTextDeleteAllRecipe,
+                        deleteAllRecipe,
+                      );
+                    },
+                    child: Text(
+                      "Delete All",
                     ),
-                  ]
-                : <Widget>[
-                    PopupMenuButton<int>(
-                      onSelected: (item) => handleClick(item),
-                      itemBuilder: (context) => [
-                        PopupMenuItem<int>(
-                            value: 0, child: Text('Edit/Delete')),
-                      ],
-                    ),
-                  ]),
-        body: FutureBuilder(
-          // Need to wait loaAllData() before ListView.builder executed
-          future: loadAllData(),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              // Shows a loading indicator if the function is running
-              return CircularProgressIndicator();
-            } else if (snapshot.hasError) {
-              // Show an error message if loadAllData() fails
-              return Text('Erreur: ${snapshot.error}');
-            } else {
-              // Once loadAllData() is complete, constructs the ListView.builder
+                  ),
+                  IconButton(
+                    icon: const Icon(Icons.close),
+                    onPressed: () {
+                      setState(() {
+                        isEditDeleteMode = false;
+                      });
+                    },
+                  ),
+                ]
+              : <Widget>[
+                  PopupMenuButton<int>(
+                    onSelected: (item) => handleClick(item),
+                    itemBuilder: (context) => [
+                      PopupMenuItem<int>(value: 0, child: Text('Edit/Delete')),
+                    ],
+                  ),
+                ]),
+      body: FutureBuilder(
+        // Need to wait loaAllData() before ListView.builder executed
+        future: loadAllData(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            // Shows a loading indicator if the function is running
+            return CircularProgressIndicator();
+          } else if (snapshot.hasError) {
+            // Show an error message if loadAllData() fails
+            return Text('Erreur: ${snapshot.error}');
+          } else {
+            // Once loadAllData() is complete, constructs the ListView.builder
 
-              return ListView.builder(
-                itemCount: db.recipeList.length,
-                itemBuilder: (context, index) {
-                  // Recipe is filtered by the category we clicked on before
-                  if (db.recipeList[index][7].contains(widget.categoryName)) {
-                    return ListTile(
-                      title: Text(db.recipeList[index][0]),
-                      trailing: isEditDeleteMode
-                          ? Wrap(
-                              children: [
-                                IconButton(
-                                  icon: const Icon(Icons.edit),
-                                  onPressed: () {
-                                    setState(() {
-                                      isEditDeleteMode = false;
-                                    });
+            return ListView.builder(
+              itemCount: db.recipeList.length,
+              itemBuilder: (context, index) {
+                // Recipe is filtered by the category we clicked on before
+                if (db.recipeList[index][7].contains(widget.categoryName)) {
+                  return ListTile(
+                    title: Text(db.recipeList[index][0]),
+                    trailing: isEditDeleteMode
+                        ? Wrap(
+                            children: [
+                              IconButton(
+                                icon: const Icon(Icons.edit),
+                                onPressed: () {
+                                  setState(() {
+                                    isEditDeleteMode = false;
+                                  });
 
-                                    sendDataToEditAtEditRecipe(
-                                        context,
-                                        db.recipeList[index][4],
-                                        db.recipeList[index][6],
-                                        db.recipeList[index][7],
-                                        db.recipeList[index][0],
-                                        db.recipeList[index][1],
-                                        db.recipeList[index][2],
-                                        db.recipeList[index][3],
-                                        index);
-                                  },
+                                  sendDataToEditAtEditRecipe(
+                                      context,
+                                      db.recipeList[index][4],
+                                      db.recipeList[index][6],
+                                      db.recipeList[index][7],
+                                      db.recipeList[index][0],
+                                      db.recipeList[index][1],
+                                      db.recipeList[index][2],
+                                      db.recipeList[index][3],
+                                      index);
+                                },
+                              ),
+                              IconButton(
+                                icon: const Icon(
+                                  Icons.delete,
+                                  color: Colors.redAccent,
                                 ),
-                                IconButton(
-                                  icon: const Icon(
-                                    Icons.delete,
-                                    color: Colors.redAccent,
-                                  ),
-                                  onPressed: () {
-                                    _dialogDelete(
-                                        context,
-                                        _confirmationTextDeleteOneRecipe,
-                                        deleteOneRecipe,
-                                        index: index);
-                                  },
-                                ),
-                              ],
-                            )
-                          : null,
-                      onTap: () {
-                        setState(() {});
-                        loadAllData();
+                                onPressed: () {
+                                  _dialogDelete(
+                                      context,
+                                      _confirmationTextDeleteOneRecipe,
+                                      deleteOneRecipe,
+                                      index: index);
+                                },
+                              ),
+                            ],
+                          )
+                        : null,
+                    onTap: () {
+                      setState(() {});
+                      loadAllData();
 
-                        RecipeStruct recipeInstance = RecipeStruct(
-                          recipeName: db.recipeList[index][0],
-                          totalTime: db.recipeList[index][1],
-                          difficulty: db.recipeList[index][2],
-                          cost: db.recipeList[index][3],
-                          allIngredientSelected: db.recipeList[index][4],
-                          pathImageSelectedFromImagePicker: db.recipeList[index]
-                              [5],
-                          stepsRecipeFromCreateSteps: db.recipeList[index][6],
-                        );
+                      RecipeStruct recipeInstance = RecipeStruct(
+                        recipeName: db.recipeList[index][0],
+                        totalTime: db.recipeList[index][1],
+                        difficulty: db.recipeList[index][2],
+                        cost: db.recipeList[index][3],
+                        allIngredientSelected: db.recipeList[index][4],
+                        pathImageSelectedFromImagePicker: db.recipeList[index]
+                            [5],
+                        stepsRecipeFromCreateSteps: db.recipeList[index][6],
+                      );
 
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => recipeInstance,
-                          ),
-                        );
-                      },
-                    );
-                  } else {
-                    return SizedBox.shrink();
-                  }
-                },
-              );
-            }
-          },
-        ));
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => recipeInstance,
+                        ),
+                      );
+                    },
+                  );
+                } else {
+                  return SizedBox.shrink();
+                }
+              },
+            );
+          }
+        },
+      ),
+    );
   }
 }

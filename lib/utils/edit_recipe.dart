@@ -163,15 +163,12 @@ class _EditRecipeState extends State<EditRecipe> {
             ),
             SizedBox(width: 16), // Ajustez cet espace selon vos besoins
             InkWell(
-              onTap: () {
+              onLongPress: () {
                 setState(() {
                   widget.editRecipeName = "Deleted";
                 });
               },
-              child: Icon(
-                Icons.delete,
-                size: 20,
-              ),
+              child: Icon(Icons.delete, size: 20, color: Colors.redAccent),
             ),
           ],
         )
@@ -233,7 +230,7 @@ class _EditRecipeState extends State<EditRecipe> {
             ),
             SizedBox(width: 16), // Ajustez cet espace selon vos besoins
             InkWell(
-              onTap: () {
+              onLongPress: () {
                 setState(() {
                   widget.editTotalTime = "Deleted";
                   Text(
@@ -245,10 +242,7 @@ class _EditRecipeState extends State<EditRecipe> {
                   );
                 });
               },
-              child: Icon(
-                Icons.delete,
-                size: 20,
-              ),
+              child: Icon(Icons.delete, size: 20, color: Colors.redAccent),
             ),
           ],
         )
@@ -310,15 +304,12 @@ class _EditRecipeState extends State<EditRecipe> {
             ),
             SizedBox(width: 16), // Ajustez cet espace selon vos besoins
             InkWell(
-              onTap: () {
+              onLongPress: () {
                 setState(() {
                   widget.editDifficulty = "Deleted";
                 });
               },
-              child: Icon(
-                Icons.delete,
-                size: 20,
-              ),
+              child: Icon(Icons.delete, size: 20, color: Colors.redAccent),
             ),
           ],
         )
@@ -379,15 +370,12 @@ class _EditRecipeState extends State<EditRecipe> {
             ),
             SizedBox(width: 16), // Ajustez cet espace selon vos besoins
             InkWell(
-              onTap: () {
+              onLongPress: () {
                 setState(() {
                   widget.editCost = "Deleted";
                 });
               },
-              child: Icon(
-                Icons.delete,
-                size: 20,
-              ),
+              child: Icon(Icons.delete, size: 20, color: Colors.redAccent),
             ),
           ],
         )
@@ -479,15 +467,12 @@ class _EditRecipeState extends State<EditRecipe> {
             ),
             SizedBox(width: 16), // Ajustez cet espace selon vos besoins
             InkWell(
-              onTap: () {
+              onLongPress: () {
                 setState(() {
                   widget.editPathImage = "";
                 });
               },
-              child: Icon(
-                Icons.delete,
-                size: 20,
-              ),
+              child: Icon(Icons.delete, size: 20, color: Colors.redAccent),
             ),
           ],
         )
@@ -544,15 +529,12 @@ class _EditRecipeState extends State<EditRecipe> {
           ),
           SizedBox(width: 16), // Ajustez cet espace selon vos besoins
           InkWell(
-            onTap: () {
+            onLongPress: () {
               setState(() {
                 widget.editAllIngredient = [];
               });
             },
-            child: Icon(
-              Icons.delete,
-              size: 20,
-            ),
+            child: Icon(Icons.delete, size: 20, color: Colors.redAccent),
           ),
         ],
       )
@@ -582,17 +564,20 @@ class _EditRecipeState extends State<EditRecipe> {
                   getDataFromAddIngred(context);
                 },
               ),
-              IconButton(
-                icon: const Icon(
-                  Icons.delete,
-                  color: Colors.redAccent,
-                ),
-                onPressed: () {
+              GestureDetector(
+                onLongPress: () {
                   setState(() {
                     widget.editAllIngredient.removeAt(index);
                   });
                 },
-              ),
+                child: IconButton(
+                  icon: const Icon(
+                    Icons.delete,
+                    color: Colors.redAccent,
+                  ),
+                  onPressed: () {},
+                ),
+              )
             ],
           ),
         );
@@ -648,15 +633,12 @@ class _EditRecipeState extends State<EditRecipe> {
           ),
           SizedBox(width: 16), // Ajustez cet espace selon vos besoins
           InkWell(
-            onTap: () {
+            onLongPress: () {
               setState(() {
                 widget.editStepsRecipe = [];
               });
             },
-            child: Icon(
-              Icons.delete,
-              size: 20,
-            ),
+            child: Icon(Icons.delete, size: 20, color: Colors.redAccent),
           ),
         ],
       )
@@ -694,17 +676,20 @@ class _EditRecipeState extends State<EditRecipe> {
                     }
                   },
                 ),
-                IconButton(
-                  icon: const Icon(
-                    Icons.delete,
-                    color: Colors.redAccent,
-                  ),
-                  onPressed: () {
+                GestureDetector(
+                  onLongPress: () {
                     setState(() {
                       widget.editStepsRecipe.removeAt(index);
                     });
                   },
-                ),
+                  child: IconButton(
+                    icon: const Icon(
+                      Icons.delete,
+                      color: Colors.redAccent,
+                    ),
+                    onPressed: () {},
+                  ),
+                )
               ],
             ),
           );
@@ -717,105 +702,147 @@ class _EditRecipeState extends State<EditRecipe> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Edit Recipe'),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Form(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // RECIPE CATEGORY :
-              addCategory(),
+    // use WillPopScope for pop an alert dialog before exiting page. It works, but is deprecated
+    return WillPopScope(
+        onWillPop: () async {
+          final value = await showDialog<bool>(
+              context: context,
+              builder: (context) {
+                return AlertDialog(
+                  content: SizedBox(
+                      height: 40.0,
+                      child: Column(children: const [
+                        Text('Are you sure you want to exit?',
+                            style: TextStyle(
+                                fontSize: 20, fontWeight: FontWeight.bold)),
+                        Center(
+                            child: Text('You can save changes and edit later',
+                                style: TextStyle(
+                                    fontSize: 15, fontStyle: FontStyle.italic)))
+                      ])),
+                  actions: <Widget>[
+                    TextButton(
+                      child: Text('Yes, exit',
+                          style: TextStyle(color: Colors.red)),
+                      onPressed: () {
+                        Navigator.of(context).pop(true);
+                      },
+                    ),
+                    TextButton(
+                      child: Text('No',
+                          style: TextStyle(color: Colors.lightGreen)),
+                      onPressed: () {
+                        Navigator.of(context).pop(false);
+                      },
+                    ),
+                  ],
+                );
+              });
 
-              // RECIPE NAME :
-              addRecipeName(),
-
-              // TOTAL TIME :
-              addTotalTime(),
-
-              // DIFFICULTY :
-              addDifficulty(),
-
-              // COST:
-              addCost(),
-
-              // ADD PICTURE
-
-              addPicture(),
-
-              // SELECT INGREDIENT
-              addIngred(),
-
-              // SHOW INGREDIENTS SELECTED
-              showIngredientsSelected(),
-              // ADD STEPS
-              addSteps(),
-
-              // SHOW STEPS ADDED
-              showStepsAdded(),
-
-              // Button fot submit form
-              ElevatedButton(
-                onPressed: () {
-                  // handle deleted variable
-                  final finalEditRecipeName = widget.editRecipeName == "Deleted"
-                      ? "No title"
-                      : widget.editRecipeName;
-
-                  final finalEditTotalTime = widget.editTotalTime == "Deleted"
-                      ? ""
-                      : widget.editTotalTime;
-
-                  final finalEditDifficulty = widget.editDifficulty == "Deleted"
-                      ? ""
-                      : widget.editDifficulty;
-
-                  final finalEditCost =
-                      widget.editCost == "Deleted" ? "" : widget.editCost;
-
-                  // get all data
-                  List recipeList = _myBox.get('ALL_LISTS') ?? [];
-
-                  // Give edidted values to recipeList
-                  recipeList[widget.index][0] = finalEditRecipeName;
-                  recipeList[widget.index][1] = finalEditTotalTime;
-                  recipeList[widget.index][2] = finalEditDifficulty;
-                  recipeList[widget.index][3] = finalEditCost;
-                  recipeList[widget.index][4] = widget.editAllIngredient;
-                  recipeList[widget.index][5] = widget.editPathImage;
-                  recipeList[widget.index][6] = widget.editStepsRecipe;
-                  recipeList[widget.index][7] = widget.editRecipeCategory;
-
-                  // Save edidted list in hive
-                  _myBox.put("ALL_LISTS", recipeList);
-
-                  // Create an instance of RecipeDetailsPage with the form data
-                  RecipeStruct recipeDetailsPage = RecipeStruct(
-                    recipeName: finalEditRecipeName,
-                    totalTime: finalEditTotalTime,
-                    difficulty: finalEditDifficulty,
-                    cost: finalEditCost,
-                    allIngredientSelected: widget.editAllIngredient,
-                    pathImageSelectedFromImagePicker: widget.editPathImage,
-                    stepsRecipeFromCreateSteps: widget.editStepsRecipe,
-                  );
-
-                  // Navigate to the new page with the form data and save
-                  // Navigator.push(
-                  //   context,
-                  //   MaterialPageRoute(builder: (context) => recipeDetailsPage),
-                  // );
-                  Navigator.pop(context, finalEditRecipeName);
-                },
-                child: Text("Save changes"),
-              ),
-            ],
+          return value == true;
+        },
+        child: Scaffold(
+          appBar: AppBar(
+            title: const Text('Edit Recipe'),
           ),
-        ),
-      ),
-    );
+          body: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Form(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // RECIPE CATEGORY :
+                  addCategory(),
+
+                  // RECIPE NAME :
+                  addRecipeName(),
+
+                  // TOTAL TIME :
+                  addTotalTime(),
+
+                  // DIFFICULTY :
+                  addDifficulty(),
+
+                  // COST:
+                  addCost(),
+
+                  // ADD PICTURE
+
+                  addPicture(),
+
+                  // SELECT INGREDIENT
+                  addIngred(),
+
+                  // SHOW INGREDIENTS SELECTED
+                  showIngredientsSelected(),
+                  // ADD STEPS
+                  addSteps(),
+
+                  // SHOW STEPS ADDED
+                  showStepsAdded(),
+
+                  // Button fot submit form
+                  ElevatedButton(
+                    onPressed: () {
+                      // handle deleted variable
+                      final finalEditRecipeName =
+                          widget.editRecipeName == "Deleted"
+                              ? "No title"
+                              : widget.editRecipeName;
+
+                      final finalEditTotalTime =
+                          widget.editTotalTime == "Deleted"
+                              ? ""
+                              : widget.editTotalTime;
+
+                      final finalEditDifficulty =
+                          widget.editDifficulty == "Deleted"
+                              ? ""
+                              : widget.editDifficulty;
+
+                      final finalEditCost =
+                          widget.editCost == "Deleted" ? "" : widget.editCost;
+
+                      // get all data
+                      List recipeList = _myBox.get('ALL_LISTS') ?? [];
+
+                      // Give edidted values to recipeList
+                      recipeList[widget.index][0] = finalEditRecipeName;
+                      recipeList[widget.index][1] = finalEditTotalTime;
+                      recipeList[widget.index][2] = finalEditDifficulty;
+                      recipeList[widget.index][3] = finalEditCost;
+                      recipeList[widget.index][4] = widget.editAllIngredient;
+                      recipeList[widget.index][5] = widget.editPathImage;
+                      recipeList[widget.index][6] = widget.editStepsRecipe;
+                      recipeList[widget.index][7] = widget.editRecipeCategory;
+
+                      // Save edidted list in hive
+                      _myBox.put("ALL_LISTS", recipeList);
+
+                      // Create an instance of RecipeDetailsPage with the form data
+                      RecipeStruct recipeDetailsPage = RecipeStruct(
+                        recipeName: finalEditRecipeName,
+                        totalTime: finalEditTotalTime,
+                        difficulty: finalEditDifficulty,
+                        cost: finalEditCost,
+                        allIngredientSelected: widget.editAllIngredient,
+                        pathImageSelectedFromImagePicker: widget.editPathImage,
+                        stepsRecipeFromCreateSteps: widget.editStepsRecipe,
+                      );
+
+                      // Navigate to the new page with the form data and save
+                      // Navigator.push(
+                      //   context,
+                      //   MaterialPageRoute(builder: (context) => recipeDetailsPage),
+                      // );
+                      Navigator.pop(context, finalEditRecipeName);
+                    },
+                    child: Text("Save changes"),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ));
   }
 }
