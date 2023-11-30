@@ -3,6 +3,7 @@
 import 'package:cook_app/pages/filtered_name_recipe.dart';
 import 'package:cook_app/data/categories_database/categories_names.dart';
 import 'package:cook_app/data/categories_database/categories_names_services.dart';
+import 'package:cook_app/utils/scraping.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:cook_app/data/recipe_database/database.dart';
@@ -358,7 +359,6 @@ class _HomeState extends State<Home> {
               },
             )),
         FloatingActionButton(
-          backgroundColor: Colors.green,
           onPressed: () async {
             showDialog(
                 context: context,
@@ -384,6 +384,14 @@ class _HomeState extends State<Home> {
           },
           child: Icon(Icons.add),
         ),
+        FloatingActionButton(
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => Scraping()),
+            );
+          },
+        )
       ]),
       drawer: Drawer(
         backgroundColor: Color.fromARGB(255, 113, 153, 187),

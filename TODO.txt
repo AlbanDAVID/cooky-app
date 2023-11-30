@@ -49,6 +49,7 @@ Other idea :
 - check list ce qu'on a dans les placards
 
 BUG : 
+- minor : blank for total time et difficlty with we come back with no selected field during create recipe
 - NE DECONNE PAS EN MODE REALSE mais en bebug : bug add picture (when taking a pics)
 
 
