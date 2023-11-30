@@ -139,17 +139,25 @@ class _HomeState extends State<Home> {
     // Remove all the lists with filtered name
     // iterate over the list in reverse order (because with normal order all the elements are not deleted)
 
-    if (recipeList.isEmpty) {
-      Hive.box<CategoriesNames>('catBox').deleteAt(index);
-    } else {
-      for (int i = recipeList.length - 1; i >= 0; i--) {
-        if (recipeList[i][7].contains(categoryName)) {
-          recipeList.removeAt(i);
-          // Remove the category name :
-          Hive.box<CategoriesNames>('catBox').deleteAt(index);
-        }
+    for (int i = recipeList.length - 1; i >= 0; i--) {
+      if (recipeList[i][7].contains(categoryName)) {
+        recipeList.removeAt(i);
       }
+
+      // old function (if a categorie with nothing inside can't be deleted)
+      //   if (recipeList.isEmpty) {
+      //     Hive.box<CategoriesNames>('catBox').deleteAt(index);
+      //   } else {
+      //     for (int i = recipeList.length - 1; i >= 0; i--) {
+      //       if (recipeList[i][7].contains(categoryName)) {
+      //         recipeList.removeAt(i);
+      //         // Remove the category name :
+      //         Hive.box<CategoriesNames>('catBox').deleteAt(index);
+      //       }
+      //}
     }
+    // Remove the category name :
+    Hive.box<CategoriesNames>('catBox').deleteAt(index);
   }
 
   void _dialogDeleteOneCategory(BuildContext context, categoryName, index) {

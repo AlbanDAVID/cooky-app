@@ -110,7 +110,7 @@ class _FilteredNameRecipeState extends State<FilteredNameRecipe> {
   }
 
   void _dialogDelete(BuildContext context, String confirmText, deleteFunction,
-      {int? index, myBox}) {
+      {index}) {
     showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -124,11 +124,12 @@ class _FilteredNameRecipeState extends State<FilteredNameRecipe> {
                           TextStyle(fontSize: 15, fontStyle: FontStyle.italic))
                 ]),
                 content: TextButton(
-                  onLongPress: () async {
+                  onLongPress: () {
                     setState(() {
                       isEditDeleteMode = false;
+                      deleteFunction(index);
                     });
-                    deleteFunction(index, myBox);
+
                     Navigator.of(context).pop();
                   },
                   onPressed: () {},
@@ -164,12 +165,11 @@ class _FilteredNameRecipeState extends State<FilteredNameRecipe> {
                         foregroundColor: Colors.black,
                       ),
                       onPressed: () {
-                        setState(() {
-                          isEditDeleteMode = false;
-                          _dialogDelete(context,
-                              _confirmationTextDeleteAllRecipe, deleteAllRecipe,
-                              myBox: _myBox);
-                        });
+                        _dialogDelete(
+                          context,
+                          _confirmationTextDeleteAllRecipe,
+                          deleteAllRecipe,
+                        );
                       },
                       child: Text(
                         "Delete All",
@@ -241,13 +241,11 @@ class _FilteredNameRecipeState extends State<FilteredNameRecipe> {
                                     color: Colors.redAccent,
                                   ),
                                   onPressed: () {
-                                    setState(() {
-                                      _dialogDelete(
-                                          context,
-                                          _confirmationTextDeleteOneRecipe,
-                                          deleteOneRecipe,
-                                          index: index);
-                                    });
+                                    _dialogDelete(
+                                        context,
+                                        _confirmationTextDeleteOneRecipe,
+                                        deleteOneRecipe,
+                                        index: index);
                                   },
                                 ),
                               ],
