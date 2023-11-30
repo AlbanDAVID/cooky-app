@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:marmiteur/marmiteur.dart';
 
 import 'dart:ffi';
@@ -33,13 +35,13 @@ class _ScrapingState extends State<Scraping> {
 
   List editAllIngredient = [];
   String? editPathImage;
-  List<String> editStepsRecipe = [];
+  List editStepsRecipe = [];
   String editRecipeCategory = "test";
   String editRecipeName = "test";
   String editTotalTime = "test";
   String editDifficulty = "test";
   String editCost = "test";
-  late int index;
+  int index = 1;
 
   // load database
   final _myBox = Hive.box('mybox');
@@ -51,7 +53,7 @@ class _ScrapingState extends State<Scraping> {
   // marmiteur
   void scrapMarmiteur() async {
     String recipeURL =
-        "https://www.marmiton.org/recettes/recette_burger-d-avocat_345742.aspx";
+        "https://www.cuisineaz.com/recettes/lasagnes-de-betterave-103693.aspx";
     var recipe = await marmiteur(recipeURL);
     print(recipe['name']);
     print(recipe['recipeIngredient']);
@@ -61,7 +63,13 @@ class _ScrapingState extends State<Scraping> {
     editTotalTime = recipe['totalTime'];
     editAllIngredient = recipe['recipeIngredient'];
     editStepsRecipe = recipe['recipeInstructions'];
+
+    // for (var i = 0; i < recipe['recipeInstructions'].length; i++) {
+    //  var step = recipe["recipeInstructions"][i]["text"];
+    // editStepsRecipe.add(step);
+    //}
   }
+
   ////// FUNCTIONS FOR RECIPE CATEGORY //////
 
   // get data from class AddExistingCategory()
@@ -552,13 +560,13 @@ class _ScrapingState extends State<Scraping> {
         child: ListView.builder(
       itemCount: editAllIngredient.length,
       itemBuilder: (context, index) {
-        final ingredient = editAllIngredient[index][0];
-        final quantity = editAllIngredient[index][1];
-        final unit = editAllIngredient[index][2];
+        //  final ingredient = editAllIngredient[index][0];
+        //  final quantity = editAllIngredient[index][1];
+        //  final unit = editAllIngredient[index][2];
 
-        final formattedString = '$ingredient : ($quantity$unit)';
+        //  final formattedString = '$ingredient : ($quantity$unit)';
         return ListTile(
-          title: Text(formattedString),
+          title: Text(editAllIngredient[index]),
           trailing: Wrap(
             spacing: -16,
             children: [
@@ -819,15 +827,15 @@ class _ScrapingState extends State<Scraping> {
                       _myBox.put("ALL_LISTS", recipeList);
 
                       // Create an instance of RecipeDetailsPage with the form data
-                      RecipeStruct recipeDetailsPage = RecipeStruct(
-                        recipeName: finalEditRecipeName,
-                        totalTime: finalEditTotalTime,
-                        difficulty: finalEditDifficulty,
-                        cost: finalEditCost,
-                        allIngredientSelected: editAllIngredient,
-                        pathImageSelectedFromImagePicker: editPathImage,
-                        stepsRecipeFromCreateSteps: editStepsRecipe,
-                      );
+                      //   RecipeStruct recipeDetailsPage = RecipeStruct(
+                      //     recipeName: finalEditRecipeName,
+                      //     totalTime: finalEditTotalTime,
+                      //     difficulty: finalEditDifficulty,
+                      //     cost: finalEditCost,
+                      //     allIngredientSelected: editAllIngredient,
+                      //     pathImageSelectedFromImagePicker: editPathImage,
+                      //     stepsRecipeFromCreateSteps: editStepsRecipe,
+                      //   );
 
                       // Navigate to the new page with the form data and save
                       // Navigator.push(

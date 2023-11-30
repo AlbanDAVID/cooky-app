@@ -25,6 +25,7 @@ Priority :
 
 ----
 - Interessting features : 
+- star (notation)
 - integer for ingredient (for automatic tell how many person)
 - checkbox ingredients
 _ possibility to enlarge the text steps
