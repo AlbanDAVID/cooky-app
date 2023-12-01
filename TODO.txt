@@ -61,6 +61,10 @@ BUG :
 - NE DECONNE PAS EN MODE REALSE mais en bebug : bug add picture (when taking a pics)
 
 
+- Now : 
+    - edit recipe name from scrap 
+
+
 
 
 
