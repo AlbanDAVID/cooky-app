@@ -7,6 +7,7 @@ import 'package:cook_app/utils/scraping.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:cook_app/data/recipe_database/database.dart';
+import 'package:marmiteur/marmiteur.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -25,6 +26,12 @@ class _HomeState extends State<Home> {
   RecipeDatabase db = RecipeDatabase();
 
   bool isEditDeleteMode = false;
+  bool isFloatingActionButtonPressed = false;
+
+  // data to send to Scraping class:
+  late List<String> scrapStepsRecipe;
+  late List scrapIngredient;
+  late String scrapRecipeName;
 
   // function for handle click on popup menu
   void handleClick(int item) {
@@ -204,233 +211,350 @@ class _HomeState extends State<Home> {
         });
   }
 
+  // marmiteur
+  void scrapMarmiteur(websiteURL) async {
+    String recipeURL = websiteURL;
+    var recipe = await marmiteur(recipeURL);
+
+    scrapRecipeName = recipe['name'];
+    scrapStepsRecipe = [];
+    scrapIngredient = recipe["recipeIngredient"].cast<String>();
+    // data cleaning by website :
+    // retrieve website name :
+    int startIndex = recipeURL.indexOf('.') + 1; // Index après le premier point
+    int endIndex = recipeURL.indexOf(
+        '.', startIndex); // Index du premier slash après le premier point
+
+    String webSiteName = recipeURL.substring(startIndex, endIndex);
+
+    // CUISINE AZ : //
+    if (webSiteName == "cuisineaz") {
+      // tranform dynamic list from scraper to a list of string
+      scrapStepsRecipe = recipe['recipeInstructions'].cast<String>();
+      // remove first element for ingredients because is is empty for cuisineaz
+      scrapIngredient.removeAt(0);
+    }
+
+    // MARMITON : //
+    // exatract each json steps
+    if (webSiteName == "marmiton") {
+      for (var i = 0; i < recipe['recipeInstructions'].length; i++) {
+        var step = recipe["recipeInstructions"][i]["text"];
+
+        scrapStepsRecipe.add(step);
+      }
+    }
+
+    Scraping scrapInstance = Scraping(
+        scrapRecipeName: scrapRecipeName,
+        scrapStepsRecipe: scrapStepsRecipe,
+        scrapAllIngredient: scrapIngredient);
+
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => scrapInstance),
+    );
+
+    print(' step : $scrapStepsRecipe');
+    print(' ingred : $scrapIngredient');
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-          title: const Text("COOKY"),
-          centerTitle: true,
-          elevation: 0,
-          //leading: const Icon(Icons.menu),
-          actions: isEditDeleteMode
-              ? <Widget>[
-                  TextButton(
-                    style: TextButton.styleFrom(
-                      foregroundColor: Colors.black,
-                    ),
-                    onPressed: () {
-                      _dialogDeleteAll(context);
-                    },
-                    child: Text(
-                      "Delete All",
-                    ),
-                  ),
-                  IconButton(
-                    icon: const Icon(Icons.close),
-                    onPressed: () {
-                      setState(() {
-                        isEditDeleteMode = false;
-                      });
-                    },
-                  ),
-                ]
-              : <Widget>[
-                  IconButton(onPressed: () {}, icon: const Icon(Icons.search)),
-                  PopupMenuButton<int>(
-                    onSelected: (item) => handleClick(item),
-                    itemBuilder: (context) => [
-                      PopupMenuItem<int>(value: 0, child: Text('Edit/Delete')),
-                    ],
-                  ),
-                ]),
-      body: Column(children: [
-        SizedBox(
-            height: 500,
-            child: ValueListenableBuilder(
-              valueListenable: Hive.box<CategoriesNames>('catBox').listenable(),
-              builder: (context, Box<CategoriesNames> box, _) {
-                return Padding(
-                    padding: EdgeInsets.all(100),
-                    child: ListView.builder(
-                      itemCount: box.values.length,
-                      itemBuilder: (context, index) {
-                        var cat = box.getAt(index);
-                        return ListTile(
-                          title: TextButton(
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => FilteredNameRecipe(
-                                    categoryName: cat!.categoryName.toString(),
-                                  ),
-                                ),
-                              );
-                            },
-                            style: TextButton.styleFrom(
-                              backgroundColor:
-                                  Colors.lightGreen, // Couleur du bouton
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(
-                                    20.0), // Bords arrondis
-                              ),
-                            ),
-                            child: Center(
-                              child: Text(
-                                cat!.categoryName,
-                                style: TextStyle(
-                                    fontSize: 25.0, color: Colors.white),
-                              ),
-                            ),
-                          ),
-                          trailing: isEditDeleteMode
-                              ? Wrap(
-                                  children: [
-                                    IconButton(
-                                      icon: const Icon(Icons.edit),
-                                      onPressed: () async {
-                                        setState(() {
-                                          isEditDeleteMode = false;
-                                        });
-
-                                        showDialog(
-                                            context: context,
-                                            builder: (context) {
-                                              return AlertDialog(
-                                                title: Column(children: const [
-                                                  Text('Edit category'),
-                                                  Center(
-                                                      child: Text(
-                                                          'All recipes inside this category will get the new category name',
-                                                          style: TextStyle(
-                                                              fontSize: 15,
-                                                              fontStyle:
-                                                                  FontStyle
-                                                                      .italic)))
-                                                ]),
-                                                content: TextField(
-                                                  controller: _controller,
-                                                ),
-                                                actions: [
-                                                  ElevatedButton(
-                                                    child: Text('Edit'),
-                                                    onPressed: () async {
-                                                      var categoryNameToReplace =
-                                                          cat!.categoryName;
-                                                      var newCategoryName =
-                                                          _controller.text;
-                                                      var catName =
-                                                          CategoriesNames(
-                                                              _controller.text);
-                                                      await Hive.box<
-                                                                  CategoriesNames>(
-                                                              'catBox')
-                                                          .putAt(
-                                                              index, catName);
-
-                                                      await renameCategoryRecipeAfterEditCategory(
-                                                          categoryNameToReplace,
-                                                          newCategoryName);
-                                                      Navigator.pop(context);
-                                                      _controller.clear();
-                                                    },
-                                                  )
-                                                ],
-                                              );
-                                            });
-                                      },
-                                    ),
-                                    IconButton(
-                                      icon: const Icon(
-                                        Icons.delete,
-                                        color: Colors.redAccent,
-                                      ),
-                                      onPressed: () {
-                                        _dialogDeleteOneCategory(
-                                            context, cat!.categoryName, index);
-                                      },
-                                    ),
-                                  ],
-                                )
-                              : null,
-                        );
+        appBar: AppBar(
+            title: const Text("COOKY"),
+            centerTitle: true,
+            elevation: 0,
+            //leading: const Icon(Icons.menu),
+            actions: isEditDeleteMode
+                ? <Widget>[
+                    TextButton(
+                      style: TextButton.styleFrom(
+                        foregroundColor: Colors.black,
+                      ),
+                      onPressed: () {
+                        _dialogDeleteAll(context);
                       },
-                    ));
-              },
-            )),
-        FloatingActionButton(
-          onPressed: () async {
-            showDialog(
-                context: context,
-                builder: (context) {
-                  return AlertDialog(
-                    title: Text('Add category'),
-                    content: TextField(
-                      controller: _controller,
+                      child: Text(
+                        "Delete All",
+                      ),
                     ),
-                    actions: [
-                      ElevatedButton(
-                        child: Text('Add'),
-                        onPressed: () async {
-                          var catName = CategoriesNames(_controller.text);
-                          await _categoriesNamesService.addCategory(catName);
-                          Navigator.pop(context);
-                          _controller.clear();
+                    IconButton(
+                      icon: const Icon(Icons.close),
+                      onPressed: () {
+                        setState(() {
+                          isEditDeleteMode = false;
+                        });
+                      },
+                    ),
+                  ]
+                : <Widget>[
+                    IconButton(
+                        onPressed: () {}, icon: const Icon(Icons.search)),
+                    PopupMenuButton<int>(
+                      onSelected: (item) => handleClick(item),
+                      itemBuilder: (context) => [
+                        PopupMenuItem<int>(
+                            value: 0, child: Text('Edit/Delete')),
+                      ],
+                    ),
+                  ]),
+        body: Column(children: [
+          SizedBox(
+              height: 500,
+              child: ValueListenableBuilder(
+                valueListenable:
+                    Hive.box<CategoriesNames>('catBox').listenable(),
+                builder: (context, Box<CategoriesNames> box, _) {
+                  return Padding(
+                      padding: EdgeInsets.all(100),
+                      child: ListView.builder(
+                        itemCount: box.values.length,
+                        itemBuilder: (context, index) {
+                          var cat = box.getAt(index);
+                          return ListTile(
+                            title: TextButton(
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => FilteredNameRecipe(
+                                      categoryName:
+                                          cat!.categoryName.toString(),
+                                    ),
+                                  ),
+                                );
+                              },
+                              style: TextButton.styleFrom(
+                                backgroundColor:
+                                    Colors.lightGreen, // Couleur du bouton
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(
+                                      20.0), // Bords arrondis
+                                ),
+                              ),
+                              child: Center(
+                                child: Text(
+                                  cat!.categoryName,
+                                  style: TextStyle(
+                                      fontSize: 25.0, color: Colors.white),
+                                ),
+                              ),
+                            ),
+                            trailing: isEditDeleteMode
+                                ? Wrap(
+                                    children: [
+                                      IconButton(
+                                        icon: const Icon(Icons.edit),
+                                        onPressed: () async {
+                                          setState(() {
+                                            isEditDeleteMode = false;
+                                          });
+
+                                          showDialog(
+                                              context: context,
+                                              builder: (context) {
+                                                return AlertDialog(
+                                                  title:
+                                                      Column(children: const [
+                                                    Text('Edit category'),
+                                                    Center(
+                                                        child: Text(
+                                                            'All recipes inside this category will get the new category name',
+                                                            style: TextStyle(
+                                                                fontSize: 15,
+                                                                fontStyle:
+                                                                    FontStyle
+                                                                        .italic)))
+                                                  ]),
+                                                  content: TextField(
+                                                    controller: _controller,
+                                                  ),
+                                                  actions: [
+                                                    ElevatedButton(
+                                                      child: Text('Edit'),
+                                                      onPressed: () async {
+                                                        var categoryNameToReplace =
+                                                            cat!.categoryName;
+                                                        var newCategoryName =
+                                                            _controller.text;
+                                                        var catName =
+                                                            CategoriesNames(
+                                                                _controller
+                                                                    .text);
+                                                        await Hive.box<
+                                                                    CategoriesNames>(
+                                                                'catBox')
+                                                            .putAt(
+                                                                index, catName);
+
+                                                        await renameCategoryRecipeAfterEditCategory(
+                                                            categoryNameToReplace,
+                                                            newCategoryName);
+                                                        Navigator.pop(context);
+                                                        _controller.clear();
+                                                      },
+                                                    )
+                                                  ],
+                                                );
+                                              });
+                                        },
+                                      ),
+                                      IconButton(
+                                        icon: const Icon(
+                                          Icons.delete,
+                                          color: Colors.redAccent,
+                                        ),
+                                        onPressed: () {
+                                          _dialogDeleteOneCategory(context,
+                                              cat!.categoryName, index);
+                                        },
+                                      ),
+                                    ],
+                                  )
+                                : null,
+                          );
                         },
-                      )
-                    ],
-                  );
-                });
-          },
-          child: Icon(Icons.add),
-        ),
-        FloatingActionButton(
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => Scraping()),
-            );
-          },
-        )
-      ]),
-      drawer: Drawer(
-        backgroundColor: Color.fromARGB(255, 113, 153, 187),
-        child: Column(children: [
-          DrawerHeader(
-              child: Icon(
-            Icons.cookie,
-            size: 48,
-          )),
-          // home page list tile
-          ListTile(
-            leading: Icon(Icons.home),
-            title: Text("H O M E"),
-          ),
-          ListTile(
-            leading: Icon(Icons.dining),
-            title: Text("R E C I P E S"),
-            onTap: () {
-              Navigator.pushNamed(context, '/recipe');
+                      ));
+                },
+              )),
+          FloatingActionButton(
+            onPressed: () async {
+              showDialog(
+                  context: context,
+                  builder: (context) {
+                    return AlertDialog(
+                      title: Text('Add category'),
+                      content: TextField(
+                        controller: _controller,
+                      ),
+                      actions: [
+                        ElevatedButton(
+                          child: Text('Add'),
+                          onPressed: () async {
+                            var catName = CategoriesNames(_controller.text);
+                            await _categoriesNamesService.addCategory(catName);
+                            Navigator.pop(context);
+                            _controller.clear();
+                          },
+                        )
+                      ],
+                    );
+                  });
             },
-          ),
-          ListTile(
-            leading: Icon(Icons.trending_up),
-            title: Text("S T A T S"),
-          ),
-          ListTile(
-            leading: Icon(Icons.settings),
-            title: Text("S E T T I N G S"),
+            child: Icon(Icons.add),
           )
         ]),
-      ),
+        drawer: Drawer(
+          backgroundColor: Color.fromARGB(255, 113, 153, 187),
+          child: Column(children: [
+            DrawerHeader(
+                child: Icon(
+              Icons.cookie,
+              size: 48,
+            )),
+            // home page list tile
+            ListTile(
+              leading: Icon(Icons.home),
+              title: Text("H O M E"),
+            ),
+            ListTile(
+              leading: Icon(Icons.dining),
+              title: Text("R E C I P E S"),
+              onTap: () {
+                Navigator.pushNamed(context, '/recipe');
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.trending_up),
+              title: Text("S T A T S"),
+            ),
+            ListTile(
+              leading: Icon(Icons.settings),
+              title: Text("S E T T I N G S"),
+            )
+          ]),
+        ),
 
-      // floatingActionButton for create a recipe:
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {
-          Navigator.pushNamed(context, '/create_recipe');
-        },
-        label: const Text("Add delightful recipe"),
-      ),
-    );
+        // floatingActionButton for create a recipe:
+        floatingActionButton: isFloatingActionButtonPressed
+            ? Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  FloatingActionButton.extended(
+                    onPressed: () async {
+                      setState(() {
+                        isFloatingActionButtonPressed = false;
+                      });
+
+                      showDialog(
+                          context: context,
+                          builder: (context) {
+                            return AlertDialog(
+                              title: Column(children: const [
+                                Text('Add from web (bêta)'),
+                                Text(
+                                    'Should work on marmiton.org, cuisineaz.com \n Will retireve : recipe name, ingredients ans steps',
+                                    style: TextStyle(
+                                        fontSize: 15,
+                                        fontStyle: FontStyle.italic))
+                              ]),
+                              content: TextField(
+                                controller: _controller,
+                                decoration: InputDecoration(
+                                  hintText: "Paste URL here",
+                                ),
+                              ),
+                              actions: [
+                                ElevatedButton(
+                                  child: Text('Add'),
+                                  onPressed: () async {
+                                    var recipeURL = _controller.text;
+                                    scrapMarmiteur(recipeURL);
+                                    Navigator.pop(context);
+                                    _controller.clear();
+                                  },
+                                )
+                              ],
+                            );
+                          });
+                    },
+                    label: Column(children: const [
+                      Text('From web'),
+                      Text(
+                        '(bêta)',
+                      )
+                    ]),
+                  ),
+                  SizedBox(height: 16),
+                  FloatingActionButton.extended(
+                    onPressed: () {
+                      setState(() {
+                        isFloatingActionButtonPressed = false;
+                      });
+                      Navigator.pushNamed(context, '/create_recipe');
+                    },
+                    label: const Text("Manually"),
+                  ),
+                  SizedBox(height: 16),
+                  TextButton(
+                    onPressed: () {
+                      setState(() {
+                        isFloatingActionButtonPressed = false;
+                      });
+                    },
+                    child: Text("Back"),
+                  )
+                ],
+              )
+            : FloatingActionButton.extended(
+                onPressed: () {
+                  setState(() {
+                    isFloatingActionButtonPressed = true;
+                  });
+                },
+                label: const Text("Add delightful recipe"),
+              ));
   }
 }

@@ -1,7 +1,5 @@
 import 'dart:convert';
 
-import 'package:marmiteur/marmiteur.dart';
-
 import 'dart:ffi';
 import 'dart:io';
 
@@ -21,8 +19,14 @@ import 'package:hive_flutter/hive_flutter.dart';
 
 // ignore: must_be_immutable
 class Scraping extends StatefulWidget {
-  const Scraping({
+  String scrapRecipeName;
+  List scrapAllIngredient;
+  List<String> scrapStepsRecipe;
+  Scraping({
     Key? key,
+    required this.scrapRecipeName,
+    required this.scrapStepsRecipe,
+    required this.scrapAllIngredient,
   }) : super(key: key);
 
   @override
@@ -33,15 +37,13 @@ class Scraping extends StatefulWidget {
 class _ScrapingState extends State<Scraping> {
   // ignore: unused_field
 
-  List editAllIngredient = [];
-  String? editPathImage;
-  List editStepsRecipe = [];
-  String editRecipeCategory = "test";
-  String editRecipeName = "test";
-  String editTotalTime = "test";
-  String editDifficulty = "test";
-  String editCost = "test";
-  int index = 1;
+  String? scrapPathImage;
+
+  String scrapRecipeCategory = "From web";
+  String scrapTotalTime = "";
+  String scrapDifficulty = "";
+  String scrapCost = "";
+  bool isFromScrap = true;
 
   // load database
   final _myBox = Hive.box('mybox');
@@ -49,26 +51,6 @@ class _ScrapingState extends State<Scraping> {
   RecipeDatabase db = RecipeDatabase();
 
   String previewImageTextField = "";
-
-  // marmiteur
-  void scrapMarmiteur() async {
-    String recipeURL =
-        "https://www.cuisineaz.com/recettes/lasagnes-de-betterave-103693.aspx";
-    var recipe = await marmiteur(recipeURL);
-    print(recipe['name']);
-    print(recipe['recipeIngredient']);
-    print(recipe['recipeInstructions']);
-    print(recipe['image']);
-    editRecipeName = recipe['name'];
-    editTotalTime = recipe['totalTime'];
-    editAllIngredient = recipe['recipeIngredient'];
-    editStepsRecipe = recipe['recipeInstructions'];
-
-    // for (var i = 0; i < recipe['recipeInstructions'].length; i++) {
-    //  var step = recipe["recipeInstructions"][i]["text"];
-    // editStepsRecipe.add(step);
-    //}
-  }
 
   ////// FUNCTIONS FOR RECIPE CATEGORY //////
 
@@ -88,7 +70,7 @@ class _ScrapingState extends State<Scraping> {
       setState(() {
         // Update visibility button
       });
-      editRecipeCategory = categoryName;
+      scrapRecipeCategory = categoryName;
     }
   }
 
@@ -104,7 +86,7 @@ class _ScrapingState extends State<Scraping> {
       ),
       Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
         Text(
-          editRecipeCategory,
+          scrapRecipeCategory,
           style: TextStyle(
             fontSize: 20,
             fontWeight: FontWeight.bold,
@@ -143,7 +125,7 @@ class _ScrapingState extends State<Scraping> {
       setState(() {
         // Update visibility button
       });
-      editRecipeName = recipeName;
+      widget.scrapRecipeName = recipeName;
     }
   }
 
@@ -158,8 +140,8 @@ class _ScrapingState extends State<Scraping> {
         ),
       ),
       Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-        Text(editRecipeName,
-            style: editRecipeName == "Deleted"
+        Text(widget.scrapRecipeName,
+            style: widget.scrapRecipeName == "Deleted"
                 ? TextStyle(fontSize: 15, fontStyle: FontStyle.italic)
                 : TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
         Row(
@@ -178,7 +160,7 @@ class _ScrapingState extends State<Scraping> {
             InkWell(
               onLongPress: () {
                 setState(() {
-                  editRecipeName = "Deleted";
+                  widget.scrapRecipeName = "Deleted";
                 });
               },
               child: Icon(Icons.delete, size: 20, color: Colors.redAccent),
@@ -210,7 +192,7 @@ class _ScrapingState extends State<Scraping> {
       setState(() {
         // Update visibility button
       });
-      editTotalTime = totalTime;
+      scrapTotalTime = totalTime;
     }
   }
 
@@ -225,8 +207,8 @@ class _ScrapingState extends State<Scraping> {
         ),
       ),
       Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-        Text(editTotalTime,
-            style: editTotalTime == "Deleted"
+        Text(scrapTotalTime,
+            style: scrapTotalTime == "Deleted"
                 ? TextStyle(fontSize: 15, fontStyle: FontStyle.italic)
                 : TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
         Row(
@@ -245,9 +227,9 @@ class _ScrapingState extends State<Scraping> {
             InkWell(
               onLongPress: () {
                 setState(() {
-                  editTotalTime = "Deleted";
+                  scrapTotalTime = "Deleted";
                   Text(
-                    editTotalTime,
+                    scrapTotalTime,
                     style: TextStyle(
                       fontSize: 20,
                       fontStyle: FontStyle.italic,
@@ -284,7 +266,7 @@ class _ScrapingState extends State<Scraping> {
       setState(() {
         // Update visibility button
       });
-      editDifficulty = difficulty;
+      scrapDifficulty = difficulty;
     }
   }
 
@@ -299,8 +281,8 @@ class _ScrapingState extends State<Scraping> {
         ),
       ),
       Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-        Text(editDifficulty,
-            style: editDifficulty == "Deleted"
+        Text(scrapDifficulty,
+            style: scrapDifficulty == "Deleted"
                 ? TextStyle(fontSize: 15, fontStyle: FontStyle.italic)
                 : TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
         Row(
@@ -319,7 +301,7 @@ class _ScrapingState extends State<Scraping> {
             InkWell(
               onLongPress: () {
                 setState(() {
-                  editDifficulty = "Deleted";
+                  scrapDifficulty = "Deleted";
                 });
               },
               child: Icon(Icons.delete, size: 20, color: Colors.redAccent),
@@ -350,7 +332,7 @@ class _ScrapingState extends State<Scraping> {
       setState(() {
         // Update visibility button
       });
-      editCost = cost;
+      scrapCost = cost;
     }
   }
 
@@ -365,8 +347,8 @@ class _ScrapingState extends State<Scraping> {
         ),
       ),
       Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-        Text(editCost,
-            style: editCost == "Deleted"
+        Text(scrapCost,
+            style: scrapCost == "Deleted"
                 ? TextStyle(fontSize: 15, fontStyle: FontStyle.italic)
                 : TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
         Row(
@@ -385,7 +367,7 @@ class _ScrapingState extends State<Scraping> {
             InkWell(
               onLongPress: () {
                 setState(() {
-                  editCost = "Deleted";
+                  scrapCost = "Deleted";
                 });
               },
               child: Icon(Icons.delete, size: 20, color: Colors.redAccent),
@@ -410,7 +392,7 @@ class _ScrapingState extends State<Scraping> {
         builder: (BuildContext context) {
           return AlertDialog(
             content: Image.file(
-              File(editPathImage!),
+              File(scrapPathImage!),
               width: 200,
               height: 200,
             ),
@@ -439,7 +421,7 @@ class _ScrapingState extends State<Scraping> {
       String imageSelected = result;
       print('Received data from SecondScreen: $imageSelected');
       setState(() {});
-      editPathImage = imageSelected;
+      scrapPathImage = imageSelected;
     }
   }
 
@@ -482,7 +464,7 @@ class _ScrapingState extends State<Scraping> {
             InkWell(
               onLongPress: () {
                 setState(() {
-                  editPathImage = "";
+                  scrapPathImage = "";
                 });
               },
               child: Icon(Icons.delete, size: 20, color: Colors.redAccent),
@@ -501,23 +483,6 @@ class _ScrapingState extends State<Scraping> {
   ///
   ///
 
-  // get  from class AddIngred()
-  void getDataFromAddIngred(BuildContext context) async {
-    final result = await Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => AddIngred(),
-      ),
-    );
-
-    if (result != null) {
-      List allIngredientSelected = result;
-      print('Received data from SecondScreen: $allIngredientSelected');
-      setState(() {});
-      editAllIngredient.addAll(allIngredientSelected);
-    }
-  }
-
   // widget with button for adding ingredients , and display preview  with edition button
   Widget addIngred() {
     setState(() {});
@@ -532,8 +497,20 @@ class _ScrapingState extends State<Scraping> {
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
           InkWell(
-            onTap: () {
-              getDataFromAddIngred(context);
+            onTap: () async {
+              final result = await showDialog(
+                  context: context,
+                  builder: (context) {
+                    return DialogEditStep(
+                      controller: TextEditingController(text: ""),
+                    );
+                  });
+              if (result != null) {
+                String addedIngredScrap = result;
+                print('Received data from SecondScreen: $addedIngredScrap');
+                setState(() {});
+                widget.scrapAllIngredient.add(addedIngredScrap);
+              }
             },
             child: Icon(
               Icons.add,
@@ -544,7 +521,7 @@ class _ScrapingState extends State<Scraping> {
           InkWell(
             onLongPress: () {
               setState(() {
-                editAllIngredient = [];
+                widget.scrapAllIngredient = [];
               });
             },
             child: Icon(Icons.delete, size: 20, color: Colors.redAccent),
@@ -558,29 +535,41 @@ class _ScrapingState extends State<Scraping> {
   Widget showIngredientsSelected() {
     return Expanded(
         child: ListView.builder(
-      itemCount: editAllIngredient.length,
+      itemCount: widget.scrapAllIngredient.length,
       itemBuilder: (context, index) {
-        //  final ingredient = editAllIngredient[index][0];
-        //  final quantity = editAllIngredient[index][1];
-        //  final unit = editAllIngredient[index][2];
+        //  final ingredient = scrapAllIngredient[index][0];
+        //  final quantity = scrapAllIngredient[index][1];
+        //  final unit = scrapAllIngredient[index][2];
 
         //  final formattedString = '$ingredient : ($quantity$unit)';
         return ListTile(
-          title: Text(editAllIngredient[index]),
+          title: Text(widget.scrapAllIngredient[index]),
           trailing: Wrap(
             spacing: -16,
             children: [
               IconButton(
                 icon: const Icon(Icons.edit),
-                onPressed: () {
-                  editAllIngredient.removeAt(index);
-                  getDataFromAddIngred(context);
+                onPressed: () async {
+                  final result = await showDialog(
+                      context: context,
+                      builder: (context) {
+                        return DialogEditStep(
+                            controller: TextEditingController(
+                          text: widget.scrapAllIngredient[index].toString(),
+                        ));
+                      });
+                  if (result != null) {
+                    String addedIngredScrap = result;
+                    print('Received data from SecondScreen: $addedIngredScrap');
+                    setState(() {});
+                    widget.scrapAllIngredient[index] = addedIngredScrap;
+                  }
                 },
               ),
               GestureDetector(
                 onLongPress: () {
                   setState(() {
-                    editAllIngredient.removeAt(index);
+                    widget.scrapAllIngredient.removeAt(index);
                   });
                 },
                 child: IconButton(
@@ -618,7 +607,7 @@ class _ScrapingState extends State<Scraping> {
       List<String> stepsRecipe = result;
       print('Received data from SecondScreen: $stepsRecipe');
       setState(() {});
-      editStepsRecipe.addAll(stepsRecipe);
+      widget.scrapStepsRecipe.addAll(stepsRecipe);
     }
   }
 
@@ -648,7 +637,7 @@ class _ScrapingState extends State<Scraping> {
           InkWell(
             onLongPress: () {
               setState(() {
-                editStepsRecipe = [];
+                widget.scrapStepsRecipe = [];
               });
             },
             child: Icon(Icons.delete, size: 20, color: Colors.redAccent),
@@ -662,10 +651,11 @@ class _ScrapingState extends State<Scraping> {
   Widget showStepsAdded() {
     return Expanded(
       child: ListView.builder(
-        itemCount: editStepsRecipe.length,
+        itemCount: widget.scrapStepsRecipe.length,
         itemBuilder: (context, index) {
           return ListTile(
-            title: Text(' Step ${index + 1}:\n${editStepsRecipe[index]}'),
+            title:
+                Text(' Step ${index + 1}:\n${widget.scrapStepsRecipe[index]}'),
             trailing: Wrap(
               spacing: -16,
               children: [
@@ -677,21 +667,22 @@ class _ScrapingState extends State<Scraping> {
                         builder: (context) {
                           return DialogEditStep(
                             controller: TextEditingController(
-                                text: editStepsRecipe[index].toString()),
+                                text:
+                                    widget.scrapStepsRecipe[index].toString()),
                           );
                         });
                     if (result != null) {
                       String stepEdited = result;
                       print('Received data from SecondScreen: $stepEdited');
                       setState(() {});
-                      editStepsRecipe[index] = stepEdited;
+                      widget.scrapStepsRecipe[index] = stepEdited;
                     }
                   },
                 ),
                 GestureDetector(
                   onLongPress: () {
                     setState(() {
-                      editStepsRecipe.removeAt(index);
+                      widget.scrapStepsRecipe.removeAt(index);
                     });
                   },
                   child: IconButton(
@@ -797,60 +788,61 @@ class _ScrapingState extends State<Scraping> {
                   ElevatedButton(
                     onPressed: () {
                       // handle deleted variable
-                      final finalEditRecipeName = editRecipeName == "Deleted"
-                          ? "No title"
-                          : editRecipeName;
+                      final finalscrapRecipeName =
+                          widget.scrapRecipeName == "Deleted"
+                              ? "No title"
+                              : widget.scrapRecipeName;
 
-                      final finalEditTotalTime =
-                          editTotalTime == "Deleted" ? "" : editTotalTime;
+                      final finalscrapTotalTime =
+                          scrapTotalTime == "Deleted" ? "" : scrapTotalTime;
 
-                      final finalEditDifficulty =
-                          editDifficulty == "Deleted" ? "" : editDifficulty;
+                      final finalscrapDifficulty =
+                          scrapDifficulty == "Deleted" ? "" : scrapDifficulty;
 
-                      final finalEditCost =
-                          editCost == "Deleted" ? "" : editCost;
+                      final finalscrapCost =
+                          scrapCost == "Deleted" ? "" : scrapCost;
 
                       // get all data
-                      List recipeList = _myBox.get('ALL_LISTS') ?? [];
+                      List listOfLists = _myBox.get('ALL_LISTS') ?? [];
 
                       // Give edidted values to recipeList
-                      recipeList[index][0] = finalEditRecipeName;
-                      recipeList[index][1] = finalEditTotalTime;
-                      recipeList[index][2] = finalEditDifficulty;
-                      recipeList[index][3] = finalEditCost;
-                      recipeList[index][4] = editAllIngredient;
-                      recipeList[index][5] = editPathImage;
-                      recipeList[index][6] = editStepsRecipe;
-                      recipeList[index][7] = editRecipeCategory;
+                      // Add a new list to the list of lists
+                      listOfLists.add([
+                        finalscrapRecipeName,
+                        finalscrapTotalTime,
+                        finalscrapDifficulty,
+                        finalscrapCost,
+                        widget.scrapAllIngredient,
+                        scrapPathImage,
+                        widget.scrapStepsRecipe,
+                        scrapRecipeCategory,
+                        isFromScrap
+                      ]);
 
                       // Save edidted list in hive
-                      _myBox.put("ALL_LISTS", recipeList);
+                      _myBox.put("ALL_LISTS", listOfLists);
 
-                      // Create an instance of RecipeDetailsPage with the form data
-                      //   RecipeStruct recipeDetailsPage = RecipeStruct(
-                      //     recipeName: finalEditRecipeName,
-                      //     totalTime: finalEditTotalTime,
-                      //     difficulty: finalEditDifficulty,
-                      //     cost: finalEditCost,
-                      //     allIngredientSelected: editAllIngredient,
-                      //     pathImageSelectedFromImagePicker: editPathImage,
-                      //     stepsRecipeFromCreateSteps: editStepsRecipe,
-                      //   );
+                      //Create an instance of RecipeDetailsPage with the form data
+                      RecipeStruct recipeDetailsPage = RecipeStruct(
+                        recipeName: finalscrapRecipeName,
+                        totalTime: finalscrapTotalTime,
+                        difficulty: finalscrapDifficulty,
+                        cost: finalscrapCost,
+                        allIngredientSelected: widget.scrapAllIngredient,
+                        pathImageSelectedFromImagePicker: scrapPathImage,
+                        stepsRecipeFromCreateSteps: widget.scrapStepsRecipe,
+                        isFromScrap: isFromScrap,
+                      );
 
                       // Navigate to the new page with the form data and save
-                      // Navigator.push(
-                      //   context,
-                      //   MaterialPageRoute(builder: (context) => recipeDetailsPage),
-                      // );
-                      Navigator.pop(context, finalEditRecipeName);
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => recipeDetailsPage),
+                      );
                     },
-                    child: Text("Save changes"),
-                  ),
-                  ElevatedButton(
-                      onPressed: () {
-                        scrapMarmiteur();
-                      },
-                      child: const Text("scrap"))
+                    child: Text("Sumbit"),
+                  )
                 ],
               ),
             ),

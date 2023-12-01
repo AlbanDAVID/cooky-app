@@ -1,7 +1,7 @@
 import 'package:hive_flutter/hive_flutter.dart';
 
 class RecipeDatabase {
-  // recipeList contain : [0] Recipe name, [1]Total Time, [2] Difficulty, [3] Cost, [4] Path of the photo, [5] List of ingredients, [6] List of steps, [7] Categorie of the recipe
+  // recipeList contain : [0] Recipe name, [1]Total Time, [2] Difficulty, [3] Cost, [4] Path of the photo, [5] List of ingredients, [6] List of steps, [7] Categorie of the recipe, [8] bool isFromScrap
   List recipeList = [];
   // reference our box
   final _myBox =

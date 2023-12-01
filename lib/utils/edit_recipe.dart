@@ -27,6 +27,7 @@ class EditRecipe extends StatefulWidget {
   String editTotalTime;
   String editDifficulty;
   String editCost;
+  bool isFromScrap;
   int index;
 
   EditRecipe(
@@ -39,6 +40,7 @@ class EditRecipe extends StatefulWidget {
       required this.editTotalTime,
       required this.editDifficulty,
       required this.editCost,
+      required this.isFromScrap,
       required this.index})
       : super(key: key);
 
@@ -488,7 +490,7 @@ class _EditRecipeState extends State<EditRecipe> {
   ///
   ///
 
-  // get  from class AddIngred()
+  // get  from class AddIngred() (for isFromScrap = false)
   void getDataFromAddIngred(BuildContext context) async {
     final result = await Navigator.push(
       context,
@@ -519,9 +521,26 @@ class _EditRecipeState extends State<EditRecipe> {
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
           InkWell(
-            onTap: () {
-              getDataFromAddIngred(context);
-            },
+            onTap: widget.isFromScrap
+                ? () async {
+                    final result = await showDialog(
+                        context: context,
+                        builder: (context) {
+                          return DialogEditStep(
+                            controller: TextEditingController(text: ""),
+                          );
+                        });
+                    if (result != null) {
+                      String addedIngredScrap = result;
+                      print(
+                          'Received data from SecondScreen: $addedIngredScrap');
+                      setState(() {});
+                      widget.editAllIngredient.add(addedIngredScrap);
+                    }
+                  }
+                : () {
+                    getDataFromAddIngred(context);
+                  },
             child: Icon(
               Icons.add,
               size: 20,
@@ -553,16 +572,37 @@ class _EditRecipeState extends State<EditRecipe> {
 
         final formattedString = '$ingredient : ($quantity$unit)';
         return ListTile(
-          title: Text(formattedString),
+          title: widget.isFromScrap
+              ? Text(widget.editAllIngredient[index])
+              : Text(formattedString),
           trailing: Wrap(
             spacing: -16,
             children: [
               IconButton(
                 icon: const Icon(Icons.edit),
-                onPressed: () {
-                  widget.editAllIngredient.removeAt(index);
-                  getDataFromAddIngred(context);
-                },
+                onPressed: widget.isFromScrap
+                    ? () async {
+                        final result = await showDialog(
+                            context: context,
+                            builder: (context) {
+                              return DialogEditStep(
+                                  controller: TextEditingController(
+                                text:
+                                    widget.editAllIngredient[index].toString(),
+                              ));
+                            });
+                        if (result != null) {
+                          String addedIngredScrap = result;
+                          print(
+                              'Received data from SecondScreen: $addedIngredScrap');
+                          setState(() {});
+                          widget.editAllIngredient[index] = addedIngredScrap;
+                        }
+                      }
+                    : () {
+                        widget.editAllIngredient.removeAt(index);
+                        getDataFromAddIngred(context);
+                      },
               ),
               GestureDetector(
                 onLongPress: () {
@@ -828,13 +868,17 @@ class _EditRecipeState extends State<EditRecipe> {
                         allIngredientSelected: widget.editAllIngredient,
                         pathImageSelectedFromImagePicker: widget.editPathImage,
                         stepsRecipeFromCreateSteps: widget.editStepsRecipe,
+                        isFromScrap: recipeList[widget.index][8],
                       );
 
                       // Navigate to the new page with the form data and save
-                      // Navigator.push(
-                      //   context,
-                      //   MaterialPageRoute(builder: (context) => recipeDetailsPage),
-                      // );
+                      //   Navigator.push(
+                      //     context,
+                      //     MaterialPageRoute(
+                      //         builder: (context) => recipeDetailsPage),
+                      //   );
+
+                      // send finalEditRecipeName to apply filter in filtered_name_recipe with new recipe name
                       Navigator.pop(context, finalEditRecipeName);
                     },
                     child: Text("Save changes"),

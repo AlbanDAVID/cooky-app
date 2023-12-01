@@ -47,6 +47,7 @@ class _FilteredNameRecipeState extends State<FilteredNameRecipe> {
       editTotalTime,
       editDifficulty,
       editCost,
+      isFromScrap,
       index) async {
     final result = await Navigator.push(
       context,
@@ -61,6 +62,7 @@ class _FilteredNameRecipeState extends State<FilteredNameRecipe> {
           editDifficulty: editDifficulty,
           editCost: editCost,
           index: index,
+          isFromScrap: isFromScrap,
         ),
       ),
     );
@@ -231,6 +233,7 @@ class _FilteredNameRecipeState extends State<FilteredNameRecipe> {
                                       db.recipeList[index][1],
                                       db.recipeList[index][2],
                                       db.recipeList[index][3],
+                                      db.recipeList[index][8],
                                       index);
                                 },
                               ),
@@ -263,6 +266,7 @@ class _FilteredNameRecipeState extends State<FilteredNameRecipe> {
                         pathImageSelectedFromImagePicker: db.recipeList[index]
                             [5],
                         stepsRecipeFromCreateSteps: db.recipeList[index][6],
+                        isFromScrap: db.recipeList[index][8],
                       );
 
                       Navigator.push(

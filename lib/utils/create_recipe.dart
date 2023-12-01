@@ -50,6 +50,7 @@ class _CreateRecipeState extends State<CreateRecipe> {
   bool isButtonAddPictureVisible = true;
   bool isButtonAddIngredVisible = true;
   bool isButtonAddStepsVisible = true;
+  bool isFromScrap = false;
 
   ////// FUNCTIONS FOR RECIPE CATEGORY //////
 
@@ -903,6 +904,7 @@ class _CreateRecipeState extends State<CreateRecipe> {
                       List listOfLists = _myBox.get('ALL_LISTS') ?? [];
 
                       // Add a new list to the list of lists
+
                       listOfLists.add([
                         finalRecipeNameFromAddRecipeName,
                         finalTotalTimeFromAddTotalTime,
@@ -912,6 +914,7 @@ class _CreateRecipeState extends State<CreateRecipe> {
                         pathImageSelectedFromImagePicker,
                         stepsRecipeFromCreateSteps,
                         recipeCategoryFromAddExistingCategory,
+                        isFromScrap
                       ]);
 
                       // Update list of lists in Hive
@@ -928,6 +931,7 @@ class _CreateRecipeState extends State<CreateRecipe> {
                         pathImageSelectedFromImagePicker:
                             pathImageSelectedFromImagePicker,
                         stepsRecipeFromCreateSteps: stepsRecipeFromCreateSteps,
+                        isFromScrap: isFromScrap,
                       );
 
                       // Navigate to the new page with the form data and save

@@ -16,6 +16,7 @@ class RecipeStruct extends StatelessWidget {
   final List allIngredientSelected;
   final String? pathImageSelectedFromImagePicker;
   final List<String> stepsRecipeFromCreateSteps;
+  final bool isFromScrap;
 
   const RecipeStruct({
     super.key,
@@ -26,6 +27,7 @@ class RecipeStruct extends StatelessWidget {
     required this.allIngredientSelected,
     required this.pathImageSelectedFromImagePicker,
     required this.stepsRecipeFromCreateSteps,
+    required this.isFromScrap,
   });
 
   @override
@@ -110,20 +112,23 @@ class RecipeStruct extends StatelessWidget {
               ),
               // Ingrédients (TODO : add checkbox)
               Expanded(
-                child: ListView.builder(
-                  itemCount: allIngredientSelected.length,
-                  itemBuilder: (context, index) {
-                    final ingredient = allIngredientSelected[index][0];
-                    final quantity = allIngredientSelected[index][1];
-                    final unit = allIngredientSelected[index][2];
+                  child: ListView.builder(
+                itemCount: allIngredientSelected.length,
+                itemBuilder: (context, index) {
+                  final ingredient = allIngredientSelected[index][0];
+                  final quantity = allIngredientSelected[index][1];
+                  final unit = allIngredientSelected[index][2];
 
-                    final formattedString = '$ingredient : ($quantity$unit)';
-                    return ListTile(
-                      title: Text(formattedString),
-                    );
-                  },
-                ),
-              ),
+                  final formattedString = '$ingredient : ($quantity$unit)';
+                  return isFromScrap
+                      ? ListTile(
+                          title: Text(allIngredientSelected[index]),
+                        )
+                      : ListTile(
+                          title: Text(formattedString),
+                        );
+                },
+              )),
 
               // Spacing between title and image
               SizedBox(height: 16),

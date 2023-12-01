@@ -22,9 +22,15 @@ Priority :
 - create settings page
 - UI
 - check with differet police size (from smartphone user)
+- check si on peut ajouter des element à a liste database au fil de l'eau et voir si on peut afficier les anciennes recettes
+- gérer catégorie manquante pour scrap
+- gérer pb steps pour cuisine az
+
 
 ----
 - Interessting features : 
+- - ajouter possibilité de supprimé uniquement recette d'une catégorie sur home page (pour 'instant on put le faire que une fois dans la catégorie)
+- improve scraping (more website)
 - star (notation)
 - integer for ingredient (for automatic tell how many person)
 - checkbox ingredients
@@ -50,6 +56,7 @@ Other idea :
 - check list ce qu'on a dans les placards
 
 BUG : 
+- major : edit in a categorie : si on quitte sans faire submit, les ingrédients séléctionné reste temporairement en émmoire (disparaisse au redemarrage de lappli)
 - minor : blank for total time et difficlty with we come back with no selected field during create recipe
 - NE DECONNE PAS EN MODE REALSE mais en bebug : bug add picture (when taking a pics)
 
