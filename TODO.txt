@@ -25,6 +25,7 @@ Priority :
 - check si on peut ajouter des element à a liste database au fil de l'eau et voir si on peut afficier les anciennes recettes
 - gérer catégorie manquante pour scrap
 - gérer pb steps pour cuisine az
+- edit recipe name from scrap 
 
 
 ----
@@ -61,9 +62,8 @@ BUG :
 - NE DECONNE PAS EN MODE REALSE mais en bebug : bug add picture (when taking a pics)
 
 
-- Now : 
-    - edit recipe name from scrap 
 
+    
 
 
 

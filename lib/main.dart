@@ -56,7 +56,6 @@ class MyApp extends StatelessWidget {
         '/dialbox_add_ingredient_and_quantity': (context) =>
             const AddIngredientQuantity(),
       },
-      theme: ThemeData(primarySwatch: Colors.lightGreen),
     );
   }
 }

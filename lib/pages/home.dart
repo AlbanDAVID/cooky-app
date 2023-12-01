@@ -308,7 +308,7 @@ class _HomeState extends State<Home> {
                     Hive.box<CategoriesNames>('catBox').listenable(),
                 builder: (context, Box<CategoriesNames> box, _) {
                   return Padding(
-                      padding: EdgeInsets.all(100),
+                      padding: EdgeInsets.all(30),
                       child: ListView.builder(
                         itemCount: box.values.length,
                         itemBuilder: (context, index) {
@@ -328,17 +328,21 @@ class _HomeState extends State<Home> {
                               },
                               style: TextButton.styleFrom(
                                 backgroundColor:
-                                    Colors.lightGreen, // Couleur du bouton
+                                    Color.fromARGB(230, 200, 216, 250),
+                                // Couleur du bouton
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(
-                                      20.0), // Bords arrondis
+                                      10.0), // Bords arrondis
                                 ),
                               ),
                               child: Center(
                                 child: Text(
                                   cat!.categoryName,
                                   style: TextStyle(
-                                      fontSize: 25.0, color: Colors.white),
+                                      fontSize: 25,
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .primary),
                                 ),
                               ),
                             ),
