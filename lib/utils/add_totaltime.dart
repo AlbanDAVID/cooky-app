@@ -26,6 +26,7 @@ class _AddTotalTimeState extends State<AddTotalTime> {
           ],
         ),
         body: Column(children: [
+          const Text("Suggestions : ", style: TextStyle(fontSize: 10)),
           SizedBox(
               height: 500,
               child: ListView.builder(
@@ -35,24 +36,17 @@ class _AddTotalTimeState extends State<AddTotalTime> {
                     onPressed: () {
                       Navigator.pop(context, totalTimeList[index]);
                     },
-                    style: TextButton.styleFrom(
-                      backgroundColor: Colors.lightGreen, // Couleur du bouton
-                      shape: RoundedRectangleBorder(
-                        borderRadius:
-                            BorderRadius.circular(20.0), // Bords arrondis
-                      ),
-                    ),
                     child: Center(
                       child: Text(
                         totalTimeList[index],
-                        style: TextStyle(fontSize: 25.0, color: Colors.white),
+                        textAlign: TextAlign.center,
+                        style: TextStyle(fontSize: 15),
                       ),
                     ),
                   );
                 },
               )),
           FloatingActionButton(
-            backgroundColor: Colors.green,
             onPressed: () async {
               showDialog(
                   context: context,

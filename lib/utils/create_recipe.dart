@@ -51,6 +51,7 @@ class _CreateRecipeState extends State<CreateRecipe> {
   bool isButtonAddIngredVisible = true;
   bool isButtonAddStepsVisible = true;
   bool isFromScrap = false;
+  bool isShowIngredientsSelectedPressed = false;
 
   ////// FUNCTIONS FOR RECIPE CATEGORY //////
 
@@ -159,25 +160,15 @@ class _CreateRecipeState extends State<CreateRecipe> {
         : Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             Text(
               "Recipe name:",
-              maxLines: 2,
               style: TextStyle(
                 fontSize: 16,
               ),
             ),
             Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-              SizedBox(
-                  width: 300,
-                  child: Text(
-                    softWrap: true,
-                    overflow: TextOverflow.ellipsis,
-                    recipeNameFromAddRecipeName,
-                    style: recipeNameFromAddRecipeName == "Deleted"
-                        ? TextStyle(fontSize: 15, fontStyle: FontStyle.italic)
-                        : TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                          ),
-                  )),
+              Text(recipeNameFromAddRecipeName,
+                  style: recipeNameFromAddRecipeName == "Deleted"
+                      ? TextStyle(fontSize: 15, fontStyle: FontStyle.italic)
+                      : TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
@@ -603,12 +594,47 @@ class _CreateRecipeState extends State<CreateRecipe> {
             child: Text("Add ingredients"),
           )
         : Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            Text(
-              "Ingredients :",
-              style: TextStyle(
-                fontSize: 16,
-              ),
-            ),
+            isShowIngredientsSelectedPressed
+                ? TextButton(
+                    onPressed: () {
+                      setState(() {
+                        isShowIngredientsSelectedPressed = false;
+                      });
+                    },
+                    child: Row(
+                      children: [
+                        Text(
+                          "Collapse",
+                          style: TextStyle(
+                            fontSize: 16,
+                          ),
+                        ),
+                        Icon(
+                          Icons.arrow_downward,
+                          size: 16, // ajustez la taille selon vos besoins
+                        ),
+                      ],
+                    ))
+                : TextButton(
+                    onPressed: () {
+                      setState(() {
+                        isShowIngredientsSelectedPressed = true;
+                      });
+                    },
+                    child: Row(
+                      children: [
+                        Text(
+                          "Show Ingredients",
+                          style: TextStyle(
+                            fontSize: 16,
+                          ),
+                        ),
+                        Icon(
+                          Icons.arrow_upward,
+                          size: 16, // ajustez la taille selon vos besoins
+                        ),
+                      ],
+                    )),
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
@@ -637,46 +663,48 @@ class _CreateRecipeState extends State<CreateRecipe> {
 
   // widget list view to show all selected ingredient and possibilty to edit, delete
   Widget showIngredientsSelected() {
-    return Expanded(
+    setState(() {});
+    return SizedBox(
+        height: 2000,
         child: ListView.builder(
-      itemCount: allIngredientSelectedCreateRecipe.length,
-      itemBuilder: (context, index) {
-        final ingredient = allIngredientSelectedCreateRecipe[index][0];
-        final quantity = allIngredientSelectedCreateRecipe[index][1];
-        final unit = allIngredientSelectedCreateRecipe[index][2];
+          itemCount: allIngredientSelectedCreateRecipe.length,
+          itemBuilder: (context, index) {
+            final ingredient = allIngredientSelectedCreateRecipe[index][0];
+            final quantity = allIngredientSelectedCreateRecipe[index][1];
+            final unit = allIngredientSelectedCreateRecipe[index][2];
 
-        final formattedString = '$ingredient : ($quantity$unit)';
-        return ListTile(
-          title: Text(formattedString),
-          trailing: Wrap(
-            spacing: -16,
-            children: [
-              IconButton(
-                icon: const Icon(Icons.edit),
-                onPressed: () {
-                  allIngredientSelectedCreateRecipe.removeAt(index);
-                  getDataFromAddIngred(context);
-                },
-              ),
-              GestureDetector(
-                onLongPress: () {
-                  setState(() {
-                    allIngredientSelectedCreateRecipe.removeAt(index);
-                  });
-                },
-                child: IconButton(
-                  icon: const Icon(
-                    Icons.delete,
-                    color: Colors.redAccent,
+            final formattedString = '$ingredient : ($quantity$unit)';
+            return ListTile(
+              title: Text(formattedString),
+              trailing: Wrap(
+                spacing: -16,
+                children: [
+                  IconButton(
+                    icon: const Icon(Icons.edit),
+                    onPressed: () {
+                      allIngredientSelectedCreateRecipe.removeAt(index);
+                      getDataFromAddIngred(context);
+                    },
                   ),
-                  onPressed: () {},
-                ),
-              )
-            ],
-          ),
-        );
-      },
-    ));
+                  GestureDetector(
+                    onLongPress: () {
+                      setState(() {
+                        allIngredientSelectedCreateRecipe.removeAt(index);
+                      });
+                    },
+                    child: IconButton(
+                      icon: const Icon(
+                        Icons.delete,
+                        color: Colors.redAccent,
+                      ),
+                      onPressed: () {},
+                    ),
+                  )
+                ],
+              ),
+            );
+          },
+        ));
   }
   ////////////////////////////////////////////////////////
   ///
@@ -753,7 +781,8 @@ class _CreateRecipeState extends State<CreateRecipe> {
 
   // widget list view to show all steps and possibilty to edit, delete
   Widget showStepsAdded() {
-    return Expanded(
+    return SizedBox(
+      height: 700,
       child: ListView.builder(
         itemCount: stepsRecipeFromCreateSteps.length,
         itemBuilder: (context, index) {
@@ -806,6 +835,22 @@ class _CreateRecipeState extends State<CreateRecipe> {
   }
   ////////////////////////////////////////////////////////
   ///
+  ///
+  ///
+  /////// SHOW WIDGET WITH CONDITION : /////
+  ///
+
+  Widget ShowIngredientsSelectedPressed() {
+    setState(() {});
+    if (isShowIngredientsSelectedPressed == false) {
+      return addCategory(isButtonAddCategoryVisible);
+    } else {
+      return Column(children: [
+        addIngred(isButtonAddIngredVisible),
+        showIngredientsSelected()
+      ]);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -858,36 +903,36 @@ class _CreateRecipeState extends State<CreateRecipe> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // RECIPE CATEGORY :
-                  addCategory(isButtonAddCategoryVisible),
+                  Expanded(
+                      child: ListView(children: <Widget>[
+                    // RECIPE CATEGORY :
 
-                  // RECIPE NAME :
-                  addRecipeName(isButtonAddRecipeNameVisible),
+                    ShowIngredientsSelectedPressed(),
+                    // RECIPE NAME :
+                    addRecipeName(isButtonAddRecipeNameVisible),
 
-                  // TOTAL TIME :
-                  addTotalTime(isButtonAddTotalTimeVisible),
+                    // TOTAL TIME :
+                    addTotalTime(isButtonAddTotalTimeVisible),
 
-                  // DIFFICULTY :
-                  addDifficulty(isButtonAddDifficultyVisible),
+                    // DIFFICULTY :
+                    addDifficulty(isButtonAddDifficultyVisible),
 
-                  // COST:
-                  addCost(isButtonAddCostVisible),
+                    // COST:
+                    addCost(isButtonAddCostVisible),
 
-                  // ADD PICTURE
+                    // ADD PICTURE
 
-                  addPicture(isButtonAddPictureVisible),
+                    addPicture(isButtonAddPictureVisible),
 
-                  // SELECT INGREDIENT
-                  addIngred(isButtonAddIngredVisible),
+                    // SELECT INGREDIENT
+                    addIngred(isButtonAddIngredVisible),
 
-                  // SHOW INGREDIENTS SELECTED
-                  showIngredientsSelected(),
-                  // ADD STEPS
-                  addSteps(isButtonAddStepsVisible),
+                    // ADD STEPS
+                    addSteps(isButtonAddStepsVisible),
 
-                  // SHOW STEPS ADDED
-                  showStepsAdded(),
-
+                    // SHOW STEPS ADDED
+                    showStepsAdded(),
+                  ])),
                   // Button fot submit form
                   ElevatedButton(
                     onPressed: () {
@@ -953,6 +998,20 @@ class _CreateRecipeState extends State<CreateRecipe> {
                     },
                     child: Text("Submit"),
                   ),
+                  ElevatedButton(
+                      onPressed: () {
+                        setState(() {
+                          isShowIngredientsSelectedPressed = true;
+                        });
+                      },
+                      child: Text("true")),
+                  ElevatedButton(
+                      onPressed: () {
+                        setState(() {
+                          isShowIngredientsSelectedPressed = false;
+                        });
+                      },
+                      child: Text("false"))
                 ],
               ),
             ),

@@ -60,6 +60,7 @@ Other idea :
 - check list ce qu'on a dans les placards
 
 BUG : 
+- minor : quand j'ajoute un ingrédient et que je modofie sans rien faire (rien n'est envoyé dans la page create recipe mais l'ingrédient reste parce pb de set state ?)
 - major : edit in a categorie : si on quitte sans faire submit, les ingrédients séléctionné reste temporairement en émmoire (disparaisse au redemarrage de lappli)
 - minor : blank for total time et difficlty with we come back with no selected field during create recipe
 - NE DECONNE PAS EN MODE REALSE mais en bebug : bug add picture (when taking a pics)

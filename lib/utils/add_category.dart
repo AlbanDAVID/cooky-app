@@ -31,8 +31,9 @@ class _AddExistingCategoryState extends State<AddExistingCategory> {
           ],
         ),
         body: Column(children: [
+          const Text("Suggestions : ", style: TextStyle(fontSize: 10)),
           SizedBox(
-              height: 500,
+              height: 400,
               child: ValueListenableBuilder(
                 valueListenable:
                     Hive.box<CategoriesNames>('catBox').listenable(),
@@ -49,19 +50,11 @@ class _AddExistingCategoryState extends State<AddExistingCategory> {
                                   cat!.categoryName.toString();
                               Navigator.pop(context, categoryName);
                             },
-                            style: TextButton.styleFrom(
-                              backgroundColor:
-                                  Colors.lightGreen, // Couleur du bouton
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(
-                                    20.0), // Bords arrondis
-                              ),
-                            ),
                             child: Center(
                               child: Text(
                                 cat!.categoryName,
-                                style: TextStyle(
-                                    fontSize: 25.0, color: Colors.white),
+                                textAlign: TextAlign.center,
+                                style: TextStyle(fontSize: 15),
                               ),
                             ),
                           );
@@ -70,7 +63,6 @@ class _AddExistingCategoryState extends State<AddExistingCategory> {
                 },
               )),
           FloatingActionButton(
-            backgroundColor: Colors.green,
             onPressed: () async {
               showDialog(
                   context: context,

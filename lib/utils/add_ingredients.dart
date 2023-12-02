@@ -45,6 +45,7 @@ class _AddIngredState extends State<AddIngred> {
           title: const Text('Add ingredients'),
         ),
         body: Column(children: [
+          const Text("Suggestions : ", style: TextStyle(fontSize: 10)),
           Expanded(
               child: Padding(
             padding: const EdgeInsets.only(left: 50.0, right: 50, top: 0),
@@ -52,8 +53,10 @@ class _AddIngredState extends State<AddIngred> {
               itemCount: ingredientList.length,
               itemBuilder: (context, index) {
                 return ListTile(
-                  // UI
-                  onLongPress: () async {
+                    // UI
+
+                    title: TextButton(
+                  onPressed: () async {
                     final result = await Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -70,14 +73,14 @@ class _AddIngredState extends State<AddIngred> {
                       allIngredientSelected.add(finalQuantity);
                     }
                   },
-                  title: Text(ingredientList[index]),
-                  // to add an outline to the text (beware of bug: the scroll takes up the entire page) :
-                  //contentPadding: EdgeInsets.all(20),
-                  //shape: RoundedRectangleBorder(
-                  //borderRadius: BorderRadius.circular(10),
-                  //side: BorderSide(width: 1),
-                  //),
-                );
+                  child: Text(
+                    ingredientList[index],
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 15,
+                    ),
+                  ),
+                ));
                 // Adjust the height as needed
               },
             ),
