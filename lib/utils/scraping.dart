@@ -140,10 +140,19 @@ class _ScrapingState extends State<Scraping> {
         ),
       ),
       Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-        Text(widget.scrapRecipeName,
-            style: widget.scrapRecipeName == "Deleted"
-                ? TextStyle(fontSize: 15, fontStyle: FontStyle.italic)
-                : TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+        SizedBox(
+            width: 300,
+            child: Text(
+              softWrap: true,
+              overflow: TextOverflow.ellipsis,
+              widget.scrapRecipeName,
+              style: widget.scrapRecipeName == "Deleted"
+                  ? TextStyle(fontSize: 15, fontStyle: FontStyle.italic)
+                  : TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+            )),
         Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [

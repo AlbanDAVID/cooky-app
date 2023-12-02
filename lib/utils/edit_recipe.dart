@@ -147,10 +147,19 @@ class _EditRecipeState extends State<EditRecipe> {
         ),
       ),
       Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-        Text(widget.editRecipeName,
-            style: widget.editRecipeName == "Deleted"
-                ? TextStyle(fontSize: 15, fontStyle: FontStyle.italic)
-                : TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+        SizedBox(
+            width: 300,
+            child: Text(
+              softWrap: true,
+              overflow: TextOverflow.ellipsis,
+              widget.editRecipeName,
+              style: widget.editRecipeName == "Deleted"
+                  ? TextStyle(fontSize: 15, fontStyle: FontStyle.italic)
+                  : TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+            )),
         Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [

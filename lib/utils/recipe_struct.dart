@@ -40,10 +40,12 @@ class RecipeStruct extends StatelessWidget {
           child: Column(
             children: [
               // Title (recipe name)
+
               Text(
                 recipeName,
+                textAlign: TextAlign.center,
                 style: TextStyle(
-                  fontSize: 35,
+                  fontSize: 20,
                   fontWeight: FontWeight.bold,
                 ),
               ),

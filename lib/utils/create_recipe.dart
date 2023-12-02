@@ -159,15 +159,25 @@ class _CreateRecipeState extends State<CreateRecipe> {
         : Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             Text(
               "Recipe name:",
+              maxLines: 2,
               style: TextStyle(
                 fontSize: 16,
               ),
             ),
             Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-              Text(recipeNameFromAddRecipeName,
-                  style: recipeNameFromAddRecipeName == "Deleted"
-                      ? TextStyle(fontSize: 15, fontStyle: FontStyle.italic)
-                      : TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+              SizedBox(
+                  width: 300,
+                  child: Text(
+                    softWrap: true,
+                    overflow: TextOverflow.ellipsis,
+                    recipeNameFromAddRecipeName,
+                    style: recipeNameFromAddRecipeName == "Deleted"
+                        ? TextStyle(fontSize: 15, fontStyle: FontStyle.italic)
+                        : TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
+                  )),
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [

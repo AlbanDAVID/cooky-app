@@ -25,11 +25,14 @@ Priority :
 - check si on peut ajouter des element à a liste database au fil de l'eau et voir si on peut afficier les anciennes recettes
 - gérer catégorie manquante pour scrap
 - gérer pb steps pour cuisine az
-- edit recipe name from scrap 
+- edit recipe name from scrap
+- edit name recipe create recipe + les autres champs... envoter la valeur saisie dans le champ "+" pour modifier plus facilement
+- "nothing to show if 0 categorie", ajouter qq catégoirie au début 
 
 
 ----
 - Interessting features : 
+- ajouter message erreur scrapping
 - - ajouter possibilité de supprimé uniquement recette d'une catégorie sur home page (pour 'instant on put le faire que une fois dans la catégorie)
 - improve scraping (more website)
 - star (notation)

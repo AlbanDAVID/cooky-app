@@ -40,6 +40,31 @@ class _HomeState extends State<Home> {
         setState(() {
           isEditDeleteMode = true;
         });
+
+      case 1:
+        setState(() {
+          showDialog(
+              context: context,
+              builder: (context) {
+                return AlertDialog(
+                  title: Text('Add category'),
+                  content: TextField(
+                    controller: _controller,
+                  ),
+                  actions: [
+                    ElevatedButton(
+                      child: Text('Add'),
+                      onPressed: () async {
+                        var catName = CategoriesNames(_controller.text);
+                        await _categoriesNamesService.addCategory(catName);
+                        Navigator.pop(context);
+                        _controller.clear();
+                      },
+                    )
+                  ],
+                );
+              });
+        });
     }
   }
 
@@ -151,18 +176,6 @@ class _HomeState extends State<Home> {
       if (recipeList[i][7].contains(categoryName)) {
         recipeList.removeAt(i);
       }
-
-      // old function (if a categorie with nothing inside can't be deleted)
-      //   if (recipeList.isEmpty) {
-      //     Hive.box<CategoriesNames>('catBox').deleteAt(index);
-      //   } else {
-      //     for (int i = recipeList.length - 1; i >= 0; i--) {
-      //       if (recipeList[i][7].contains(categoryName)) {
-      //         recipeList.removeAt(i);
-      //         // Remove the category name :
-      //         Hive.box<CategoriesNames>('catBox').deleteAt(index);
-      //       }
-      //}
     }
     // Remove the category name :
     Hive.box<CategoriesNames>('catBox').deleteAt(index);
@@ -297,18 +310,20 @@ class _HomeState extends State<Home> {
                       itemBuilder: (context) => [
                         PopupMenuItem<int>(
                             value: 0, child: Text('Edit/Delete')),
+                        PopupMenuItem<int>(
+                            value: 1, child: Text('Add a category'))
                       ],
                     ),
                   ]),
         body: Column(children: [
           SizedBox(
-              height: 500,
+              height: 700,
               child: ValueListenableBuilder(
                 valueListenable:
                     Hive.box<CategoriesNames>('catBox').listenable(),
                 builder: (context, Box<CategoriesNames> box, _) {
                   return Padding(
-                      padding: EdgeInsets.all(30),
+                      padding: EdgeInsets.all(0),
                       child: ListView.builder(
                         itemCount: box.values.length,
                         itemBuilder: (context, index) {
@@ -328,7 +343,7 @@ class _HomeState extends State<Home> {
                               },
                               style: TextButton.styleFrom(
                                 backgroundColor:
-                                    Color.fromARGB(230, 200, 216, 250),
+                                    Color.fromRGBO(249, 246, 253, 0.49),
                                 // Couleur du bouton
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(
@@ -337,12 +352,10 @@ class _HomeState extends State<Home> {
                               ),
                               child: Center(
                                 child: Text(
+                                  textAlign: TextAlign.center,
                                   cat!.categoryName,
                                   style: TextStyle(
-                                      fontSize: 25,
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .primary),
+                                      fontSize: 20, color: Colors.black),
                                 ),
                               ),
                             ),
@@ -423,35 +436,9 @@ class _HomeState extends State<Home> {
                       ));
                 },
               )),
-          FloatingActionButton(
-            onPressed: () async {
-              showDialog(
-                  context: context,
-                  builder: (context) {
-                    return AlertDialog(
-                      title: Text('Add category'),
-                      content: TextField(
-                        controller: _controller,
-                      ),
-                      actions: [
-                        ElevatedButton(
-                          child: Text('Add'),
-                          onPressed: () async {
-                            var catName = CategoriesNames(_controller.text);
-                            await _categoriesNamesService.addCategory(catName);
-                            Navigator.pop(context);
-                            _controller.clear();
-                          },
-                        )
-                      ],
-                    );
-                  });
-            },
-            child: Icon(Icons.add),
-          )
         ]),
         drawer: Drawer(
-          backgroundColor: Color.fromARGB(255, 113, 153, 187),
+          backgroundColor: Color.fromRGBO(234, 221, 255, 1.000),
           child: Column(children: [
             DrawerHeader(
                 child: Icon(
