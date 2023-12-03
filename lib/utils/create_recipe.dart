@@ -52,6 +52,7 @@ class _CreateRecipeState extends State<CreateRecipe> {
   bool isButtonAddStepsVisible = true;
   bool isFromScrap = false;
   bool isShowIngredientsSelectedPressed = false;
+  bool isshowStepsAddedPressed = false;
 
   ////// FUNCTIONS FOR RECIPE CATEGORY //////
 
@@ -665,7 +666,7 @@ class _CreateRecipeState extends State<CreateRecipe> {
   Widget showIngredientsSelected() {
     setState(() {});
     return SizedBox(
-        height: 2000,
+        height: 600,
         child: ListView.builder(
           itemCount: allIngredientSelectedCreateRecipe.length,
           itemBuilder: (context, index) {
@@ -747,12 +748,47 @@ class _CreateRecipeState extends State<CreateRecipe> {
             child: Text("Add steps"),
           )
         : Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            Text(
-              "Steps :",
-              style: TextStyle(
-                fontSize: 16,
-              ),
-            ),
+            isshowStepsAddedPressed
+                ? TextButton(
+                    onPressed: () {
+                      setState(() {
+                        isshowStepsAddedPressed = false;
+                      });
+                    },
+                    child: Row(
+                      children: [
+                        Text(
+                          "Collapse",
+                          style: TextStyle(
+                            fontSize: 16,
+                          ),
+                        ),
+                        Icon(
+                          Icons.arrow_downward,
+                          size: 16, // ajustez la taille selon vos besoins
+                        ),
+                      ],
+                    ))
+                : TextButton(
+                    onPressed: () {
+                      setState(() {
+                        isshowStepsAddedPressed = true;
+                      });
+                    },
+                    child: Row(
+                      children: [
+                        Text(
+                          "Show steps",
+                          style: TextStyle(
+                            fontSize: 16,
+                          ),
+                        ),
+                        Icon(
+                          Icons.arrow_upward,
+                          size: 16, // ajustez la taille selon vos besoins
+                        ),
+                      ],
+                    )),
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
@@ -782,7 +818,7 @@ class _CreateRecipeState extends State<CreateRecipe> {
   // widget list view to show all steps and possibilty to edit, delete
   Widget showStepsAdded() {
     return SizedBox(
-      height: 700,
+      height: 600,
       child: ListView.builder(
         itemCount: stepsRecipeFromCreateSteps.length,
         itemBuilder: (context, index) {
@@ -840,15 +876,32 @@ class _CreateRecipeState extends State<CreateRecipe> {
   /////// SHOW WIDGET WITH CONDITION : /////
   ///
 
-  Widget ShowIngredientsSelectedPressed() {
+  Widget ShowWidget() {
     setState(() {});
-    if (isShowIngredientsSelectedPressed == false) {
-      return addCategory(isButtonAddCategoryVisible);
-    } else {
+    if (isShowIngredientsSelectedPressed == false &&
+        isshowStepsAddedPressed == false) {
+      return Column(children: [
+        addCategory(isButtonAddCategoryVisible),
+        addRecipeName(isButtonAddRecipeNameVisible),
+        addTotalTime(isButtonAddTotalTimeVisible),
+        addDifficulty(isButtonAddDifficultyVisible),
+        addCost(isButtonAddCostVisible),
+        addPicture(isButtonAddPictureVisible),
+        addIngred(isButtonAddIngredVisible),
+        addSteps(isButtonAddStepsVisible),
+      ]);
+    } else if (isShowIngredientsSelectedPressed == true) {
       return Column(children: [
         addIngred(isButtonAddIngredVisible),
         showIngredientsSelected()
       ]);
+    } else if (isshowStepsAddedPressed == true) {
+      return Column(children: [
+        addSteps(isButtonAddStepsVisible),
+        showStepsAdded(),
+      ]);
+    } else {
+      return Text("Error, no widgets to display");
     }
   }
 
@@ -905,33 +958,8 @@ class _CreateRecipeState extends State<CreateRecipe> {
                 children: [
                   Expanded(
                       child: ListView(children: <Widget>[
-                    // RECIPE CATEGORY :
-
-                    ShowIngredientsSelectedPressed(),
-                    // RECIPE NAME :
-                    addRecipeName(isButtonAddRecipeNameVisible),
-
-                    // TOTAL TIME :
-                    addTotalTime(isButtonAddTotalTimeVisible),
-
-                    // DIFFICULTY :
-                    addDifficulty(isButtonAddDifficultyVisible),
-
-                    // COST:
-                    addCost(isButtonAddCostVisible),
-
-                    // ADD PICTURE
-
-                    addPicture(isButtonAddPictureVisible),
-
-                    // SELECT INGREDIENT
-                    addIngred(isButtonAddIngredVisible),
-
-                    // ADD STEPS
-                    addSteps(isButtonAddStepsVisible),
-
-                    // SHOW STEPS ADDED
-                    showStepsAdded(),
+                    // SHOW RECIPE CATEGORY, RECIPE NAME ,TOTAL TIME ,DIFFICULTY, COST, ADD PICTURE, SELECT INGREDIENT, ADD STEPS OR SELECT INGREDIENT AND SHOW INGRED ADDED OR ADD STEPS AND SHOW STEPS:
+                    ShowWidget(),
                   ])),
                   // Button fot submit form
                   ElevatedButton(

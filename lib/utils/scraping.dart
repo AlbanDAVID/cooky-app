@@ -34,6 +34,8 @@ class Scraping extends StatefulWidget {
   _ScrapingState createState() => _ScrapingState();
 }
 
+bool isShowIngredientsSelectedPressed = false;
+
 class _ScrapingState extends State<Scraping> {
   // ignore: unused_field
 
@@ -496,12 +498,47 @@ class _ScrapingState extends State<Scraping> {
   Widget addIngred() {
     setState(() {});
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      Text(
-        "Ingredients :",
-        style: TextStyle(
-          fontSize: 16,
-        ),
-      ),
+      isShowIngredientsSelectedPressed
+          ? TextButton(
+              onPressed: () {
+                setState(() {
+                  isShowIngredientsSelectedPressed = false;
+                });
+              },
+              child: Row(
+                children: [
+                  Text(
+                    "Collapse",
+                    style: TextStyle(
+                      fontSize: 16,
+                    ),
+                  ),
+                  Icon(
+                    Icons.arrow_downward,
+                    size: 16, // ajustez la taille selon vos besoins
+                  ),
+                ],
+              ))
+          : TextButton(
+              onPressed: () {
+                setState(() {
+                  isShowIngredientsSelectedPressed = true;
+                });
+              },
+              child: Row(
+                children: [
+                  Text(
+                    "Show Ingredients",
+                    style: TextStyle(
+                      fontSize: 16,
+                    ),
+                  ),
+                  Icon(
+                    Icons.arrow_upward,
+                    size: 16, // ajustez la taille selon vos besoins
+                  ),
+                ],
+              )),
       Row(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
@@ -542,58 +579,60 @@ class _ScrapingState extends State<Scraping> {
 
   // widget list view to show all selected ingredient and possibilty to edit, delete
   Widget showIngredientsSelected() {
-    return Expanded(
+    return SizedBox(
+        height: 600,
         child: ListView.builder(
-      itemCount: widget.scrapAllIngredient.length,
-      itemBuilder: (context, index) {
-        //  final ingredient = scrapAllIngredient[index][0];
-        //  final quantity = scrapAllIngredient[index][1];
-        //  final unit = scrapAllIngredient[index][2];
+          itemCount: widget.scrapAllIngredient.length,
+          itemBuilder: (context, index) {
+            //  final ingredient = scrapAllIngredient[index][0];
+            //  final quantity = scrapAllIngredient[index][1];
+            //  final unit = scrapAllIngredient[index][2];
 
-        //  final formattedString = '$ingredient : ($quantity$unit)';
-        return ListTile(
-          title: Text(widget.scrapAllIngredient[index]),
-          trailing: Wrap(
-            spacing: -16,
-            children: [
-              IconButton(
-                icon: const Icon(Icons.edit),
-                onPressed: () async {
-                  final result = await showDialog(
-                      context: context,
-                      builder: (context) {
-                        return DialogEditStep(
-                            controller: TextEditingController(
-                          text: widget.scrapAllIngredient[index].toString(),
-                        ));
-                      });
-                  if (result != null) {
-                    String addedIngredScrap = result;
-                    print('Received data from SecondScreen: $addedIngredScrap');
-                    setState(() {});
-                    widget.scrapAllIngredient[index] = addedIngredScrap;
-                  }
-                },
-              ),
-              GestureDetector(
-                onLongPress: () {
-                  setState(() {
-                    widget.scrapAllIngredient.removeAt(index);
-                  });
-                },
-                child: IconButton(
-                  icon: const Icon(
-                    Icons.delete,
-                    color: Colors.redAccent,
+            //  final formattedString = '$ingredient : ($quantity$unit)';
+            return ListTile(
+              title: Text(widget.scrapAllIngredient[index]),
+              trailing: Wrap(
+                spacing: -16,
+                children: [
+                  IconButton(
+                    icon: const Icon(Icons.edit),
+                    onPressed: () async {
+                      final result = await showDialog(
+                          context: context,
+                          builder: (context) {
+                            return DialogEditStep(
+                                controller: TextEditingController(
+                              text: widget.scrapAllIngredient[index].toString(),
+                            ));
+                          });
+                      if (result != null) {
+                        String addedIngredScrap = result;
+                        print(
+                            'Received data from SecondScreen: $addedIngredScrap');
+                        setState(() {});
+                        widget.scrapAllIngredient[index] = addedIngredScrap;
+                      }
+                    },
                   ),
-                  onPressed: () {},
-                ),
-              )
-            ],
-          ),
-        );
-      },
-    ));
+                  GestureDetector(
+                    onLongPress: () {
+                      setState(() {
+                        widget.scrapAllIngredient.removeAt(index);
+                      });
+                    },
+                    child: IconButton(
+                      icon: const Icon(
+                        Icons.delete,
+                        color: Colors.redAccent,
+                      ),
+                      onPressed: () {},
+                    ),
+                  )
+                ],
+              ),
+            );
+          },
+        ));
   }
   ////////////////////////////////////////////////////////
   ///
@@ -711,6 +750,26 @@ class _ScrapingState extends State<Scraping> {
   }
   ////////////////////////////////////////////////////////
   ///
+  ///
+  ///  ////////// SHOW WIDGET WITH CONDITION : /////
+  ///
+
+  Widget ShowWidget() {
+    setState(() {});
+    if (isShowIngredientsSelectedPressed == false) {
+      return Column(children: [
+        addCategory(),
+        addRecipeName(),
+        addTotalTime(),
+        addDifficulty(),
+        addCost(),
+        addPicture(),
+        addIngred(),
+      ]);
+    } else {
+      return Column(children: [addIngred(), showIngredientsSelected()]);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -763,36 +822,11 @@ class _ScrapingState extends State<Scraping> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // RECIPE CATEGORY :
-                  addCategory(),
-
-                  // RECIPE NAME :
-                  addRecipeName(),
-
-                  // TOTAL TIME :
-                  addTotalTime(),
-
-                  // DIFFICULTY :
-                  addDifficulty(),
-
-                  // COST:
-                  addCost(),
-
-                  // ADD PICTURE
-
-                  addPicture(),
-
-                  // SELECT INGREDIENT
-                  addIngred(),
-
-                  // SHOW INGREDIENTS SELECTED
-                  showIngredientsSelected(),
-                  // ADD STEPS
-                  addSteps(),
-
-                  // SHOW STEPS ADDED
-                  showStepsAdded(),
-
+                  Expanded(
+                      child: ListView(children: <Widget>[
+                    // SHOW RECIPE CATEGORY, RECIPE NAME ,TOTAL TIME ,DIFFICULTY, COST, ADD PICTURE, SELECT INGREDIENT, ADD STEPS OR SELECT INGREDIENT AND SHOW INGRED ADDED OR ADD STEPS AND SHOW STEPS:
+                    ShowWidget(),
+                  ])),
                   // Button fot submit form
                   ElevatedButton(
                     onPressed: () {

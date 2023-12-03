@@ -28,6 +28,7 @@ Priority :
 - edit recipe name from scrap
 - edit name recipe create recipe + les autres champs... envoter la valeur saisie dans le champ "+" pour modifier plus facilement
 - "nothing to show if 0 categorie", ajouter qq catégoirie au début 
+- collapse ingred + list view general recipe struct
 
 
 ----
@@ -60,6 +61,7 @@ Other idea :
 - check list ce qu'on a dans les placards
 
 BUG : 
+- willpopscope est deprecated
 - minor : quand j'ajoute un ingrédient et que je modofie sans rien faire (rien n'est envoyé dans la page create recipe mais l'ingrédient reste parce pb de set state ?)
 - major : edit in a categorie : si on quitte sans faire submit, les ingrédients séléctionné reste temporairement en émmoire (disparaisse au redemarrage de lappli)
 - minor : blank for total time et difficlty with we come back with no selected field during create recipe
