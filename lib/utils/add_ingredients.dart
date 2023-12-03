@@ -95,8 +95,21 @@ class _AddIngredState extends State<AddIngred> {
 
                 final formattedString = '$ingredient : ($quantity$unit)';
                 return ListTile(
-                  title: Text(formattedString),
-                );
+                    title: Text(formattedString),
+                    trailing: GestureDetector(
+                      onLongPress: () {
+                        setState(() {
+                          allIngredientSelected.removeAt(index);
+                        });
+                      },
+                      child: IconButton(
+                        icon: const Icon(
+                          Icons.delete,
+                          color: Colors.redAccent,
+                        ),
+                        onPressed: () {},
+                      ),
+                    ));
               },
             ),
           ),
@@ -140,6 +153,7 @@ class _AddIngredState extends State<AddIngred> {
 
                             _controller.clear();
                             _controller2.clear();
+                            _controller3.clear();
                             setState(() {});
                           },
                         )

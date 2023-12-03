@@ -11,7 +11,7 @@ Priority :
       
         - search (optional for now)
     
-- ** fix preview image during editing + defaut image if no image or image deleted during editing
+- ** fix preview image during editing + defaut image if no image or image deleted during editing + image for scrap
 
 - regarder licence opn source à mettre 
 
@@ -23,22 +23,26 @@ Priority :
 - *** create settings page
 - *** UI
 - *** check with differet police size (from smartphone user)
-- gérer pb steps pour cuisine az
-
-- "nothing to show if 0 categorie", ajouter qq catégoirie au début 
 - ** collapse ingred in  list view general recipe struct
+
+- checkbox ingred
+- gérer pb steps pour cuisine az
+- "nothing to show if 0 categorie", ajouter qq catégoirie au début 
 - padding sur les bouton qui sont trop aux bord de droite ("finish" dans add ingred par ex) 
 - message erreur si scrap ne s'est pas fait
 - faire disparaitre "manually" et "from web" en cliquant dans le vide
 
 ( NOW : )
-- ** add deletion or edition in add ingredients page list view
-- ** ajouter fleche retour recipe page
-- ** faire apparaitre les element ajouter en premier dans la liste de suggestion create recipe 
+
+- ** gérer ingred qui est vide si on retourne en arrière mode édition (pareil pour add difficulty et addi total time qand on retourne en arrière ur create recipe)
+- ** ajouter directement element saisis 
 - **edit recipe name from scrap
 - ** edit name recipe create recipe + les autres champs... envoyer la valeur saisie dans le champ "+" pour modifier plus facilement
 ----
 - Interessting features : 
+- add checkbox ingred
+- centrer texte d'une recette visionnée (centré sur deuxième ligne)
+- add edit in ingred selection (where there is only delete option for now)
 - attention ; pour collapse ingred et steps : si je developpe et que je sroll trop à partir de add ingred par ex, impossible de revenir à la normal, il faudrait bloquer add ingred add steps qui est le prmeier element de la liste
 - identation quand on ajoute une nouvelle étape après que d'autrzs ont été créées (step 1, step 2 (alors qu'il y a déjà step 1 et 2 par ex, il faudrait reprendre l'ndentation par rapport au éléments déjà ajoués))
 - bien signifier que category n'a pas été renseigné si on clique sur sumbit (pour add from scrap et manually)
@@ -56,6 +60,7 @@ _ search bar for all suggestion fields during create recipe
 - Creer nouvelles categories dans create recette ou home page 
 - deletion : select several items to delete ou edit the category
 - add creae recipe inside category
+- impression et sauvegarde en pdf
 
 
 Autre: 

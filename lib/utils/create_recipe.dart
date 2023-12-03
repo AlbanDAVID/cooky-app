@@ -35,7 +35,7 @@ class _CreateRecipeState extends State<CreateRecipe> {
   List allIngredientSelectedCreateRecipe = [];
   String? pathImageSelectedFromImagePicker;
   List<String> stepsRecipeFromCreateSteps = [];
-  late String recipeCategoryFromAddExistingCategory;
+  String recipeCategoryFromAddExistingCategory = "";
   String recipeNameFromAddRecipeName = "No title";
   String totalTimeFromAddTotalTime = "";
   String varFromAddDifficulty = "";
@@ -262,7 +262,7 @@ class _CreateRecipeState extends State<CreateRecipe> {
                       size: 20,
                     ),
                   ),
-                  SizedBox(width: 16), // Ajustez cet espace selon vos besoins
+                  SizedBox(width: 16),
                   InkWell(
                     onLongPress: () {
                       setState(() {

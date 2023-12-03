@@ -17,6 +17,7 @@ class RecipeStruct extends StatelessWidget {
   final String? pathImageSelectedFromImagePicker;
   final List<String> stepsRecipeFromCreateSteps;
   final bool isFromScrap;
+  final bool isShowIngredientPressed = false;
 
   const RecipeStruct({
     super.key,
@@ -33,124 +34,138 @@ class RecipeStruct extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.only(left: 40.0, right: 40, top: 50),
-        // ignore: avoid_unnecessary_containers
-        child: Container(
-          child: Column(
-            children: [
-              // Title (recipe name)
+        appBar: AppBar(
+          // Title (recipe name)
 
-              Text(
-                recipeName,
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-
-              // Spacing between title and image
-              SizedBox(height: 16),
-
-              // Recipe picture
-              Center(
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(10.0),
-                  child: pathImageSelectedFromImagePicker != null
-                      ? Image.file(
-                          File(pathImageSelectedFromImagePicker!),
-                        ) // File(imageSelectedFromImagePicker!) to transform string path to a widget (ClipRRect does not support Imge.file with just string path, need a widget)
-                      : ElevatedButton(
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => MyImagePickerPage()),
-                            );
-                          },
-                          child: Text("Add pic")),
-                ),
-              ),
-
-              // Spacing between title and image
-              SizedBox(height: 16),
-
-              // Row for info (time, difficulty, cost)
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  // Total time
-                  Text(
-                    totalTime,
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  // Difficulty
-                  Text(
-                    difficulty,
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  // Cost
-                  Text(
-                    cost,
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ],
-              ),
-
-              // Spacing between title and image
-              SizedBox(height: 30),
+          title: Text(
+            maxLines: 2,
+            recipeName,
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          centerTitle: true,
+          elevation: 0,
+          //leading: const Icon(Icons.menu),
+        ),
+        body: Column(
+          children: [
+            if (isShowIngredientPressed == true)
               Text(
                 "INGREDIENTS (0/?)",
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              // Ingrédients (TODO : add checkbox)
+            SizedBox(
+                height: 600,
+                child: ListView.builder(
+                  itemCount: allIngredientSelected.length,
+                  itemBuilder: (context, index) {
+                    final ingredient = allIngredientSelected[index][0];
+                    final quantity = allIngredientSelected[index][1];
+                    final unit = allIngredientSelected[index][2];
+
+                    final formattedString = '$ingredient : ($quantity$unit)';
+                    return isFromScrap
+                        ? ListTile(
+                            title: Text(allIngredientSelected[index]),
+                          )
+                        : ListTile(
+                            title: Text(formattedString),
+                          );
+                  },
+                )),
+            Expanded(
+                child: ListView(children: [
               Expanded(
-                  child: ListView.builder(
-                itemCount: allIngredientSelected.length,
-                itemBuilder: (context, index) {
-                  final ingredient = allIngredientSelected[index][0];
-                  final quantity = allIngredientSelected[index][1];
-                  final unit = allIngredientSelected[index][2];
+                  child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 40.0),
+                      // ignore: avoid_unnecessary_containers
+                      child: Container(
+                          child: Column(children: [
+                        // Spacing between title and image
+                        SizedBox(height: 16),
 
-                  final formattedString = '$ingredient : ($quantity$unit)';
-                  return isFromScrap
-                      ? ListTile(
-                          title: Text(allIngredientSelected[index]),
-                        )
-                      : ListTile(
-                          title: Text(formattedString),
-                        );
-                },
-              )),
+                        // Recipe picture
+                        Center(
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(10.0),
+                            child: pathImageSelectedFromImagePicker != null
+                                ? Image.file(
+                                    File(pathImageSelectedFromImagePicker!),
+                                  ) // File(imageSelectedFromImagePicker!) to transform string path to a widget (ClipRRect does not support Imge.file with just string path, need a widget)
+                                : ElevatedButton(
+                                    onPressed: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                MyImagePickerPage()),
+                                      );
+                                    },
+                                    child: Text("Add pic")),
+                          ),
+                        ),
 
-              // Spacing between title and image
-              SizedBox(height: 16),
+                        // Spacing between title and image
+                        SizedBox(height: 16),
 
-              FloatingActionButton.extended(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => ShowRecipeSteps(
-                              steps: stepsRecipeFromCreateSteps,
-                            )),
-                  );
-                },
-                label: Text("Start to cook!"),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
+                        // Row for info (time, difficulty, cost)
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            // Total time
+                            Text(
+                              totalTime,
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            // Difficulty
+                            Text(
+                              difficulty,
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            // Cost
+                            Text(
+                              cost,
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
+                        ),
+
+                        // Spacing between title and image
+                        SizedBox(height: 30),
+                      ]))))
+            ])),
+            // Ingrédients (TODO : add checkbox)
+
+            //  Spacing between title and image
+
+            Padding(
+                padding: EdgeInsets.all(10),
+                child: Container(
+                  alignment: Alignment.bottomCenter,
+                  child: FloatingActionButton.extended(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => ShowRecipeSteps(
+                                  steps: stepsRecipeFromCreateSteps,
+                                )),
+                      );
+                    },
+                    label: Text("Start to cook!"),
+                  ),
+                ))
+          ],
+        ));
   }
 }
