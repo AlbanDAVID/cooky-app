@@ -24,6 +24,7 @@ Priority :
 - *** UI
 - *** check with differet police size (from smartphone user)
 - ** collapse ingred in  list view general recipe struct
+-- add link scrap 
 
 - checkbox ingred
 - gérer pb steps pour cuisine az
