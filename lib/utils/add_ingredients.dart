@@ -100,68 +100,63 @@ class _AddIngredState extends State<AddIngred> {
               },
             ),
           ),
-          Row(mainAxisAlignment: MainAxisAlignment.end, children: [
-            Container(
-              alignment: Alignment.centerRight,
-              child: MaterialButton(
-                onPressed: () async {
-                  showDialog(
-                      context: context,
-                      builder: (context) {
-                        return AlertDialog(
-                          title: Text('Add ingredient'),
-                          content: Column(children: [
-                            TextField(
-                                controller: _controller,
-                                decoration: InputDecoration(
-                                  border: OutlineInputBorder(),
-                                  hintText: "Ingredient name",
-                                )),
-                            TextField(
-                                controller: _controller2,
-                                decoration: InputDecoration(
-                                  border: OutlineInputBorder(),
-                                  hintText: "Quantity",
-                                )),
-                            TextField(
-                                controller: _controller3,
-                                decoration: InputDecoration(
-                                  border: OutlineInputBorder(),
-                                  hintText: "Unit",
-                                ))
-                          ]),
-                          actions: [
-                            ElevatedButton(
-                              child: Text('Add'),
-                              onPressed: () async {
-                                allIngredientSelected.add([
-                                  _controller.text,
-                                  _controller2.text,
-                                  _controller3.text
-                                ]);
-                                Navigator.pop(context);
+          ElevatedButton(
+            onPressed: () async {
+              showDialog(
+                  context: context,
+                  builder: (context) {
+                    return AlertDialog(
+                      title: Text('Add ingredient'),
+                      content: Column(children: [
+                        TextField(
+                            controller: _controller,
+                            decoration: InputDecoration(
+                              border: OutlineInputBorder(),
+                              hintText: "Ingredient name",
+                            )),
+                        TextField(
+                            controller: _controller2,
+                            decoration: InputDecoration(
+                              border: OutlineInputBorder(),
+                              hintText: "Quantity",
+                            )),
+                        TextField(
+                            controller: _controller3,
+                            decoration: InputDecoration(
+                              border: OutlineInputBorder(),
+                              hintText: "Unit",
+                            ))
+                      ]),
+                      actions: [
+                        ElevatedButton(
+                          child: Text('Add'),
+                          onPressed: () async {
+                            allIngredientSelected.add([
+                              _controller.text,
+                              _controller2.text,
+                              _controller3.text
+                            ]);
+                            Navigator.pop(context);
 
-                                _controller.clear();
-                                _controller2.clear();
-                                setState(() {});
-                              },
-                            )
-                          ],
-                        );
-                      });
+                            _controller.clear();
+                            _controller2.clear();
+                            setState(() {});
+                          },
+                        )
+                      ],
+                    );
+                  });
+            },
+            child: Icon(Icons.add),
+          ),
+          Container(
+              alignment: Alignment.bottomRight,
+              child: ElevatedButton(
+                onPressed: () {
+                  Navigator.pop(context, allIngredientSelected);
                 },
-                child: Icon(Icons.add),
-              ),
-            ),
-            Container(
-                alignment: Alignment.centerRight,
-                child: MaterialButton(
-                  onPressed: () {
-                    Navigator.pop(context, allIngredientSelected);
-                  },
-                  child: const Text('Add'),
-                ))
-          ])
+                child: const Text('Finish'),
+              ))
         ]));
   }
 }

@@ -34,18 +34,20 @@ class Scraping extends StatefulWidget {
   _ScrapingState createState() => _ScrapingState();
 }
 
-bool isShowIngredientsSelectedPressed = false;
-
 class _ScrapingState extends State<Scraping> {
   // ignore: unused_field
 
   String? scrapPathImage;
 
-  String scrapRecipeCategory = "From web";
+  late String scrapRecipeCategory;
   String scrapTotalTime = "";
   String scrapDifficulty = "";
   String scrapCost = "";
   bool isFromScrap = true;
+
+  bool isShowIngredientsSelectedPressed = false;
+  bool isshowStepsAddedPressed = false;
+  bool isButtonAddCategoryVisible = true;
 
   // load database
   final _myBox = Hive.box('mybox');
@@ -79,32 +81,42 @@ class _ScrapingState extends State<Scraping> {
   // widget with button for adding category, and display category selected with edition button
   Widget addCategory() {
     setState(() {});
-    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      Text(
-        "Category:",
-        style: TextStyle(
-          fontSize: 16,
-        ),
-      ),
-      Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-        Text(
-          scrapRecipeCategory,
-          style: TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        InkWell(
-          onTap: () {
-            _getDataFromAddExistingCategory(context);
-          },
-          child: Icon(
-            Icons.create,
-            size: 20,
-          ),
-        ),
-      ]),
-    ]);
+    return isButtonAddCategoryVisible
+        ? ElevatedButton(
+            onPressed: () async {
+              setState(() {
+                isButtonAddCategoryVisible = false;
+                _getDataFromAddExistingCategory(context);
+              });
+            },
+            child: Text("Add category (required)"),
+          )
+        : Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            Text(
+              "Category:",
+              style: TextStyle(
+                fontSize: 16,
+              ),
+            ),
+            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+              Text(
+                scrapRecipeCategory,
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              InkWell(
+                onTap: () {
+                  _getDataFromAddExistingCategory(context);
+                },
+                child: Icon(
+                  Icons.create,
+                  size: 20,
+                ),
+              ),
+            ]),
+          ]);
   }
 
   ////////////////////////////////////////////////////////
@@ -663,12 +675,47 @@ class _ScrapingState extends State<Scraping> {
   Widget addSteps() {
     setState(() {});
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      Text(
-        "Steps :",
-        style: TextStyle(
-          fontSize: 16,
-        ),
-      ),
+      isshowStepsAddedPressed
+          ? TextButton(
+              onPressed: () {
+                setState(() {
+                  isshowStepsAddedPressed = false;
+                });
+              },
+              child: Row(
+                children: [
+                  Text(
+                    "Collapse",
+                    style: TextStyle(
+                      fontSize: 16,
+                    ),
+                  ),
+                  Icon(
+                    Icons.arrow_downward,
+                    size: 16, // ajustez la taille selon vos besoins
+                  ),
+                ],
+              ))
+          : TextButton(
+              onPressed: () {
+                setState(() {
+                  isshowStepsAddedPressed = true;
+                });
+              },
+              child: Row(
+                children: [
+                  Text(
+                    "Show steps",
+                    style: TextStyle(
+                      fontSize: 16,
+                    ),
+                  ),
+                  Icon(
+                    Icons.arrow_upward,
+                    size: 16, // ajustez la taille selon vos besoins
+                  ),
+                ],
+              )),
       Row(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
@@ -697,7 +744,8 @@ class _ScrapingState extends State<Scraping> {
 
   // widget list view to show all steps and possibilty to edit, delete
   Widget showStepsAdded() {
-    return Expanded(
+    return SizedBox(
+      height: 600,
       child: ListView.builder(
         itemCount: widget.scrapStepsRecipe.length,
         itemBuilder: (context, index) {
@@ -756,7 +804,8 @@ class _ScrapingState extends State<Scraping> {
 
   Widget ShowWidget() {
     setState(() {});
-    if (isShowIngredientsSelectedPressed == false) {
+    if (isShowIngredientsSelectedPressed == false &&
+        isshowStepsAddedPressed == false) {
       return Column(children: [
         addCategory(),
         addRecipeName(),
@@ -765,9 +814,17 @@ class _ScrapingState extends State<Scraping> {
         addCost(),
         addPicture(),
         addIngred(),
+        addSteps(),
+      ]);
+    } else if (isShowIngredientsSelectedPressed == true) {
+      return Column(children: [addIngred(), showIngredientsSelected()]);
+    } else if (isshowStepsAddedPressed == true) {
+      return Column(children: [
+        addSteps(),
+        showStepsAdded(),
       ]);
     } else {
-      return Column(children: [addIngred(), showIngredientsSelected()]);
+      return Text("Error, no widgets to display");
     }
   }
 

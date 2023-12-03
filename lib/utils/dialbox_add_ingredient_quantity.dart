@@ -94,7 +94,7 @@ class _AddIngredientQuantityState extends State<AddIngredientQuantity> {
             ),
             Container(
                 alignment: Alignment.centerRight,
-                child: MaterialButton(
+                child: ElevatedButton(
                   onPressed: () {
                     Navigator.pop(context, finalQuantity);
                   },

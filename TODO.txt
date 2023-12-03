@@ -1,38 +1,48 @@
 Priority : 
 
-- ajouter date de création (create recipe)
-- ajouter tags (create recipe)
+- *** ajouter date de création (create recipe) 
+- ** ajouter tags (create recipe)
+- *** check si on peut ajouter des element à a liste database au fil de l'eau et voir si on peut afficier les anciennes recettes
 - Create and Read recipe : 
     - Ingredients, Recipe name, Total time, Difficulty, Cost -> 
     add intuitive fields : 
-        - quantity intuitive type (for all kind of Ingredients) 
-        - pre fields 
-        - add manually 
+        - ** quantity intuitive type (for all kind of Ingredients) 
+        - * pre fields 
+      
         - search (optional for now)
     
-- fix preview image during editing + defaut image if no image or image deleted during editing
-- add required field for add category
-- add deletion or edition in add ingredients page lst view
-- scraping
-- backup database (possibilty to export, import, ask for conserv data if uninstall app)
-- camera right access iOS (for add pics)
-- check with all devices
-- language french/english
-- coherente navigation (especially witk back return)
-- create settings page
-- UI
-- check with differet police size (from smartphone user)
-- check si on peut ajouter des element à a liste database au fil de l'eau et voir si on peut afficier les anciennes recettes
-- gérer catégorie manquante pour scrap
+- ** fix preview image during editing + defaut image if no image or image deleted during editing
+
+- regarder licence opn source à mettre 
+
+- *** backup database (possibilty to export, import, ask for conserv data if uninstall app)
+- *** camera right access iOS (for add pics)
+- *** check with all devices
+- *** language french/english
+- *** coherente navigation (especially witk back return)
+- *** create settings page
+- *** UI
+- *** check with differet police size (from smartphone user)
 - gérer pb steps pour cuisine az
-- edit recipe name from scrap
-- edit name recipe create recipe + les autres champs... envoter la valeur saisie dans le champ "+" pour modifier plus facilement
+
 - "nothing to show if 0 categorie", ajouter qq catégoirie au début 
-- collapse ingred + list view general recipe struct
+- ** collapse ingred in  list view general recipe struct
+- padding sur les bouton qui sont trop aux bord de droite ("finish" dans add ingred par ex) 
+- message erreur si scrap ne s'est pas fait
+- faire disparaitre "manually" et "from web" en cliquant dans le vide
 
-
+( NOW : )
+- ** add deletion or edition in add ingredients page list view
+- ** ajouter fleche retour recipe page
+- ** faire apparaitre les element ajouter en premier dans la liste de suggestion create recipe 
+- **edit recipe name from scrap
+- ** edit name recipe create recipe + les autres champs... envoyer la valeur saisie dans le champ "+" pour modifier plus facilement
 ----
 - Interessting features : 
+- attention ; pour collapse ingred et steps : si je developpe et que je sroll trop à partir de add ingred par ex, impossible de revenir à la normal, il faudrait bloquer add ingred add steps qui est le prmeier element de la liste
+- identation quand on ajoute une nouvelle étape après que d'autrzs ont été créées (step 1, step 2 (alors qu'il y a déjà step 1 et 2 par ex, il faudrait reprendre l'ndentation par rapport au éléments déjà ajoués))
+- bien signifier que category n'a pas été renseigné si on clique sur sumbit (pour add from scrap et manually)
+- pouvoir deplacer les catégorie sur home page
 - ajouter message erreur scrapping
 - - ajouter possibilité de supprimé uniquement recette d'une catégorie sur home page (pour 'instant on put le faire que une fois dans la catégorie)
 - improve scraping (more website)

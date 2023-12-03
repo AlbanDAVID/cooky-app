@@ -133,85 +133,82 @@ class _CreateStepsState extends State<CreateSteps> {
           title: const Text('Add steps'),
         ),
         body: Center(
-            child: Column(
-          children: [
-            Expanded(
-                child: ListView.builder(
-              itemCount: stepsRecipe.length,
-              itemBuilder: (context, index) {
-                return ListTile(
-                  title: Text(' Step ${index + 1}:\n${stepsRecipe[index]}'),
-                  trailing: Wrap(
-                    spacing: -16,
-                    children: [
-                      IconButton(
-                        icon: const Icon(Icons.edit),
-                        onPressed: () async {
-                          final result = await showDialog(
-                              context: context,
-                              builder: (context) {
-                                return DialogEditStep(
-                                  controller: TextEditingController(
-                                      text: stepsRecipe[index].toString()),
-                                );
-                              });
-                          if (result != null) {
-                            String stepEdited = result;
-                            print(
-                                'Received data from SecondScreen: $stepEdited');
-                            setState(() {});
-                            stepsRecipe[index] = stepEdited;
-                          }
-                        },
-                      ),
-                      GestureDetector(
-                        onLongPress: () {
-                          setState(() {
-                            stepsRecipe.removeAt(index);
-                          });
-                        },
-                        child: IconButton(
-                          icon: const Icon(
-                            Icons.delete,
-                            color: Colors.redAccent,
-                          ),
-                          onPressed: () {},
+            child: Column(children: [
+          Expanded(
+              child: ListView.builder(
+            itemCount: stepsRecipe.length,
+            itemBuilder: (context, index) {
+              return ListTile(
+                title: Text(' Step ${index + 1}:\n${stepsRecipe[index]}'),
+                trailing: Wrap(
+                  spacing: -16,
+                  children: [
+                    IconButton(
+                      icon: const Icon(Icons.edit),
+                      onPressed: () async {
+                        final result = await showDialog(
+                            context: context,
+                            builder: (context) {
+                              return DialogEditStep(
+                                controller: TextEditingController(
+                                    text: stepsRecipe[index].toString()),
+                              );
+                            });
+                        if (result != null) {
+                          String stepEdited = result;
+                          print('Received data from SecondScreen: $stepEdited');
+                          setState(() {});
+                          stepsRecipe[index] = stepEdited;
+                        }
+                      },
+                    ),
+                    GestureDetector(
+                      onLongPress: () {
+                        setState(() {
+                          stepsRecipe.removeAt(index);
+                        });
+                      },
+                      child: IconButton(
+                        icon: const Icon(
+                          Icons.delete,
+                          color: Colors.redAccent,
                         ),
-                      )
-                    ],
-                  ),
-                );
-              },
-            )),
-            Row(mainAxisAlignment: MainAxisAlignment.end, children: [
-              ElevatedButton(
-                onPressed: () async {
-                  final result = await showDialog(
-                      context: context,
-                      builder: (context) {
-                        return DialogAddSteps(
-                          controller: _controller,
-                        );
-                      });
-                  if (result != null) {
-                    String controller = result;
-                    print('Received data from SecondScreen: $controller');
-                    setState(() {});
-                    stepsRecipe.add(controller);
-                    numberSteps++;
-                    _controller.clear();
-                  }
-                },
-                child: Text("Add step $numberSteps"),
-              ),
-              ElevatedButton(
+                        onPressed: () {},
+                      ),
+                    )
+                  ],
+                ),
+              );
+            },
+          )),
+          ElevatedButton(
+            onPressed: () async {
+              final result = await showDialog(
+                  context: context,
+                  builder: (context) {
+                    return DialogAddSteps(
+                      controller: _controller,
+                    );
+                  });
+              if (result != null) {
+                String controller = result;
+                print('Received data from SecondScreen: $controller');
+                setState(() {});
+                stepsRecipe.add(controller);
+                numberSteps++;
+                _controller.clear();
+              }
+            },
+            child: Text("Add a new step"),
+          ),
+          Container(
+              alignment: Alignment.bottomRight,
+              child: ElevatedButton(
                 onPressed: () {
                   Navigator.pop(context, stepsRecipe);
                 },
                 child: Text("Finish"),
-              ),
-            ])
-          ],
-        )));
+              )),
+        ])));
   }
 }

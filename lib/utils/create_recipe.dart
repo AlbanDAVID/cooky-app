@@ -89,7 +89,7 @@ class _CreateRecipeState extends State<CreateRecipe> {
                 _getDataFromAddExistingCategory(context);
               });
             },
-            child: Text("Add category"),
+            child: Text("Add category (required)"),
           )
         : Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             Text(
@@ -962,84 +962,73 @@ class _CreateRecipeState extends State<CreateRecipe> {
                     ShowWidget(),
                   ])),
                   // Button fot submit form
-                  ElevatedButton(
-                    onPressed: () {
-                      // handle deleted variable
-                      final finalRecipeNameFromAddRecipeName =
-                          recipeNameFromAddRecipeName == "Deleted"
-                              ? "No title"
-                              : recipeNameFromAddRecipeName;
+                  Container(
+                      alignment: Alignment.bottomRight,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          // handle deleted variable
+                          final finalRecipeNameFromAddRecipeName =
+                              recipeNameFromAddRecipeName == "Deleted"
+                                  ? "No title"
+                                  : recipeNameFromAddRecipeName;
 
-                      final finalTotalTimeFromAddTotalTime =
-                          totalTimeFromAddTotalTime == "Deleted"
-                              ? ""
-                              : totalTimeFromAddTotalTime;
+                          final finalTotalTimeFromAddTotalTime =
+                              totalTimeFromAddTotalTime == "Deleted"
+                                  ? ""
+                                  : totalTimeFromAddTotalTime;
 
-                      final finalVarFromAddDifficulty =
-                          varFromAddDifficulty == "Deleted"
-                              ? ""
-                              : varFromAddDifficulty;
+                          final finalVarFromAddDifficulty =
+                              varFromAddDifficulty == "Deleted"
+                                  ? ""
+                                  : varFromAddDifficulty;
 
-                      final finalVarFromAddCost =
-                          varFromAddCost == "Deleted" ? "" : varFromAddCost;
+                          final finalVarFromAddCost =
+                              varFromAddCost == "Deleted" ? "" : varFromAddCost;
 
-                      // retrieve database list
-                      List listOfLists = _myBox.get('ALL_LISTS') ?? [];
+                          // retrieve database list
+                          List listOfLists = _myBox.get('ALL_LISTS') ?? [];
 
-                      // Add a new list to the list of lists
+                          // Add a new list to the list of lists
 
-                      listOfLists.add([
-                        finalRecipeNameFromAddRecipeName,
-                        finalTotalTimeFromAddTotalTime,
-                        finalVarFromAddDifficulty,
-                        finalVarFromAddCost,
-                        allIngredientSelectedCreateRecipe,
-                        pathImageSelectedFromImagePicker,
-                        stepsRecipeFromCreateSteps,
-                        recipeCategoryFromAddExistingCategory,
-                        isFromScrap
-                      ]);
-
-                      // Update list of lists in Hive
-                      _myBox.put('ALL_LISTS', listOfLists);
-
-                      // Create an instance of RecipeDetailsPage with the form data
-                      RecipeStruct recipeDetailsPage = RecipeStruct(
-                        recipeName: finalRecipeNameFromAddRecipeName,
-                        totalTime: finalTotalTimeFromAddTotalTime,
-                        difficulty: finalVarFromAddDifficulty,
-                        cost: finalVarFromAddCost,
-                        allIngredientSelected:
+                          listOfLists.add([
+                            finalRecipeNameFromAddRecipeName,
+                            finalTotalTimeFromAddTotalTime,
+                            finalVarFromAddDifficulty,
+                            finalVarFromAddCost,
                             allIngredientSelectedCreateRecipe,
-                        pathImageSelectedFromImagePicker:
                             pathImageSelectedFromImagePicker,
-                        stepsRecipeFromCreateSteps: stepsRecipeFromCreateSteps,
-                        isFromScrap: isFromScrap,
-                      );
+                            stepsRecipeFromCreateSteps,
+                            recipeCategoryFromAddExistingCategory,
+                            isFromScrap
+                          ]);
 
-                      // Navigate to the new page with the form data and save
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => recipeDetailsPage),
-                      );
-                    },
-                    child: Text("Submit"),
-                  ),
-                  ElevatedButton(
-                      onPressed: () {
-                        setState(() {
-                          isShowIngredientsSelectedPressed = true;
-                        });
-                      },
-                      child: Text("true")),
-                  ElevatedButton(
-                      onPressed: () {
-                        setState(() {
-                          isShowIngredientsSelectedPressed = false;
-                        });
-                      },
-                      child: Text("false"))
+                          // Update list of lists in Hive
+                          _myBox.put('ALL_LISTS', listOfLists);
+
+                          // Create an instance of RecipeDetailsPage with the form data
+                          RecipeStruct recipeDetailsPage = RecipeStruct(
+                            recipeName: finalRecipeNameFromAddRecipeName,
+                            totalTime: finalTotalTimeFromAddTotalTime,
+                            difficulty: finalVarFromAddDifficulty,
+                            cost: finalVarFromAddCost,
+                            allIngredientSelected:
+                                allIngredientSelectedCreateRecipe,
+                            pathImageSelectedFromImagePicker:
+                                pathImageSelectedFromImagePicker,
+                            stepsRecipeFromCreateSteps:
+                                stepsRecipeFromCreateSteps,
+                            isFromScrap: isFromScrap,
+                          );
+
+                          // Navigate to the new page with the form data and save
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => recipeDetailsPage),
+                          );
+                        },
+                        child: Text("Submit"),
+                      )),
                 ],
               ),
             ),

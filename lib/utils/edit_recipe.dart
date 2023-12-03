@@ -49,8 +49,6 @@ class EditRecipe extends StatefulWidget {
   _EditRecipeState createState() => _EditRecipeState();
 }
 
-bool isShowIngredientsSelectedPressed = false;
-
 class _EditRecipeState extends State<EditRecipe> {
   // ignore: unused_field
 
@@ -60,6 +58,9 @@ class _EditRecipeState extends State<EditRecipe> {
   RecipeDatabase db = RecipeDatabase();
 
   String previewImageTextField = "";
+
+  bool isShowIngredientsSelectedPressed = false;
+  bool isshowStepsAddedPressed = false;
 
   ////// FUNCTIONS FOR RECIPE CATEGORY //////
 
@@ -701,12 +702,47 @@ class _EditRecipeState extends State<EditRecipe> {
   Widget addSteps() {
     setState(() {});
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      Text(
-        "Steps :",
-        style: TextStyle(
-          fontSize: 16,
-        ),
-      ),
+      isshowStepsAddedPressed
+          ? TextButton(
+              onPressed: () {
+                setState(() {
+                  isshowStepsAddedPressed = false;
+                });
+              },
+              child: Row(
+                children: [
+                  Text(
+                    "Collapse",
+                    style: TextStyle(
+                      fontSize: 16,
+                    ),
+                  ),
+                  Icon(
+                    Icons.arrow_downward,
+                    size: 16, // ajustez la taille selon vos besoins
+                  ),
+                ],
+              ))
+          : TextButton(
+              onPressed: () {
+                setState(() {
+                  isshowStepsAddedPressed = true;
+                });
+              },
+              child: Row(
+                children: [
+                  Text(
+                    "Show steps",
+                    style: TextStyle(
+                      fontSize: 16,
+                    ),
+                  ),
+                  Icon(
+                    Icons.arrow_upward,
+                    size: 16, // ajustez la taille selon vos besoins
+                  ),
+                ],
+              )),
       Row(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
@@ -735,7 +771,8 @@ class _EditRecipeState extends State<EditRecipe> {
 
   // widget list view to show all steps and possibilty to edit, delete
   Widget showStepsAdded() {
-    return Expanded(
+    return SizedBox(
+      height: 600,
       child: ListView.builder(
         itemCount: widget.editStepsRecipe.length,
         itemBuilder: (context, index) {
@@ -793,7 +830,8 @@ class _EditRecipeState extends State<EditRecipe> {
 
   Widget ShowWidget() {
     setState(() {});
-    if (isShowIngredientsSelectedPressed == false) {
+    if (isShowIngredientsSelectedPressed == false &&
+        isshowStepsAddedPressed == false) {
       return Column(children: [
         addCategory(),
         addRecipeName(),
@@ -802,9 +840,17 @@ class _EditRecipeState extends State<EditRecipe> {
         addCost(),
         addPicture(),
         addIngred(),
+        addSteps(),
+      ]);
+    } else if (isShowIngredientsSelectedPressed == true) {
+      return Column(children: [addIngred(), showIngredientsSelected()]);
+    } else if (isshowStepsAddedPressed == true) {
+      return Column(children: [
+        addSteps(),
+        showStepsAdded(),
       ]);
     } else {
-      return Column(children: [addIngred(), showIngredientsSelected()]);
+      return Text("Error, no widgets to display");
     }
   }
 
@@ -865,67 +911,71 @@ class _EditRecipeState extends State<EditRecipe> {
                     ShowWidget(),
                   ])),
                   // Button fot submit form
-                  ElevatedButton(
-                    onPressed: () {
-                      // handle deleted variable
-                      final finalEditRecipeName =
-                          widget.editRecipeName == "Deleted"
-                              ? "No title"
-                              : widget.editRecipeName;
+                  Container(
+                    alignment: Alignment.bottomRight,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        // handle deleted variable
+                        final finalEditRecipeName =
+                            widget.editRecipeName == "Deleted"
+                                ? "No title"
+                                : widget.editRecipeName;
 
-                      final finalEditTotalTime =
-                          widget.editTotalTime == "Deleted"
-                              ? ""
-                              : widget.editTotalTime;
+                        final finalEditTotalTime =
+                            widget.editTotalTime == "Deleted"
+                                ? ""
+                                : widget.editTotalTime;
 
-                      final finalEditDifficulty =
-                          widget.editDifficulty == "Deleted"
-                              ? ""
-                              : widget.editDifficulty;
+                        final finalEditDifficulty =
+                            widget.editDifficulty == "Deleted"
+                                ? ""
+                                : widget.editDifficulty;
 
-                      final finalEditCost =
-                          widget.editCost == "Deleted" ? "" : widget.editCost;
+                        final finalEditCost =
+                            widget.editCost == "Deleted" ? "" : widget.editCost;
 
-                      // get all data
-                      List recipeList = _myBox.get('ALL_LISTS') ?? [];
+                        // get all data
+                        List recipeList = _myBox.get('ALL_LISTS') ?? [];
 
-                      // Give edidted values to recipeList
-                      recipeList[widget.index][0] = finalEditRecipeName;
-                      recipeList[widget.index][1] = finalEditTotalTime;
-                      recipeList[widget.index][2] = finalEditDifficulty;
-                      recipeList[widget.index][3] = finalEditCost;
-                      recipeList[widget.index][4] = widget.editAllIngredient;
-                      recipeList[widget.index][5] = widget.editPathImage;
-                      recipeList[widget.index][6] = widget.editStepsRecipe;
-                      recipeList[widget.index][7] = widget.editRecipeCategory;
+                        // Give edidted values to recipeList
+                        recipeList[widget.index][0] = finalEditRecipeName;
+                        recipeList[widget.index][1] = finalEditTotalTime;
+                        recipeList[widget.index][2] = finalEditDifficulty;
+                        recipeList[widget.index][3] = finalEditCost;
+                        recipeList[widget.index][4] = widget.editAllIngredient;
+                        recipeList[widget.index][5] = widget.editPathImage;
+                        recipeList[widget.index][6] = widget.editStepsRecipe;
+                        recipeList[widget.index][7] = widget.editRecipeCategory;
 
-                      // Save edidted list in hive
-                      _myBox.put("ALL_LISTS", recipeList);
+                        // Save edidted list in hive
+                        _myBox.put("ALL_LISTS", recipeList);
 
-                      // Create an instance of RecipeDetailsPage with the form data
-                      RecipeStruct recipeDetailsPage = RecipeStruct(
-                        recipeName: finalEditRecipeName,
-                        totalTime: finalEditTotalTime,
-                        difficulty: finalEditDifficulty,
-                        cost: finalEditCost,
-                        allIngredientSelected: widget.editAllIngredient,
-                        pathImageSelectedFromImagePicker: widget.editPathImage,
-                        stepsRecipeFromCreateSteps: widget.editStepsRecipe,
-                        isFromScrap: recipeList[widget.index][8],
-                      );
+                        // Create an instance of RecipeDetailsPage with the form data
+                        RecipeStruct recipeDetailsPage = RecipeStruct(
+                          recipeName: finalEditRecipeName,
+                          totalTime: finalEditTotalTime,
+                          difficulty: finalEditDifficulty,
+                          cost: finalEditCost,
+                          allIngredientSelected: widget.editAllIngredient,
+                          pathImageSelectedFromImagePicker:
+                              widget.editPathImage,
+                          stepsRecipeFromCreateSteps: widget.editStepsRecipe,
+                          isFromScrap: recipeList[widget.index][8],
+                        );
 
-                      // Navigate to the new page with the form data and save
-                      //   Navigator.push(
-                      //     context,
-                      //     MaterialPageRoute(
-                      //         builder: (context) => recipeDetailsPage),
-                      //   );
+                        // Navigate to the new page with the form data and save
+                        //   Navigator.push(
+                        //     context,
+                        //     MaterialPageRoute(
+                        //         builder: (context) => recipeDetailsPage),
+                        //   );
 
-                      // send finalEditRecipeName to apply filter in filtered_name_recipe with new recipe name
-                      Navigator.pop(context, finalEditRecipeName);
-                    },
-                    child: Text("Save changes"),
-                  ),
+                        // send finalEditRecipeName to apply filter in filtered_name_recipe with new recipe name
+                        Navigator.pop(context, finalEditRecipeName);
+                      },
+                      child: Text("Save changes"),
+                    ),
+                  )
                 ],
               ),
             ),
