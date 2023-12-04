@@ -1068,6 +1068,11 @@ class _CreateRecipeState extends State<CreateRecipe> {
                           final finalVarFromAddCost =
                               varFromAddCost == "Deleted" ? "" : varFromAddCost;
 
+                          // create a varible with the date of creation
+                          DateTime now = DateTime.now();
+                          String creationDate =
+                              'variable_${now.year}${now.month}${now.day}_${now.hour}${now.minute}${now.second}';
+
                           // retrieve database list
                           List listOfLists = _myBox.get('ALL_LISTS') ?? [];
 
@@ -1083,6 +1088,7 @@ class _CreateRecipeState extends State<CreateRecipe> {
                             stepsRecipeFromCreateSteps,
                             recipeCategoryFromAddExistingCategory,
                             isFromScrap,
+                            creationDate
                           ]);
 
                           // Update list of lists in Hive

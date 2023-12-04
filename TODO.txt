@@ -1,6 +1,6 @@
 Priority : 
 
-- *** ajouter date de création (create recipe) 
+
 - ** ajouter tags (create recipe)
 - *** check si on peut ajouter des element à a liste database au fil de l'eau et voir si on peut afficier les anciennes recettes
 - *** Create and Read recipe : 
@@ -13,7 +13,6 @@ Priority :
     
 
 
-- *** suggestion
 - *** check license
 - *** check with all devices
 - *** check with differet police size (from smartphone user)
@@ -24,7 +23,7 @@ Priority :
 - *** Lancement sur f droid : changer app name, créer icone
 
 
-
+- police non monospace
 - dial box if category is empty (create recipe)
 - backup database (possibilty to export, import, ask for conserv data if uninstall app)
 - camera right access iOS (for add pics)
