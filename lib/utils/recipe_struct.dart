@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:cook_app/data/recipe_database/database.dart';
 
-class RecipeStruct extends StatelessWidget {
+class RecipeStruct extends StatefulWidget {
   final String recipeName;
   final String totalTime;
   final String difficulty;
@@ -17,7 +17,6 @@ class RecipeStruct extends StatelessWidget {
   final String? pathImageSelectedFromImagePicker;
   final List<String> stepsRecipeFromCreateSteps;
   final bool isFromScrap;
-  final bool isShowIngredientPressed = false;
 
   const RecipeStruct({
     super.key,
@@ -32,6 +31,20 @@ class RecipeStruct extends StatelessWidget {
   });
 
   @override
+  State<RecipeStruct> createState() => _RecipeStructState();
+}
+
+class _RecipeStructState extends State<RecipeStruct> {
+  bool isShowIngredientPressed = false;
+  late List<bool> _isChecked;
+
+  @override
+  void initState() {
+    super.initState();
+    _isChecked = List<bool>.filled(widget.allIngredientSelected.length, false);
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
@@ -39,7 +52,7 @@ class RecipeStruct extends StatelessWidget {
 
           title: Text(
             maxLines: 2,
-            recipeName,
+            widget.recipeName,
             style: TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.bold,
@@ -49,34 +62,76 @@ class RecipeStruct extends StatelessWidget {
           elevation: 0,
           //leading: const Icon(Icons.menu),
         ),
-        body: Column(
-          children: [
-            if (isShowIngredientPressed == true)
-              Text(
-                "INGREDIENTS (0/?)",
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
+        body: Column(children: [
+          if (isShowIngredientPressed == true) ...[
+            TextButton(
+                onPressed: () {
+                  setState(() {
+                    isShowIngredientPressed = false;
+                  });
+                },
+                child: Row(
+                  children: const [
+                    Text(
+                      "Collapse",
+                      style: TextStyle(
+                        fontSize: 16,
+                      ),
+                    ),
+                    Icon(
+                      Icons.arrow_downward,
+                      size: 16, // ajustez la taille selon vos besoins
+                    ),
+                  ],
+                )),
             SizedBox(
                 height: 600,
                 child: ListView.builder(
-                  itemCount: allIngredientSelected.length,
+                  itemCount: widget.allIngredientSelected.length,
                   itemBuilder: (context, index) {
-                    final ingredient = allIngredientSelected[index][0];
-                    final quantity = allIngredientSelected[index][1];
-                    final unit = allIngredientSelected[index][2];
+                    final ingredient = widget.allIngredientSelected[index][0];
+                    final quantity = widget.allIngredientSelected[index][1];
+                    final unit = widget.allIngredientSelected[index][2];
 
                     final formattedString = '$ingredient : ($quantity$unit)';
-                    return isFromScrap
+                    return widget.isFromScrap
                         ? ListTile(
-                            title: Text(allIngredientSelected[index]),
+                            title: Text(widget.allIngredientSelected[index]),
+                            trailing: Checkbox(
+                                value: _isChecked[index],
+                                onChanged: (bool? value) {
+                                  if (_isChecked[index] == false) {
+                                    return setState(() {
+                                      _isChecked[index] = true;
+                                    });
+                                  } else {
+                                    return setState(() {
+                                      _isChecked[index] = false;
+                                    });
+                                  }
+                                }),
                           )
                         : ListTile(
                             title: Text(formattedString),
+                            trailing: Checkbox(
+                              value: _isChecked[index],
+                              onChanged: (bool? value) {
+                                if (_isChecked[index] == false) {
+                                  return setState(() {
+                                    _isChecked[index] = true;
+                                  });
+                                } else {
+                                  return setState(() {
+                                    _isChecked[index] = false;
+                                  });
+                                }
+                              },
+                            ),
                           );
                   },
-                )),
+                ))
+          ],
+          if (isShowIngredientPressed == false) ...[
             Expanded(
                 child: ListView(children: [
               Expanded(
@@ -92,9 +147,11 @@ class RecipeStruct extends StatelessWidget {
                         Center(
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(10.0),
-                            child: pathImageSelectedFromImagePicker != null
+                            child: widget.pathImageSelectedFromImagePicker !=
+                                    null
                                 ? Image.file(
-                                    File(pathImageSelectedFromImagePicker!),
+                                    File(widget
+                                        .pathImageSelectedFromImagePicker!),
                                   ) // File(imageSelectedFromImagePicker!) to transform string path to a widget (ClipRRect does not support Imge.file with just string path, need a widget)
                                 : ElevatedButton(
                                     onPressed: () {
@@ -118,21 +175,21 @@ class RecipeStruct extends StatelessWidget {
                           children: [
                             // Total time
                             Text(
-                              totalTime,
+                              widget.totalTime,
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
                             // Difficulty
                             Text(
-                              difficulty,
+                              widget.difficulty,
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
                             // Cost
                             Text(
-                              cost,
+                              widget.cost,
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
                               ),
@@ -140,14 +197,32 @@ class RecipeStruct extends StatelessWidget {
                           ],
                         ),
 
-                        // Spacing between title and image
                         SizedBox(height: 30),
+                        // Ingrédients (TODO : add checkbox)
+                        TextButton(
+                            onPressed: () {
+                              setState(() {
+                                isShowIngredientPressed = true;
+                              });
+                            },
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: const [
+                                Text(
+                                  "Show ingredients",
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                  ),
+                                ),
+                                Icon(
+                                  Icons.arrow_upward,
+                                  size:
+                                      16, // ajustez la taille selon vos besoins
+                                ),
+                              ],
+                            )),
                       ]))))
             ])),
-            // Ingrédients (TODO : add checkbox)
-
-            //  Spacing between title and image
-
             Padding(
                 padding: EdgeInsets.all(10),
                 child: Container(
@@ -158,7 +233,7 @@ class RecipeStruct extends StatelessWidget {
                         context,
                         MaterialPageRoute(
                             builder: (context) => ShowRecipeSteps(
-                                  steps: stepsRecipeFromCreateSteps,
+                                  steps: widget.stepsRecipeFromCreateSteps,
                                 )),
                       );
                     },
@@ -166,6 +241,6 @@ class RecipeStruct extends StatelessWidget {
                   ),
                 ))
           ],
-        ));
+        ]));
   }
 }

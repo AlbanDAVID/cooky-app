@@ -3,7 +3,7 @@ Priority :
 - *** ajouter date de création (create recipe) 
 - ** ajouter tags (create recipe)
 - *** check si on peut ajouter des element à a liste database au fil de l'eau et voir si on peut afficier les anciennes recettes
-- Create and Read recipe : 
+- *** Create and Read recipe : 
     - Ingredients, Recipe name, Total time, Difficulty, Cost -> 
     add intuitive fields : 
         - ** quantity intuitive type (for all kind of Ingredients) 
@@ -15,18 +15,18 @@ Priority :
 
 - regarder licence opn source à mettre 
 
-- *** backup database (possibilty to export, import, ask for conserv data if uninstall app)
-- *** camera right access iOS (for add pics)
+- backup database (possibilty to export, import, ask for conserv data if uninstall app)
+- camera right access iOS (for add pics)
 - *** check with all devices
 - *** language french/english
 - *** coherente navigation (especially witk back return)
 - *** create settings page
 - *** UI
 - *** check with differet police size (from smartphone user)
-- ** collapse ingred in  list view general recipe struct
--- add link scrap 
 
-- checkbox ingred
+- add link source scrap 
+
+
 - gérer pb steps pour cuisine az
 - "nothing to show if 0 categorie", ajouter qq catégoirie au début 
 - padding sur les bouton qui sont trop aux bord de droite ("finish" dans add ingred par ex) 
@@ -34,14 +34,16 @@ Priority :
 - faire disparaitre "manually" et "from web" en cliquant dans le vide
 
 ( NOW : )
+- ** enlever loupe
 
 - ** gérer ingred qui est vide si on retourne en arrière mode édition (pareil pour add difficulty et addi total time qand on retourne en arrière ur create recipe)
 - ** ajouter directement element saisis 
 - **edit recipe name from scrap
 - ** edit name recipe create recipe + les autres champs... envoyer la valeur saisie dans le champ "+" pour modifier plus facilement
+- ** espace entre cost diffilculty etc.
 ----
 - Interessting features : 
-- add checkbox ingred
+- add checkbox ingred (save)
 - centrer texte d'une recette visionnée (centré sur deuxième ligne)
 - add edit in ingred selection (where there is only delete option for now)
 - attention ; pour collapse ingred et steps : si je developpe et que je sroll trop à partir de add ingred par ex, impossible de revenir à la normal, il faudrait bloquer add ingred add steps qui est le prmeier element de la liste
