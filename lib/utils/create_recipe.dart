@@ -57,6 +57,18 @@ class _CreateRecipeState extends State<CreateRecipe> {
   bool isShowIngredientsSelectedPressed = false;
   bool isshowStepsAddedPressed = false;
 
+  // test :
+  List tags = [
+    "tototot",
+    "fknf",
+    "lskfhf",
+    "fkhf",
+    "fdlkf",
+    "klefh",
+    "lkefjhq",
+    "kefj"
+  ];
+
   ////// FUNCTIONS FOR RECIPE CATEGORY //////
 
   // get data from class AddExistingCategory()
@@ -1088,7 +1100,8 @@ class _CreateRecipeState extends State<CreateRecipe> {
                             stepsRecipeFromCreateSteps,
                             recipeCategoryFromAddExistingCategory,
                             isFromScrap,
-                            creationDate
+                            creationDate,
+                            tags
                           ]);
 
                           // Update list of lists in Hive
@@ -1107,6 +1120,7 @@ class _CreateRecipeState extends State<CreateRecipe> {
                             stepsRecipeFromCreateSteps:
                                 stepsRecipeFromCreateSteps,
                             isFromScrap: isFromScrap,
+                            tags: tags,
                           );
 
                           // Navigate to the new page with the form data and save

@@ -265,6 +265,9 @@ class _FilteredNameRecipeState extends State<FilteredNameRecipe> {
                         onTap: () {
                           setState(() {});
                           loadAllData();
+                          if (db.recipeList[index][10] == null) {
+                            db.recipeList[index].insert(10, ["toto"]);
+                          }
 
                           RecipeStruct recipeInstance = RecipeStruct(
                             recipeName: db.recipeList[index][0],
@@ -276,6 +279,7 @@ class _FilteredNameRecipeState extends State<FilteredNameRecipe> {
                                 db.recipeList[index][5],
                             stepsRecipeFromCreateSteps: db.recipeList[index][6],
                             isFromScrap: db.recipeList[index][8],
+                            tags: db.recipeList[index][10],
                           );
 
                           Navigator.push(

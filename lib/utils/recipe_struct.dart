@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, must_be_immutable
 
 import 'dart:io';
 
@@ -17,8 +17,10 @@ class RecipeStruct extends StatefulWidget {
   final String? pathImageSelectedFromImagePicker;
   final List<String> stepsRecipeFromCreateSteps;
   final bool isFromScrap;
+  List?
+      tags; // not final and not required because I added after, so olders recipes does not have tags in their index. So, it can't works for old recipe if this fiels is required
 
-  const RecipeStruct({
+  RecipeStruct({
     super.key,
     required this.recipeName,
     required this.totalTime,
@@ -28,6 +30,7 @@ class RecipeStruct extends StatefulWidget {
     required this.pathImageSelectedFromImagePicker,
     required this.stepsRecipeFromCreateSteps,
     required this.isFromScrap,
+    this.tags,
   });
 
   @override
@@ -38,11 +41,15 @@ class _RecipeStructState extends State<RecipeStruct> {
   bool isShowIngredientPressed = false;
   late List<bool> _isChecked;
   String defautImage = "recipe_pics/no_image.png";
+  List allTags = [];
 
   @override
   void initState() {
     super.initState();
     _isChecked = List<bool>.filled(widget.allIngredientSelected.length, false);
+    if (widget.tags != null) {
+      allTags.addAll(widget.tags!);
+    }
   }
 
   @override
@@ -64,6 +71,7 @@ class _RecipeStructState extends State<RecipeStruct> {
           //leading: const Icon(Icons.menu),
         ),
         body: Column(children: [
+          // alow to develop or collapse ingredients list :
           if (isShowIngredientPressed == true) ...[
             TextButton(
                 onPressed: () {
@@ -169,14 +177,14 @@ class _RecipeStructState extends State<RecipeStruct> {
                           children: [
                             // Total time
                             Text(
-                              ('${widget.totalTime} ~ '),
+                              ('${widget.totalTime}  '),
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
                             // Difficulty
                             Text(
-                              ('${widget.difficulty} ~ '),
+                              ('${widget.difficulty}  '),
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
                               ),
@@ -190,9 +198,57 @@ class _RecipeStructState extends State<RecipeStruct> {
                             ),
                           ],
                         ),
+                        SizedBox(height: 16),
+                        // tags
+                        if (widget.tags != null) ...[
+                          SizedBox(
+                              height: 100,
+                              child: ListView(
+                                  scrollDirection: Axis.horizontal,
+                                  children: [
+                                    Column(children: [
+                                      Row(children: [
+                                        Chip(
+                                          label: Text('${allTags[0]}'),
+                                        ),
+                                        SizedBox(width: 8.0),
+                                        Chip(
+                                          label: Text('${allTags[1]}'),
+                                        ),
+                                        SizedBox(width: 8.0),
+                                        Chip(
+                                          label: Text('${allTags[2]}'),
+                                        ),
+                                        SizedBox(width: 8.0),
+                                        Chip(
+                                          label: Text('${allTags[3]}'),
+                                        )
+                                      ]),
+                                      Row(children: [
+                                        Chip(
+                                          label: Text('${allTags[4]}'),
+                                        ),
+                                        SizedBox(width: 8.0),
+                                        Chip(
+                                          label: Text('${allTags[5]}'),
+                                        ),
+                                        SizedBox(width: 8.0),
+                                        Chip(
+                                          label: Text('${allTags[6]}'),
+                                        ),
+                                        SizedBox(width: 8.0),
+                                        Chip(
+                                          label: Text('${allTags[7]}'),
+                                        ),
+                                      ])
+                                    ])
+                                  ]))
+                        ],
+
+                        if (widget.tags == null) ...[Text("test")],
 
                         SizedBox(height: 30),
-                        // Ingrédients (TODO : add checkbox)
+                        // Show ingrdient button
                         TextButton(
                             onPressed: () {
                               setState(() {
