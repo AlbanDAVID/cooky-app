@@ -17,6 +17,7 @@ class _AddExistingCategoryState extends State<AddExistingCategory> {
   final CategoriesNamesService _categoriesNamesService =
       CategoriesNamesService();
   final TextEditingController _controller = TextEditingController();
+  bool isAddAlterDialogPressed = false;
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +28,7 @@ class _AddExistingCategoryState extends State<AddExistingCategory> {
           elevation: 0,
           //leading: const Icon(Icons.menu),
           actions: [
-            IconButton(onPressed: () {}, icon: const Icon(Icons.search))
+            // IconButton(onPressed: () {}, icon: const Icon(Icons.search))
           ],
         ),
         body: Column(children: [

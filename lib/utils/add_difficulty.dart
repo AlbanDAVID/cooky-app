@@ -22,7 +22,7 @@ class _AddDifficultyState extends State<AddDifficulty> {
           elevation: 0,
           //leading: const Icon(Icons.menu),
           actions: [
-            IconButton(onPressed: () {}, icon: const Icon(Icons.search))
+            // IconButton(onPressed: () {}, icon: const Icon(Icons.search))
           ],
         ),
         body: Column(children: [

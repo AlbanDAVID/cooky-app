@@ -48,22 +48,23 @@ class _FilteredNameRecipeState extends State<FilteredNameRecipe> {
       editDifficulty,
       editCost,
       isFromScrap,
+      editPathImage,
       index) async {
     final result = await Navigator.push(
       context,
       // send data to edit at EditRecipe()
       MaterialPageRoute(
         builder: (context) => EditRecipe(
-          editAllIngredient: editAllIngredient,
-          editStepsRecipe: editStepsRecipe,
-          editRecipeCategory: editRecipeCategory,
-          editRecipeName: editRecipeName,
-          editTotalTime: editTotalTime,
-          editDifficulty: editDifficulty,
-          editCost: editCost,
-          index: index,
-          isFromScrap: isFromScrap,
-        ),
+            editAllIngredient: editAllIngredient,
+            editStepsRecipe: editStepsRecipe,
+            editRecipeCategory: editRecipeCategory,
+            editRecipeName: editRecipeName,
+            editTotalTime: editTotalTime,
+            editDifficulty: editDifficulty,
+            editCost: editCost,
+            index: index,
+            isFromScrap: isFromScrap,
+            editPathImage: editPathImage),
       ),
     );
 
@@ -241,6 +242,7 @@ class _FilteredNameRecipeState extends State<FilteredNameRecipe> {
                                           db.recipeList[index][2],
                                           db.recipeList[index][3],
                                           db.recipeList[index][8],
+                                          db.recipeList[index][5],
                                           index);
                                     },
                                   ),

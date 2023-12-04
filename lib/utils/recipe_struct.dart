@@ -37,6 +37,7 @@ class RecipeStruct extends StatefulWidget {
 class _RecipeStructState extends State<RecipeStruct> {
   bool isShowIngredientPressed = false;
   late List<bool> _isChecked;
+  String defautImage = "recipe_pics/no_image.png";
 
   @override
   void initState() {
@@ -153,16 +154,9 @@ class _RecipeStructState extends State<RecipeStruct> {
                                     File(widget
                                         .pathImageSelectedFromImagePicker!),
                                   ) // File(imageSelectedFromImagePicker!) to transform string path to a widget (ClipRRect does not support Imge.file with just string path, need a widget)
-                                : ElevatedButton(
-                                    onPressed: () {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                MyImagePickerPage()),
-                                      );
-                                    },
-                                    child: Text("Add pic")),
+                                : Image.asset(
+                                    defautImage,
+                                  ),
                           ),
                         ),
 
@@ -175,14 +169,14 @@ class _RecipeStructState extends State<RecipeStruct> {
                           children: [
                             // Total time
                             Text(
-                              widget.totalTime,
+                              ('${widget.totalTime} ~ '),
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
                             // Difficulty
                             Text(
-                              widget.difficulty,
+                              ('${widget.difficulty} ~ '),
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
                               ),

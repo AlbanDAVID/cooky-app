@@ -11,38 +11,39 @@ Priority :
       
         - search (optional for now)
     
-- ** fix preview image during editing + defaut image if no image or image deleted during editing + image for scrap
 
-- regarder licence opn source à mettre 
 
-- backup database (possibilty to export, import, ask for conserv data if uninstall app)
-- camera right access iOS (for add pics)
+ 
+- *** check license
 - *** check with all devices
+- *** check with differet police size (from smartphone user)
 - *** language french/english
 - *** coherente navigation (especially witk back return)
-- *** create settings page
+- *** create settings page (contact, git hub, by me a coffee, version, bêta, language)
 - *** UI
-- *** check with differet police size (from smartphone user)
+- *** Lancement sur f droid : changer app name, créer icone
 
+
+
+- dial box if category is empty (create recipe)
+- backup database (possibilty to export, import, ask for conserv data if uninstall app)
+- camera right access iOS (for add pics)
+- padding sur les bouton qui sont trop aux bord de droite ("finish" dans add ingred par ex) 
 - add link source scrap 
-
-
 - gérer pb steps pour cuisine az
 - "nothing to show if 0 categorie", ajouter qq catégoirie au début 
-- padding sur les bouton qui sont trop aux bord de droite ("finish" dans add ingred par ex) 
+-  ajouter directement element saisis dans create recipe (pour être plus précis : pour la saisie manuelle, ne pas devoir cliquer sur l'élément sur la liste)
 - message erreur si scrap ne s'est pas fait
 - faire disparaitre "manually" et "from web" en cliquant dans le vide
+-  gérer ingred qui est vide si on retourne en arrière mode édition (pareil pour add difficulty et addi total time qand on retourne en arrière ur create recipe)
+- agrandir icon (delete et edit) home page et giltered (plus aux autre endroit (show steps, add ingred etc.))
 
-( NOW : )
-- ** enlever loupe
 
-- ** gérer ingred qui est vide si on retourne en arrière mode édition (pareil pour add difficulty et addi total time qand on retourne en arrière ur create recipe)
-- ** ajouter directement element saisis 
-- **edit recipe name from scrap
-- ** edit name recipe create recipe + les autres champs... envoyer la valeur saisie dans le champ "+" pour modifier plus facilement
-- ** espace entre cost diffilculty etc.
+
 ----
 - Interessting features : 
+- povoir éditer category lors de créatio nde recette ou autre (et pas seulement sur home page)
+- add US unit
 - add checkbox ingred (save)
 - centrer texte d'une recette visionnée (centré sur deuxième ligne)
 - add edit in ingred selection (where there is only delete option for now)
@@ -53,7 +54,7 @@ Priority :
 - ajouter message erreur scrapping
 - - ajouter possibilité de supprimé uniquement recette d'une catégorie sur home page (pour 'instant on put le faire que une fois dans la catégorie)
 - improve scraping (more website)
-- star (notation)
+- notation des recettes 
 - integer for ingredient (for automatic tell how many person)
 - checkbox ingredients
 _ possibility to enlarge the text steps
@@ -80,9 +81,10 @@ Other idea :
 
 BUG : 
 - willpopscope est deprecated
-- minor : quand j'ajoute un ingrédient et que je modofie sans rien faire (rien n'est envoyé dans la page create recipe mais l'ingrédient reste parce pb de set state ?)
+- major : quand j'ajoute un ingrédient et que je modofie sans rien faire (rien n'est envoyé dans la page create recipe mais l'ingrédient reste parce pb de set state ?)
 - major : edit in a categorie : si on quitte sans faire submit, les ingrédients séléctionné reste temporairement en émmoire (disparaisse au redemarrage de lappli)
 - minor : blank for total time et difficlty with we come back with no selected field during create recipe
+- minor : quand je suprprime un champ dans recipe create et que je delete, puis j'édite : je vois le delete dans la champ de texte
 - NE DECONNE PAS EN MODE REALSE mais en bebug : bug add picture (when taking a pics)
 
 

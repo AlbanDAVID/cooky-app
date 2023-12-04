@@ -3,6 +3,7 @@
 import 'dart:io';
 
 import 'package:cook_app/data/recipe_database/database.dart';
+import 'package:cook_app/pages/home.dart';
 import 'package:cook_app/utils/add_category.dart';
 import 'package:cook_app/utils/add_cost.dart';
 import 'package:cook_app/utils/add_difficulty.dart';
@@ -11,6 +12,7 @@ import 'package:cook_app/utils/add_pics.dart';
 import 'package:cook_app/utils/add_recipename.dart';
 import 'package:cook_app/utils/add_totaltime.dart';
 import 'package:cook_app/utils/create_steps.dart';
+import 'package:cook_app/utils/dialbox_edit.dart';
 
 import 'package:flutter/material.dart';
 import 'package:cook_app/utils/recipe_struct.dart';
@@ -35,12 +37,13 @@ class _CreateRecipeState extends State<CreateRecipe> {
   List allIngredientSelectedCreateRecipe = [];
   String? pathImageSelectedFromImagePicker;
   List<String> stepsRecipeFromCreateSteps = [];
-  String recipeCategoryFromAddExistingCategory = "";
+  late String recipeCategoryFromAddExistingCategory;
   String recipeNameFromAddRecipeName = "No title";
   String totalTimeFromAddTotalTime = "";
   String varFromAddDifficulty = "";
   String varFromAddCost = "";
   String previewImageTextField = "";
+  String defautImage = "recipe_pics/no_image.png";
 
   bool isButtonAddCategoryVisible = true;
   bool isButtonAddRecipeNameVisible = true;
@@ -57,7 +60,7 @@ class _CreateRecipeState extends State<CreateRecipe> {
   ////// FUNCTIONS FOR RECIPE CATEGORY //////
 
   // get data from class AddExistingCategory()
-  void _getDataFromAddExistingCategory(BuildContext context) async {
+  _getDataFromAddExistingCategory(BuildContext context) async {
     final result = await Navigator.push(
       context,
       MaterialPageRoute(
@@ -112,7 +115,7 @@ class _CreateRecipeState extends State<CreateRecipe> {
                 },
                 child: Icon(
                   Icons.create,
-                  size: 20,
+                  size: 30,
                 ),
               ),
             ]),
@@ -166,20 +169,43 @@ class _CreateRecipeState extends State<CreateRecipe> {
               ),
             ),
             Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-              Text(recipeNameFromAddRecipeName,
-                  style: recipeNameFromAddRecipeName == "Deleted"
-                      ? TextStyle(fontSize: 15, fontStyle: FontStyle.italic)
-                      : TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+              SizedBox(
+                  // to have a limit if the text is too long (add ...)
+                  width: 300,
+                  child: Text(recipeNameFromAddRecipeName,
+                      softWrap: true,
+                      overflow: TextOverflow.ellipsis,
+                      style: recipeNameFromAddRecipeName == "Deleted"
+                          ? TextStyle(fontSize: 15, fontStyle: FontStyle.italic)
+                          : TextStyle(
+                              fontSize: 20, fontWeight: FontWeight.bold))),
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   InkWell(
-                    onTap: () {
-                      _getDataFromAddRecipeName(context);
+                    onTap: () async {
+                      final result = await showDialog(
+                          context: context,
+                          builder: (context) {
+                            return DialogEditRecipeField(
+                              controller: TextEditingController(
+                                  text: recipeNameFromAddRecipeName),
+                              isFromScrap: false,
+                              showSuggestion: () {
+                                _getDataFromAddRecipeName(context);
+                              },
+                            );
+                          });
+                      if (result != null) {
+                        String data = result;
+                        print('Received data from SecondScreen: $data');
+                        setState(() {});
+                        recipeNameFromAddRecipeName = data;
+                      }
                     },
                     child: Icon(
                       Icons.create,
-                      size: 20,
+                      size: 30,
                     ),
                   ),
                   SizedBox(width: 16), // Ajustez cet espace selon vos besoins
@@ -254,12 +280,29 @@ class _CreateRecipeState extends State<CreateRecipe> {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   InkWell(
-                    onTap: () {
-                      _getDataFromAddTotalTime(context);
+                    onTap: () async {
+                      final result = await showDialog(
+                          context: context,
+                          builder: (context) {
+                            return DialogEditRecipeField(
+                              controller: TextEditingController(
+                                  text: totalTimeFromAddTotalTime),
+                              isFromScrap: false,
+                              showSuggestion: () {
+                                _getDataFromAddTotalTime(context);
+                              },
+                            );
+                          });
+                      if (result != null) {
+                        String data = result;
+                        print('Received data from SecondScreen: $data');
+                        setState(() {});
+                        totalTimeFromAddTotalTime = data;
+                      }
                     },
                     child: Icon(
                       Icons.create,
-                      size: 20,
+                      size: 30,
                     ),
                   ),
                   SizedBox(width: 16),
@@ -341,12 +384,29 @@ class _CreateRecipeState extends State<CreateRecipe> {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   InkWell(
-                    onTap: () {
-                      _getDataFromAddDifficulty(context);
+                    onTap: () async {
+                      final result = await showDialog(
+                          context: context,
+                          builder: (context) {
+                            return DialogEditRecipeField(
+                              controller: TextEditingController(
+                                  text: varFromAddDifficulty),
+                              isFromScrap: false,
+                              showSuggestion: () {
+                                _getDataFromAddDifficulty(context);
+                              },
+                            );
+                          });
+                      if (result != null) {
+                        String data = result;
+                        print('Received data from SecondScreen: $data');
+                        setState(() {});
+                        varFromAddDifficulty = data;
+                      }
                     },
                     child: Icon(
                       Icons.create,
-                      size: 20,
+                      size: 30,
                     ),
                   ),
                   SizedBox(width: 16), // Ajustez cet espace selon vos besoins
@@ -420,12 +480,29 @@ class _CreateRecipeState extends State<CreateRecipe> {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   InkWell(
-                    onTap: () {
-                      _getDataFromAddCost(context);
+                    onTap: () async {
+                      final result = await showDialog(
+                          context: context,
+                          builder: (context) {
+                            return DialogEditRecipeField(
+                              controller:
+                                  TextEditingController(text: varFromAddCost),
+                              isFromScrap: false,
+                              showSuggestion: () {
+                                _getDataFromAddCost(context);
+                              },
+                            );
+                          });
+                      if (result != null) {
+                        String data = result;
+                        print('Received data from SecondScreen: $data');
+                        setState(() {});
+                        varFromAddCost = data;
+                      }
                     },
                     child: Icon(
                       Icons.create,
-                      size: 20,
+                      size: 30,
                     ),
                   ),
                   SizedBox(width: 16), // Ajustez cet espace selon vos besoins
@@ -457,11 +534,17 @@ class _CreateRecipeState extends State<CreateRecipe> {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            content: Image.file(
-              File(pathImageSelectedFromImagePicker!),
-              width: 200,
-              height: 200,
-            ),
+            content: pathImageSelectedFromImagePicker != null
+                ? Image.file(
+                    File(pathImageSelectedFromImagePicker!),
+                    width: 200,
+                    height: 200,
+                  )
+                : Image.asset(
+                    defautImage,
+                    width: 200,
+                    height: 200,
+                  ),
             actions: [
               TextButton(
                 onPressed: () {
@@ -530,19 +613,19 @@ class _CreateRecipeState extends State<CreateRecipe> {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   InkWell(
-                    onLongPress: () {
+                    onTap: () {
                       getDataFromMyImagePickerPage(context);
                     },
                     child: Icon(
                       Icons.create,
-                      size: 20,
+                      size: 30,
                     ),
                   ),
                   SizedBox(width: 16), // Ajustez cet espace selon vos besoins
                   InkWell(
-                    onTap: () {
+                    onLongPress: () {
                       setState(() {
-                        pathImageSelectedFromImagePicker = "";
+                        pathImageSelectedFromImagePicker = null;
                       });
                     },
                     child:
@@ -645,7 +728,7 @@ class _CreateRecipeState extends State<CreateRecipe> {
                   },
                   child: Icon(
                     Icons.add,
-                    size: 20,
+                    size: 30,
                   ),
                 ),
                 SizedBox(width: 16), // Ajustez cet espace selon vos besoins
@@ -798,7 +881,7 @@ class _CreateRecipeState extends State<CreateRecipe> {
                   },
                   child: Icon(
                     Icons.add,
-                    size: 20,
+                    size: 30,
                   ),
                 ),
                 SizedBox(width: 16), // Ajustez cet espace selon vos besoins
@@ -921,7 +1004,7 @@ class _CreateRecipeState extends State<CreateRecipe> {
                             style: TextStyle(
                                 fontSize: 20, fontWeight: FontWeight.bold)),
                         Center(
-                            child: Text('You can save and edit later',
+                            child: Text('You can submit and edit later',
                                 style: TextStyle(
                                     fontSize: 15, fontStyle: FontStyle.italic)))
                       ])),

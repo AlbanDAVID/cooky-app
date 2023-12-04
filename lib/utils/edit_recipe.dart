@@ -12,6 +12,7 @@ import 'package:cook_app/utils/add_pics.dart';
 import 'package:cook_app/utils/add_recipename.dart';
 import 'package:cook_app/utils/add_totaltime.dart';
 import 'package:cook_app/utils/create_steps.dart';
+import 'package:cook_app/utils/dialbox_edit.dart';
 
 import 'package:flutter/material.dart';
 import 'package:cook_app/utils/recipe_struct.dart';
@@ -62,6 +63,8 @@ class _EditRecipeState extends State<EditRecipe> {
   bool isShowIngredientsSelectedPressed = false;
   bool isshowStepsAddedPressed = false;
 
+  String defautImage = "recipe_pics/no_image.png";
+
   ////// FUNCTIONS FOR RECIPE CATEGORY //////
 
   // get data from class AddExistingCategory()
@@ -108,7 +111,7 @@ class _EditRecipeState extends State<EditRecipe> {
           },
           child: Icon(
             Icons.create,
-            size: 20,
+            size: 30,
           ),
         ),
       ]),
@@ -151,6 +154,7 @@ class _EditRecipeState extends State<EditRecipe> {
       ),
       Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
         SizedBox(
+            // to have a limit if the text is too long (add ...)
             width: 300,
             child: Text(
               softWrap: true,
@@ -167,12 +171,29 @@ class _EditRecipeState extends State<EditRecipe> {
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             InkWell(
-              onTap: () {
-                _getDataFromAddRecipeName(context);
+              onTap: () async {
+                final result = await showDialog(
+                    context: context,
+                    builder: (context) {
+                      return DialogEditRecipeField(
+                        controller:
+                            TextEditingController(text: widget.editRecipeName),
+                        isFromScrap: false,
+                        showSuggestion: () {
+                          _getDataFromAddRecipeName(context);
+                        },
+                      );
+                    });
+                if (result != null) {
+                  String data = result;
+                  print('Received data from SecondScreen: $data');
+                  setState(() {});
+                  widget.editRecipeName = data;
+                }
               },
               child: Icon(
                 Icons.create,
-                size: 20,
+                size: 30,
               ),
             ),
             SizedBox(width: 16), // Ajustez cet espace selon vos besoins
@@ -234,12 +255,29 @@ class _EditRecipeState extends State<EditRecipe> {
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             InkWell(
-              onTap: () {
-                _getDataFromAddTotalTime(context);
+              onTap: () async {
+                final result = await showDialog(
+                    context: context,
+                    builder: (context) {
+                      return DialogEditRecipeField(
+                        controller:
+                            TextEditingController(text: widget.editTotalTime),
+                        isFromScrap: false,
+                        showSuggestion: () {
+                          _getDataFromAddTotalTime(context);
+                        },
+                      );
+                    });
+                if (result != null) {
+                  String data = result;
+                  print('Received data from SecondScreen: $data');
+                  setState(() {});
+                  widget.editTotalTime = data;
+                }
               },
               child: Icon(
                 Icons.create,
-                size: 20,
+                size: 30,
               ),
             ),
             SizedBox(width: 16), // Ajustez cet espace selon vos besoins
@@ -308,12 +346,29 @@ class _EditRecipeState extends State<EditRecipe> {
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             InkWell(
-              onTap: () {
-                _getDataFromAddDifficulty(context);
+              onTap: () async {
+                final result = await showDialog(
+                    context: context,
+                    builder: (context) {
+                      return DialogEditRecipeField(
+                        controller:
+                            TextEditingController(text: widget.editDifficulty),
+                        isFromScrap: false,
+                        showSuggestion: () {
+                          _getDataFromAddDifficulty(context);
+                        },
+                      );
+                    });
+                if (result != null) {
+                  String data = result;
+                  print('Received data from SecondScreen: $data');
+                  setState(() {});
+                  widget.editDifficulty = data;
+                }
               },
               child: Icon(
                 Icons.create,
-                size: 20,
+                size: 30,
               ),
             ),
             SizedBox(width: 16), // Ajustez cet espace selon vos besoins
@@ -374,12 +429,29 @@ class _EditRecipeState extends State<EditRecipe> {
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             InkWell(
-              onTap: () {
-                _getDataFromAddCost(context);
+              onTap: () async {
+                final result = await showDialog(
+                    context: context,
+                    builder: (context) {
+                      return DialogEditRecipeField(
+                        controller:
+                            TextEditingController(text: widget.editCost),
+                        isFromScrap: false,
+                        showSuggestion: () {
+                          _getDataFromAddCost(context);
+                        },
+                      );
+                    });
+                if (result != null) {
+                  String data = result;
+                  print('Received data from SecondScreen: $data');
+                  setState(() {});
+                  widget.editCost = data;
+                }
               },
               child: Icon(
                 Icons.create,
-                size: 20,
+                size: 30,
               ),
             ),
             SizedBox(width: 16), // Ajustez cet espace selon vos besoins
@@ -410,11 +482,17 @@ class _EditRecipeState extends State<EditRecipe> {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            content: Image.file(
-              File(widget.editPathImage!),
-              width: 200,
-              height: 200,
-            ),
+            content: widget.editPathImage != null
+                ? Image.file(
+                    File(widget.editPathImage!),
+                    width: 200,
+                    height: 200,
+                  )
+                : Image.asset(
+                    defautImage,
+                    width: 200,
+                    height: 200,
+                  ),
             actions: [
               TextButton(
                 onPressed: () {
@@ -440,6 +518,7 @@ class _EditRecipeState extends State<EditRecipe> {
       String imageSelected = result;
       print('Received data from SecondScreen: $imageSelected');
       setState(() {});
+
       widget.editPathImage = imageSelected;
     }
   }
@@ -476,14 +555,14 @@ class _EditRecipeState extends State<EditRecipe> {
               },
               child: Icon(
                 Icons.create,
-                size: 20,
+                size: 30,
               ),
             ),
             SizedBox(width: 16), // Ajustez cet espace selon vos besoins
             InkWell(
               onLongPress: () {
                 setState(() {
-                  widget.editPathImage = "";
+                  widget.editPathImage = null;
                 });
               },
               child: Icon(Icons.delete, size: 20, color: Colors.redAccent),
@@ -590,7 +669,7 @@ class _EditRecipeState extends State<EditRecipe> {
                   },
             child: Icon(
               Icons.add,
-              size: 20,
+              size: 30,
             ),
           ),
           SizedBox(width: 16), // Ajustez cet espace selon vos besoins
@@ -752,7 +831,7 @@ class _EditRecipeState extends State<EditRecipe> {
             },
             child: Icon(
               Icons.add,
-              size: 20,
+              size: 30,
             ),
           ),
           SizedBox(width: 16), // Ajustez cet espace selon vos besoins
@@ -951,17 +1030,17 @@ class _EditRecipeState extends State<EditRecipe> {
                         _myBox.put("ALL_LISTS", recipeList);
 
                         // Create an instance of RecipeDetailsPage with the form data
-                        RecipeStruct recipeDetailsPage = RecipeStruct(
-                          recipeName: finalEditRecipeName,
-                          totalTime: finalEditTotalTime,
-                          difficulty: finalEditDifficulty,
-                          cost: finalEditCost,
-                          allIngredientSelected: widget.editAllIngredient,
-                          pathImageSelectedFromImagePicker:
-                              widget.editPathImage,
-                          stepsRecipeFromCreateSteps: widget.editStepsRecipe,
-                          isFromScrap: recipeList[widget.index][8],
-                        );
+                        // RecipeStruct recipeDetailsPage = RecipeStruct(
+                        //   recipeName: finalEditRecipeName,
+                        //   totalTime: finalEditTotalTime,
+                        //   difficulty: finalEditDifficulty,
+                        //   cost: finalEditCost,
+                        //   allIngredientSelected: widget.editAllIngredient,
+                        //   pathImageSelectedFromImagePicker:
+                        //       widget.editPathImage,
+                        //   stepsRecipeFromCreateSteps: widget.editStepsRecipe,
+                        //   isFromScrap: recipeList[widget.index][8],
+                        // );
 
                         // Navigate to the new page with the form data and save
                         //   Navigator.push(

@@ -66,9 +66,6 @@ class DialogEditStep extends StatelessWidget {
   const DialogEditStep({
     super.key,
     required this.controller,
-
-    //required this.onSave,
-    //required this.onCancel,
   });
   @override
   Widget build(BuildContext context) {

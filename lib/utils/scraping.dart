@@ -12,6 +12,7 @@ import 'package:cook_app/utils/add_pics.dart';
 import 'package:cook_app/utils/add_recipename.dart';
 import 'package:cook_app/utils/add_totaltime.dart';
 import 'package:cook_app/utils/create_steps.dart';
+import 'package:cook_app/utils/dialbox_edit.dart';
 
 import 'package:flutter/material.dart';
 import 'package:cook_app/utils/recipe_struct.dart';
@@ -55,6 +56,7 @@ class _ScrapingState extends State<Scraping> {
   RecipeDatabase db = RecipeDatabase();
 
   String previewImageTextField = "";
+  String defautImage = "recipe_pics/no_image.png";
 
   ////// FUNCTIONS FOR RECIPE CATEGORY //////
 
@@ -112,7 +114,7 @@ class _ScrapingState extends State<Scraping> {
                 },
                 child: Icon(
                   Icons.create,
-                  size: 20,
+                  size: 30,
                 ),
               ),
             ]),
@@ -171,12 +173,29 @@ class _ScrapingState extends State<Scraping> {
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             InkWell(
-              onTap: () {
-                _getDataFromAddRecipeName(context);
+              onTap: () async {
+                final result = await showDialog(
+                    context: context,
+                    builder: (context) {
+                      return DialogEditRecipeField(
+                        controller:
+                            TextEditingController(text: widget.scrapRecipeName),
+                        isFromScrap: true,
+                        showSuggestion: () {
+                          _getDataFromAddRecipeName(context);
+                        },
+                      );
+                    });
+                if (result != null) {
+                  String data = result;
+                  print('Received data from SecondScreen: $data');
+                  setState(() {});
+                  widget.scrapRecipeName = data;
+                }
               },
               child: Icon(
                 Icons.create,
-                size: 20,
+                size: 30,
               ),
             ),
             SizedBox(width: 16), // Ajustez cet espace selon vos besoins
@@ -238,12 +257,28 @@ class _ScrapingState extends State<Scraping> {
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             InkWell(
-              onTap: () {
-                _getDataFromAddTotalTime(context);
+              onTap: () async {
+                final result = await showDialog(
+                    context: context,
+                    builder: (context) {
+                      return DialogEditRecipeField(
+                        controller: TextEditingController(text: scrapTotalTime),
+                        isFromScrap: false,
+                        showSuggestion: () {
+                          _getDataFromAddTotalTime(context);
+                        },
+                      );
+                    });
+                if (result != null) {
+                  String data = result;
+                  print('Received data from SecondScreen: $data');
+                  setState(() {});
+                  scrapTotalTime = data;
+                }
               },
               child: Icon(
                 Icons.create,
-                size: 20,
+                size: 30,
               ),
             ),
             SizedBox(width: 16), // Ajustez cet espace selon vos besoins
@@ -312,12 +347,29 @@ class _ScrapingState extends State<Scraping> {
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             InkWell(
-              onTap: () {
-                _getDataFromAddDifficulty(context);
+              onTap: () async {
+                final result = await showDialog(
+                    context: context,
+                    builder: (context) {
+                      return DialogEditRecipeField(
+                        controller:
+                            TextEditingController(text: scrapDifficulty),
+                        isFromScrap: false,
+                        showSuggestion: () {
+                          _getDataFromAddDifficulty(context);
+                        },
+                      );
+                    });
+                if (result != null) {
+                  String data = result;
+                  print('Received data from SecondScreen: $data');
+                  setState(() {});
+                  scrapDifficulty = data;
+                }
               },
               child: Icon(
                 Icons.create,
-                size: 20,
+                size: 30,
               ),
             ),
             SizedBox(width: 16), // Ajustez cet espace selon vos besoins
@@ -378,12 +430,28 @@ class _ScrapingState extends State<Scraping> {
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             InkWell(
-              onTap: () {
-                _getDataFromAddCost(context);
+              onTap: () async {
+                final result = await showDialog(
+                    context: context,
+                    builder: (context) {
+                      return DialogEditRecipeField(
+                        controller: TextEditingController(text: scrapCost),
+                        isFromScrap: false,
+                        showSuggestion: () {
+                          _getDataFromAddCost(context);
+                        },
+                      );
+                    });
+                if (result != null) {
+                  String data = result;
+                  print('Received data from SecondScreen: $data');
+                  setState(() {});
+                  scrapCost = data;
+                }
               },
               child: Icon(
                 Icons.create,
-                size: 20,
+                size: 30,
               ),
             ),
             SizedBox(width: 16), // Ajustez cet espace selon vos besoins
@@ -414,11 +482,17 @@ class _ScrapingState extends State<Scraping> {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            content: Image.file(
-              File(scrapPathImage!),
-              width: 200,
-              height: 200,
-            ),
+            content: scrapPathImage != null
+                ? Image.file(
+                    File(scrapPathImage!),
+                    width: 200,
+                    height: 200,
+                  )
+                : Image.asset(
+                    defautImage,
+                    width: 200,
+                    height: 200,
+                  ),
             actions: [
               TextButton(
                 onPressed: () {
@@ -480,14 +554,14 @@ class _ScrapingState extends State<Scraping> {
               },
               child: Icon(
                 Icons.create,
-                size: 20,
+                size: 30,
               ),
             ),
             SizedBox(width: 16), // Ajustez cet espace selon vos besoins
             InkWell(
               onLongPress: () {
                 setState(() {
-                  scrapPathImage = "";
+                  scrapPathImage = null;
                 });
               },
               child: Icon(Icons.delete, size: 20, color: Colors.redAccent),
@@ -572,7 +646,7 @@ class _ScrapingState extends State<Scraping> {
             },
             child: Icon(
               Icons.add,
-              size: 20,
+              size: 30,
             ),
           ),
           SizedBox(width: 16), // Ajustez cet espace selon vos besoins
@@ -725,7 +799,7 @@ class _ScrapingState extends State<Scraping> {
             },
             child: Icon(
               Icons.add,
-              size: 20,
+              size: 30,
             ),
           ),
           SizedBox(width: 16), // Ajustez cet espace selon vos besoins
@@ -885,64 +959,68 @@ class _ScrapingState extends State<Scraping> {
                     ShowWidget(),
                   ])),
                   // Button fot submit form
-                  ElevatedButton(
-                    onPressed: () {
-                      // handle deleted variable
-                      final finalscrapRecipeName =
-                          widget.scrapRecipeName == "Deleted"
-                              ? "No title"
-                              : widget.scrapRecipeName;
+                  Container(
+                      alignment: Alignment.bottomRight,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          // handle deleted variable
+                          final finalscrapRecipeName =
+                              widget.scrapRecipeName == "Deleted"
+                                  ? "No title"
+                                  : widget.scrapRecipeName;
 
-                      final finalscrapTotalTime =
-                          scrapTotalTime == "Deleted" ? "" : scrapTotalTime;
+                          final finalscrapTotalTime =
+                              scrapTotalTime == "Deleted" ? "" : scrapTotalTime;
 
-                      final finalscrapDifficulty =
-                          scrapDifficulty == "Deleted" ? "" : scrapDifficulty;
+                          final finalscrapDifficulty =
+                              scrapDifficulty == "Deleted"
+                                  ? ""
+                                  : scrapDifficulty;
 
-                      final finalscrapCost =
-                          scrapCost == "Deleted" ? "" : scrapCost;
+                          final finalscrapCost =
+                              scrapCost == "Deleted" ? "" : scrapCost;
 
-                      // get all data
-                      List listOfLists = _myBox.get('ALL_LISTS') ?? [];
+                          // get all data
+                          List listOfLists = _myBox.get('ALL_LISTS') ?? [];
 
-                      // Give edidted values to recipeList
-                      // Add a new list to the list of lists
-                      listOfLists.add([
-                        finalscrapRecipeName,
-                        finalscrapTotalTime,
-                        finalscrapDifficulty,
-                        finalscrapCost,
-                        widget.scrapAllIngredient,
-                        scrapPathImage,
-                        widget.scrapStepsRecipe,
-                        scrapRecipeCategory,
-                        isFromScrap
-                      ]);
+                          // Give edidted values to recipeList
+                          // Add a new list to the list of lists
+                          listOfLists.add([
+                            finalscrapRecipeName,
+                            finalscrapTotalTime,
+                            finalscrapDifficulty,
+                            finalscrapCost,
+                            widget.scrapAllIngredient,
+                            scrapPathImage,
+                            widget.scrapStepsRecipe,
+                            scrapRecipeCategory,
+                            isFromScrap
+                          ]);
 
-                      // Save edidted list in hive
-                      _myBox.put("ALL_LISTS", listOfLists);
+                          // Save edidted list in hive
+                          _myBox.put("ALL_LISTS", listOfLists);
 
-                      //Create an instance of RecipeDetailsPage with the form data
-                      RecipeStruct recipeDetailsPage = RecipeStruct(
-                        recipeName: finalscrapRecipeName,
-                        totalTime: finalscrapTotalTime,
-                        difficulty: finalscrapDifficulty,
-                        cost: finalscrapCost,
-                        allIngredientSelected: widget.scrapAllIngredient,
-                        pathImageSelectedFromImagePicker: scrapPathImage,
-                        stepsRecipeFromCreateSteps: widget.scrapStepsRecipe,
-                        isFromScrap: isFromScrap,
-                      );
+                          //Create an instance of RecipeDetailsPage with the form data
+                          RecipeStruct recipeDetailsPage = RecipeStruct(
+                            recipeName: finalscrapRecipeName,
+                            totalTime: finalscrapTotalTime,
+                            difficulty: finalscrapDifficulty,
+                            cost: finalscrapCost,
+                            allIngredientSelected: widget.scrapAllIngredient,
+                            pathImageSelectedFromImagePicker: scrapPathImage,
+                            stepsRecipeFromCreateSteps: widget.scrapStepsRecipe,
+                            isFromScrap: isFromScrap,
+                          );
 
-                      // Navigate to the new page with the form data and save
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => recipeDetailsPage),
-                      );
-                    },
-                    child: Text("Sumbit"),
-                  )
+                          // Navigate to the new page with the form data and save
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => recipeDetailsPage),
+                          );
+                        },
+                        child: Text("Sumbit"),
+                      ))
                 ],
               ),
             ),
