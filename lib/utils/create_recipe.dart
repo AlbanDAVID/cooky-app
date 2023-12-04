@@ -1082,7 +1082,7 @@ class _CreateRecipeState extends State<CreateRecipe> {
                             pathImageSelectedFromImagePicker,
                             stepsRecipeFromCreateSteps,
                             recipeCategoryFromAddExistingCategory,
-                            isFromScrap
+                            isFromScrap,
                           ]);
 
                           // Update list of lists in Hive

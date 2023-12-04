@@ -26,7 +26,7 @@ class _AddDifficultyState extends State<AddDifficulty> {
           ],
         ),
         body: Column(children: [
-          const Text("Suggestions : ", style: TextStyle(fontSize: 10)),
+          const Text("Suggestions : ", style: TextStyle(fontSize: 13)),
           SizedBox(
               height: 500,
               child: ListView.builder(

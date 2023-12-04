@@ -43,7 +43,7 @@ class _AddRecipeNameState extends State<AddRecipeName> {
           ],
         ),
         body: Column(children: [
-          Text("Suggestions : ", style: TextStyle(fontSize: 10)),
+          Text("Suggestions : ", style: TextStyle(fontSize: 13)),
           SizedBox(
               height: 400,
               child: ListView.builder(

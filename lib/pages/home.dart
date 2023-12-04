@@ -267,9 +267,6 @@ class _HomeState extends State<Home> {
       context,
       MaterialPageRoute(builder: (context) => scrapInstance),
     );
-
-    print(' step : $scrapStepsRecipe');
-    print(' ingred : $scrapIngredient');
   }
 
   @override
