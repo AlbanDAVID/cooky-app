@@ -6,6 +6,7 @@ import 'package:cook_app/utils/recipe_struct.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class FilteredNameRecipe extends StatefulWidget {
   final String categoryName;
@@ -24,11 +25,19 @@ class _FilteredNameRecipeState extends State<FilteredNameRecipe> {
 
   bool isEditDeleteMode = false;
 
-  final String _confirmationTextDeleteOneRecipe =
-      "Yes, I want to delete this recipe";
+  late String _confirmationTextDeleteOneRecipe;
 
-  final String _confirmationTextDeleteAllRecipe =
-      "Yes, I want to delete all recipes of this category";
+  late String _confirmationTextDeleteAllRecipe;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    _confirmationTextDeleteOneRecipe =
+        AppLocalizations.of(context)!.confirmLongPress2;
+    _confirmationTextDeleteAllRecipe =
+        AppLocalizations.of(context)!.confirmLongPress3;
+  }
 
   // allow to loadAllData from database (recipe_database)
   loadAllData() {
@@ -123,9 +132,10 @@ class _FilteredNameRecipeState extends State<FilteredNameRecipe> {
           return Container(
               padding: EdgeInsetsDirectional.fromSTEB(0, 300, 0, 200),
               child: AlertDialog(
-                title: Column(children: const [
-                  Text('Are you sure ?'),
-                  Text('Confirm the deletion with a long press',
+                title: Column(children: [
+                  Text(AppLocalizations.of(context)!.areYouSure),
+                  Text(AppLocalizations.of(context)!.confirmLongPress4,
+                      textAlign: TextAlign.center,
                       style:
                           TextStyle(fontSize: 15, fontStyle: FontStyle.italic))
                 ]),
@@ -139,7 +149,9 @@ class _FilteredNameRecipeState extends State<FilteredNameRecipe> {
                     Navigator.of(context).pop();
                   },
                   onPressed: () {},
-                  child: Text(confirmText, style: TextStyle(color: Colors.red)),
+                  child: Text(confirmText,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(color: Colors.red)),
                 ),
 
                 actions: [
@@ -150,7 +162,7 @@ class _FilteredNameRecipeState extends State<FilteredNameRecipe> {
                       });
                       Navigator.of(context).pop();
                     },
-                    child: Text('Back'),
+                    child: Text(AppLocalizations.of(context)!.back),
                   ),
                 ],
                 // Ajustez les valeurs selon vos besoins
@@ -178,7 +190,7 @@ class _FilteredNameRecipeState extends State<FilteredNameRecipe> {
                       );
                     },
                     child: Text(
-                      "Delete All",
+                      AppLocalizations.of(context)!.deleteAll,
                     ),
                   ),
                   IconButton(
@@ -194,7 +206,10 @@ class _FilteredNameRecipeState extends State<FilteredNameRecipe> {
                   PopupMenuButton<int>(
                     onSelected: (item) => handleClick(item),
                     itemBuilder: (context) => [
-                      PopupMenuItem<int>(value: 0, child: Text('Edit/Delete')),
+                      PopupMenuItem<int>(
+                          value: 0,
+                          child:
+                              Text(AppLocalizations.of(context)!.editDelete)),
                     ],
                   ),
                 ]),

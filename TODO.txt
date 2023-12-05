@@ -16,7 +16,7 @@ Priority :
 - *** check license
 - *** check with all devices
 - *** check with differet police size (from smartphone user)
-- *** language french/english
+- *** language french/english + defaut langage + choix de la langue 
 - *** coherente navigation (especially witk back return)
 - *** create settings page (contact, git hub, by me a coffee, version, bêta, language)
 - *** UI

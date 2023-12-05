@@ -1,0 +1,30 @@
+{
+  "addDelightfulRecipe": "Add delightful recipe",
+  "addFromWeb": "Add from web",
+  "messageDialBoxAddFromWeb": "Should work on marmiton.org, cuisineaz.com \n Will retireve : recipe name, ingredients ans steps",
+  "pastUrl": "Paste URL here",
+  "add": "Submit",
+  "beta" : "(beta)",
+  "create" : "Create",
+  "back" : "Back",
+  "addCategory" : "Add a category",
+  "areYouSure" : "Are you sure ?",
+  "confirmLongPress1" : "Confirm the desired option with a long press",
+  "deleteAllRecipes" : "Delete all recipes",
+  "deleteAllRecipesAndCategories" : "Delete all recipes and categories",
+   "actionAfterLongPress1" : "Yes, I want to delete this category and their recipes",
+   "deleteAll" : "Delete all",
+   "editDelete" : "Edit/Delete",
+   "editCategory" : "Edit category",
+   "infoMessage1" : "All recipes inside this category will get the new category name",
+   "edit" : "Edit",
+   "confirmLongPress2" : "Yes, I want to delete this recipe",
+   "confirmLongPress3" : "Yes, I want to delete all recipes of this category",
+   "confirmLongPress4" : "Confirm the deletion with a long press"}
+
+
+
+
+
+
+

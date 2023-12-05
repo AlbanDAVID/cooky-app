@@ -7,8 +7,10 @@ import 'package:cook_app/utils/create_recipe.dart';
 import 'package:cook_app/utils/dialbox_add_ingredient_quantity.dart';
 import 'package:flutter/material.dart';
 import 'package:cook_app/pages/home.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -35,6 +37,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      // internationalization
+      title: 'Cooky',
+
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      supportedLocales: AppLocalizations.supportedLocales,
+
       debugShowCheckedModeBanner: false,
       // use FuturBuilder to load all data from "catBox" when app is started and go to the Home page(the hive box from CategoriesNamesService wih all the categories)
       home: FutureBuilder(

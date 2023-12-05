@@ -1,0 +1,26 @@
+{
+    "addDelightfulRecipe": "Ajouter une recette",
+    "addFromWeb": "Depuis le web",
+    "messageDialBoxAddFromWeb": "Devrait fonctionner avec marmiton.org, cuisineaz.com \n Le nom de la recette, les étapes et les ingrédients vont être récupérés",
+    "pastUrl": "Coller l'URL ici",
+    "add": "Valider",
+    "beta" : "(bêta)",
+    "create" : "Créer",
+    "back" : "Retour",
+    "addCategory" : "Ajouter une catégorie",
+    "areYouSure" : "Êtes-vous sûr ?",
+    "confirmLongPress1" : "Faire un appui prolongé sur le choix désiré",
+    "deleteAllRecipes" : "Supprimer toutes les recettes",
+    "deleteAllRecipesAndCategories" : "Supprimer toutes les recettes et catégories",
+    "actionAfterLongPress1" : "Oui, je veux supprimer cette catégorie ainsi que les recettes qu'elle contient",
+    "deleteAll" : "Tout supprimer",
+    "editDelete" : "Éditer/Supprimer",
+    "editCategory" : "Editer la catégorie",
+    "infoMessage1" : "Toutes les recettes de cette catégorie recevront le nouveau nom de catégorie",
+    "edit" : "Éditer",
+    "confirmLongPress2" : "Oui, je souhaite supprimer cette recette",
+    "confirmLongPress3" : "Oui, je souhaite supprimer toutes les recettes de cette catégorie",
+    "confirmLongPress4" : "Confirmez la suppression avec un appui prolongé"}
+
+
+

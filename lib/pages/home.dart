@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:cook_app/data/recipe_database/database.dart';
 import 'package:marmiteur/marmiteur.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -47,13 +48,13 @@ class _HomeState extends State<Home> {
               context: context,
               builder: (context) {
                 return AlertDialog(
-                  title: Text('Add category'),
+                  title: Text(AppLocalizations.of(context)!.addCategory),
                   content: TextField(
                     controller: _controller,
                   ),
                   actions: [
                     ElevatedButton(
-                      child: Text('Add'),
+                      child: Text(AppLocalizations.of(context)!.add),
                       onPressed: () async {
                         var catName = CategoriesNames(_controller.text);
                         await _categoriesNamesService.addCategory(catName);
@@ -92,11 +93,12 @@ class _HomeState extends State<Home> {
         context: context,
         builder: (BuildContext context) {
           return Container(
-              padding: EdgeInsetsDirectional.fromSTEB(0, 300, 0, 200),
+              padding: EdgeInsetsDirectional.fromSTEB(0, 200, 0, 100),
               child: AlertDialog(
-                title: Column(children: const [
-                  Text('Are you sure ?'),
-                  Text('Confirm the desired option with a long press',
+                title: Column(children: [
+                  Text(AppLocalizations.of(context)!.areYouSure),
+                  Text(AppLocalizations.of(context)!.confirmLongPress1,
+                      textAlign: TextAlign.center,
                       style:
                           TextStyle(fontSize: 15, fontStyle: FontStyle.italic))
                 ]),
@@ -113,7 +115,9 @@ class _HomeState extends State<Home> {
                         Navigator.of(context).pop();
                       },
                       onPressed: () {},
-                      child: Text('Delete all recipes',
+                      child: Text(
+                          AppLocalizations.of(context)!.deleteAllRecipes,
+                          textAlign: TextAlign.center,
                           style: TextStyle(color: Colors.red)),
                     ),
                     TextButton(
@@ -126,7 +130,10 @@ class _HomeState extends State<Home> {
                         Navigator.of(context).pop();
                       },
                       onPressed: () {},
-                      child: Text('Delete all recipes and categories',
+                      child: Text(
+                          AppLocalizations.of(context)!
+                              .deleteAllRecipesAndCategories,
+                          textAlign: TextAlign.center,
                           style: TextStyle(color: Colors.red)),
                     ),
                   ],
@@ -139,7 +146,7 @@ class _HomeState extends State<Home> {
                       });
                       Navigator.of(context).pop();
                     },
-                    child: Text('Back'),
+                    child: Text(AppLocalizations.of(context)!.back),
                   ),
                 ],
                 // Ajustez les valeurs selon vos besoins
@@ -186,11 +193,13 @@ class _HomeState extends State<Home> {
         context: context,
         builder: (BuildContext context) {
           return Container(
-              padding: EdgeInsetsDirectional.fromSTEB(0, 300, 0, 200),
+              padding: EdgeInsetsDirectional.fromSTEB(0, 200, 0, 100),
               child: AlertDialog(
-                title: Column(children: const [
-                  Text('Are you sure ?'),
-                  Text('Confirm the deletion with a long press',
+                title: Column(children: [
+                  Text(AppLocalizations.of(context)!.areYouSure,
+                      textAlign: TextAlign.center),
+                  Text(AppLocalizations.of(context)!.confirmLongPress1,
+                      textAlign: TextAlign.center,
                       style:
                           TextStyle(fontSize: 15, fontStyle: FontStyle.italic))
                 ]),
@@ -204,7 +213,8 @@ class _HomeState extends State<Home> {
                   },
                   onPressed: () {},
                   child: Text(
-                      'Yes, I want to delete this category and their recipes',
+                      AppLocalizations.of(context)!.actionAfterLongPress1,
+                      textAlign: TextAlign.center,
                       style: TextStyle(color: Colors.red)),
                 ),
 
@@ -216,7 +226,7 @@ class _HomeState extends State<Home> {
                       });
                       Navigator.of(context).pop();
                     },
-                    child: Text('Back'),
+                    child: Text(AppLocalizations.of(context)!.back),
                   ),
                 ],
                 // Ajustez les valeurs selon vos besoins
@@ -273,7 +283,7 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-            title: const Text("COOKY"),
+            title: Text("Cooky"),
             centerTitle: true,
             elevation: 0,
             //leading: const Icon(Icons.menu),
@@ -287,7 +297,7 @@ class _HomeState extends State<Home> {
                         _dialogDeleteAll(context);
                       },
                       child: Text(
-                        "Delete All",
+                        AppLocalizations.of(context)!.deleteAll,
                       ),
                     ),
                     IconButton(
@@ -306,9 +316,13 @@ class _HomeState extends State<Home> {
                       onSelected: (item) => handleClick(item),
                       itemBuilder: (context) => [
                         PopupMenuItem<int>(
-                            value: 0, child: Text('Edit/Delete')),
+                            value: 0,
+                            child:
+                                Text(AppLocalizations.of(context)!.editDelete)),
                         PopupMenuItem<int>(
-                            value: 1, child: Text('Add a category'))
+                            value: 1,
+                            child:
+                                Text(AppLocalizations.of(context)!.addCategory))
                       ],
                     ),
                   ]),
@@ -370,12 +384,20 @@ class _HomeState extends State<Home> {
                                               context: context,
                                               builder: (context) {
                                                 return AlertDialog(
-                                                  title:
-                                                      Column(children: const [
-                                                    Text('Edit category'),
+                                                  title: Column(children: [
+                                                    Text(
+                                                        AppLocalizations.of(
+                                                                context)!
+                                                            .editCategory,
+                                                        textAlign:
+                                                            TextAlign.center),
                                                     Center(
                                                         child: Text(
-                                                            'All recipes inside this category will get the new category name',
+                                                            AppLocalizations.of(
+                                                                    context)!
+                                                                .infoMessage1,
+                                                            textAlign: TextAlign
+                                                                .center,
                                                             style: TextStyle(
                                                                 fontSize: 15,
                                                                 fontStyle:
@@ -387,7 +409,10 @@ class _HomeState extends State<Home> {
                                                   ),
                                                   actions: [
                                                     ElevatedButton(
-                                                      child: Text('Edit'),
+                                                      child: Text(
+                                                          AppLocalizations.of(
+                                                                  context)!
+                                                              .edit),
                                                       onPressed: () async {
                                                         var categoryNameToReplace =
                                                             cat!.categoryName;
@@ -480,10 +505,11 @@ class _HomeState extends State<Home> {
                           context: context,
                           builder: (context) {
                             return AlertDialog(
-                              title: Column(children: const [
-                                Text('Add from web (bêta)'),
+                              title: Column(children: [
+                                Text(AppLocalizations.of(context)!.addFromWeb),
                                 Text(
-                                    'Should work on marmiton.org, cuisineaz.com \n Will retireve : recipe name, ingredients ans steps',
+                                    AppLocalizations.of(context)!
+                                        .messageDialBoxAddFromWeb,
                                     style: TextStyle(
                                         fontSize: 15,
                                         fontStyle: FontStyle.italic))
@@ -491,12 +517,14 @@ class _HomeState extends State<Home> {
                               content: TextField(
                                 controller: _controller,
                                 decoration: InputDecoration(
-                                  hintText: "Paste URL here",
+                                  hintText:
+                                      AppLocalizations.of(context)!.pastUrl,
                                 ),
                               ),
                               actions: [
                                 ElevatedButton(
-                                  child: Text('Add'),
+                                  child:
+                                      Text(AppLocalizations.of(context)!.add),
                                   onPressed: () async {
                                     var recipeURL = _controller.text;
                                     scrapMarmiteur(recipeURL);
@@ -508,10 +536,10 @@ class _HomeState extends State<Home> {
                             );
                           });
                     },
-                    label: Column(children: const [
-                      Text('From web'),
+                    label: Column(children: [
+                      Text(AppLocalizations.of(context)!.addFromWeb),
                       Text(
-                        '(bêta)',
+                        AppLocalizations.of(context)!.beta,
                       )
                     ]),
                   ),
@@ -523,7 +551,7 @@ class _HomeState extends State<Home> {
                       });
                       Navigator.pushNamed(context, '/create_recipe');
                     },
-                    label: const Text("Manually"),
+                    label: Text(AppLocalizations.of(context)!.create),
                   ),
                   SizedBox(height: 16),
                   TextButton(
@@ -532,7 +560,7 @@ class _HomeState extends State<Home> {
                         isFloatingActionButtonPressed = false;
                       });
                     },
-                    child: Text("Back"),
+                    child: Text(AppLocalizations.of(context)!.back),
                   )
                 ],
               )
@@ -542,7 +570,7 @@ class _HomeState extends State<Home> {
                     isFloatingActionButtonPressed = true;
                   });
                 },
-                label: const Text("Add delightful recipe"),
+                label: Text(AppLocalizations.of(context)!.addDelightfulRecipe),
               ));
   }
 }
