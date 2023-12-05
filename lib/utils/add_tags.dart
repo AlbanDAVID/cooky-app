@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors
 
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AddTags extends StatefulWidget {
   const AddTags({super.key});
@@ -165,16 +166,16 @@ class _AddTagsState extends State<AddTags> {
                   context: context,
                   builder: (context) {
                     return AlertDialog(
-                      title: Text('Add a tag'),
+                      title: Text(AppLocalizations.of(context)!.addTag),
                       content: TextField(
                           controller: _controller,
                           decoration: InputDecoration(
                             border: OutlineInputBorder(),
-                            hintText: "Write a tag here",
+                            hintText: AppLocalizations.of(context)!.writeTag,
                           )),
                       actions: [
                         ElevatedButton(
-                          child: Text('Add'),
+                          child: Text(AppLocalizations.of(context)!.add),
                           onPressed: () async {
                             selectedTags.add(
                               _controller.text,
@@ -198,7 +199,7 @@ class _AddTagsState extends State<AddTags> {
                 onPressed: () {
                   Navigator.pop(context, selectedTags);
                 },
-                child: const Text('Finish'),
+                child: Text(AppLocalizations.of(context)!.add),
               ))
         ]));
   }

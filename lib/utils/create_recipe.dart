@@ -14,6 +14,7 @@ import 'package:cook_app/utils/add_tags.dart';
 import 'package:cook_app/utils/add_totaltime.dart';
 import 'package:cook_app/utils/create_steps.dart';
 import 'package:cook_app/utils/dialbox_edit.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:flutter/material.dart';
 import 'package:cook_app/utils/recipe_struct.dart';
@@ -96,11 +97,11 @@ class _CreateRecipeState extends State<CreateRecipe> {
                 _getDataFromAddExistingCategory(context);
               });
             },
-            child: Text("Add category (required)"),
+            child: Text(AppLocalizations.of(context)!.addCategoryRequired),
           )
         : Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             Text(
-              "Category:",
+              AppLocalizations.of(context)!.category,
               style: TextStyle(
                 fontSize: 16,
               ),
@@ -163,11 +164,11 @@ class _CreateRecipeState extends State<CreateRecipe> {
                 _getDataFromAddRecipeName(context);
               });
             },
-            child: Text("Add recipe name"),
+            child: Text(AppLocalizations.of(context)!.addRecipeName),
           )
         : Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             Text(
-              "Recipe name:",
+              AppLocalizations.of(context)!.recipeName,
               style: TextStyle(
                 fontSize: 16,
               ),
@@ -266,11 +267,11 @@ class _CreateRecipeState extends State<CreateRecipe> {
                 _getDataFromAddTotalTime(context);
               });
             },
-            child: Text("Add total time"),
+            child: Text(AppLocalizations.of(context)!.addTotalTime),
           )
         : Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             Text(
-              "Total time:",
+              AppLocalizations.of(context)!.totalTime,
               style: TextStyle(
                 fontSize: 16,
               ),
@@ -370,11 +371,11 @@ class _CreateRecipeState extends State<CreateRecipe> {
                 _getDataFromAddDifficulty(context);
               });
             },
-            child: Text("Add difficulty"),
+            child: Text(AppLocalizations.of(context)!.addDifficulty),
           )
         : Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             Text(
-              "Difficulty:",
+              AppLocalizations.of(context)!.difficulty,
               style: TextStyle(
                 fontSize: 16,
               ),
@@ -466,11 +467,11 @@ class _CreateRecipeState extends State<CreateRecipe> {
                 _getDataFromAddCost(context);
               });
             },
-            child: Text("Add cost"),
+            child: Text(AppLocalizations.of(context)!.addCost),
           )
         : Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             Text(
-              "Cost:",
+              AppLocalizations.of(context)!.cost,
               style: TextStyle(
                 fontSize: 16,
               ),
@@ -554,7 +555,7 @@ class _CreateRecipeState extends State<CreateRecipe> {
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
-                child: Text('Close'),
+                child: Text(AppLocalizations.of(context)!.close),
               ),
             ],
           );
@@ -591,11 +592,11 @@ class _CreateRecipeState extends State<CreateRecipe> {
                 getDataFromMyImagePickerPage(context);
               });
             },
-            child: Text("Add picture"),
+            child: Text(AppLocalizations.of(context)!.addPicture),
           )
         : Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             Text(
-              "Picture : ",
+              AppLocalizations.of(context)!.picture,
               style: TextStyle(
                 fontSize: 16,
               ),
@@ -606,7 +607,8 @@ class _CreateRecipeState extends State<CreateRecipe> {
                     _showImagePreview(context);
                   },
                   child: Text(
-                    previewImageTextField = "Preview picture",
+                    previewImageTextField =
+                        AppLocalizations.of(context)!.previewPicture,
                     style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
@@ -679,7 +681,7 @@ class _CreateRecipeState extends State<CreateRecipe> {
                 getDataFromAddIngred(context);
               });
             },
-            child: Text("Add ingredients"),
+            child: Text(AppLocalizations.of(context)!.addIngred),
           )
         : Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             isShowIngredientsSelectedPressed
@@ -692,7 +694,7 @@ class _CreateRecipeState extends State<CreateRecipe> {
                     child: Row(
                       children: [
                         Text(
-                          "Collapse",
+                          AppLocalizations.of(context)!.collapse,
                           style: TextStyle(
                             fontSize: 16,
                           ),
@@ -712,7 +714,7 @@ class _CreateRecipeState extends State<CreateRecipe> {
                     child: Row(
                       children: [
                         Text(
-                          "Show Ingredients",
+                          AppLocalizations.of(context)!.showIngred,
                           style: TextStyle(
                             fontSize: 16,
                           ),
@@ -832,7 +834,7 @@ class _CreateRecipeState extends State<CreateRecipe> {
                 getDataFromCreateSteps(context);
               });
             },
-            child: Text("Add steps"),
+            child: Text(AppLocalizations.of(context)!.addSteps),
           )
         : Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             isshowStepsAddedPressed
@@ -845,7 +847,7 @@ class _CreateRecipeState extends State<CreateRecipe> {
                     child: Row(
                       children: [
                         Text(
-                          "Collapse",
+                          AppLocalizations.of(context)!.collapse,
                           style: TextStyle(
                             fontSize: 16,
                           ),
@@ -865,7 +867,7 @@ class _CreateRecipeState extends State<CreateRecipe> {
                     child: Row(
                       children: [
                         Text(
-                          "Show steps",
+                          AppLocalizations.of(context)!.showSteps,
                           style: TextStyle(
                             fontSize: 16,
                           ),
@@ -911,7 +913,7 @@ class _CreateRecipeState extends State<CreateRecipe> {
         itemBuilder: (context, index) {
           return ListTile(
             title: Text(
-                ' Step ${index + 1}:\n${stepsRecipeFromCreateSteps[index]}'),
+                '  ${AppLocalizations.of(context)!.step} ${index + 1}:\n${stepsRecipeFromCreateSteps[index]}'),
             trailing: Wrap(
               spacing: -16,
               children: [
@@ -992,7 +994,7 @@ class _CreateRecipeState extends State<CreateRecipe> {
                 getDataFromAddTags(context);
               });
             },
-            child: Text("Add tags"),
+            child: Text(AppLocalizations.of(context)!.addTags),
           )
         : Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             isshowTagsAddedPressed
@@ -1005,7 +1007,7 @@ class _CreateRecipeState extends State<CreateRecipe> {
                     child: Row(
                       children: [
                         Text(
-                          "Collapse",
+                          AppLocalizations.of(context)!.collapse,
                           style: TextStyle(
                             fontSize: 16,
                           ),
@@ -1025,7 +1027,7 @@ class _CreateRecipeState extends State<CreateRecipe> {
                     child: Row(
                       children: [
                         Text(
-                          "Show tags",
+                          AppLocalizations.of(context)!.showTags,
                           style: TextStyle(
                             fontSize: 16,
                           ),
@@ -1167,26 +1169,27 @@ class _CreateRecipeState extends State<CreateRecipe> {
               builder: (context) {
                 return AlertDialog(
                   content: SizedBox(
-                      height: 40.0,
-                      child: Column(children: const [
-                        Text('Are you sure you want to exit?',
+                      height: 300.0,
+                      child: Column(children: [
+                        Text(AppLocalizations.of(context)!.areYouSureExit,
                             style: TextStyle(
                                 fontSize: 20, fontWeight: FontWeight.bold)),
                         Center(
-                            child: Text('You can submit and edit later',
+                            child: Text(
+                                AppLocalizations.of(context)!.saveEditLater,
                                 style: TextStyle(
                                     fontSize: 15, fontStyle: FontStyle.italic)))
                       ])),
                   actions: <Widget>[
                     TextButton(
-                      child: Text('Yes, exit',
+                      child: Text(AppLocalizations.of(context)!.confirmExit,
                           style: TextStyle(color: Colors.red)),
                       onPressed: () {
                         Navigator.of(context).pop(true);
                       },
                     ),
                     TextButton(
-                      child: Text('No',
+                      child: Text(AppLocalizations.of(context)!.no,
                           style: TextStyle(color: Colors.lightGreen)),
                       onPressed: () {
                         Navigator.of(context).pop(false);

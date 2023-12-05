@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors
 
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AddCost extends StatefulWidget {
   const AddCost({super.key});
@@ -21,7 +22,7 @@ class _AddCostState extends State<AddCost> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text("Add cost"),
+          title: Text(AppLocalizations.of(context)!.addCost),
           centerTitle: true,
           elevation: 0,
           //leading: const Icon(Icons.menu),
@@ -58,13 +59,13 @@ class _AddCostState extends State<AddCost> {
                   context: context,
                   builder: (context) {
                     return AlertDialog(
-                      title: Text('Add cost'),
+                      title: Text(AppLocalizations.of(context)!.addCost),
                       content: TextField(
                         controller: _controller,
                       ),
                       actions: [
                         ElevatedButton(
-                          child: Text('Add'),
+                          child: Text(AppLocalizations.of(context)!.add),
                           onPressed: () async {
                             setState(() {
                               Navigator.pop(context);

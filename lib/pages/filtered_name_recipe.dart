@@ -130,7 +130,7 @@ class _FilteredNameRecipeState extends State<FilteredNameRecipe> {
         context: context,
         builder: (BuildContext context) {
           return Container(
-              padding: EdgeInsetsDirectional.fromSTEB(0, 300, 0, 200),
+              padding: EdgeInsetsDirectional.fromSTEB(0, 200, 0, 100),
               child: AlertDialog(
                 title: Column(children: [
                   Text(AppLocalizations.of(context)!.areYouSure),

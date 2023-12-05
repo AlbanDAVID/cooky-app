@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, must_be_immutable, prefer_typing_uninitialized_variables
 
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 // dialog box for add steps (used in CreateSteps)
 class DialogAddSteps extends StatelessWidget {
@@ -31,7 +32,7 @@ class DialogAddSteps extends StatelessWidget {
                 controller: controller,
                 decoration: InputDecoration(
                   border: OutlineInputBorder(),
-                  hintText: "Write the step here.",
+                  hintText: AppLocalizations.of(context)!.writeStep,
                 ),
               )),
 
@@ -41,13 +42,13 @@ class DialogAddSteps extends StatelessWidget {
               // save button
               TextButton(
                 onPressed: () => Navigator.pop(context),
-                child: const Text('Cancel'),
+                child: Text(AppLocalizations.of(context)!.cancel),
               ),
 
               // cancel button
               TextButton(
                 onPressed: () => Navigator.pop(context, controller.text),
-                child: const Text('OK'),
+                child: Text(AppLocalizations.of(context)!.add),
               )
             ],
           ),
@@ -94,13 +95,13 @@ class DialogEditStep extends StatelessWidget {
               // save button
               TextButton(
                 onPressed: () => Navigator.pop(context),
-                child: const Text('Cancel'),
+                child: Text(AppLocalizations.of(context)!.cancel),
               ),
 
               // cancel button
               TextButton(
                 onPressed: () => Navigator.pop(context, controller.text),
-                child: const Text('Save changes'),
+                child: Text(AppLocalizations.of(context)!.add),
               )
             ],
           ),
@@ -127,7 +128,7 @@ class _CreateStepsState extends State<CreateSteps> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text('Add steps'),
+          title: Text(AppLocalizations.of(context)!.addSteps),
         ),
         body: Center(
             child: Column(children: [
@@ -136,7 +137,8 @@ class _CreateStepsState extends State<CreateSteps> {
             itemCount: stepsRecipe.length,
             itemBuilder: (context, index) {
               return ListTile(
-                title: Text(' Step ${index + 1}:\n${stepsRecipe[index]}'),
+                title: Text(
+                    ' ${AppLocalizations.of(context)!.step} ${index + 1}:\n${stepsRecipe[index]}'),
                 trailing: Wrap(
                   spacing: -16,
                   children: [
@@ -196,7 +198,7 @@ class _CreateStepsState extends State<CreateSteps> {
                 _controller.clear();
               }
             },
-            child: Text("Add a new step"),
+            child: Text(AppLocalizations.of(context)!.addNewStep),
           ),
           Container(
               alignment: Alignment.bottomRight,
@@ -204,7 +206,7 @@ class _CreateStepsState extends State<CreateSteps> {
                 onPressed: () {
                   Navigator.pop(context, stepsRecipe);
                 },
-                child: Text("Finish"),
+                child: Text(AppLocalizations.of(context)!.add),
               )),
         ])));
   }

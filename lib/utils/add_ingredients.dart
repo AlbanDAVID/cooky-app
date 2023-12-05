@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:flutter_picker/flutter_picker.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AddIngred extends StatefulWidget {
   const AddIngred({super.key});
@@ -42,7 +43,7 @@ class _AddIngredState extends State<AddIngred> {
     // add list from dialbox_add_ingredient to allIngredientSelected
     return Scaffold(
         appBar: AppBar(
-          title: const Text('Add ingredients'),
+          title: Text(AppLocalizations.of(context)!.addIngred),
         ),
         body: Column(children: [
           const Text("Suggestions : ", style: TextStyle(fontSize: 13)),
@@ -119,30 +120,31 @@ class _AddIngredState extends State<AddIngred> {
                   context: context,
                   builder: (context) {
                     return AlertDialog(
-                      title: Text('Add ingredient'),
+                      title: Text(AppLocalizations.of(context)!.addIngred2),
                       content: Column(children: [
                         TextField(
                             controller: _controller,
                             decoration: InputDecoration(
                               border: OutlineInputBorder(),
-                              hintText: "Ingredient name",
+                              hintText:
+                                  AppLocalizations.of(context)!.ingredName,
                             )),
                         TextField(
                             controller: _controller2,
                             decoration: InputDecoration(
                               border: OutlineInputBorder(),
-                              hintText: "Quantity",
+                              hintText: AppLocalizations.of(context)!.quantity,
                             )),
                         TextField(
                             controller: _controller3,
                             decoration: InputDecoration(
                               border: OutlineInputBorder(),
-                              hintText: "Unit",
+                              hintText: AppLocalizations.of(context)!.unit,
                             ))
                       ]),
                       actions: [
                         ElevatedButton(
-                          child: Text('Add'),
+                          child: Text(AppLocalizations.of(context)!.add),
                           onPressed: () async {
                             allIngredientSelected.add([
                               _controller.text,
@@ -169,7 +171,7 @@ class _AddIngredState extends State<AddIngred> {
                 onPressed: () {
                   Navigator.pop(context, allIngredientSelected);
                 },
-                child: const Text('Finish'),
+                child: Text(AppLocalizations.of(context)!.add),
               ))
         ]));
   }

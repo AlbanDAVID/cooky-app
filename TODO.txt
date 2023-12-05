@@ -2,7 +2,7 @@ Priority :
 
 
 
-
+- *** language french/english + defaut langage + choix de la langue
 - *** Create and Read recipe : 
     - Ingredients, Recipe name, Total time, Difficulty, Cost -> 
     add intuitive fields : 
@@ -16,13 +16,12 @@ Priority :
 - *** check license
 - *** check with all devices
 - *** check with differet police size (from smartphone user)
-- *** language french/english + defaut langage + choix de la langue 
 - *** coherente navigation (especially witk back return)
 - *** create settings page (contact, git hub, by me a coffee, version, bêta, language)
 - *** UI
 - *** Lancement sur f droid : changer app name, créer icone
 
-
+- deleted durong recipe create (translation to do)
 - police non monospace
 - dial box if category is empty (create recipe)
 - backup database (possibilty to export, import, ask for conserv data if uninstall app)
@@ -84,6 +83,7 @@ Other idea :
 
 BUG : 
 - willpopscope est deprecated
+- quand on ajoute une ctégorie et qu'on saisi manuellement sans rien mettre, ça créé une catégorie vide
 - major : quand j'ajoute un ingrédient et que je modofie sans rien faire (rien n'est envoyé dans la page create recipe mais l'ingrédient reste parce pb de set state ?)
 - major : edit in a categorie : si on quitte sans faire submit, les ingrédients séléctionné reste temporairement en émmoire (disparaisse au redemarrage de lappli)
 - minor : blank for total time et difficlty with we come back with no selected field during create recipe

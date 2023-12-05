@@ -2,6 +2,7 @@
 
 import 'package:cook_app/utils/add_ingredients.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AddIngredientQuantity extends StatefulWidget {
   const AddIngredientQuantity({Key? key}) : super(key: key);
@@ -98,7 +99,7 @@ class _AddIngredientQuantityState extends State<AddIngredientQuantity> {
                   onPressed: () {
                     Navigator.pop(context, finalQuantity);
                   },
-                  child: const Text('Add'),
+                  child: Text(AppLocalizations.of(context)!.add),
                 ))
           ]),
         ]));

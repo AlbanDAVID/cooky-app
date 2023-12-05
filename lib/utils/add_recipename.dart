@@ -7,6 +7,7 @@ import 'package:cook_app/utils/create_recipe.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AddRecipeName extends StatefulWidget {
   const AddRecipeName({super.key});
@@ -34,7 +35,7 @@ class _AddRecipeNameState extends State<AddRecipeName> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text("Add recipe name"),
+          title: Text(AppLocalizations.of(context)!.addRecipeName, maxLines: 2),
           centerTitle: true,
           elevation: 0,
           //leading: const Icon(Icons.menu),
@@ -43,6 +44,9 @@ class _AddRecipeNameState extends State<AddRecipeName> {
           ],
         ),
         body: Column(children: [
+          SizedBox(
+            height: 35,
+          ),
           Text("Suggestions : ", style: TextStyle(fontSize: 13)),
           SizedBox(
               height: 400,
@@ -69,13 +73,14 @@ class _AddRecipeNameState extends State<AddRecipeName> {
                   context: context,
                   builder: (context) {
                     return AlertDialog(
-                      title: Text('Add recipe name'),
+                      title: Text(AppLocalizations.of(context)!.addRecipeName,
+                          textAlign: TextAlign.center),
                       content: TextField(
                         controller: _controller,
                       ),
                       actions: [
                         ElevatedButton(
-                          child: Text('Add'),
+                          child: Text(AppLocalizations.of(context)!.add),
                           onPressed: () async {
                             setState(() {
                               Navigator.pop(context);

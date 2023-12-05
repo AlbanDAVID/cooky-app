@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors
 
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AddDifficulty extends StatefulWidget {
   const AddDifficulty({super.key});
@@ -17,7 +18,7 @@ class _AddDifficultyState extends State<AddDifficulty> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text("Add difficulty"),
+          title: Text(AppLocalizations.of(context)!.addDifficulty),
           centerTitle: true,
           elevation: 0,
           //leading: const Icon(Icons.menu),
@@ -52,13 +53,13 @@ class _AddDifficultyState extends State<AddDifficulty> {
                   context: context,
                   builder: (context) {
                     return AlertDialog(
-                      title: Text('Add difficulty'),
+                      title: Text(AppLocalizations.of(context)!.addDifficulty),
                       content: TextField(
                         controller: _controller,
                       ),
                       actions: [
                         ElevatedButton(
-                          child: Text('Add'),
+                          child: Text(AppLocalizations.of(context)!.add),
                           onPressed: () async {
                             setState(() {
                               Navigator.pop(context);

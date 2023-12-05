@@ -14,6 +14,7 @@ import 'package:cook_app/utils/add_tags.dart';
 import 'package:cook_app/utils/add_totaltime.dart';
 import 'package:cook_app/utils/create_steps.dart';
 import 'package:cook_app/utils/dialbox_edit.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:flutter/material.dart';
 import 'package:cook_app/utils/recipe_struct.dart';
@@ -94,11 +95,11 @@ class _ScrapingState extends State<Scraping> {
                 _getDataFromAddExistingCategory(context);
               });
             },
-            child: Text("Add category (required)"),
+            child: Text(AppLocalizations.of(context)!.addCategoryRequired),
           )
         : Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             Text(
-              "Category:",
+              AppLocalizations.of(context)!.category,
               style: TextStyle(
                 fontSize: 16,
               ),
@@ -153,7 +154,7 @@ class _ScrapingState extends State<Scraping> {
     setState(() {});
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       Text(
-        "Recipe name:",
+        AppLocalizations.of(context)!.recipeName,
         style: TextStyle(
           fontSize: 16,
         ),
@@ -246,7 +247,7 @@ class _ScrapingState extends State<Scraping> {
     setState(() {});
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       Text(
-        "Total time:",
+        AppLocalizations.of(context)!.totalTime,
         style: TextStyle(
           fontSize: 16,
         ),
@@ -336,7 +337,7 @@ class _ScrapingState extends State<Scraping> {
     setState(() {});
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       Text(
-        "Difficulty:",
+        AppLocalizations.of(context)!.difficulty,
         style: TextStyle(
           fontSize: 16,
         ),
@@ -419,7 +420,7 @@ class _ScrapingState extends State<Scraping> {
     setState(() {});
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       Text(
-        "Cost:",
+        AppLocalizations.of(context)!.cost,
         style: TextStyle(
           fontSize: 16,
         ),
@@ -501,7 +502,7 @@ class _ScrapingState extends State<Scraping> {
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
-                child: Text('Close'),
+                child: Text(AppLocalizations.of(context)!.close),
               ),
             ],
           );
@@ -530,7 +531,7 @@ class _ScrapingState extends State<Scraping> {
     setState(() {});
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       Text(
-        "Picture : ",
+        AppLocalizations.of(context)!.picture,
         style: TextStyle(
           fontSize: 16,
         ),
@@ -541,7 +542,8 @@ class _ScrapingState extends State<Scraping> {
               _showImagePreview(context);
             },
             child: Text(
-              previewImageTextField = "Preview picture",
+              previewImageTextField =
+                  AppLocalizations.of(context)!.previewPicture,
               style: TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
@@ -597,7 +599,7 @@ class _ScrapingState extends State<Scraping> {
               child: Row(
                 children: [
                   Text(
-                    "Collapse",
+                    AppLocalizations.of(context)!.collapse,
                     style: TextStyle(
                       fontSize: 16,
                     ),
@@ -617,7 +619,7 @@ class _ScrapingState extends State<Scraping> {
               child: Row(
                 children: [
                   Text(
-                    "Show Ingredients",
+                    AppLocalizations.of(context)!.showIngred,
                     style: TextStyle(
                       fontSize: 16,
                     ),
@@ -762,7 +764,7 @@ class _ScrapingState extends State<Scraping> {
               child: Row(
                 children: [
                   Text(
-                    "Collapse",
+                    AppLocalizations.of(context)!.collapse,
                     style: TextStyle(
                       fontSize: 16,
                     ),
@@ -782,7 +784,7 @@ class _ScrapingState extends State<Scraping> {
               child: Row(
                 children: [
                   Text(
-                    "Show steps",
+                    AppLocalizations.of(context)!.showSteps,
                     style: TextStyle(
                       fontSize: 16,
                     ),
@@ -911,7 +913,7 @@ class _ScrapingState extends State<Scraping> {
               child: Row(
                 children: [
                   Text(
-                    "Collapse",
+                    AppLocalizations.of(context)!.collapse,
                     style: TextStyle(
                       fontSize: 16,
                     ),
@@ -931,7 +933,7 @@ class _ScrapingState extends State<Scraping> {
               child: Row(
                 children: [
                   Text(
-                    "Show tags",
+                    AppLocalizations.of(context)!.showTags,
                     style: TextStyle(
                       fontSize: 16,
                     ),
@@ -1067,26 +1069,27 @@ class _ScrapingState extends State<Scraping> {
               builder: (context) {
                 return AlertDialog(
                   content: SizedBox(
-                      height: 40.0,
-                      child: Column(children: const [
-                        Text('Are you sure you want to exit?',
+                      height: 300.0,
+                      child: Column(children: [
+                        Text(AppLocalizations.of(context)!.areYouSureExit,
                             style: TextStyle(
                                 fontSize: 20, fontWeight: FontWeight.bold)),
                         Center(
-                            child: Text('You can save changes and edit later',
+                            child: Text(
+                                AppLocalizations.of(context)!.saveEditLater,
                                 style: TextStyle(
                                     fontSize: 15, fontStyle: FontStyle.italic)))
                       ])),
                   actions: <Widget>[
                     TextButton(
-                      child: Text('Yes, exit',
+                      child: Text(AppLocalizations.of(context)!.confirmExit,
                           style: TextStyle(color: Colors.red)),
                       onPressed: () {
                         Navigator.of(context).pop(true);
                       },
                     ),
                     TextButton(
-                      child: Text('No',
+                      child: Text(AppLocalizations.of(context)!.no,
                           style: TextStyle(color: Colors.lightGreen)),
                       onPressed: () {
                         Navigator.of(context).pop(false);

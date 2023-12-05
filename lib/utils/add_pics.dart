@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class MyImagePickerPage extends StatefulWidget {
   @override
@@ -52,27 +53,29 @@ class _MyImagePickerPageState extends State<MyImagePickerPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Add picture'),
+        title: Text(AppLocalizations.of(context)!.addPicture),
       ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            _image == null ? Text('No images selected.') : Image.file(_image!),
+            _image == null
+                ? Text(AppLocalizations.of(context)!.noPic)
+                : Image.file(_image!),
             SizedBox(height: 20),
             ElevatedButton(
               onPressed: () => _pickImage(ImageSource.gallery),
-              child: Text('Choose from gallery'),
+              child: Text(AppLocalizations.of(context)!.chooseGallery),
             ),
             ElevatedButton(
               onPressed: () => _pickImage(ImageSource.camera),
-              child: Text('Take a picture'),
+              child: Text(AppLocalizations.of(context)!.takePic),
             ),
             ElevatedButton(
               onPressed: () {
                 Navigator.pop(context, pathImageSelected);
               },
-              child: Text('Add picture'),
+              child: Text(AppLocalizations.of(context)!.addPicture2),
             ),
           ],
         ),
