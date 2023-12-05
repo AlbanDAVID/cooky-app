@@ -10,6 +10,7 @@ import 'package:cook_app/utils/add_difficulty.dart';
 import 'package:cook_app/utils/add_ingredients.dart';
 import 'package:cook_app/utils/add_pics.dart';
 import 'package:cook_app/utils/add_recipename.dart';
+import 'package:cook_app/utils/add_tags.dart';
 import 'package:cook_app/utils/add_totaltime.dart';
 import 'package:cook_app/utils/create_steps.dart';
 import 'package:cook_app/utils/dialbox_edit.dart';
@@ -44,6 +45,7 @@ class _CreateRecipeState extends State<CreateRecipe> {
   String varFromAddCost = "";
   String previewImageTextField = "";
   String defautImage = "recipe_pics/no_image.png";
+  List? tags = [];
 
   bool isButtonAddCategoryVisible = true;
   bool isButtonAddRecipeNameVisible = true;
@@ -56,18 +58,8 @@ class _CreateRecipeState extends State<CreateRecipe> {
   bool isFromScrap = false;
   bool isShowIngredientsSelectedPressed = false;
   bool isshowStepsAddedPressed = false;
-
-  // test :
-  List tags = [
-    "tototot",
-    "fknf",
-    "lskfhf",
-    "fkhf",
-    "fdlkf",
-    "klefh",
-    "lkefjhq",
-    "kefj"
-  ];
+  bool isButtonAddTagsVisible = true;
+  bool isshowTagsAddedPressed = false;
 
   ////// FUNCTIONS FOR RECIPE CATEGORY //////
 
@@ -966,6 +958,164 @@ class _CreateRecipeState extends State<CreateRecipe> {
   }
   ////////////////////////////////////////////////////////
   ///
+  /// ////// //////////// FUNCTIONS FOR ADD TAGS //////
+  ///
+  ///
+
+  // get  from class AddTags()
+  void getDataFromAddTags(BuildContext context) async {
+    final result = await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => AddTags(),
+      ),
+    );
+
+    if (result != null) {
+      List data = result;
+      print('Received data from SecondScreen: $data');
+      setState(() {
+        isButtonAddTagsVisible = false;
+      });
+      tags!.addAll(data);
+    }
+  }
+
+  // widget with button for adding steps , and display preview  with edition button
+  Widget addTags(bool isButtonAddTagsVisible) {
+    setState(() {});
+    return isButtonAddTagsVisible
+        ? ElevatedButton(
+            onPressed: () async {
+              setState(() {
+                isButtonAddTagsVisible = false;
+                getDataFromAddTags(context);
+              });
+            },
+            child: Text("Add tags"),
+          )
+        : Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            isshowTagsAddedPressed
+                ? TextButton(
+                    onPressed: () {
+                      setState(() {
+                        isshowTagsAddedPressed = false;
+                      });
+                    },
+                    child: Row(
+                      children: [
+                        Text(
+                          "Collapse",
+                          style: TextStyle(
+                            fontSize: 16,
+                          ),
+                        ),
+                        Icon(
+                          Icons.arrow_downward,
+                          size: 16, // ajustez la taille selon vos besoins
+                        ),
+                      ],
+                    ))
+                : TextButton(
+                    onPressed: () {
+                      setState(() {
+                        isshowTagsAddedPressed = true;
+                      });
+                    },
+                    child: Row(
+                      children: [
+                        Text(
+                          "Show tags",
+                          style: TextStyle(
+                            fontSize: 16,
+                          ),
+                        ),
+                        Icon(
+                          Icons.arrow_upward,
+                          size: 16, // ajustez la taille selon vos besoins
+                        ),
+                      ],
+                    )),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                InkWell(
+                  onTap: () {
+                    getDataFromAddTags(context);
+                  },
+                  child: Icon(
+                    Icons.add,
+                    size: 30,
+                  ),
+                ),
+                SizedBox(width: 16), // Ajustez cet espace selon vos besoins
+                InkWell(
+                  onLongPress: () {
+                    setState(() {
+                      tags = [];
+                    });
+                  },
+                  child: Icon(Icons.delete, size: 20, color: Colors.redAccent),
+                ),
+              ],
+            )
+          ]);
+  }
+
+  // widget list view to show all steps and possibilty to edit, delete
+  Widget showTagsAdded() {
+    return SizedBox(
+      height: 600,
+      child: ListView.builder(
+        itemCount: tags!.length,
+        itemBuilder: (context, index) {
+          return ListTile(
+            title: Text('${tags![index]}'),
+            trailing: Wrap(
+              spacing: -16,
+              children: [
+                IconButton(
+                  icon: const Icon(Icons.edit),
+                  onPressed: () async {
+                    final result = await showDialog(
+                        context: context,
+                        builder: (context) {
+                          return DialogEditStep(
+                            controller: TextEditingController(
+                                text: tags![index].toString()),
+                          );
+                        });
+                    if (result != null) {
+                      String data = result;
+                      print('Received data from SecondScreen: $data');
+                      setState(() {});
+                      tags![index] = data;
+                    }
+                  },
+                ),
+                GestureDetector(
+                  onLongPress: () {
+                    setState(() {
+                      tags!.removeAt(index);
+                    });
+                  },
+                  child: IconButton(
+                    icon: const Icon(
+                      Icons.delete,
+                      color: Colors.redAccent,
+                    ),
+                    onPressed: () {},
+                  ),
+                )
+              ],
+            ),
+          );
+        },
+      ),
+    );
+  }
+
+  ///
   ///
   ///
   /////// SHOW WIDGET WITH CONDITION : /////
@@ -974,7 +1124,8 @@ class _CreateRecipeState extends State<CreateRecipe> {
   Widget ShowWidget() {
     setState(() {});
     if (isShowIngredientsSelectedPressed == false &&
-        isshowStepsAddedPressed == false) {
+        isshowStepsAddedPressed == false &&
+        isshowTagsAddedPressed == false) {
       return Column(children: [
         addCategory(isButtonAddCategoryVisible),
         addRecipeName(isButtonAddRecipeNameVisible),
@@ -984,6 +1135,7 @@ class _CreateRecipeState extends State<CreateRecipe> {
         addPicture(isButtonAddPictureVisible),
         addIngred(isButtonAddIngredVisible),
         addSteps(isButtonAddStepsVisible),
+        addTags(isButtonAddTagsVisible),
       ]);
     } else if (isShowIngredientsSelectedPressed == true) {
       return Column(children: [
@@ -994,6 +1146,11 @@ class _CreateRecipeState extends State<CreateRecipe> {
       return Column(children: [
         addSteps(isButtonAddStepsVisible),
         showStepsAdded(),
+      ]);
+    } else if (isshowTagsAddedPressed == true) {
+      return Column(children: [
+        addTags(isButtonAddTagsVisible),
+        showTagsAdded(),
       ]);
     } else {
       return Text("Error, no widgets to display");
@@ -1088,6 +1245,11 @@ class _CreateRecipeState extends State<CreateRecipe> {
                           // retrieve database list
                           List listOfLists = _myBox.get('ALL_LISTS') ?? [];
 
+                          // create null index for future add :
+                          double? stars = null;
+                          List? detailTIme = null;
+                          List? utensils = null;
+
                           // Add a new list to the list of lists
 
                           listOfLists.add([
@@ -1101,7 +1263,10 @@ class _CreateRecipeState extends State<CreateRecipe> {
                             recipeCategoryFromAddExistingCategory,
                             isFromScrap,
                             creationDate,
-                            tags
+                            tags,
+                            stars,
+                            detailTIme,
+                            utensils
                           ]);
 
                           // Update list of lists in Hive

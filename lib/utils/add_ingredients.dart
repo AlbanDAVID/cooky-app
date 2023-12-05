@@ -45,7 +45,7 @@ class _AddIngredState extends State<AddIngred> {
           title: const Text('Add ingredients'),
         ),
         body: Column(children: [
-          const Text("Suggestions : ", style: TextStyle(fontSize: 10)),
+          const Text("Suggestions : ", style: TextStyle(fontSize: 13)),
           Expanded(
               child: Padding(
             padding: const EdgeInsets.only(left: 50.0, right: 50, top: 0),

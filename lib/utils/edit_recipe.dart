@@ -10,6 +10,7 @@ import 'package:cook_app/utils/add_difficulty.dart';
 import 'package:cook_app/utils/add_ingredients.dart';
 import 'package:cook_app/utils/add_pics.dart';
 import 'package:cook_app/utils/add_recipename.dart';
+import 'package:cook_app/utils/add_tags.dart';
 import 'package:cook_app/utils/add_totaltime.dart';
 import 'package:cook_app/utils/create_steps.dart';
 import 'package:cook_app/utils/dialbox_edit.dart';
@@ -29,6 +30,7 @@ class EditRecipe extends StatefulWidget {
   String editDifficulty;
   String editCost;
   bool isFromScrap;
+  List? tags;
   int index;
 
   EditRecipe(
@@ -42,6 +44,7 @@ class EditRecipe extends StatefulWidget {
       required this.editDifficulty,
       required this.editCost,
       required this.isFromScrap,
+      this.tags,
       required this.index})
       : super(key: key);
 
@@ -62,6 +65,7 @@ class _EditRecipeState extends State<EditRecipe> {
 
   bool isShowIngredientsSelectedPressed = false;
   bool isshowStepsAddedPressed = false;
+  bool isshowTagsAddedPressed = false;
 
   String defautImage = "recipe_pics/no_image.png";
 
@@ -903,14 +907,160 @@ class _EditRecipeState extends State<EditRecipe> {
   }
   ////////////////////////////////////////////////////////
   ///
+
+  /// ////// //////////// FUNCTIONS FOR ADD TAGS //////
   ///
+  ///
+
+  // get  from class AddTags()
+  void getDataFromAddTags(BuildContext context) async {
+    final result = await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => AddTags(),
+      ),
+    );
+
+    if (result != null) {
+      List data = result;
+      print('Received data from SecondScreen: $data');
+      setState(() {});
+      widget.tags!.addAll(data);
+    }
+  }
+
+  // widget with button for adding steps , and display preview  with edition button
+  Widget addTags() {
+    setState(() {});
+    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+      isshowTagsAddedPressed
+          ? TextButton(
+              onPressed: () {
+                setState(() {
+                  isshowTagsAddedPressed = false;
+                });
+              },
+              child: Row(
+                children: [
+                  Text(
+                    "Collapse",
+                    style: TextStyle(
+                      fontSize: 16,
+                    ),
+                  ),
+                  Icon(
+                    Icons.arrow_downward,
+                    size: 16, // ajustez la taille selon vos besoins
+                  ),
+                ],
+              ))
+          : TextButton(
+              onPressed: () {
+                setState(() {
+                  isshowTagsAddedPressed = true;
+                });
+              },
+              child: Row(
+                children: [
+                  Text(
+                    "Show tags",
+                    style: TextStyle(
+                      fontSize: 16,
+                    ),
+                  ),
+                  Icon(
+                    Icons.arrow_upward,
+                    size: 16, // ajustez la taille selon vos besoins
+                  ),
+                ],
+              )),
+      Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          InkWell(
+            onTap: () {
+              getDataFromAddTags(context);
+            },
+            child: Icon(
+              Icons.add,
+              size: 30,
+            ),
+          ),
+          SizedBox(width: 16), // Ajustez cet espace selon vos besoins
+          InkWell(
+            onLongPress: () {
+              setState(() {
+                widget.tags!.clear();
+              });
+            },
+            child: Icon(Icons.delete, size: 20, color: Colors.redAccent),
+          ),
+        ],
+      )
+    ]);
+  }
+
+  // widget list view to show all tags and possibilty to edit, delete
+  Widget showTagsAdded() {
+    return SizedBox(
+      height: 600,
+      child: ListView.builder(
+        itemCount: widget.tags!.length,
+        itemBuilder: (context, index) {
+          return ListTile(
+            title: Text('${widget.tags![index]}'),
+            trailing: Wrap(
+              spacing: -16,
+              children: [
+                IconButton(
+                  icon: const Icon(Icons.edit),
+                  onPressed: () async {
+                    final result = await showDialog(
+                        context: context,
+                        builder: (context) {
+                          return DialogEditStep(
+                            controller: TextEditingController(
+                                text: widget.tags![index].toString()),
+                          );
+                        });
+                    if (result != null) {
+                      String data = result;
+                      print('Received data from SecondScreen: $data');
+                      setState(() {});
+                      widget.tags![index] = data;
+                    }
+                  },
+                ),
+                GestureDetector(
+                  onLongPress: () {
+                    setState(() {
+                      widget.tags!.removeAt(index);
+                    });
+                  },
+                  child: IconButton(
+                    icon: const Icon(
+                      Icons.delete,
+                      color: Colors.redAccent,
+                    ),
+                    onPressed: () {},
+                  ),
+                )
+              ],
+            ),
+          );
+        },
+      ),
+    );
+  }
+
   ////////// SHOW WIDGET WITH CONDITION : /////
   ///
 
   Widget ShowWidget() {
     setState(() {});
     if (isShowIngredientsSelectedPressed == false &&
-        isshowStepsAddedPressed == false) {
+        isshowStepsAddedPressed == false &&
+        isshowTagsAddedPressed == false) {
       return Column(children: [
         addCategory(),
         addRecipeName(),
@@ -920,6 +1070,7 @@ class _EditRecipeState extends State<EditRecipe> {
         addPicture(),
         addIngred(),
         addSteps(),
+        addTags(),
       ]);
     } else if (isShowIngredientsSelectedPressed == true) {
       return Column(children: [addIngred(), showIngredientsSelected()]);
@@ -927,6 +1078,11 @@ class _EditRecipeState extends State<EditRecipe> {
       return Column(children: [
         addSteps(),
         showStepsAdded(),
+      ]);
+    } else if (isshowTagsAddedPressed == true) {
+      return Column(children: [
+        addTags(),
+        showTagsAdded(),
       ]);
     } else {
       return Text("Error, no widgets to display");

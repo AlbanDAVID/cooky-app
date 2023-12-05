@@ -49,22 +49,25 @@ class _FilteredNameRecipeState extends State<FilteredNameRecipe> {
       editCost,
       isFromScrap,
       editPathImage,
+      tags,
       index) async {
     final result = await Navigator.push(
       context,
       // send data to edit at EditRecipe()
       MaterialPageRoute(
         builder: (context) => EditRecipe(
-            editAllIngredient: editAllIngredient,
-            editStepsRecipe: editStepsRecipe,
-            editRecipeCategory: editRecipeCategory,
-            editRecipeName: editRecipeName,
-            editTotalTime: editTotalTime,
-            editDifficulty: editDifficulty,
-            editCost: editCost,
-            index: index,
-            isFromScrap: isFromScrap,
-            editPathImage: editPathImage),
+          editAllIngredient: editAllIngredient,
+          editStepsRecipe: editStepsRecipe,
+          editRecipeCategory: editRecipeCategory,
+          editRecipeName: editRecipeName,
+          editTotalTime: editTotalTime,
+          editDifficulty: editDifficulty,
+          editCost: editCost,
+          index: index,
+          isFromScrap: isFromScrap,
+          editPathImage: editPathImage,
+          tags: tags,
+        ),
       ),
     );
 
@@ -243,6 +246,7 @@ class _FilteredNameRecipeState extends State<FilteredNameRecipe> {
                                           db.recipeList[index][3],
                                           db.recipeList[index][8],
                                           db.recipeList[index][5],
+                                          db.recipeList[index][10],
                                           index);
                                     },
                                   ),
@@ -265,9 +269,6 @@ class _FilteredNameRecipeState extends State<FilteredNameRecipe> {
                         onTap: () {
                           setState(() {});
                           loadAllData();
-                          if (db.recipeList[index][10] == null) {
-                            db.recipeList[index].insert(10, ["toto"]);
-                          }
 
                           RecipeStruct recipeInstance = RecipeStruct(
                             recipeName: db.recipeList[index][0],

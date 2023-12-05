@@ -1,8 +1,8 @@
 Priority : 
 
 
-- ** ajouter tags (create recipe)
-- *** check si on peut ajouter des element à a liste database au fil de l'eau et voir si on peut afficier les anciennes recettes
+
+
 - *** Create and Read recipe : 
     - Ingredients, Recipe name, Total time, Difficulty, Cost -> 
     add intuitive fields : 
@@ -40,7 +40,11 @@ Priority :
 
 
 ----
-- Interessting features : 
+- Interessting features :
+- add  
+  // [11] notation stars (Double)
+  // [12] preparation time, rest time, cook time (List)
+  // [13] ustensiles (List) 
 - povoir éditer category lors de créatio nde recette ou autre (et pas seulement sur home page)
 - add US unit
 - add checkbox ingred (save)

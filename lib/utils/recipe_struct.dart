@@ -42,13 +42,43 @@ class _RecipeStructState extends State<RecipeStruct> {
   late List<bool> _isChecked;
   String defautImage = "recipe_pics/no_image.png";
   List allTags = [];
+  final ScrollController _scrollController = ScrollController();
+  bool showArrow = true;
 
   @override
   void initState() {
     super.initState();
+    // fir check ingredient box
     _isChecked = List<bool>.filled(widget.allIngredientSelected.length, false);
+
+    // init of tags list
     if (widget.tags != null) {
       allTags.addAll(widget.tags!);
+    }
+
+    // init scrollController :
+    _scrollController.addListener(_onScroll);
+
+    // Check if list is large enough to scroll and if it's the case, show arrow, else don't show arrow
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
+      if (_scrollController.position.maxScrollExtent == 0) {
+        setState(() {
+          showArrow = false;
+        });
+      }
+    });
+  }
+
+  // manage visibility of the arrow
+  void _onScroll() {
+    if (_scrollController.offset > 0 && showArrow) {
+      setState(() {
+        showArrow = false;
+      });
+    } else if (_scrollController.offset <= 0 && !showArrow) {
+      setState(() {
+        showArrow = true;
+      });
     }
   }
 
@@ -201,51 +231,45 @@ class _RecipeStructState extends State<RecipeStruct> {
                         SizedBox(height: 16),
                         // tags
                         if (widget.tags != null) ...[
-                          SizedBox(
-                              height: 100,
-                              child: ListView(
-                                  scrollDirection: Axis.horizontal,
-                                  children: [
-                                    Column(children: [
-                                      Row(children: [
-                                        Chip(
-                                          label: Text('${allTags[0]}'),
-                                        ),
-                                        SizedBox(width: 8.0),
-                                        Chip(
-                                          label: Text('${allTags[1]}'),
-                                        ),
-                                        SizedBox(width: 8.0),
-                                        Chip(
-                                          label: Text('${allTags[2]}'),
-                                        ),
-                                        SizedBox(width: 8.0),
-                                        Chip(
-                                          label: Text('${allTags[3]}'),
-                                        )
-                                      ]),
-                                      Row(children: [
-                                        Chip(
-                                          label: Text('${allTags[4]}'),
-                                        ),
-                                        SizedBox(width: 8.0),
-                                        Chip(
-                                          label: Text('${allTags[5]}'),
-                                        ),
-                                        SizedBox(width: 8.0),
-                                        Chip(
-                                          label: Text('${allTags[6]}'),
-                                        ),
-                                        SizedBox(width: 8.0),
-                                        Chip(
-                                          label: Text('${allTags[7]}'),
-                                        ),
-                                      ])
-                                    ])
-                                  ]))
+                          Row(children: [
+                            Expanded(
+                                child: SizedBox(
+                                    height: 100,
+                                    child: ListView.separated(
+                                      controller: _scrollController,
+                                      scrollDirection: Axis.horizontal,
+                                      itemCount: allTags.length,
+                                      itemBuilder: (context, index) {
+                                        return Chip(
+                                            label: Text('${allTags[index]}'));
+                                      },
+                                      separatorBuilder:
+                                          (BuildContext context, int index) {
+                                        return SizedBox(
+                                          width: 5,
+                                        );
+                                      },
+                                    ))),
+                            SizedBox(
+                              width: 0,
+                            ),
+                            if (showArrow)
+                              IconButton(
+                                  onPressed: () {
+                                    _scrollController.animateTo(
+                                      _scrollController
+                                          .position.maxScrollExtent,
+                                      duration: Duration(milliseconds: 500),
+                                      curve: Curves.easeInOut,
+                                    );
+                                  },
+                                  icon: Icon(Icons.arrow_circle_right_sharp)),
+                          ])
                         ],
 
-                        if (widget.tags == null) ...[Text("test")],
+                        if (widget.tags == null) ...[
+                          Text("")
+                        ], // show nothing if widget.tags == null
 
                         SizedBox(height: 30),
                         // Show ingrdient button

@@ -13,6 +13,10 @@ class RecipeDatabase {
   //[8] isFromScrap (bool),
   //[9] creationDate (String)
   //[10] tags (List)
+  // For a future add :
+  // [11] notation stars (Double)
+  // [12] preparation time, rest time, cook time (List)
+  // [13] ustensiles (List)
 
   List recipeList = [];
   // reference our box

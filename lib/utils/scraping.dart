@@ -10,6 +10,7 @@ import 'package:cook_app/utils/add_difficulty.dart';
 import 'package:cook_app/utils/add_ingredients.dart';
 import 'package:cook_app/utils/add_pics.dart';
 import 'package:cook_app/utils/add_recipename.dart';
+import 'package:cook_app/utils/add_tags.dart';
 import 'package:cook_app/utils/add_totaltime.dart';
 import 'package:cook_app/utils/create_steps.dart';
 import 'package:cook_app/utils/dialbox_edit.dart';
@@ -45,10 +46,12 @@ class _ScrapingState extends State<Scraping> {
   String scrapDifficulty = "";
   String scrapCost = "";
   bool isFromScrap = true;
+  List tags = [];
 
   bool isShowIngredientsSelectedPressed = false;
   bool isshowStepsAddedPressed = false;
   bool isButtonAddCategoryVisible = true;
+  bool isshowTagsAddedPressed = false;
 
   // load database
   final _myBox = Hive.box('mybox');
@@ -872,14 +875,160 @@ class _ScrapingState extends State<Scraping> {
   }
   ////////////////////////////////////////////////////////
   ///
+
+  /// ////// //////////// FUNCTIONS FOR ADD TAGS //////
   ///
+  ///
+
+  // get  from class AddTags()
+  void getDataFromAddTags(BuildContext context) async {
+    final result = await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => AddTags(),
+      ),
+    );
+
+    if (result != null) {
+      List data = result;
+      print('Received data from SecondScreen: $data');
+      setState(() {});
+      tags!.addAll(data);
+    }
+  }
+
+  // widget with button for adding steps , and display preview  with edition button
+  Widget addTags() {
+    setState(() {});
+    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+      isshowTagsAddedPressed
+          ? TextButton(
+              onPressed: () {
+                setState(() {
+                  isshowTagsAddedPressed = false;
+                });
+              },
+              child: Row(
+                children: [
+                  Text(
+                    "Collapse",
+                    style: TextStyle(
+                      fontSize: 16,
+                    ),
+                  ),
+                  Icon(
+                    Icons.arrow_downward,
+                    size: 16, // ajustez la taille selon vos besoins
+                  ),
+                ],
+              ))
+          : TextButton(
+              onPressed: () {
+                setState(() {
+                  isshowTagsAddedPressed = true;
+                });
+              },
+              child: Row(
+                children: [
+                  Text(
+                    "Show tags",
+                    style: TextStyle(
+                      fontSize: 16,
+                    ),
+                  ),
+                  Icon(
+                    Icons.arrow_upward,
+                    size: 16, // ajustez la taille selon vos besoins
+                  ),
+                ],
+              )),
+      Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          InkWell(
+            onTap: () {
+              getDataFromAddTags(context);
+            },
+            child: Icon(
+              Icons.add,
+              size: 30,
+            ),
+          ),
+          SizedBox(width: 16), // Ajustez cet espace selon vos besoins
+          InkWell(
+            onLongPress: () {
+              setState(() {
+                tags!.clear();
+              });
+            },
+            child: Icon(Icons.delete, size: 20, color: Colors.redAccent),
+          ),
+        ],
+      )
+    ]);
+  }
+
+  // widget list view to show all tags and possibilty to edit, delete
+  Widget showTagsAdded() {
+    return SizedBox(
+      height: 600,
+      child: ListView.builder(
+        itemCount: tags!.length,
+        itemBuilder: (context, index) {
+          return ListTile(
+            title: Text('${tags![index]}'),
+            trailing: Wrap(
+              spacing: -16,
+              children: [
+                IconButton(
+                  icon: const Icon(Icons.edit),
+                  onPressed: () async {
+                    final result = await showDialog(
+                        context: context,
+                        builder: (context) {
+                          return DialogEditStep(
+                            controller: TextEditingController(
+                                text: tags![index].toString()),
+                          );
+                        });
+                    if (result != null) {
+                      String data = result;
+                      print('Received data from SecondScreen: $data');
+                      setState(() {});
+                      tags![index] = data;
+                    }
+                  },
+                ),
+                GestureDetector(
+                  onLongPress: () {
+                    setState(() {
+                      tags!.removeAt(index);
+                    });
+                  },
+                  child: IconButton(
+                    icon: const Icon(
+                      Icons.delete,
+                      color: Colors.redAccent,
+                    ),
+                    onPressed: () {},
+                  ),
+                )
+              ],
+            ),
+          );
+        },
+      ),
+    );
+  }
+
   ///  ////////// SHOW WIDGET WITH CONDITION : /////
   ///
 
   Widget ShowWidget() {
     setState(() {});
     if (isShowIngredientsSelectedPressed == false &&
-        isshowStepsAddedPressed == false) {
+        isshowStepsAddedPressed == false &&
+        isshowTagsAddedPressed == false) {
       return Column(children: [
         addCategory(),
         addRecipeName(),
@@ -889,6 +1038,7 @@ class _ScrapingState extends State<Scraping> {
         addPicture(),
         addIngred(),
         addSteps(),
+        addTags(),
       ]);
     } else if (isShowIngredientsSelectedPressed == true) {
       return Column(children: [addIngred(), showIngredientsSelected()]);
@@ -896,6 +1046,11 @@ class _ScrapingState extends State<Scraping> {
       return Column(children: [
         addSteps(),
         showStepsAdded(),
+      ]);
+    } else if (isshowTagsAddedPressed == true) {
+      return Column(children: [
+        addTags(),
+        showTagsAdded(),
       ]);
     } else {
       return Text("Error, no widgets to display");
@@ -980,8 +1135,18 @@ class _ScrapingState extends State<Scraping> {
                           final finalscrapCost =
                               scrapCost == "Deleted" ? "" : scrapCost;
 
+                          // create a varible with the date of creation
+                          DateTime now = DateTime.now();
+                          String creationDate =
+                              'variable_${now.year}${now.month}${now.day}_${now.hour}${now.minute}${now.second}';
+
                           // get all data
                           List listOfLists = _myBox.get('ALL_LISTS') ?? [];
+
+                          // create null index for future add :
+                          double? stars = null;
+                          List? detailTIme = null;
+                          List? utensils = null;
 
                           // Give edidted values to recipeList
                           // Add a new list to the list of lists
@@ -994,7 +1159,13 @@ class _ScrapingState extends State<Scraping> {
                             scrapPathImage,
                             widget.scrapStepsRecipe,
                             scrapRecipeCategory,
-                            isFromScrap
+                            isFromScrap,
+                            creationDate,
+                            tags,
+                            stars,
+                            detailTIme,
+                            utensils,
+                            tags
                           ]);
 
                           // Save edidted list in hive
@@ -1010,6 +1181,7 @@ class _ScrapingState extends State<Scraping> {
                             pathImageSelectedFromImagePicker: scrapPathImage,
                             stepsRecipeFromCreateSteps: widget.scrapStepsRecipe,
                             isFromScrap: isFromScrap,
+                            tags: tags,
                           );
 
                           // Navigate to the new page with the form data and save
