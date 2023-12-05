@@ -12,7 +12,7 @@ Priority :
         - search (optional for now)
     
 
-
+- *** search bar 
 - *** check license
 - *** check with all devices
 - *** check with differet police size (from smartphone user)
