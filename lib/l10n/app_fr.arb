@@ -75,7 +75,13 @@
     "listCost" : "Bon marché, Moyen, Couteux",
     "clear" : "Effacer",
     "quantity" : "Quantité",
-    "listUnits": "g, kg, mg, ml, l, cl, cc à café, cc à soupe, tasse(s), pincée(s), goutte(s), morceau(x)"}
+    "listUnits": "g, kg, mg, ml, l, cl, cc à café, cc à soupe, tasse(s), pincée(s), goutte(s), morceau(x)",
+    "settings" : "Paramètres",
+    "language" : "Langue",
+    "supportedLanguage" : "Anglais,Français,Langue de votre téléphone (anglais et français supportés)",
+    "askRestart" : "Merci de redémarrer votre application",
+    "ok" : "Ok",
+    "about" : "À-propos"}
 
 
 

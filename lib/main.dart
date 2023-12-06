@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'package:cook_app/pages/language.dart';
 import 'package:cook_app/utils/add_ingredients.dart';
 import 'package:cook_app/data/categories_database/categories_names.dart';
 import 'package:cook_app/data/categories_database/categories_names_services.dart';
@@ -35,10 +36,24 @@ class MyApp extends StatelessWidget {
   MyApp({super.key});
 
   @override
+
+  // open mybox for get the language preference
+  final _myBox = Hive.box('mybox');
+
+  // if no language selected, by default the app will take the phone language supported (en, fr). But, il the user want to choose, the new languge preference will be saved
+  checkLanguagePref() {
+    if (_myBox.get("LANGUAGE") != null) {
+      return Locale(_myBox.get("LANGUAGE"));
+    }
+  }
+
   Widget build(BuildContext context) {
     return MaterialApp(
       // internationalization
       title: 'Cooky',
+
+      locale:
+          checkLanguagePref(), // if _myBox.get("LANGUAGE") != null : the user will have the language selected. Else, checkLanguagePref() return null value and as indicated in the doc of "locale" variable If the 'locale' is null then the system's locale value is used.
 
       localizationsDelegates: const [
         AppLocalizations.delegate, // Add this line
@@ -71,6 +86,8 @@ class MyApp extends StatelessWidget {
         '/add_ingredients': (context) => AddIngred(),
         '/dialbox_add_ingredient_and_quantity': (context) =>
             const AddIngredientQuantity(),
+        '/language': (context) => const Language(),
+        '/about': (context) => const Language()
       },
     );
   }
