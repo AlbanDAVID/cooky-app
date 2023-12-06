@@ -201,6 +201,7 @@ class _CreateStepsState extends State<CreateSteps> {
             child: Text(AppLocalizations.of(context)!.addNewStep),
           ),
           Container(
+              padding: EdgeInsetsDirectional.all(20),
               alignment: Alignment.bottomRight,
               child: ElevatedButton(
                 onPressed: () {

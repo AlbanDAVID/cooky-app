@@ -12,7 +12,19 @@ class AddTotalTime extends StatefulWidget {
 
 class _AddTotalTimeState extends State<AddTotalTime> {
   final TextEditingController _controller = TextEditingController();
-  final List<String> totalTimeList = ["120 min", "130 min"];
+  final List<String> totalTimeList = [
+    "5m",
+    "10m",
+    "15m",
+    "20m",
+    "30m",
+    "40m",
+    "45m",
+    "1h",
+    "1,5h",
+    "2h",
+    "3h",
+  ];
 
   @override
   Widget build(BuildContext context) {

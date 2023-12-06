@@ -1,27 +1,18 @@
 Priority : 
 
-
-
-- *** language french/english + defaut langage + choix de la langue
-- *** Create and Read recipe : 
-    - Ingredients, Recipe name, Total time, Difficulty, Cost -> 
-    add intuitive fields : 
-        - ** quantity intuitive type (for all kind of Ingredients) 
-        - * pre fields 
-      
-        - search (optional for now)
-    
+- *** Lancement sur f droid : changer app name, créer icone,  check license ( f droid et github)
+- * check with differet police size (from smartphone user)
+- * cohérence taille et couleur police    
+- *** check with all devices
 
 - *** search bar 
-- *** check license
-- *** check with all devices
-- *** check with differet police size (from smartphone user)
+- *** create settings page (choix de la langue, contact, git hub, by me a coffee, version,)
+- *** new scrap
 - *** coherente navigation (especially witk back return)
-- *** create settings page (contact, git hub, by me a coffee, version, bêta, language)
-- *** UI
-- *** Lancement sur f droid : changer app name, créer icone
 
-- deleted durong recipe create (translation to do)
+
+
+- deleted durong recipe create (translation of "delete" to do)
 - police non monospace
 - dial box if category is empty (create recipe)
 - backup database (possibilty to export, import, ask for conserv data if uninstall app)
@@ -40,6 +31,12 @@ Priority :
 
 ----
 - Interessting features :
+- voir pour automatiquement ajuster les unités de meures (us, fr etc.)
+- connect to a nextcloud account 
+- rendre la selection de quantity plus stylée
+- possibility to add tags, ingred ans save it
+- possibilité de saisir le nom de l'ingrédient puis de faire saisie intuitive de la quantité
+- mettre des fleche pour montrer u'on peut scroller des les suggestions (ex : tagsn ingrédient, quantité..)
 - add  
   // [11] notation stars (Double)
   // [12] preparation time, rest time, cook time (List)

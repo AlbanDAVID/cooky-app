@@ -15,21 +15,7 @@ class AddIngred extends StatefulWidget {
 }
 
 class _AddIngredState extends State<AddIngred> {
-  final List ingredientList = [
-    "Butter",
-    "Flour",
-    "Egg(s)",
-    "Milk",
-    "Sugar",
-    "Chicken",
-    "Beef",
-    "Carrot",
-    "Tomatoes",
-    "Salt",
-    "Pepper",
-    "Olive Oil",
-    "Garlic"
-  ];
+  late List ingredientList;
 
   final List selectedIngredientName = [];
 
@@ -37,6 +23,14 @@ class _AddIngredState extends State<AddIngred> {
   final TextEditingController _controller = TextEditingController();
   final TextEditingController _controller2 = TextEditingController();
   final TextEditingController _controller3 = TextEditingController();
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    ingredientList =
+        AppLocalizations.of(context)!.listCommonIngredients.split(',');
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -167,6 +161,7 @@ class _AddIngredState extends State<AddIngred> {
           ),
           Container(
               alignment: Alignment.bottomRight,
+              padding: EdgeInsets.all(20),
               child: ElevatedButton(
                 onPressed: () {
                   Navigator.pop(context, allIngredientSelected);

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 // dialog box for add steps (used in CreateSteps)
 // ignore: must_be_immutable
@@ -40,7 +41,8 @@ class DialogEditRecipeField extends StatelessWidget {
                           Navigator.pop(context);
                           showSuggestion();
                         },
-                        child: const Text('Show suggestions'),
+                        child:
+                            Text(AppLocalizations.of(context)!.showSuggestion),
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -48,14 +50,14 @@ class DialogEditRecipeField extends StatelessWidget {
                           // save button
                           TextButton(
                             onPressed: () => Navigator.pop(context),
-                            child: const Text('Cancel'),
+                            child: Text(AppLocalizations.of(context)!.cancel),
                           ),
 
                           // cancel button
                           TextButton(
                             onPressed: () =>
                                 Navigator.pop(context, controller.text),
-                            child: const Text('Save changes'),
+                            child: Text(AppLocalizations.of(context)!.add),
                           )
                         ],
                       ),

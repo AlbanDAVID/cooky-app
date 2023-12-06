@@ -1172,11 +1172,13 @@ class _CreateRecipeState extends State<CreateRecipe> {
                       height: 300.0,
                       child: Column(children: [
                         Text(AppLocalizations.of(context)!.areYouSureExit,
+                            textAlign: TextAlign.center,
                             style: TextStyle(
                                 fontSize: 20, fontWeight: FontWeight.bold)),
                         Center(
                             child: Text(
                                 AppLocalizations.of(context)!.saveEditLater,
+                                textAlign: TextAlign.center,
                                 style: TextStyle(
                                     fontSize: 15, fontStyle: FontStyle.italic)))
                       ])),
@@ -1203,7 +1205,7 @@ class _CreateRecipeState extends State<CreateRecipe> {
         },
         child: Scaffold(
           appBar: AppBar(
-            title: const Text('Add Recipe'),
+            title: Text(AppLocalizations.of(context)!.createRecipe),
           ),
           body: Padding(
             padding: const EdgeInsets.all(16.0),
@@ -1298,7 +1300,7 @@ class _CreateRecipeState extends State<CreateRecipe> {
                                 builder: (context) => recipeDetailsPage),
                           );
                         },
-                        child: Text("Submit"),
+                        child: Text(AppLocalizations.of(context)!.add),
                       )),
                 ],
               ),

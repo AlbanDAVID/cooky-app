@@ -62,7 +62,20 @@
     "confirmExit" : "Oui, quitter",
     "no" : "Non",
     "areYouSureExit" : "Êtes-vous sûr de vouloir quitter ?",
-    "saveEditLater" : "Vous pouvez créer la recette et éditer plus tard"}
+    "saveEditLater" : "Vous pouvez valider la recette et éditer plus tard",
+    "createRecipe" : "Créer une recette",
+    "editRecipe" : "Éditer la recette",
+    "saveChanges" :  "Sauvegarder les changements",
+    "startToCook" : "Cuisiner !",
+    "showSuggestion" : "Afficher les suggestions",
+    "listTags": "Entrée,Santé, Healthy, Plat principal,Dessert,Végétarien,Végétalien,Sans gluten,Facile,Rapide,Sain,Épicé,Sucré,Savoureux,Équilibré,Traditionnel,Fusion,Exotique,Comfort Food,Léger,Grillé,Au four,Poisson,Viande,Poulet,Bœuf,Porc,Légumes,Pâtes,Riz,Soupe,Salade,Sandwich,Petit déjeuner,Brunch,Dîner,Fête,Repas en famille,Entre amis,Pique-nique",
+    "listCommonDishes": "Ratatouille,Boeuf Bourguignon,Blanquette de Veau,Cassoulet,Coq au Vin,Bouillabaisse,Confit de Canard,Moules Marinières,Gratin Dauphinois,Quiche Lorraine,Raclette,Pot-au-Feu,Bouef en Daube,Crêpes,Soupe à l'Oignon,Tarte Tatin,Soufflé au Fromage,Casseroles,Bœuf Stroganoff,Poulet Rôti,Gratin de Pommes de Terre,Lasagnes,Sushis,Poulet Tikka Masala,Pad Thaï,Tacos,Pizza,Pâtes à la Bolognaise,Biryani,Tajine de Poulet,Paella,Burger,Saumon Grillé,Soupe Tom Yum,Fondue Savoyarde,Sandwich au Poulet,Salade César,Sushi Bowl,Omelette,Salade Niçoise,Gyudon,Galette Bretonne,Carbonara,Tarte au Citron,Chili Con Carne,Poulet Katsu,Curry de Poulet,Spaghetti Aglio e Olio,Soupe Ramen,Bœuf Lok Lak,Banh Mi,Tarte aux Pommes,Tarte aux Fraises",
+    "listCommonIngredients": "Beurre, Sucre, Farine, Lait, Œuf(s), Ail, Oignon(s), Échalote(s), Persil, Thym, Romarin, Basilic, Origan, Sel, Poivre, Huile d'Olive, Fromage, Riz, Pomme(s) de Terre, Carotte(s), Champignon(s), Tomate(s), Épinard, Courgette(s), Aubergine, Poulet, Bœuf, Porc, Poisson, Crevette(s), Miel, Sauce Soja, Moutarde, Vinaigre Balsamique, Lemon, Jus de Citron, Chocolat, Noix, Amande(s), Cannelle, Gingembre, Muscade, Clou de Girofle(s), Vanille, Sauce Tomate, Mayonnaise, Ketchup, Concentré de Tomate, Chili en Poudre, Cumin, Curry, Paprika",
+    "listDifficulty" : "Facile, Moyen, Difficile",
+    "listCost" : "Bon marché, Moyen, Couteux",
+    "clear" : "Effacer",
+    "quantity" : "Quantité",
+    "listUnits": "g, kg, mg, ml, l, cl, cc à café, cc à soupe, tasse(s), pincée(s), goutte(s), morceau(x)"}
 
 
 

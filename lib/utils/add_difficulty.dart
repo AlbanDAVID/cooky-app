@@ -12,7 +12,14 @@ class AddDifficulty extends StatefulWidget {
 
 class _AddDifficultyState extends State<AddDifficulty> {
   final TextEditingController _controller = TextEditingController();
-  final List<String> difficultyList = ["Easy", "Medium", "Hard"];
+  late List<String> difficultyList;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    difficultyList = AppLocalizations.of(context)!.listDifficulty.split(',');
+  }
 
   @override
   Widget build(BuildContext context) {

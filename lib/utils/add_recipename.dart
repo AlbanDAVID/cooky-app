@@ -18,18 +18,14 @@ class AddRecipeName extends StatefulWidget {
 
 class _AddRecipeNameState extends State<AddRecipeName> {
   final TextEditingController _controller = TextEditingController();
-  final List<String> recipeNameList = [
-    "Spaghetti Bolognese",
-    "Chicken Alfredo",
-    "Margherita Pizza",
-    "Caesar Salad",
-    "Chicken Tacos",
-    "Mushroom Risotto",
-    "Classic Burger",
-    "Chicken Curry",
-    "Lasagna",
-    "Quinoa Vegetable Salad",
-  ];
+  late List<String> recipeNameList;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    recipeNameList = AppLocalizations.of(context)!.listCommonDishes.split(',');
+  }
 
   @override
   Widget build(BuildContext context) {

@@ -1104,11 +1104,13 @@ class _EditRecipeState extends State<EditRecipe> {
                       height: 300.0,
                       child: Column(children: [
                         Text(AppLocalizations.of(context)!.areYouSureExit,
+                            textAlign: TextAlign.center,
                             style: TextStyle(
                                 fontSize: 20, fontWeight: FontWeight.bold)),
                         Center(
                             child: Text(
                                 AppLocalizations.of(context)!.saveEditLater,
+                                textAlign: TextAlign.center,
                                 style: TextStyle(
                                     fontSize: 15, fontStyle: FontStyle.italic)))
                       ])),
@@ -1135,7 +1137,7 @@ class _EditRecipeState extends State<EditRecipe> {
         },
         child: Scaffold(
           appBar: AppBar(
-            title: const Text('Edit Recipe'),
+            title: Text(AppLocalizations.of(context)!.editRecipe),
           ),
           body: Padding(
             padding: const EdgeInsets.all(16.0),
@@ -1211,7 +1213,7 @@ class _EditRecipeState extends State<EditRecipe> {
                         // send finalEditRecipeName to apply filter in filtered_name_recipe with new recipe name
                         Navigator.pop(context, finalEditRecipeName);
                       },
-                      child: Text("Save changes"),
+                      child: Text(AppLocalizations.of(context)!.saveChanges),
                     ),
                   )
                 ],

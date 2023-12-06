@@ -40,8 +40,16 @@ class MyApp extends StatelessWidget {
       // internationalization
       title: 'Cooky',
 
-      localizationsDelegates: AppLocalizations.localizationsDelegates,
-      supportedLocales: AppLocalizations.supportedLocales,
+      localizationsDelegates: const [
+        AppLocalizations.delegate, // Add this line
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: const [
+        Locale('en'), // English
+        Locale('fr'), // French
+      ],
 
       debugShowCheckedModeBanner: false,
       // use FuturBuilder to load all data from "catBox" when app is started and go to the Home page(the hive box from CategoriesNamesService wih all the categories)

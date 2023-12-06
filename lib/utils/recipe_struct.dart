@@ -7,6 +7,7 @@ import 'package:cook_app/utils/steps_struct.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:cook_app/data/recipe_database/database.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class RecipeStruct extends StatefulWidget {
   final String recipeName;
@@ -110,9 +111,9 @@ class _RecipeStructState extends State<RecipeStruct> {
                   });
                 },
                 child: Row(
-                  children: const [
+                  children: [
                     Text(
-                      "Collapse",
+                      AppLocalizations.of(context)!.collapse,
                       style: TextStyle(
                         fontSize: 16,
                       ),
@@ -281,9 +282,9 @@ class _RecipeStructState extends State<RecipeStruct> {
                             },
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
-                              children: const [
+                              children: [
                                 Text(
-                                  "Show ingredients",
+                                  AppLocalizations.of(context)!.showIngred,
                                   style: TextStyle(
                                     fontSize: 16,
                                   ),
@@ -311,7 +312,7 @@ class _RecipeStructState extends State<RecipeStruct> {
                                 )),
                       );
                     },
-                    label: Text("Start to cook!"),
+                    label: Text(AppLocalizations.of(context)!.startToCook),
                   ),
                 ))
           ],

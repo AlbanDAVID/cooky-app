@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class DialogEditStep extends StatelessWidget {
   final controller;
@@ -35,13 +36,13 @@ class DialogEditStep extends StatelessWidget {
               // save button
               TextButton(
                 onPressed: () => Navigator.pop(context),
-                child: const Text('Cancel'),
+                child: Text(AppLocalizations.of(context)!.cancel),
               ),
 
               // cancel button
               TextButton(
                 onPressed: () => Navigator.pop(context, controller.text),
-                child: const Text('Save changes'),
+                child: Text(AppLocalizations.of(context)!.saveChanges),
               )
             ],
           ),

@@ -12,11 +12,14 @@ class AddCost extends StatefulWidget {
 
 class _AddCostState extends State<AddCost> {
   final TextEditingController _controller = TextEditingController();
-  final List<String> costList = [
-    "Budget-friendly",
-    "Average",
-    "Expensive",
-  ];
+  late List<String> costList;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    costList = AppLocalizations.of(context)!.listCost.split(',');
+  }
 
   @override
   Widget build(BuildContext context) {

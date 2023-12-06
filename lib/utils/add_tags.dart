@@ -11,96 +11,17 @@ class AddTags extends StatefulWidget {
 }
 
 class _AddTagsState extends State<AddTags> {
-  final List tagsEnglish = [
-    "Appetizer",
-    "Healthy",
-    "Starter",
-    "Main Course",
-    "Dessert",
-    "Vegetarian",
-    "Vegan",
-    "Gluten-Free",
-    "Easy",
-    "Quick",
-    "Healthy",
-    "Indulgent",
-    "Spicy",
-    "Sweet",
-    "Savory",
-    "Balanced",
-    "Traditional",
-    "Fusion",
-    "Exotic",
-    "Comfort Food",
-    "Light",
-    "Grilled",
-    "Baked",
-    "Fish",
-    "Meat",
-    "Chicken",
-    "Beef",
-    "Pork",
-    "Vegetables",
-    "Pasta",
-    "Rice",
-    "Soup",
-    "Salad",
-    "Sandwich",
-    "Breakfast",
-    "Brunch",
-    "Dinner",
-    "Party",
-    "Family Meal",
-    "Friends Gathering",
-    "Picnic",
-  ];
-
-  final List tagsFrench = [
-    "Apéritif",
-    "Healthy",
-    "Entrée",
-    "Plat Principal",
-    "Dessert",
-    "Végétarien",
-    "Végétalien",
-    "Sans Gluten",
-    "Facile",
-    "Rapide",
-    "Sain",
-    "Gourmand",
-    "Épicé",
-    "Sucré",
-    "Salé",
-    "Équilibré",
-    "Traditionnel",
-    "Fusion",
-    "Exotique",
-    "Comfort Food",
-    "Léger",
-    "Grillade",
-    "Cuisson au Four",
-    "Poisson",
-    "Viande",
-    "Poulet",
-    "Boeuf",
-    "Porc",
-    "Légumes",
-    "Pâtes",
-    "Riz",
-    "Soupe",
-    "Salade",
-    "Sandwich",
-    "Petit-déjeuner",
-    "Brunch",
-    "Dîner",
-    "Fête",
-    "Repas en Famille",
-    "Repas entre Amis",
-    "Picnic",
-  ];
+  late List<String> tags;
 
   final List selectedTags = [];
   final TextEditingController _controller = TextEditingController();
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    tags = AppLocalizations.of(context)!.listTags.split(',');
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -115,19 +36,19 @@ class _AddTagsState extends State<AddTags> {
               child: Padding(
             padding: const EdgeInsets.only(left: 50.0, right: 50, top: 0),
             child: ListView.builder(
-              itemCount: tagsEnglish.length,
+              itemCount: tags.length,
               itemBuilder: (context, index) {
                 return ListTile(
                     title: TextButton(
                   onPressed: () {
                     setState(() {
                       selectedTags.add(
-                        tagsEnglish[index],
+                        tags[index],
                       );
                     });
                   },
                   child: Text(
-                    tagsEnglish[index],
+                    tags[index],
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontSize: 15,
@@ -194,6 +115,7 @@ class _AddTagsState extends State<AddTags> {
             child: Icon(Icons.add),
           ),
           Container(
+              padding: EdgeInsetsDirectional.all(20),
               alignment: Alignment.bottomRight,
               child: ElevatedButton(
                 onPressed: () {
