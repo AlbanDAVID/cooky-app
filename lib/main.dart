@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'package:cook_app/pages/about.dart';
 import 'package:cook_app/pages/language.dart';
 import 'package:cook_app/utils/add_ingredients.dart';
 import 'package:cook_app/data/categories_database/categories_names.dart';
@@ -87,7 +88,7 @@ class MyApp extends StatelessWidget {
         '/dialbox_add_ingredient_and_quantity': (context) =>
             const AddIngredientQuantity(),
         '/language': (context) => const Language(),
-        '/about': (context) => const Language()
+        '/about': (context) => const About()
       },
     );
   }

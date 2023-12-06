@@ -81,7 +81,10 @@
    "supportedLanguage" : "English,French,Your phone phone language (english and french available)",
    "askRestart" : "Please restart your application",
    "ok" : "Ok",
-   "about" : "About"}
+   "about" : "About",
+   "version" : "Version",
+   "licence" : "Licence",
+   "sourceCode" : "Source code"}
 
 
 

@@ -6,7 +6,6 @@ Priority :
 - *** check with all devices
 
 - *** search bar 
-- *** create settings page ( licence, git hub, by me a coffee, version,)
 - *** new scrap
 - *** coherente navigation (especially witk back return)
 

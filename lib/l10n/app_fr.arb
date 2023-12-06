@@ -81,7 +81,10 @@
     "supportedLanguage" : "Anglais,Français,Langue de votre téléphone (anglais et français supportés)",
     "askRestart" : "Merci de redémarrer votre application",
     "ok" : "Ok",
-    "about" : "À-propos"}
+    "about" : "À-propos",
+    "version" : "Version",
+    "licence" : "Licence",
+    "sourceCode" : "Code source"}
 
 
 
