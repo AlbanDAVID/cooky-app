@@ -85,7 +85,9 @@
     "version" : "Version",
     "licence" : "Licence",
     "sourceCode" : "Code source",
-    "searchTag" : "Chercher un tag"}
+    "searchTag" : "Chercher un tag",
+    "searchIngred" : "Chercher un ingrédient",
+    "searchRecipeName" : "Chercher un nom de recette"}
 
 
 

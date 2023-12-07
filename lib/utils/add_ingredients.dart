@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:cook_app/utils/dialbox_add_ingredient_quantity.dart';
+import 'package:cook_app/utils/search_bar_UI.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -15,7 +16,8 @@ class AddIngred extends StatefulWidget {
 }
 
 class _AddIngredState extends State<AddIngred> {
-  late List ingredientList;
+  late List<String> ingredientList;
+  late List<String> filteredList = [];
 
   final List selectedIngredientName = [];
 
@@ -30,6 +32,21 @@ class _AddIngredState extends State<AddIngred> {
 
     ingredientList =
         AppLocalizations.of(context)!.listCommonIngredients.split(',');
+    filteredList = ingredientList;
+  }
+
+  // function to filter search
+  void filterSearchResults(String query) {
+    // get a list searchFiltred of the filtred search
+    setState(() {
+      filteredList = ingredientList.where((item) {
+        final itemLowerCase = item.toLowerCase(); // to lower case each items
+        final input = query
+            .toLowerCase(); // to lower case the input (what are typed by the user)
+        return itemLowerCase
+            .contains(input); // check the match between intem and input
+      }).toList();
+    });
   }
 
   @override
@@ -40,12 +57,15 @@ class _AddIngredState extends State<AddIngred> {
           title: Text(AppLocalizations.of(context)!.addIngred),
         ),
         body: Column(children: [
-          const Text("Suggestions : ", style: TextStyle(fontSize: 13)),
+          SearchBarUI(
+            filterSearchResults: filterSearchResults,
+            hintText: AppLocalizations.of(context)!.searchIngred,
+          ),
           Expanded(
               child: Padding(
             padding: const EdgeInsets.only(left: 50.0, right: 50, top: 0),
             child: ListView.builder(
-              itemCount: ingredientList.length,
+              itemCount: filteredList.length,
               itemBuilder: (context, index) {
                 return ListTile(
                     // UI
@@ -64,12 +84,12 @@ class _AddIngredState extends State<AddIngred> {
                       List finalQuantity = result;
                       print('Received data from SecondScreen: $finalQuantity');
                       setState(() {});
-                      finalQuantity.insert(0, ingredientList[index]);
+                      finalQuantity.insert(0, filteredList[index]);
                       allIngredientSelected.add(finalQuantity);
                     }
                   },
                   child: Text(
-                    ingredientList[index],
+                    filteredList[index],
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontSize: 15,

@@ -31,6 +31,7 @@ Priority :
 
 ----
 - Interessting features :
+- will pop scope pour search bar 
 - voir pour automatiquement ajuster les unités de meures (us, fr etc.)
 - connect to a nextcloud account 
 - rendre la selection de quantity plus stylée

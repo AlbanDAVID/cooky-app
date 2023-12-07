@@ -4,6 +4,7 @@ import 'package:cook_app/data/categories_database/categories_names.dart';
 import 'package:cook_app/data/categories_database/categories_names_services.dart';
 import 'package:cook_app/pages/filtered_name_recipe.dart';
 import 'package:cook_app/utils/create_recipe.dart';
+import 'package:cook_app/utils/search_bar_UI.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -19,12 +20,28 @@ class AddRecipeName extends StatefulWidget {
 class _AddRecipeNameState extends State<AddRecipeName> {
   final TextEditingController _controller = TextEditingController();
   late List<String> recipeNameList;
+  late List<String> filteredList = [];
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
 
     recipeNameList = AppLocalizations.of(context)!.listCommonDishes.split(',');
+    filteredList = recipeNameList;
+  }
+
+  // function to filter search
+  void filterSearchResults(String query) {
+    // get a list searchFiltred of the filtred search
+    setState(() {
+      filteredList = recipeNameList.where((item) {
+        final itemLowerCase = item.toLowerCase(); // to lower case each items
+        final input = query
+            .toLowerCase(); // to lower case the input (what are typed by the user)
+        return itemLowerCase
+            .contains(input); // check the match between intem and input
+      }).toList();
+    });
   }
 
   @override
@@ -43,19 +60,22 @@ class _AddRecipeNameState extends State<AddRecipeName> {
           SizedBox(
             height: 35,
           ),
-          Text("Suggestions : ", style: TextStyle(fontSize: 13)),
+          SearchBarUI(
+            filterSearchResults: filterSearchResults,
+            hintText: AppLocalizations.of(context)!.searchRecipeName,
+          ),
           SizedBox(
               height: 400,
               child: ListView.builder(
-                itemCount: recipeNameList.length,
+                itemCount: filteredList.length,
                 itemBuilder: (context, index) {
                   return TextButton(
                     onPressed: () {
-                      Navigator.pop(context, recipeNameList[index]);
+                      Navigator.pop(context, filteredList[index]);
                     },
                     child: Center(
                       child: Text(
-                        recipeNameList[index],
+                        filteredList[index],
                         textAlign: TextAlign.center,
                         style: TextStyle(fontSize: 15),
                       ),

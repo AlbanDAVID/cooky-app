@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors
 
+import 'package:cook_app/utils/search_bar_UI.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -11,25 +12,25 @@ class AddTags extends StatefulWidget {
 }
 
 class _AddTagsState extends State<AddTags> {
-  late List<String> tags;
+  late List<String> tags; // listToFilter
+  late List<String> filteredList = []; //filteredList
 
-  final List selectedTags = [];
+  final List selectedTags = []; // final list to submit
   final TextEditingController _controller = TextEditingController();
-  List searchFiltred = [];
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
 
     tags = AppLocalizations.of(context)!.listTags.split(',');
-    searchFiltred = tags;
+    filteredList = tags;
   }
 
-  // function to search
+  // function to filter search
   void filterSearchResults(String query) {
     // get a list searchFiltred of the filtred search
     setState(() {
-      searchFiltred = tags.where((item) {
+      filteredList = tags.where((item) {
         final itemLowerCase = item.toLowerCase(); // to lower case each items
         final input = query
             .toLowerCase(); // to lower case the input (what are typed by the user)
@@ -50,38 +51,25 @@ class _AddTagsState extends State<AddTags> {
           ],
         ),
         body: Column(children: [
-          SearchBar(
-            onChanged: (value) {
-              filterSearchResults(value);
-            },
-            leading: const Icon(Icons.search),
-            constraints: const BoxConstraints(
-                minWidth: 200.0, maxWidth: 350.0, minHeight: 30.0),
-            elevation: MaterialStateProperty.all(0),
-            backgroundColor:
-                MaterialStateProperty.all(Color.fromRGBO(240, 232, 252, 1)),
-            shape: MaterialStateProperty.all(const ContinuousRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(20)),
-            )),
+          SearchBarUI(
+            filterSearchResults: filterSearchResults,
             hintText: AppLocalizations.of(context)!.searchTag,
-            hintStyle:
-                MaterialStateProperty.all(const TextStyle(color: Colors.grey)),
           ),
           Expanded(
               child: Padding(
             padding: const EdgeInsets.only(left: 50.0, right: 50, top: 0),
             child: ListView.builder(
-              itemCount: searchFiltred.length,
+              itemCount: filteredList.length,
               itemBuilder: (context, index) {
                 return ListTile(
                     title: TextButton(
                   onPressed: () {
                     setState(() {
-                      selectedTags.insert(0, searchFiltred[index]);
+                      selectedTags.insert(0, filteredList[index]);
                     });
                   },
                   child: Text(
-                    searchFiltred[index],
+                    filteredList[index],
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontSize: 15,
