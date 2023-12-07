@@ -1,5 +1,3 @@
-// ignore_for_file: prefer_const_constructors
-
 import 'package:cook_app/data/recipe_database/database.dart';
 import 'package:cook_app/utils/edit_recipe.dart';
 import 'package:cook_app/utils/recipe_struct.dart';
@@ -105,7 +103,7 @@ class _FilteredNameRecipeState extends State<FilteredNameRecipe> {
     // Remove all the lists
     // iterate over the list in reverse order (because with normal order all the elements are not deleted)
     for (int i = recipeList.length - 1; i >= 0; i--) {
-      if (recipeList[i][7].contains(widget.categoryName)) {
+      if (recipeList[i][7] == widget.categoryName) {
         recipeList.removeAt(i);
       }
     }

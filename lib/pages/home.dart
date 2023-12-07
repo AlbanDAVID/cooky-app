@@ -78,7 +78,7 @@ class _HomeState extends State<Home> {
     // Remove all the lists
     // iterate over the list in reverse order (because with normal order all the elements are not deleted)
     for (int i = recipeList.length - 1; i >= 0; i--) {
-      if (recipeList[i][7].contains(categoryNameToReplace)) {
+      if (recipeList[i][7] == categoryNameToReplace) {
         recipeList[i][7] = newCategoryName;
       }
     }
