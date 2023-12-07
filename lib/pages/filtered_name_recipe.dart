@@ -8,14 +8,14 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class FilteredNameRecipe extends StatefulWidget {
   final String categoryName;
-  const FilteredNameRecipe({super.key, required this.categoryName});
+  const FilteredNameRecipe({Key? key, required this.categoryName})
+      : super(key: key);
 
   @override
   State<FilteredNameRecipe> createState() => _FilteredNameRecipeState();
 }
 
 class _FilteredNameRecipeState extends State<FilteredNameRecipe> {
-  // get recipe database
   final _myBox = Hive.box('mybox');
   RecipeDatabase db = RecipeDatabase();
 
@@ -27,6 +27,20 @@ class _FilteredNameRecipeState extends State<FilteredNameRecipe> {
 
   late String _confirmationTextDeleteAllRecipe;
 
+  late TextEditingController _searchController;
+
+  @override
+  void initState() {
+    super.initState();
+    _searchController = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
+  }
+
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
@@ -37,14 +51,12 @@ class _FilteredNameRecipeState extends State<FilteredNameRecipe> {
         AppLocalizations.of(context)!.confirmLongPress3;
   }
 
-  // allow to loadAllData from database (recipe_database)
   loadAllData() {
     setState(() {
       db.loadData();
-    }); // Calling setState to force the widget to be rebuilt
+    });
   }
 
-  // send data to edit at EditRecipe()
   void sendDataToEditAtEditRecipe(
       BuildContext context,
       editAllIngredient,
@@ -60,7 +72,6 @@ class _FilteredNameRecipeState extends State<FilteredNameRecipe> {
       index) async {
     final result = await Navigator.push(
       context,
-      // send data to edit at EditRecipe()
       MaterialPageRoute(
         builder: (context) => EditRecipe(
           editAllIngredient: editAllIngredient,
@@ -86,33 +97,23 @@ class _FilteredNameRecipeState extends State<FilteredNameRecipe> {
     }
   }
 
-  // delete a recipe
   void deleteOneRecipe(index) {
     print(index);
-    // get all data
     List recipeList = _myBox.get('ALL_LISTS') ?? [];
-    // Remove the list of recipe selected
     recipeList.removeAt(index);
-    // Save :
     _myBox.put("ALL_LISTS", recipeList);
   }
 
   void deleteAllRecipe(myBox) {
-    // get all data
     List recipeList = _myBox.get('ALL_LISTS') ?? [];
-    // Remove all the lists
-    // iterate over the list in reverse order (because with normal order all the elements are not deleted)
     for (int i = recipeList.length - 1; i >= 0; i--) {
       if (recipeList[i][7] == widget.categoryName) {
         recipeList.removeAt(i);
       }
     }
-
-    // Update the data in the box
     _myBox.put('ALL_LISTS', recipeList);
   }
 
-  // function for handle click on popup menu
   void handleClick(int item) {
     switch (item) {
       case 0:
@@ -151,7 +152,6 @@ class _FilteredNameRecipeState extends State<FilteredNameRecipe> {
                       textAlign: TextAlign.center,
                       style: TextStyle(color: Colors.red)),
                 ),
-
                 actions: [
                   ElevatedButton(
                     onPressed: () {
@@ -163,163 +163,201 @@ class _FilteredNameRecipeState extends State<FilteredNameRecipe> {
                     child: Text(AppLocalizations.of(context)!.back),
                   ),
                 ],
-                // Ajustez les valeurs selon vos besoins
               ));
         });
+  }
+
+  void filterList(String searchTerm) {
+    setState(() {
+      // Créez une nouvelle liste filtrée
+      List<List> filteredList = [];
+
+      for (int i = 0; i < db.recipeList.length; i++) {
+        if (db.recipeList[i][7] == widget.categoryName &&
+            db.recipeList[i][0]
+                .toLowerCase()
+                .contains(searchTerm.toLowerCase())) {
+          // Ajoutez l'élément filtré à la nouvelle liste
+          filteredList.add(db.recipeList[i]);
+        }
+      }
+
+      // Mettez à jour db.recipeList avec la nouvelle liste filtrée
+      db.recipeList = filteredList;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          title: const Text("COOKY"),
-          centerTitle: true,
-          actions: isEditDeleteMode
-              ? <Widget>[
-                  TextButton(
-                    style: TextButton.styleFrom(
-                      foregroundColor: Colors.black,
+        title: const Text("COOKY"),
+        centerTitle: true,
+        actions: isEditDeleteMode
+            ? <Widget>[
+                TextButton(
+                  style: TextButton.styleFrom(
+                    foregroundColor: Colors.black,
+                  ),
+                  onPressed: () {
+                    _dialogDelete(
+                      context,
+                      _confirmationTextDeleteAllRecipe,
+                      deleteAllRecipe,
+                    );
+                  },
+                  child: Text(
+                    AppLocalizations.of(context)!.deleteAll,
+                  ),
+                ),
+                IconButton(
+                  icon: const Icon(Icons.close),
+                  onPressed: () {
+                    setState(() {
+                      isEditDeleteMode = false;
+                    });
+                  },
+                ),
+              ]
+            : <Widget>[
+                PopupMenuButton<int>(
+                  onSelected: (item) => handleClick(item),
+                  itemBuilder: (context) => [
+                    PopupMenuItem<int>(
+                      value: 0,
+                      child: Text(AppLocalizations.of(context)!.editDelete),
                     ),
-                    onPressed: () {
-                      _dialogDelete(
-                        context,
-                        _confirmationTextDeleteAllRecipe,
-                        deleteAllRecipe,
-                      );
-                    },
-                    child: Text(
-                      AppLocalizations.of(context)!.deleteAll,
-                    ),
-                  ),
-                  IconButton(
-                    icon: const Icon(Icons.close),
-                    onPressed: () {
-                      setState(() {
-                        isEditDeleteMode = false;
-                      });
-                    },
-                  ),
-                ]
-              : <Widget>[
-                  PopupMenuButton<int>(
-                    onSelected: (item) => handleClick(item),
-                    itemBuilder: (context) => [
-                      PopupMenuItem<int>(
-                          value: 0,
-                          child:
-                              Text(AppLocalizations.of(context)!.editDelete)),
-                    ],
-                  ),
-                ]),
-      body: FutureBuilder(
-        // Need to wait loaAllData() before ListView.builder executed
-        future: loadAllData(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            // Shows a loading indicator if the function is running
-            return CircularProgressIndicator();
-          } else if (snapshot.hasError) {
-            // Show an error message if loadAllData() fails
-            return Text('Erreur: ${snapshot.error}');
-          } else {
-            // Once loadAllData() is complete, constructs the ListView.builder
-
-            return ListView.builder(
-              itemCount: db.recipeList.length,
-              itemBuilder: (context, index) {
-                // Recipe is filtered by the category we clicked on before
-                if (db.recipeList[index][7] == widget.categoryName) {
-                  return Column(
-                    children: [
-                      ListTile(
-                        title: Center(
-                          child: Text(db.recipeList[index][0],
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  fontSize: 15, fontWeight: FontWeight.bold)),
-                        ),
-                        trailing: isEditDeleteMode
-                            ? Wrap(
-                                children: [
-                                  IconButton(
-                                    icon: const Icon(Icons.edit),
-                                    onPressed: () {
-                                      setState(() {
-                                        isEditDeleteMode = false;
-                                      });
-
-                                      sendDataToEditAtEditRecipe(
-                                          context,
-                                          db.recipeList[index][4],
-                                          db.recipeList[index][6],
-                                          db.recipeList[index][7],
-                                          db.recipeList[index][0],
-                                          db.recipeList[index][1],
-                                          db.recipeList[index][2],
-                                          db.recipeList[index][3],
-                                          db.recipeList[index][8],
-                                          db.recipeList[index][5],
-                                          db.recipeList[index][10],
-                                          index);
-                                    },
-                                  ),
-                                  IconButton(
-                                    icon: const Icon(
-                                      Icons.delete,
-                                      color: Colors.redAccent,
-                                    ),
-                                    onPressed: () {
-                                      _dialogDelete(
-                                          context,
-                                          _confirmationTextDeleteOneRecipe,
-                                          deleteOneRecipe,
-                                          index: index);
-                                    },
-                                  ),
-                                ],
-                              )
-                            : null,
-                        onTap: () {
-                          setState(() {});
-                          loadAllData();
-
-                          RecipeStruct recipeInstance = RecipeStruct(
-                            recipeName: db.recipeList[index][0],
-                            totalTime: db.recipeList[index][1],
-                            difficulty: db.recipeList[index][2],
-                            cost: db.recipeList[index][3],
-                            allIngredientSelected: db.recipeList[index][4],
-                            pathImageSelectedFromImagePicker:
-                                db.recipeList[index][5],
-                            stepsRecipeFromCreateSteps: db.recipeList[index][6],
-                            isFromScrap: db.recipeList[index][8],
-                            tags: db.recipeList[index][10],
-                          );
-
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => recipeInstance,
-                            ),
-                          );
-                        },
-                      ),
-                      Divider(
-                        height: 50, // Épaisseur de la ligne
-                        color: Colors.grey,
-                        indent: 50,
-                        endIndent: 50,
-                        thickness: 0.40, // Couleur de la ligne
-                      ),
-                    ],
-                  );
+                  ],
+                ),
+              ],
+      ),
+      body: Column(
+        children: [
+          TextField(
+            controller: _searchController,
+            onChanged: (value) {
+              filterList(value);
+            },
+            decoration: InputDecoration(
+              hintText: 'Recherche...',
+              prefixIcon: Icon(Icons.search),
+            ),
+          ),
+          Expanded(
+            child: FutureBuilder(
+              future: loadAllData(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return CircularProgressIndicator();
+                } else if (snapshot.hasError) {
+                  return Text('Erreur: ${snapshot.error}');
                 } else {
-                  return SizedBox.shrink();
+                  return ListView.builder(
+                    itemCount: db.recipeList.length,
+                    itemBuilder: (context, index) {
+                      if (db.recipeList[index][7] == widget.categoryName) {
+                        return Column(
+                          children: [
+                            ListTile(
+                              title: Center(
+                                child: Text(
+                                  db.recipeList[index][0],
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                              trailing: isEditDeleteMode
+                                  ? Wrap(
+                                      children: [
+                                        IconButton(
+                                          icon: const Icon(Icons.edit),
+                                          onPressed: () {
+                                            setState(() {
+                                              isEditDeleteMode = false;
+                                            });
+
+                                            sendDataToEditAtEditRecipe(
+                                              context,
+                                              db.recipeList[index][4],
+                                              db.recipeList[index][6],
+                                              db.recipeList[index][7],
+                                              db.recipeList[index][0],
+                                              db.recipeList[index][1],
+                                              db.recipeList[index][2],
+                                              db.recipeList[index][3],
+                                              db.recipeList[index][8],
+                                              db.recipeList[index][5],
+                                              db.recipeList[index][10],
+                                              index,
+                                            );
+                                          },
+                                        ),
+                                        IconButton(
+                                          icon: const Icon(
+                                            Icons.delete,
+                                            color: Colors.redAccent,
+                                          ),
+                                          onPressed: () {
+                                            _dialogDelete(
+                                              context,
+                                              _confirmationTextDeleteOneRecipe,
+                                              deleteOneRecipe,
+                                              index: index,
+                                            );
+                                          },
+                                        ),
+                                      ],
+                                    )
+                                  : null,
+                              onTap: () {
+                                setState(() {});
+                                loadAllData();
+
+                                RecipeStruct recipeInstance = RecipeStruct(
+                                  recipeName: db.recipeList[index][0],
+                                  totalTime: db.recipeList[index][1],
+                                  difficulty: db.recipeList[index][2],
+                                  cost: db.recipeList[index][3],
+                                  allIngredientSelected: db.recipeList[index]
+                                      [4],
+                                  pathImageSelectedFromImagePicker:
+                                      db.recipeList[index][5],
+                                  stepsRecipeFromCreateSteps:
+                                      db.recipeList[index][6],
+                                  isFromScrap: db.recipeList[index][8],
+                                  tags: db.recipeList[index][10],
+                                );
+
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => recipeInstance,
+                                  ),
+                                );
+                              },
+                            ),
+                            Divider(
+                              height: 50,
+                              color: Colors.grey,
+                              indent: 50,
+                              endIndent: 50,
+                              thickness: 0.40,
+                            ),
+                          ],
+                        );
+                      } else {
+                        return SizedBox.shrink();
+                      }
+                    },
+                  );
                 }
               },
-            );
-          }
-        },
+            ),
+          ),
+        ],
       ),
     );
   }
