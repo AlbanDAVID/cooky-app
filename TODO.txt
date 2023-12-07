@@ -5,7 +5,7 @@ Priority :
 - * cohérence taille et couleur police    
 - *** check with all devices
 
-- *** cacher valider si show ingred etc.
+
 - *** search bar 
 - *** new scrap
 - *** coherente navigation (especially witk back return)

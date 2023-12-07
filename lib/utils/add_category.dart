@@ -33,7 +33,7 @@ class _AddExistingCategoryState extends State<AddExistingCategory> {
           ],
         ),
         body: Column(children: [
-          const Text("Suggestions : ", style: TextStyle(fontSize: 13)),
+          //const Text("Suggestions : ", style: TextStyle(fontSize: 13)),
           SizedBox(
               height: 400,
               child: ValueListenableBuilder(

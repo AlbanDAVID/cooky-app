@@ -1111,95 +1111,103 @@ class _ScrapingState extends State<Scraping> {
             padding: const EdgeInsets.all(16.0),
             child: Form(
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Expanded(
-                      child: ListView(children: <Widget>[
-                    // SHOW RECIPE CATEGORY, RECIPE NAME ,TOTAL TIME ,DIFFICULTY, COST, ADD PICTURE, SELECT INGREDIENT, ADD STEPS OR SELECT INGREDIENT AND SHOW INGRED ADDED OR ADD STEPS AND SHOW STEPS:
-                    ShowWidget(),
-                  ])),
-                  // Button fot submit form
-                  Container(
-                      alignment: Alignment.bottomRight,
-                      child: ElevatedButton(
-                        onPressed: () {
-                          // handle deleted variable
-                          final finalscrapRecipeName =
-                              widget.scrapRecipeName == "Deleted"
-                                  ? "No title"
-                                  : widget.scrapRecipeName;
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Expanded(
+                        child: ListView(children: <Widget>[
+                      // SHOW RECIPE CATEGORY, RECIPE NAME ,TOTAL TIME ,DIFFICULTY, COST, ADD PICTURE, SELECT INGREDIENT, ADD STEPS OR SELECT INGREDIENT AND SHOW INGRED ADDED OR ADD STEPS AND SHOW STEPS:
+                      ShowWidget(),
+                    ])),
+                    // Button fot submit form
+                    if (isShowIngredientsSelectedPressed == false &&
+                        isshowStepsAddedPressed == false &&
+                        isshowTagsAddedPressed == false) ...[
+                      Container(
+                          alignment: Alignment.bottomRight,
+                          child: ElevatedButton(
+                            onPressed: () {
+                              // handle deleted variable
+                              final finalscrapRecipeName =
+                                  widget.scrapRecipeName == "Deleted"
+                                      ? "No title"
+                                      : widget.scrapRecipeName;
 
-                          final finalscrapTotalTime =
-                              scrapTotalTime == "Deleted" ? "" : scrapTotalTime;
+                              final finalscrapTotalTime =
+                                  scrapTotalTime == "Deleted"
+                                      ? ""
+                                      : scrapTotalTime;
 
-                          final finalscrapDifficulty =
-                              scrapDifficulty == "Deleted"
-                                  ? ""
-                                  : scrapDifficulty;
+                              final finalscrapDifficulty =
+                                  scrapDifficulty == "Deleted"
+                                      ? ""
+                                      : scrapDifficulty;
 
-                          final finalscrapCost =
-                              scrapCost == "Deleted" ? "" : scrapCost;
+                              final finalscrapCost =
+                                  scrapCost == "Deleted" ? "" : scrapCost;
 
-                          // create a varible with the date of creation
-                          DateTime now = DateTime.now();
-                          String creationDate =
-                              'variable_${now.year}${now.month}${now.day}_${now.hour}${now.minute}${now.second}';
+                              // create a varible with the date of creation
+                              DateTime now = DateTime.now();
+                              String creationDate =
+                                  'variable_${now.year}${now.month}${now.day}_${now.hour}${now.minute}${now.second}';
 
-                          // get all data
-                          List listOfLists = _myBox.get('ALL_LISTS') ?? [];
+                              // get all data
+                              List listOfLists = _myBox.get('ALL_LISTS') ?? [];
 
-                          // create null index for future add :
-                          double? stars = null;
-                          List? detailTIme = null;
-                          List? utensils = null;
+                              // create null index for future add :
+                              double? stars = null;
+                              List? detailTIme = null;
+                              List? utensils = null;
 
-                          // Give edidted values to recipeList
-                          // Add a new list to the list of lists
-                          listOfLists.add([
-                            finalscrapRecipeName,
-                            finalscrapTotalTime,
-                            finalscrapDifficulty,
-                            finalscrapCost,
-                            widget.scrapAllIngredient,
-                            scrapPathImage,
-                            widget.scrapStepsRecipe,
-                            scrapRecipeCategory,
-                            isFromScrap,
-                            creationDate,
-                            tags,
-                            stars,
-                            detailTIme,
-                            utensils,
-                            tags
-                          ]);
+                              // Give edidted values to recipeList
+                              // Add a new list to the list of lists
+                              listOfLists.add([
+                                finalscrapRecipeName,
+                                finalscrapTotalTime,
+                                finalscrapDifficulty,
+                                finalscrapCost,
+                                widget.scrapAllIngredient,
+                                scrapPathImage,
+                                widget.scrapStepsRecipe,
+                                scrapRecipeCategory,
+                                isFromScrap,
+                                creationDate,
+                                tags,
+                                stars,
+                                detailTIme,
+                                utensils,
+                                tags
+                              ]);
 
-                          // Save edidted list in hive
-                          _myBox.put("ALL_LISTS", listOfLists);
+                              // Save edidted list in hive
+                              _myBox.put("ALL_LISTS", listOfLists);
 
-                          //Create an instance of RecipeDetailsPage with the form data
-                          RecipeStruct recipeDetailsPage = RecipeStruct(
-                            recipeName: finalscrapRecipeName,
-                            totalTime: finalscrapTotalTime,
-                            difficulty: finalscrapDifficulty,
-                            cost: finalscrapCost,
-                            allIngredientSelected: widget.scrapAllIngredient,
-                            pathImageSelectedFromImagePicker: scrapPathImage,
-                            stepsRecipeFromCreateSteps: widget.scrapStepsRecipe,
-                            isFromScrap: isFromScrap,
-                            tags: tags,
-                          );
+                              //Create an instance of RecipeDetailsPage with the form data
+                              RecipeStruct recipeDetailsPage = RecipeStruct(
+                                recipeName: finalscrapRecipeName,
+                                totalTime: finalscrapTotalTime,
+                                difficulty: finalscrapDifficulty,
+                                cost: finalscrapCost,
+                                allIngredientSelected:
+                                    widget.scrapAllIngredient,
+                                pathImageSelectedFromImagePicker:
+                                    scrapPathImage,
+                                stepsRecipeFromCreateSteps:
+                                    widget.scrapStepsRecipe,
+                                isFromScrap: isFromScrap,
+                                tags: tags,
+                              );
 
-                          // Navigate to the new page with the form data and save
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => recipeDetailsPage),
-                          );
-                        },
-                        child: Text(AppLocalizations.of(context)!.add),
-                      ))
-                ],
-              ),
+                              // Navigate to the new page with the form data and save
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => recipeDetailsPage),
+                              );
+                            },
+                            child: Text(AppLocalizations.of(context)!.add),
+                          ))
+                    ],
+                  ]),
             ),
           ),
         ));

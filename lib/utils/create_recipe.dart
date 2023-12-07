@@ -1211,99 +1211,104 @@ class _CreateRecipeState extends State<CreateRecipe> {
             padding: const EdgeInsets.all(16.0),
             child: Form(
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Expanded(
-                      child: ListView(children: <Widget>[
-                    // SHOW RECIPE CATEGORY, RECIPE NAME ,TOTAL TIME ,DIFFICULTY, COST, ADD PICTURE, SELECT INGREDIENT, ADD STEPS OR SELECT INGREDIENT AND SHOW INGRED ADDED OR ADD STEPS AND SHOW STEPS:
-                    ShowWidget(),
-                  ])),
-                  // Button fot submit form
-                  Container(
-                      alignment: Alignment.bottomRight,
-                      child: ElevatedButton(
-                        onPressed: () {
-                          // handle deleted variable
-                          final finalRecipeNameFromAddRecipeName =
-                              recipeNameFromAddRecipeName == "Deleted"
-                                  ? "No title"
-                                  : recipeNameFromAddRecipeName;
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Expanded(
+                        child: ListView(children: <Widget>[
+                      // SHOW RECIPE CATEGORY, RECIPE NAME ,TOTAL TIME ,DIFFICULTY, COST, ADD PICTURE, SELECT INGREDIENT, ADD STEPS OR SELECT INGREDIENT AND SHOW INGRED ADDED OR ADD STEPS AND SHOW STEPS:
+                      ShowWidget(),
+                    ])),
+                    // Button fot submit form
+                    if (isShowIngredientsSelectedPressed == false &&
+                        isshowStepsAddedPressed == false &&
+                        isshowTagsAddedPressed == false) ...[
+                      Container(
+                          alignment: Alignment.bottomRight,
+                          child: ElevatedButton(
+                            onPressed: () {
+                              // handle deleted variable
+                              final finalRecipeNameFromAddRecipeName =
+                                  recipeNameFromAddRecipeName == "Deleted"
+                                      ? "No title"
+                                      : recipeNameFromAddRecipeName;
 
-                          final finalTotalTimeFromAddTotalTime =
-                              totalTimeFromAddTotalTime == "Deleted"
-                                  ? ""
-                                  : totalTimeFromAddTotalTime;
+                              final finalTotalTimeFromAddTotalTime =
+                                  totalTimeFromAddTotalTime == "Deleted"
+                                      ? ""
+                                      : totalTimeFromAddTotalTime;
 
-                          final finalVarFromAddDifficulty =
-                              varFromAddDifficulty == "Deleted"
-                                  ? ""
-                                  : varFromAddDifficulty;
+                              final finalVarFromAddDifficulty =
+                                  varFromAddDifficulty == "Deleted"
+                                      ? ""
+                                      : varFromAddDifficulty;
 
-                          final finalVarFromAddCost =
-                              varFromAddCost == "Deleted" ? "" : varFromAddCost;
+                              final finalVarFromAddCost =
+                                  varFromAddCost == "Deleted"
+                                      ? ""
+                                      : varFromAddCost;
 
-                          // create a varible with the date of creation
-                          DateTime now = DateTime.now();
-                          String creationDate =
-                              'variable_${now.year}${now.month}${now.day}_${now.hour}${now.minute}${now.second}';
+                              // create a varible with the date of creation
+                              DateTime now = DateTime.now();
+                              String creationDate =
+                                  'variable_${now.year}${now.month}${now.day}_${now.hour}${now.minute}${now.second}';
 
-                          // retrieve database list
-                          List listOfLists = _myBox.get('ALL_LISTS') ?? [];
+                              // retrieve database list
+                              List listOfLists = _myBox.get('ALL_LISTS') ?? [];
 
-                          // create null index for future add :
-                          double? stars = null;
-                          List? detailTIme = null;
-                          List? utensils = null;
+                              // create null index for future add :
+                              double? stars = null;
+                              List? detailTIme = null;
+                              List? utensils = null;
 
-                          // Add a new list to the list of lists
+                              // Add a new list to the list of lists
 
-                          listOfLists.add([
-                            finalRecipeNameFromAddRecipeName,
-                            finalTotalTimeFromAddTotalTime,
-                            finalVarFromAddDifficulty,
-                            finalVarFromAddCost,
-                            allIngredientSelectedCreateRecipe,
-                            pathImageSelectedFromImagePicker,
-                            stepsRecipeFromCreateSteps,
-                            recipeCategoryFromAddExistingCategory,
-                            isFromScrap,
-                            creationDate,
-                            tags,
-                            stars,
-                            detailTIme,
-                            utensils
-                          ]);
-
-                          // Update list of lists in Hive
-                          _myBox.put('ALL_LISTS', listOfLists);
-
-                          // Create an instance of RecipeDetailsPage with the form data
-                          RecipeStruct recipeDetailsPage = RecipeStruct(
-                            recipeName: finalRecipeNameFromAddRecipeName,
-                            totalTime: finalTotalTimeFromAddTotalTime,
-                            difficulty: finalVarFromAddDifficulty,
-                            cost: finalVarFromAddCost,
-                            allIngredientSelected:
+                              listOfLists.add([
+                                finalRecipeNameFromAddRecipeName,
+                                finalTotalTimeFromAddTotalTime,
+                                finalVarFromAddDifficulty,
+                                finalVarFromAddCost,
                                 allIngredientSelectedCreateRecipe,
-                            pathImageSelectedFromImagePicker:
                                 pathImageSelectedFromImagePicker,
-                            stepsRecipeFromCreateSteps:
                                 stepsRecipeFromCreateSteps,
-                            isFromScrap: isFromScrap,
-                            tags: tags,
-                          );
+                                recipeCategoryFromAddExistingCategory,
+                                isFromScrap,
+                                creationDate,
+                                tags,
+                                stars,
+                                detailTIme,
+                                utensils
+                              ]);
 
-                          // Navigate to the new page with the form data and save
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => recipeDetailsPage),
-                          );
-                        },
-                        child: Text(AppLocalizations.of(context)!.add),
-                      )),
-                ],
-              ),
+                              // Update list of lists in Hive
+                              _myBox.put('ALL_LISTS', listOfLists);
+
+                              // Create an instance of RecipeDetailsPage with the form data
+                              RecipeStruct recipeDetailsPage = RecipeStruct(
+                                recipeName: finalRecipeNameFromAddRecipeName,
+                                totalTime: finalTotalTimeFromAddTotalTime,
+                                difficulty: finalVarFromAddDifficulty,
+                                cost: finalVarFromAddCost,
+                                allIngredientSelected:
+                                    allIngredientSelectedCreateRecipe,
+                                pathImageSelectedFromImagePicker:
+                                    pathImageSelectedFromImagePicker,
+                                stepsRecipeFromCreateSteps:
+                                    stepsRecipeFromCreateSteps,
+                                isFromScrap: isFromScrap,
+                                tags: tags,
+                              );
+
+                              // Navigate to the new page with the form data and save
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => recipeDetailsPage),
+                              );
+                            },
+                            child: Text(AppLocalizations.of(context)!.add),
+                          )),
+                    ],
+                  ]),
             ),
           ),
         ));
