@@ -230,7 +230,7 @@ class _FilteredNameRecipeState extends State<FilteredNameRecipe> {
               itemCount: db.recipeList.length,
               itemBuilder: (context, index) {
                 // Recipe is filtered by the category we clicked on before
-                if (db.recipeList[index][7].contains(widget.categoryName)) {
+                if (db.recipeList[index][7] == widget.categoryName) {
                   return Column(
                     children: [
                       ListTile(
