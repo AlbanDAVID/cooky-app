@@ -69,10 +69,12 @@ class _AboutState extends State<About> {
               Text(
                 '${AppLocalizations.of(context)!.sourceCode} :',
               ),
-              InkWell(
-                onTap: _launchURL,
+              ElevatedButton(
+                onPressed: () async {
+                  _launchURL();
+                },
                 child: const Text(
-                  'https://github.com/AlbanDAVID/cooky-app',
+                  "https://github.com/AlbanDAVID/cooky-app",
                   textAlign: TextAlign.center,
                 ),
               ),

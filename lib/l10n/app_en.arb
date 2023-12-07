@@ -68,7 +68,7 @@
    "saveChanges" :  "Save changes",
    "startToCook" : "Start to cook!",
    "showSuggestion" : "Show suggestions",
-   "listTags": "Appetizer,Healthy,Starter,Main Course,Dessert,Vegetarian,Vegan,Gluten-Free,Easy,Quick,Healthy,Indulgent,Spicy,Sweet,Savory,Balanced,Traditional,Fusion,Exotic,Comfort Food,Light,Grilled,Baked,Fish,Meat,Chicken,Beef,Pork,Vegetables,Pasta,Rice,Soup,Salad,Sandwich,Breakfast,Brunch,Dinner,Party,Family Meal,Friends Gathering,Picnic",
+   "listTags": "Appetizer,Healthy,Starter,Main Course,Dessert,Vegetarian,Vegan,Gluten-Free,Easy,Quick,Indulgent,Spicy,Sweet,Savory,Balanced,Traditional,Fusion,Exotic,Comfort Food,Light,Grilled,Baked,Fish,Meat,Chicken,Beef,Pork,Vegetables,Pasta,Rice,Soup,Salad,Sandwich,Breakfast,Brunch,Dinner,Party,Family Meal,Friends Gathering,Picnic",
    "listCommonDishes": "Ratatouille,Beef Bourguignon,Blanquette de Veau,Cassoulet,Coq au Vin,Bouillabaisse,Duck Confit,Moules Marinières,Gratin Dauphinois,Quiche Lorraine,Raclette,Pot-au-Feu,Beef Daube,Crepes,French Onion Soup,Tarte Tatin,Cheese Soufflé,Casseroles,Beef Stroganoff,Roast Chicken,Gratin Potatoes,Lasagna,Sushi,Chicken Tikka Masala,Pad Thai,Tacos,Pizza,Spaghetti Bolognese,Biryani,Chicken Tajine,Paella,Burger,Grilled Salmon,Tom Yum Soup,Fondue,Sandwich,Chicken Caesar Salad,Sushi Bowl,Omelette,Niçoise Salad,Gyudon,Breton Galette,Carbonara,Lemon Tart,Chili Con Carne,Chicken Katsu,Chicken Curry,Spaghetti Aglio e Olio,Ramen Soup,Lok Lak Beef,Banh Mi,Apple Pie,Strawberry Pie",
    "listCommonIngredients": "Butter, Sugar, Flour, Milk, Egg(s), Garlic, Onion(s), Shallot(s), Parsley, Thyme, Rosemary, Basil, Oregano, Salt, Pepper, Olive Oil, Cheese, Rice, Potato(es), Carrot(s), Mushroom(s), Tomato(es), Spinach, Zucchini, Eggplant, Chicken, Beef, Pork, Fish, Shrimp, Honey, Soy Sauce, Mustard, Balsamic Vinegar, Lemon, Lemon Juice, Chocolate, Walnut(s), Almond(s), Cinnamon, Ginger, Nutmeg, Clove(s), Vanilla, Tomato Sauce, Mayonnaise, Ketchup, Tomato Paste, Chili Powder, Cumin, Curry, Paprika",
    "listDifficulty" : "Easy, Medium, Hard",
@@ -84,7 +84,8 @@
    "about" : "About",
    "version" : "Version",
    "licence" : "Licence",
-   "sourceCode" : "Source code"}
+   "sourceCode" : "Source code",
+   "searchTag" : "Search a tag"}
 
 
 

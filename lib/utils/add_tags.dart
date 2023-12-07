@@ -15,12 +15,28 @@ class _AddTagsState extends State<AddTags> {
 
   final List selectedTags = [];
   final TextEditingController _controller = TextEditingController();
+  List searchFiltred = [];
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
 
     tags = AppLocalizations.of(context)!.listTags.split(',');
+    searchFiltred = tags;
+  }
+
+  // function to search
+  void filterSearchResults(String query) {
+    // get a list searchFiltred of the filtred search
+    setState(() {
+      searchFiltred = tags.where((item) {
+        final itemLowerCase = item.toLowerCase(); // to lower case each items
+        final input = query
+            .toLowerCase(); // to lower case the input (what are typed by the user)
+        return itemLowerCase
+            .contains(input); // check the match between intem and input
+      }).toList();
+    });
   }
 
   @override
@@ -29,26 +45,43 @@ class _AddTagsState extends State<AddTags> {
     return Scaffold(
         appBar: AppBar(
           title: const Text('Add tags'),
+          actions: [
+            // IconButton(onPressed: () {showSearch(context: context, delegate: delegate)}, icon: const Icon(Icons.search))
+          ],
         ),
         body: Column(children: [
-          const Text("Suggestions : ", style: TextStyle(fontSize: 13)),
+          SearchBar(
+            onChanged: (value) {
+              filterSearchResults(value);
+            },
+            leading: const Icon(Icons.search),
+            constraints: const BoxConstraints(
+                minWidth: 200.0, maxWidth: 350.0, minHeight: 30.0),
+            elevation: MaterialStateProperty.all(0),
+            backgroundColor:
+                MaterialStateProperty.all(Color.fromRGBO(240, 232, 252, 1)),
+            shape: MaterialStateProperty.all(const ContinuousRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(20)),
+            )),
+            hintText: AppLocalizations.of(context)!.searchTag,
+            hintStyle:
+                MaterialStateProperty.all(const TextStyle(color: Colors.grey)),
+          ),
           Expanded(
               child: Padding(
             padding: const EdgeInsets.only(left: 50.0, right: 50, top: 0),
             child: ListView.builder(
-              itemCount: tags.length,
+              itemCount: searchFiltred.length,
               itemBuilder: (context, index) {
                 return ListTile(
                     title: TextButton(
                   onPressed: () {
                     setState(() {
-                      selectedTags.add(
-                        tags[index],
-                      );
+                      selectedTags.insert(0, searchFiltred[index]);
                     });
                   },
                   child: Text(
-                    tags[index],
+                    searchFiltred[index],
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontSize: 15,
