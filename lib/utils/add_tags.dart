@@ -17,6 +17,7 @@ class _AddTagsState extends State<AddTags> {
 
   final List selectedTags = []; // final list to submit
   final TextEditingController _controller = TextEditingController();
+  late TextEditingController _searchController;
 
   @override
   void didChangeDependencies() {
@@ -24,6 +25,8 @@ class _AddTagsState extends State<AddTags> {
 
     tags = AppLocalizations.of(context)!.listTags.split(',');
     filteredList = tags;
+
+    _searchController = TextEditingController();
   }
 
   // function to filter search
@@ -51,10 +54,24 @@ class _AddTagsState extends State<AddTags> {
           ],
         ),
         body: Column(children: [
-          SearchBarUI(
-            filterSearchResults: filterSearchResults,
-            hintText: AppLocalizations.of(context)!.searchTag,
-          ),
+          TextField(
+              controller: _searchController,
+              onChanged: (value) {
+                filterSearchResults(value);
+              },
+              decoration: InputDecoration(
+                prefixIcon: const Icon(Icons.search),
+                suffixIcon: _searchController.text.isNotEmpty
+                    ? IconButton(
+                        onPressed: () {
+                          _searchController.clear();
+                          filterSearchResults('');
+                        },
+                        icon: const Icon(Icons.clear),
+                      )
+                    : null,
+                hintText: AppLocalizations.of(context)!.searchTag,
+              )),
           Expanded(
               child: Padding(
             padding: const EdgeInsets.only(left: 50.0, right: 50, top: 0),
@@ -104,6 +121,8 @@ class _AddTagsState extends State<AddTags> {
           ),
           ElevatedButton(
             onPressed: () async {
+              _searchController.clear();
+              filterSearchResults('');
               showDialog(
                   context: context,
                   builder: (context) {
@@ -125,6 +144,8 @@ class _AddTagsState extends State<AddTags> {
                             Navigator.pop(context);
 
                             _controller.clear();
+
+                            filterSearchResults('');
 
                             setState(() {});
                           },

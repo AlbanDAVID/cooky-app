@@ -88,7 +88,8 @@
     "searchTag" : "Chercher un tag",
     "searchIngred" : "Chercher un ingrédient",
     "searchRecipeName" : "Chercher un nom de recette",
-    "recipes" : "Recettes"}
+    "recipes" : "Recettes",
+    "searchRecipe" : "Chercher une recette"}
 
 
 

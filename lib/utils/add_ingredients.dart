@@ -25,6 +25,7 @@ class _AddIngredState extends State<AddIngred> {
   final TextEditingController _controller = TextEditingController();
   final TextEditingController _controller2 = TextEditingController();
   final TextEditingController _controller3 = TextEditingController();
+  late TextEditingController _searchController;
 
   @override
   void didChangeDependencies() {
@@ -33,6 +34,7 @@ class _AddIngredState extends State<AddIngred> {
     ingredientList =
         AppLocalizations.of(context)!.listCommonIngredients.split(',');
     filteredList = ingredientList;
+    _searchController = TextEditingController();
   }
 
   // function to filter search
@@ -57,10 +59,24 @@ class _AddIngredState extends State<AddIngred> {
           title: Text(AppLocalizations.of(context)!.addIngred),
         ),
         body: Column(children: [
-          SearchBarUI(
-            filterSearchResults: filterSearchResults,
-            hintText: AppLocalizations.of(context)!.searchIngred,
-          ),
+          TextField(
+              controller: _searchController,
+              onChanged: (value) {
+                filterSearchResults(value);
+              },
+              decoration: InputDecoration(
+                prefixIcon: const Icon(Icons.search),
+                suffixIcon: _searchController.text.isNotEmpty
+                    ? IconButton(
+                        onPressed: () {
+                          _searchController.clear();
+                          filterSearchResults('');
+                        },
+                        icon: const Icon(Icons.clear),
+                      )
+                    : null,
+                hintText: AppLocalizations.of(context)!.searchIngred,
+              )),
           Expanded(
               child: Padding(
             padding: const EdgeInsets.only(left: 50.0, right: 50, top: 0),
@@ -130,6 +146,8 @@ class _AddIngredState extends State<AddIngred> {
           ),
           ElevatedButton(
             onPressed: () async {
+              _searchController.clear();
+              filterSearchResults('');
               showDialog(
                   context: context,
                   builder: (context) {

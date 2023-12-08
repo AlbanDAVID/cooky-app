@@ -23,6 +23,7 @@ class _FilteredNameRecipeState extends State<FilteredNameRecipe> {
   late final String finalEditRecipeName;
 
   bool isEditDeleteMode = false;
+  bool isSearchPressed = false;
 
   late String _confirmationTextDeleteOneRecipe;
 
@@ -172,6 +173,7 @@ class _FilteredNameRecipeState extends State<FilteredNameRecipe> {
         });
   }
 
+  // dunction to search
   void filterList(String searchTerm) {
     setState(() {
       // Apply the search term to filter the list
@@ -216,6 +218,13 @@ class _FilteredNameRecipeState extends State<FilteredNameRecipe> {
                 ),
               ]
             : <Widget>[
+                IconButton(
+                    onPressed: () {
+                      setState(() {
+                        isSearchPressed = true;
+                      });
+                    },
+                    icon: const Icon(Icons.search)),
                 PopupMenuButton<int>(
                   onSelected: (item) => handleClick(item),
                   itemBuilder: (context) => [
@@ -229,10 +238,32 @@ class _FilteredNameRecipeState extends State<FilteredNameRecipe> {
       ),
       body: Column(
         children: [
-          SearchBarUI(
-            filterSearchResults: filterList,
-            hintText: AppLocalizations.of(context)!.searchTag,
-          ),
+          if (isSearchPressed == true)
+            TextField(
+                controller: _searchController,
+                onChanged: (value) {
+                  filterList(value);
+                },
+                decoration: InputDecoration(
+                  prefixIcon: const Icon(Icons.search),
+                  suffixIcon: _searchController.text.isNotEmpty
+                      ? IconButton(
+                          onPressed: () {
+                            _searchController.clear();
+                            filterList('');
+                          },
+                          icon: const Icon(Icons.clear),
+                        )
+                      : IconButton(
+                          onPressed: () {
+                            _searchController.clear();
+                            filterList('');
+                            isSearchPressed = false;
+                          },
+                          icon: const Icon(Icons.clear),
+                        ),
+                  hintText: AppLocalizations.of(context)!.searchRecipe,
+                )),
           Expanded(
             child: FutureBuilder(
               future: loadAllData(),
@@ -294,6 +325,17 @@ class _FilteredNameRecipeState extends State<FilteredNameRecipe> {
                                                   [10],
                                               index,
                                             );
+
+                                            // to display all list after editing (and not only the list from filter search)
+                                            loadAllData();
+                                            recipeListFilteredSearch =
+                                                db.recipeList;
+
+                                            setState(() {
+                                              _searchController.clear();
+
+                                              isSearchPressed = false;
+                                            });
                                           },
                                         ),
                                         IconButton(
@@ -335,6 +377,14 @@ class _FilteredNameRecipeState extends State<FilteredNameRecipe> {
                                   tags: recipeListFilteredSearch[index][10],
                                 );
 
+                                // to display all list after display a recipe (and not only the list from filter search)
+                                loadAllData();
+                                recipeListFilteredSearch = db.recipeList;
+                                setState(() {
+                                  _searchController.clear();
+
+                                  isSearchPressed = false;
+                                });
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(

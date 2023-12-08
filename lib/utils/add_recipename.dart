@@ -21,6 +21,7 @@ class _AddRecipeNameState extends State<AddRecipeName> {
   final TextEditingController _controller = TextEditingController();
   late List<String> recipeNameList;
   late List<String> filteredList = [];
+  late TextEditingController _searchController;
 
   @override
   void didChangeDependencies() {
@@ -28,6 +29,7 @@ class _AddRecipeNameState extends State<AddRecipeName> {
 
     recipeNameList = AppLocalizations.of(context)!.listCommonDishes.split(',');
     filteredList = recipeNameList;
+    _searchController = TextEditingController();
   }
 
   // function to filter search
@@ -60,10 +62,24 @@ class _AddRecipeNameState extends State<AddRecipeName> {
           SizedBox(
             height: 35,
           ),
-          SearchBarUI(
-            filterSearchResults: filterSearchResults,
-            hintText: AppLocalizations.of(context)!.searchRecipeName,
-          ),
+          TextField(
+              controller: _searchController,
+              onChanged: (value) {
+                filterSearchResults(value);
+              },
+              decoration: InputDecoration(
+                prefixIcon: const Icon(Icons.search),
+                suffixIcon: _searchController.text.isNotEmpty
+                    ? IconButton(
+                        onPressed: () {
+                          _searchController.clear();
+                          filterSearchResults('');
+                        },
+                        icon: const Icon(Icons.clear),
+                      )
+                    : null,
+                hintText: AppLocalizations.of(context)!.searchRecipeName,
+              )),
           SizedBox(
               height: 400,
               child: ListView.builder(
@@ -85,6 +101,8 @@ class _AddRecipeNameState extends State<AddRecipeName> {
               )),
           FloatingActionButton(
             onPressed: () async {
+              _searchController.clear();
+              filterSearchResults('');
               showDialog(
                   context: context,
                   builder: (context) {
@@ -100,7 +118,7 @@ class _AddRecipeNameState extends State<AddRecipeName> {
                           onPressed: () async {
                             setState(() {
                               Navigator.pop(context);
-                              recipeNameList.insert(0, _controller.text);
+                              filteredList.insert(0, _controller.text);
                             });
                           },
                         )
