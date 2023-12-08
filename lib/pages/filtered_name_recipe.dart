@@ -1,6 +1,7 @@
 import 'package:cook_app/data/recipe_database/database.dart';
 import 'package:cook_app/utils/edit_recipe.dart';
 import 'package:cook_app/utils/recipe_struct.dart';
+import 'package:cook_app/utils/search_bar_UI.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -29,10 +30,14 @@ class _FilteredNameRecipeState extends State<FilteredNameRecipe> {
 
   late TextEditingController _searchController;
 
+  late List<dynamic> recipeListFilteredSearch;
+
   @override
   void initState() {
     super.initState();
     _searchController = TextEditingController();
+    loadAllData();
+    recipeListFilteredSearch = db.recipeList;
   }
 
   @override
@@ -169,21 +174,12 @@ class _FilteredNameRecipeState extends State<FilteredNameRecipe> {
 
   void filterList(String searchTerm) {
     setState(() {
-      // Créez une nouvelle liste filtrée
-      List<List> filteredList = [];
-
-      for (int i = 0; i < db.recipeList.length; i++) {
-        if (db.recipeList[i][7] == widget.categoryName &&
-            db.recipeList[i][0]
-                .toLowerCase()
-                .contains(searchTerm.toLowerCase())) {
-          // Ajoutez l'élément filtré à la nouvelle liste
-          filteredList.add(db.recipeList[i]);
-        }
-      }
-
-      // Mettez à jour db.recipeList avec la nouvelle liste filtrée
-      db.recipeList = filteredList;
+      // Apply the search term to filter the list
+      recipeListFilteredSearch = db.recipeList
+          .where((recipe) =>
+              recipe[7] == widget.categoryName &&
+              recipe[0].toLowerCase().contains(searchTerm.toLowerCase()))
+          .toList();
     });
   }
 
@@ -191,7 +187,7 @@ class _FilteredNameRecipeState extends State<FilteredNameRecipe> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("COOKY"),
+        title: Text(AppLocalizations.of(context)!.recipes),
         centerTitle: true,
         actions: isEditDeleteMode
             ? <Widget>[
@@ -233,15 +229,9 @@ class _FilteredNameRecipeState extends State<FilteredNameRecipe> {
       ),
       body: Column(
         children: [
-          TextField(
-            controller: _searchController,
-            onChanged: (value) {
-              filterList(value);
-            },
-            decoration: InputDecoration(
-              hintText: 'Recherche...',
-              prefixIcon: Icon(Icons.search),
-            ),
+          SearchBarUI(
+            filterSearchResults: filterList,
+            hintText: AppLocalizations.of(context)!.searchTag,
           ),
           Expanded(
             child: FutureBuilder(
@@ -253,15 +243,16 @@ class _FilteredNameRecipeState extends State<FilteredNameRecipe> {
                   return Text('Erreur: ${snapshot.error}');
                 } else {
                   return ListView.builder(
-                    itemCount: db.recipeList.length,
+                    itemCount: recipeListFilteredSearch.length,
                     itemBuilder: (context, index) {
-                      if (db.recipeList[index][7] == widget.categoryName) {
+                      if (recipeListFilteredSearch[index][7] ==
+                          widget.categoryName) {
                         return Column(
                           children: [
                             ListTile(
                               title: Center(
                                 child: Text(
-                                  db.recipeList[index][0],
+                                  recipeListFilteredSearch[index][0],
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                     fontSize: 15,
@@ -281,16 +272,26 @@ class _FilteredNameRecipeState extends State<FilteredNameRecipe> {
 
                                             sendDataToEditAtEditRecipe(
                                               context,
-                                              db.recipeList[index][4],
-                                              db.recipeList[index][6],
-                                              db.recipeList[index][7],
-                                              db.recipeList[index][0],
-                                              db.recipeList[index][1],
-                                              db.recipeList[index][2],
-                                              db.recipeList[index][3],
-                                              db.recipeList[index][8],
-                                              db.recipeList[index][5],
-                                              db.recipeList[index][10],
+                                              recipeListFilteredSearch[index]
+                                                  [4],
+                                              recipeListFilteredSearch[index]
+                                                  [6],
+                                              recipeListFilteredSearch[index]
+                                                  [7],
+                                              recipeListFilteredSearch[index]
+                                                  [0],
+                                              recipeListFilteredSearch[index]
+                                                  [1],
+                                              recipeListFilteredSearch[index]
+                                                  [2],
+                                              recipeListFilteredSearch[index]
+                                                  [3],
+                                              recipeListFilteredSearch[index]
+                                                  [8],
+                                              recipeListFilteredSearch[index]
+                                                  [5],
+                                              recipeListFilteredSearch[index]
+                                                  [10],
                                               index,
                                             );
                                           },
@@ -317,18 +318,21 @@ class _FilteredNameRecipeState extends State<FilteredNameRecipe> {
                                 loadAllData();
 
                                 RecipeStruct recipeInstance = RecipeStruct(
-                                  recipeName: db.recipeList[index][0],
-                                  totalTime: db.recipeList[index][1],
-                                  difficulty: db.recipeList[index][2],
-                                  cost: db.recipeList[index][3],
-                                  allIngredientSelected: db.recipeList[index]
-                                      [4],
+                                  recipeName: recipeListFilteredSearch[index]
+                                      [0],
+                                  totalTime: recipeListFilteredSearch[index][1],
+                                  difficulty: recipeListFilteredSearch[index]
+                                      [2],
+                                  cost: recipeListFilteredSearch[index][3],
+                                  allIngredientSelected:
+                                      recipeListFilteredSearch[index][4],
                                   pathImageSelectedFromImagePicker:
-                                      db.recipeList[index][5],
+                                      recipeListFilteredSearch[index][5],
                                   stepsRecipeFromCreateSteps:
-                                      db.recipeList[index][6],
-                                  isFromScrap: db.recipeList[index][8],
-                                  tags: db.recipeList[index][10],
+                                      recipeListFilteredSearch[index][6],
+                                  isFromScrap: recipeListFilteredSearch[index]
+                                      [8],
+                                  tags: recipeListFilteredSearch[index][10],
                                 );
 
                                 Navigator.push(

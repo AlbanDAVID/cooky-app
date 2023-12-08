@@ -312,8 +312,7 @@ class _HomeState extends State<Home> {
                   ),
                 ]
               : <Widget>[
-                  //IconButton(
-                  //   onPressed: () {}, icon: const Icon(Icons.search)),
+                  IconButton(onPressed: () {}, icon: const Icon(Icons.search)),
                   PopupMenuButton<int>(
                     onSelected: (item) => handleClick(item),
                     itemBuilder: (context) => [

@@ -87,7 +87,8 @@
     "sourceCode" : "Code source",
     "searchTag" : "Chercher un tag",
     "searchIngred" : "Chercher un ingrédient",
-    "searchRecipeName" : "Chercher un nom de recette"}
+    "searchRecipeName" : "Chercher un nom de recette",
+    "recipes" : "Recettes"}
 
 
 
