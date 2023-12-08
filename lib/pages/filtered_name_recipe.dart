@@ -39,9 +39,6 @@ class _FilteredNameRecipeState extends State<FilteredNameRecipe> {
     _searchController = TextEditingController();
     loadAllData();
     recipeListFilteredSearch = db.recipeList;
-
-    // asMap to keep the origial index in recipeListFilteredSearch
-    //var map = db.recipeList.asMap();
   }
 
   @override
@@ -79,6 +76,7 @@ class _FilteredNameRecipeState extends State<FilteredNameRecipe> {
       editPathImage,
       tags,
       uniqueId) async {
+    // for final result await, in fact we could send antoher variable, it's to force filtered_name_recipe to rebuild again and take in count the new recipe name
     final result = await Navigator.push(
       context,
       MaterialPageRoute(
@@ -108,8 +106,12 @@ class _FilteredNameRecipeState extends State<FilteredNameRecipe> {
 
   void deleteOneRecipe(index) {
     List recipeList = _myBox.get('ALL_LISTS') ?? [];
-    recipeList.removeAt(index);
-    _myBox.put("ALL_LISTS", recipeList);
+    for (int i = 0; i < recipeList.length; i++) {
+      if (recipeListFilteredSearch[index][9] == db.recipeList[i][9]) {
+        recipeList.removeAt(i);
+      }
+    }
+    _myBox.put('ALL_LISTS', recipeList);
   }
 
   void deleteAllRecipe(myBox) {
@@ -154,6 +156,13 @@ class _FilteredNameRecipeState extends State<FilteredNameRecipe> {
                     });
 
                     Navigator.of(context).pop();
+                    setState(() {
+                      loadAllData();
+                      recipeListFilteredSearch = db.recipeList;
+                      _searchController.clear();
+
+                      isSearchPressed = false;
+                    });
                   },
                   onPressed: () {},
                   child: Text(confirmText,
@@ -378,6 +387,9 @@ class _FilteredNameRecipeState extends State<FilteredNameRecipe> {
                                   isFromScrap: recipeListFilteredSearch[index]
                                       [8],
                                   tags: recipeListFilteredSearch[index][10],
+                                  uniqueId: recipeListFilteredSearch[index][9],
+                                  recipeCategory:
+                                      recipeListFilteredSearch[index][7],
                                 );
 
                                 // to display all list after display a recipe (and not only the list from filter search)

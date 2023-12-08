@@ -433,6 +433,8 @@ class _HomeState extends State<Home> {
                                 recipeListFilteredSearch[index][6],
                             isFromScrap: recipeListFilteredSearch[index][8],
                             tags: recipeListFilteredSearch[index][10],
+                            uniqueId: recipeListFilteredSearch[index][9],
+                            recipeCategory: recipeListFilteredSearch[index][7],
                           );
 
                           // to display all list after editing (and not only the list from filter search)

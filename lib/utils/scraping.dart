@@ -1195,6 +1195,8 @@ class _ScrapingState extends State<Scraping> {
                                     widget.scrapStepsRecipe,
                                 isFromScrap: isFromScrap,
                                 tags: tags,
+                                uniqueId: creationDate,
+                                recipeCategory: scrapRecipeCategory,
                               );
 
                               // Navigate to the new page with the form data and save

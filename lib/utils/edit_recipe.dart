@@ -1237,9 +1237,8 @@ class _EditRecipeState extends State<EditRecipe> {
                             //         builder: (context) => recipeDetailsPage),
                             //   );
 
-                            // send finalEditRecipeName to apply filter in filtered_name_recipe with new recipe name
                             Navigator.pop(context,
-                                finalEditRecipeName); // in fact we could send antoher variable, it's to force filtered_name_recipe to rebuild again and take in count the new recipe name
+                                finalEditRecipeName); // in fact we could send antoher variable, it's to force filtered_name_recipe and recip_struct (after editing) to rebuild again and take in count the new recipe name
                           },
                           child:
                               Text(AppLocalizations.of(context)!.saveChanges),

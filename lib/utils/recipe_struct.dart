@@ -2,9 +2,14 @@
 
 import 'dart:io';
 
+import 'package:cook_app/pages/about.dart';
+import 'package:cook_app/pages/filtered_name_recipe.dart';
+import 'package:cook_app/pages/home.dart';
 import 'package:cook_app/utils/add_pics.dart';
+import 'package:cook_app/utils/edit_recipe.dart';
 import 'package:cook_app/utils/steps_struct.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:cook_app/data/recipe_database/database.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -20,7 +25,8 @@ class RecipeStruct extends StatefulWidget {
   final bool isFromScrap;
   List?
       tags; // not final and not required because I added after, so olders recipes does not have tags in their index. So, it can't works for old recipe if this fiels is required
-
+  String uniqueId;
+  String recipeCategory;
   RecipeStruct({
     super.key,
     required this.recipeName,
@@ -32,6 +38,8 @@ class RecipeStruct extends StatefulWidget {
     required this.stepsRecipeFromCreateSteps,
     required this.isFromScrap,
     this.tags,
+    required this.uniqueId,
+    required this.recipeCategory,
   });
 
   @override
@@ -45,6 +53,13 @@ class _RecipeStructState extends State<RecipeStruct> {
   List allTags = [];
   final ScrollController _scrollController = ScrollController();
   bool showArrow = true;
+
+  // load database
+  final _myBox = Hive.box('mybox');
+  // initiate databse instance :
+  RecipeDatabase db = RecipeDatabase();
+
+  late final String finalEditRecipeName;
 
   @override
   void initState() {
@@ -83,6 +98,119 @@ class _RecipeStructState extends State<RecipeStruct> {
     }
   }
 
+  // function to edit recipe
+  void sendDataToEditAtEditRecipe(
+      BuildContext context,
+      editAllIngredient,
+      editStepsRecipe,
+      editRecipeCategory,
+      editRecipeName,
+      editTotalTime,
+      editDifficulty,
+      editCost,
+      isFromScrap,
+      editPathImage,
+      tags,
+      uniqueId) async {
+    await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => EditRecipe(
+          editAllIngredient: editAllIngredient,
+          editStepsRecipe: editStepsRecipe,
+          editRecipeCategory: editRecipeCategory,
+          editRecipeName: editRecipeName,
+          editTotalTime: editTotalTime,
+          editDifficulty: editDifficulty,
+          editCost: editCost,
+          uniqueId: uniqueId,
+          isFromScrap: isFromScrap,
+          editPathImage: editPathImage,
+          tags: tags,
+        ),
+      ),
+    );
+  }
+
+  // function to delete a recipe
+  void deleteOneRecipe() {
+    List recipeList = _myBox.get('ALL_LISTS') ?? [];
+    for (int i = 0; i < recipeList.length; i++) {
+      if (recipeList[i][9] == widget.uniqueId) {
+        recipeList.removeAt(i);
+      }
+    }
+    _myBox.put('ALL_LISTS', recipeList);
+  }
+
+  void _dialogDelete(
+    BuildContext context,
+  ) {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return Container(
+              padding: EdgeInsetsDirectional.fromSTEB(0, 200, 0, 100),
+              child: AlertDialog(
+                title: Column(children: [
+                  Text(AppLocalizations.of(context)!.areYouSure),
+                  Text(AppLocalizations.of(context)!.confirmLongPress4,
+                      textAlign: TextAlign.center,
+                      style:
+                          TextStyle(fontSize: 15, fontStyle: FontStyle.italic))
+                ]),
+                content: TextButton(
+                  onLongPress: () {
+                    setState(() {
+                      deleteOneRecipe();
+                      Navigator.pop(context);
+                      Navigator.pop(context, finalEditRecipeName);
+                    });
+                  },
+                  onPressed: () {},
+                  child: Text(AppLocalizations.of(context)!.confirmLongPress2,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(color: Colors.red)),
+                ),
+                actions: [
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: Text(AppLocalizations.of(context)!.back),
+                  ),
+                ],
+              ));
+        });
+  }
+
+  // function for handle click on popup menu
+  void handleClick(int item) {
+    switch (item) {
+      case 0: //edit
+        setState(() {
+          sendDataToEditAtEditRecipe(
+              context,
+              widget.allIngredientSelected,
+              widget.stepsRecipeFromCreateSteps,
+              widget.recipeCategory,
+              widget.recipeName,
+              widget.totalTime,
+              widget.difficulty,
+              widget.cost,
+              widget.isFromScrap,
+              widget.pathImageSelectedFromImagePicker,
+              widget.tags,
+              widget.uniqueId);
+        });
+
+      case 1: // delete
+        setState(() {
+          _dialogDelete(context);
+        });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -99,6 +227,17 @@ class _RecipeStructState extends State<RecipeStruct> {
           ),
           centerTitle: true,
           elevation: 0,
+          actions: [
+            PopupMenuButton<int>(
+              onSelected: (item) => handleClick(item),
+              itemBuilder: (context) => [
+                PopupMenuItem<int>(
+                    value: 0, child: Text(AppLocalizations.of(context)!.edit)),
+                PopupMenuItem<int>(
+                    value: 1, child: Text(AppLocalizations.of(context)!.delete))
+              ],
+            ),
+          ],
           //leading: const Icon(Icons.menu),
         ),
         body: Column(children: [

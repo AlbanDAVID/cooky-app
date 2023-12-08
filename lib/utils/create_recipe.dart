@@ -1296,6 +1296,9 @@ class _CreateRecipeState extends State<CreateRecipe> {
                                     stepsRecipeFromCreateSteps,
                                 isFromScrap: isFromScrap,
                                 tags: tags,
+                                uniqueId: creationDate,
+                                recipeCategory:
+                                    recipeCategoryFromAddExistingCategory,
                               );
 
                               // Navigate to the new page with the form data and save

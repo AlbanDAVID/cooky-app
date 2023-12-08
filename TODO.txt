@@ -6,10 +6,10 @@ Priority :
 - *** check with all devices
 
 
-- *** search bar 
+- *** bien fermer les barres de recherches quand on clique ailleurs 
+- *** régler pb de set state pages (quand on delete element depuis affichage recette et edition recette)
 - *** new scrap
 - *** coherente navigation (especially witk back return)
-- *** mettre un bouton/delete edit sur la recette (trois petits point en haut à droite)
 - *** ajouter directement element saisis dans create recipe (pour être plus précis : pour la saisie manuelle, ne pas devoir cliquer sur l'élément sur la liste)
 
 - deleted durong recipe create (translation of "delete" to do)
