@@ -32,7 +32,7 @@ class EditRecipe extends StatefulWidget {
   String editCost;
   bool isFromScrap;
   List? tags;
-  int index;
+  String uniqueId;
 
   EditRecipe(
       {Key? key,
@@ -46,7 +46,7 @@ class EditRecipe extends StatefulWidget {
       required this.editCost,
       required this.isFromScrap,
       this.tags,
-      required this.index})
+      required this.uniqueId})
       : super(key: key);
 
   @override
@@ -69,6 +69,23 @@ class _EditRecipeState extends State<EditRecipe> {
   bool isshowTagsAddedPressed = false;
 
   String defautImage = "recipe_pics/no_image.png";
+
+  // function to get index of the list to edit
+  getIndex() {
+    loadAllData();
+    for (int i = 0; i < db.recipeList.length; i++) {
+      if (db.recipeList[i][9] == widget.uniqueId) {
+        return i;
+      }
+    }
+  }
+
+// function to load data
+  loadAllData() {
+    setState(() {
+      db.loadData();
+    });
+  }
 
   ////// FUNCTIONS FOR RECIPE CATEGORY //////
 
@@ -1181,21 +1198,24 @@ class _EditRecipeState extends State<EditRecipe> {
                             // get all data
                             List recipeList = _myBox.get('ALL_LISTS') ?? [];
 
+                            // get index of the list to edit
+
                             // Give edidted values to recipeList
-                            recipeList[widget.index][0] = finalEditRecipeName;
-                            recipeList[widget.index][1] = finalEditTotalTime;
-                            recipeList[widget.index][2] = finalEditDifficulty;
-                            recipeList[widget.index][3] = finalEditCost;
-                            recipeList[widget.index][4] =
+                            recipeList[getIndex()][0] = finalEditRecipeName;
+                            recipeList[getIndex()][1] = finalEditTotalTime;
+                            recipeList[getIndex()][2] = finalEditDifficulty;
+                            recipeList[getIndex()][3] = finalEditCost;
+                            recipeList[getIndex()][4] =
                                 widget.editAllIngredient;
-                            recipeList[widget.index][5] = widget.editPathImage;
-                            recipeList[widget.index][6] =
-                                widget.editStepsRecipe;
-                            recipeList[widget.index][7] =
+                            recipeList[getIndex()][5] = widget.editPathImage;
+                            recipeList[getIndex()][6] = widget.editStepsRecipe;
+                            recipeList[getIndex()][7] =
                                 widget.editRecipeCategory;
 
                             // Save edidted list in hive
                             _myBox.put("ALL_LISTS", recipeList);
+
+                            print(getIndex());
 
                             // Create an instance of RecipeDetailsPage with the form data
                             // RecipeStruct recipeDetailsPage = RecipeStruct(

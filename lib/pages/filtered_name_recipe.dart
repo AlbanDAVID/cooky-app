@@ -39,6 +39,9 @@ class _FilteredNameRecipeState extends State<FilteredNameRecipe> {
     _searchController = TextEditingController();
     loadAllData();
     recipeListFilteredSearch = db.recipeList;
+
+    // asMap to keep the origial index in recipeListFilteredSearch
+    //var map = db.recipeList.asMap();
   }
 
   @override
@@ -75,7 +78,7 @@ class _FilteredNameRecipeState extends State<FilteredNameRecipe> {
       isFromScrap,
       editPathImage,
       tags,
-      index) async {
+      uniqueId) async {
     final result = await Navigator.push(
       context,
       MaterialPageRoute(
@@ -87,7 +90,7 @@ class _FilteredNameRecipeState extends State<FilteredNameRecipe> {
           editTotalTime: editTotalTime,
           editDifficulty: editDifficulty,
           editCost: editCost,
-          index: index,
+          uniqueId: uniqueId,
           isFromScrap: isFromScrap,
           editPathImage: editPathImage,
           tags: tags,
@@ -104,7 +107,6 @@ class _FilteredNameRecipeState extends State<FilteredNameRecipe> {
   }
 
   void deleteOneRecipe(index) {
-    print(index);
     List recipeList = _myBox.get('ALL_LISTS') ?? [];
     recipeList.removeAt(index);
     _myBox.put("ALL_LISTS", recipeList);
@@ -173,7 +175,7 @@ class _FilteredNameRecipeState extends State<FilteredNameRecipe> {
         });
   }
 
-  // dunction to search
+  // function to search
   void filterList(String searchTerm) {
     setState(() {
       // Apply the search term to filter the list
@@ -323,7 +325,8 @@ class _FilteredNameRecipeState extends State<FilteredNameRecipe> {
                                                   [5],
                                               recipeListFilteredSearch[index]
                                                   [10],
-                                              index,
+                                              recipeListFilteredSearch[index]
+                                                  [9],
                                             );
 
                                             // to display all list after editing (and not only the list from filter search)
@@ -385,6 +388,8 @@ class _FilteredNameRecipeState extends State<FilteredNameRecipe> {
 
                                   isSearchPressed = false;
                                 });
+
+                                print('index = $index');
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
