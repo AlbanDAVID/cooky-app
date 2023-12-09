@@ -785,7 +785,7 @@ class _EditRecipeState extends State<EditRecipe> {
                             }
                           }
                         : () {
-                            widget.editAllIngredient.removeAt(index);
+                            //widget.editAllIngredient.removeAt(index);
                             getDataFromAddIngred(context);
                           },
                   ),
