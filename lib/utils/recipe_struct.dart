@@ -164,7 +164,7 @@ class _RecipeStructState extends State<RecipeStruct> {
                     setState(() {
                       deleteOneRecipe();
                       Navigator.pop(context);
-                      Navigator.pop(context, finalEditRecipeName);
+                      Navigator.pop(context);
                     });
                   },
                   onPressed: () {},

@@ -8,9 +8,8 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class FilteredNameRecipe extends StatefulWidget {
-  final String categoryName;
-  const FilteredNameRecipe({Key? key, required this.categoryName})
-      : super(key: key);
+  String? categoryName;
+  FilteredNameRecipe({super.key, this.categoryName});
 
   @override
   State<FilteredNameRecipe> createState() => _FilteredNameRecipeState();
@@ -57,6 +56,7 @@ class _FilteredNameRecipeState extends State<FilteredNameRecipe> {
         AppLocalizations.of(context)!.confirmLongPress3;
   }
 
+  // function to load data
   loadAllData() {
     setState(() {
       db.loadData();
