@@ -8,8 +8,8 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class FilteredNameRecipe extends StatefulWidget {
-  String? categoryName;
-  FilteredNameRecipe({super.key, this.categoryName});
+  final String categoryName;
+  const FilteredNameRecipe({super.key, required this.categoryName});
 
   @override
   State<FilteredNameRecipe> createState() => _FilteredNameRecipeState();
@@ -35,6 +35,7 @@ class _FilteredNameRecipeState extends State<FilteredNameRecipe> {
   @override
   void initState() {
     super.initState();
+
     _searchController = TextEditingController();
     loadAllData();
     recipeListFilteredSearch = db.recipeList;
@@ -64,18 +65,19 @@ class _FilteredNameRecipeState extends State<FilteredNameRecipe> {
   }
 
   void sendDataToEditAtEditRecipe(
-      BuildContext context,
-      editAllIngredient,
-      editStepsRecipe,
-      editRecipeCategory,
-      editRecipeName,
-      editTotalTime,
-      editDifficulty,
-      editCost,
-      isFromScrap,
-      editPathImage,
-      tags,
-      uniqueId) async {
+    BuildContext context,
+    editAllIngredient,
+    editStepsRecipe,
+    editRecipeCategory,
+    editRecipeName,
+    editTotalTime,
+    editDifficulty,
+    editCost,
+    isFromScrap,
+    editPathImage,
+    tags,
+    uniqueId,
+  ) async {
     // for final result await, in fact we could send antoher variable, it's to force filtered_name_recipe to rebuild again and take in count the new recipe name
     final result = await Navigator.push(
       context,
@@ -313,30 +315,29 @@ class _FilteredNameRecipeState extends State<FilteredNameRecipe> {
                                             });
 
                                             sendDataToEditAtEditRecipe(
-                                              context,
-                                              recipeListFilteredSearch[index]
-                                                  [4],
-                                              recipeListFilteredSearch[index]
-                                                  [6],
-                                              recipeListFilteredSearch[index]
-                                                  [7],
-                                              recipeListFilteredSearch[index]
-                                                  [0],
-                                              recipeListFilteredSearch[index]
-                                                  [1],
-                                              recipeListFilteredSearch[index]
-                                                  [2],
-                                              recipeListFilteredSearch[index]
-                                                  [3],
-                                              recipeListFilteredSearch[index]
-                                                  [8],
-                                              recipeListFilteredSearch[index]
-                                                  [5],
-                                              recipeListFilteredSearch[index]
-                                                  [10],
-                                              recipeListFilteredSearch[index]
-                                                  [9],
-                                            );
+                                                context,
+                                                recipeListFilteredSearch[index]
+                                                    [4],
+                                                recipeListFilteredSearch[index]
+                                                    [6],
+                                                recipeListFilteredSearch[index]
+                                                    [7],
+                                                recipeListFilteredSearch[index]
+                                                    [0],
+                                                recipeListFilteredSearch[index]
+                                                    [1],
+                                                recipeListFilteredSearch[index]
+                                                    [2],
+                                                recipeListFilteredSearch[index]
+                                                    [3],
+                                                recipeListFilteredSearch[index]
+                                                    [8],
+                                                recipeListFilteredSearch[index]
+                                                    [5],
+                                                recipeListFilteredSearch[index]
+                                                    [10],
+                                                recipeListFilteredSearch[index]
+                                                    [9]);
 
                                             // to display all list after editing (and not only the list from filter search)
                                             loadAllData();
@@ -367,7 +368,7 @@ class _FilteredNameRecipeState extends State<FilteredNameRecipe> {
                                       ],
                                     )
                                   : null,
-                              onTap: () {
+                              onTap: () async {
                                 setState(() {});
                                 loadAllData();
 
@@ -401,13 +402,20 @@ class _FilteredNameRecipeState extends State<FilteredNameRecipe> {
                                   isSearchPressed = false;
                                 });
 
-                                print('index = $index');
-                                Navigator.push(
+                                // wait a value to force rebuild page after display the recipe :
+                                final result = await Navigator.push(
                                   context,
                                   MaterialPageRoute(
                                     builder: (context) => recipeInstance,
                                   ),
                                 );
+
+                                if (result != null) {
+                                  String refresh = result;
+                                  print(
+                                      'Received data from SecondScreen: $refresh');
+                                  setState(() {});
+                                }
                               },
                             ),
                             Divider(

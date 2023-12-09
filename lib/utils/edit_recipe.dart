@@ -34,20 +34,20 @@ class EditRecipe extends StatefulWidget {
   List? tags;
   String uniqueId;
 
-  EditRecipe(
-      {Key? key,
-      required this.editAllIngredient,
-      this.editPathImage,
-      required this.editStepsRecipe,
-      required this.editRecipeCategory,
-      required this.editRecipeName,
-      required this.editTotalTime,
-      required this.editDifficulty,
-      required this.editCost,
-      required this.isFromScrap,
-      this.tags,
-      required this.uniqueId})
-      : super(key: key);
+  EditRecipe({
+    Key? key,
+    required this.editAllIngredient,
+    this.editPathImage,
+    required this.editStepsRecipe,
+    required this.editRecipeCategory,
+    required this.editRecipeName,
+    required this.editTotalTime,
+    required this.editDifficulty,
+    required this.editCost,
+    required this.isFromScrap,
+    this.tags,
+    required this.uniqueId,
+  }) : super(key: key);
 
   @override
   // ignore: library_private_types_in_public_api
@@ -1215,30 +1215,31 @@ class _EditRecipeState extends State<EditRecipe> {
                             // Save edidted list in hive
                             _myBox.put("ALL_LISTS", recipeList);
 
-                            print(getIndex());
-
                             // Create an instance of RecipeDetailsPage with the form data
-                            // RecipeStruct recipeDetailsPage = RecipeStruct(
-                            //   recipeName: finalEditRecipeName,
-                            //   totalTime: finalEditTotalTime,
-                            //   difficulty: finalEditDifficulty,
-                            //   cost: finalEditCost,
-                            //   allIngredientSelected: widget.editAllIngredient,
-                            //   pathImageSelectedFromImagePicker:
-                            //       widget.editPathImage,
-                            //   stepsRecipeFromCreateSteps: widget.editStepsRecipe,
-                            //   isFromScrap: recipeList[widget.index][8],
-                            // );
+                            RecipeStruct recipeDetailsPage = RecipeStruct(
+                              recipeName: finalEditRecipeName,
+                              totalTime: finalEditTotalTime,
+                              difficulty: finalEditDifficulty,
+                              cost: finalEditCost,
+                              allIngredientSelected: widget.editAllIngredient,
+                              pathImageSelectedFromImagePicker:
+                                  widget.editPathImage,
+                              stepsRecipeFromCreateSteps:
+                                  widget.editStepsRecipe,
+                              isFromScrap: recipeList[getIndex()][8],
+                              uniqueId: recipeList[getIndex()][9],
+                              recipeCategory: recipeList[getIndex()][7],
+                            );
 
-                            // Navigate to the new page with the form data and save
-                            //   Navigator.push(
-                            //     context,
-                            //     MaterialPageRoute(
-                            //         builder: (context) => recipeDetailsPage),
-                            //   );
+                            //Navigate to the new page with the form data and save
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => recipeDetailsPage),
+                            );
 
-                            Navigator.pop(context,
-                                finalEditRecipeName); // in fact we could send antoher variable, it's to force filtered_name_recipe and recip_struct (after editing) to rebuild again and take in count the new recipe name
+                            //Navigator.pop(context,
+                            //  finalEditRecipeName); // in fact we could send antoher variable, it's to force filtered_name_recipe and recip_struct (after editing) to rebuild again and take in count the new recipe name
                           },
                           child:
                               Text(AppLocalizations.of(context)!.saveChanges),

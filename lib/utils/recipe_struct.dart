@@ -27,6 +27,7 @@ class RecipeStruct extends StatefulWidget {
       tags; // not final and not required because I added after, so olders recipes does not have tags in their index. So, it can't works for old recipe if this fiels is required
   String uniqueId;
   String recipeCategory;
+
   RecipeStruct({
     super.key,
     required this.recipeName,
@@ -100,18 +101,19 @@ class _RecipeStructState extends State<RecipeStruct> {
 
   // function to edit recipe
   void sendDataToEditAtEditRecipe(
-      BuildContext context,
-      editAllIngredient,
-      editStepsRecipe,
-      editRecipeCategory,
-      editRecipeName,
-      editTotalTime,
-      editDifficulty,
-      editCost,
-      isFromScrap,
-      editPathImage,
-      tags,
-      uniqueId) async {
+    BuildContext context,
+    editAllIngredient,
+    editStepsRecipe,
+    editRecipeCategory,
+    editRecipeName,
+    editTotalTime,
+    editDifficulty,
+    editCost,
+    isFromScrap,
+    editPathImage,
+    tags,
+    uniqueId,
+  ) async {
     await Navigator.push(
       context,
       MaterialPageRoute(
@@ -163,8 +165,10 @@ class _RecipeStructState extends State<RecipeStruct> {
                   onLongPress: () {
                     setState(() {
                       deleteOneRecipe();
+                      // go back to the 1 last page (this page :  RecipeStruct)
                       Navigator.pop(context);
-                      Navigator.pop(context);
+                      // go back to the 2 last page (FilteredNameRecipe)
+                      Navigator.pop(context, "force rebuild page");
                     });
                   },
                   onPressed: () {},
@@ -190,18 +194,19 @@ class _RecipeStructState extends State<RecipeStruct> {
       case 0: //edit
         setState(() {
           sendDataToEditAtEditRecipe(
-              context,
-              widget.allIngredientSelected,
-              widget.stepsRecipeFromCreateSteps,
-              widget.recipeCategory,
-              widget.recipeName,
-              widget.totalTime,
-              widget.difficulty,
-              widget.cost,
-              widget.isFromScrap,
-              widget.pathImageSelectedFromImagePicker,
-              widget.tags,
-              widget.uniqueId);
+            context,
+            widget.allIngredientSelected,
+            widget.stepsRecipeFromCreateSteps,
+            widget.recipeCategory,
+            widget.recipeName,
+            widget.totalTime,
+            widget.difficulty,
+            widget.cost,
+            widget.isFromScrap,
+            widget.pathImageSelectedFromImagePicker,
+            widget.tags,
+            widget.uniqueId,
+          );
         });
 
       case 1: // delete
@@ -216,7 +221,6 @@ class _RecipeStructState extends State<RecipeStruct> {
     return Scaffold(
         appBar: AppBar(
           // Title (recipe name)
-
           title: Text(
             maxLines: 2,
             widget.recipeName,

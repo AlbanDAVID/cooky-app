@@ -61,6 +61,7 @@ class _CreateRecipeState extends State<CreateRecipe> {
   bool isshowStepsAddedPressed = false;
   bool isButtonAddTagsVisible = true;
   bool isshowTagsAddedPressed = false;
+  bool isFromEditRecipeStruct = false;
 
   ////// FUNCTIONS FOR RECIPE CATEGORY //////
 
@@ -1276,7 +1277,8 @@ class _CreateRecipeState extends State<CreateRecipe> {
                                 tags,
                                 stars,
                                 detailTIme,
-                                utensils
+                                utensils,
+                                false
                               ]);
 
                               // Update list of lists in Hive
