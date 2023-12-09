@@ -8,7 +8,12 @@ Priority :
 
 
 
-- *** new scrap
+- add source scrap + image + prevent dire site
+
+
+- supported website : 
+  - fr : marmiton, cuusine az, elle.fr, mes recettes faciles, hervé cuisine
+  - en : epicurious, allrecipes, simply recipes, nyt cooking
 
 
 
@@ -34,6 +39,7 @@ Priority :
 
 ----
 - Interessting features :
+- scrap : etraire tag + clean total time
 - limiter nombre de caractère nom de la recette (pour ne pas qu'il y ait 3 petits poitn quand la recette s'affiche si le titre est trop grand)
 - will pop scope pour search bar 
 - hoe page : pas ajouter de catégorie vide
@@ -73,10 +79,9 @@ _ search bar for all suggestion fields during create recipe
 
 
 Autre: 
-- readme database
+
 - suggestion de catégories 
 - champ obligatoire pour categorie (spécifier après submit)
-- develop and collapse for ingredient 
 
 
 
@@ -89,7 +94,7 @@ BUG :
 - quand on ajoute une ctégorie et qu'on saisi manuellement sans rien mettre, ça créé une catégorie vide
 - major : quand j'ajoute un ingrédient et que je modofie sans rien faire (rien n'est envoyé dans la page create recipe mais l'ingrédient reste parce pb de set state ?)
 - major : edit in a categorie : si on quitte sans faire submit, les ingrédients séléctionné reste temporairement en émmoire (disparaisse au redemarrage de lappli)
-- minor : blank for total time et difficlty with we come back with no selected field during create recipe
+- minor : blank for total time et difficlty when we come back with no selected field during create recipe
 - minor : quand je suprprime un champ dans recipe create et que je delete, puis j'édite : je vois le delete dans la champ de texte
 - NE DECONNE PAS EN MODE REALSE mais en bebug : bug add picture (when taking a pics)
 

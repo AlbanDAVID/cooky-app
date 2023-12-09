@@ -25,12 +25,16 @@ class Scraping extends StatefulWidget {
   String scrapRecipeName;
   List scrapAllIngredient;
   List<String> scrapStepsRecipe;
+  String scrapTotalTime;
+  List scrapTags;
   Scraping({
-    Key? key,
+    super.key,
     required this.scrapRecipeName,
     required this.scrapStepsRecipe,
     required this.scrapAllIngredient,
-  }) : super(key: key);
+    required this.scrapTotalTime,
+    required this.scrapTags,
+  });
 
   @override
   // ignore: library_private_types_in_public_api
@@ -43,11 +47,10 @@ class _ScrapingState extends State<Scraping> {
   String? scrapPathImage;
 
   late String scrapRecipeCategory;
-  String scrapTotalTime = "";
+
   String scrapDifficulty = "";
   String scrapCost = "";
   bool isFromScrap = true;
-  List tags = [];
 
   bool isShowIngredientsSelectedPressed = false;
   bool isshowStepsAddedPressed = false;
@@ -238,7 +241,7 @@ class _ScrapingState extends State<Scraping> {
       setState(() {
         // Update visibility button
       });
-      scrapTotalTime = totalTime;
+      widget.scrapTotalTime = totalTime;
     }
   }
 
@@ -253,8 +256,8 @@ class _ScrapingState extends State<Scraping> {
         ),
       ),
       Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-        Text(scrapTotalTime,
-            style: scrapTotalTime == "Deleted"
+        Text(widget.scrapTotalTime,
+            style: widget.scrapTotalTime == "Deleted"
                 ? TextStyle(fontSize: 15, fontStyle: FontStyle.italic)
                 : TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
         Row(
@@ -266,7 +269,8 @@ class _ScrapingState extends State<Scraping> {
                     context: context,
                     builder: (context) {
                       return DialogEditRecipeField(
-                        controller: TextEditingController(text: scrapTotalTime),
+                        controller:
+                            TextEditingController(text: widget.scrapTotalTime),
                         isFromScrap: false,
                         showSuggestion: () {
                           _getDataFromAddTotalTime(context);
@@ -277,7 +281,7 @@ class _ScrapingState extends State<Scraping> {
                   String data = result;
                   print('Received data from SecondScreen: $data');
                   setState(() {});
-                  scrapTotalTime = data;
+                  widget.scrapTotalTime = data;
                 }
               },
               child: Icon(
@@ -289,9 +293,9 @@ class _ScrapingState extends State<Scraping> {
             InkWell(
               onLongPress: () {
                 setState(() {
-                  scrapTotalTime = "Deleted";
+                  widget.scrapTotalTime = "Deleted";
                   Text(
-                    scrapTotalTime,
+                    widget.scrapTotalTime,
                     style: TextStyle(
                       fontSize: 20,
                       fontStyle: FontStyle.italic,
@@ -943,7 +947,7 @@ class _ScrapingState extends State<Scraping> {
       List data = result;
       print('Received data from SecondScreen: $data');
       setState(() {});
-      tags!.addAll(data);
+      widget.scrapTags!.addAll(data);
     }
   }
 
@@ -984,7 +988,7 @@ class _ScrapingState extends State<Scraping> {
                   InkWell(
                     onLongPress: () {
                       setState(() {
-                        tags!.clear();
+                        widget.scrapTags!.clear();
                       });
                     },
                     child:
@@ -1024,7 +1028,7 @@ class _ScrapingState extends State<Scraping> {
                   InkWell(
                     onLongPress: () {
                       setState(() {
-                        tags!.clear();
+                        widget.scrapTags!.clear();
                       });
                     },
                     child:
@@ -1040,10 +1044,10 @@ class _ScrapingState extends State<Scraping> {
     return SizedBox(
       height: 600,
       child: ListView.builder(
-        itemCount: tags!.length,
+        itemCount: widget.scrapTags!.length,
         itemBuilder: (context, index) {
           return ListTile(
-            title: Text('${tags![index]}'),
+            title: Text('${widget.scrapTags![index]}'),
             trailing: Wrap(
               spacing: -16,
               children: [
@@ -1055,21 +1059,21 @@ class _ScrapingState extends State<Scraping> {
                         builder: (context) {
                           return DialogEditStep(
                             controller: TextEditingController(
-                                text: tags![index].toString()),
+                                text: widget.scrapTags![index].toString()),
                           );
                         });
                     if (result != null) {
                       String data = result;
                       print('Received data from SecondScreen: $data');
                       setState(() {});
-                      tags![index] = data;
+                      widget.scrapTags![index] = data;
                     }
                   },
                 ),
                 GestureDetector(
                   onLongPress: () {
                     setState(() {
-                      tags!.removeAt(index);
+                      widget.scrapTags!.removeAt(index);
                     });
                   },
                   child: IconButton(
@@ -1198,9 +1202,9 @@ class _ScrapingState extends State<Scraping> {
                                       : widget.scrapRecipeName;
 
                               final finalscrapTotalTime =
-                                  scrapTotalTime == "Deleted"
+                                  widget.scrapTotalTime == "Deleted"
                                       ? ""
-                                      : scrapTotalTime;
+                                      : widget.scrapTotalTime;
 
                               final finalscrapDifficulty =
                                   scrapDifficulty == "Deleted"
@@ -1236,11 +1240,10 @@ class _ScrapingState extends State<Scraping> {
                                 scrapRecipeCategory,
                                 isFromScrap,
                                 creationDate,
-                                tags,
+                                widget.scrapTags,
                                 stars,
                                 detailTIme,
                                 utensils,
-                                tags
                               ]);
 
                               // Save edidted list in hive
@@ -1259,7 +1262,7 @@ class _ScrapingState extends State<Scraping> {
                                 stepsRecipeFromCreateSteps:
                                     widget.scrapStepsRecipe,
                                 isFromScrap: isFromScrap,
-                                tags: tags,
+                                tags: widget.scrapTags,
                                 uniqueId: creationDate,
                                 recipeCategory: scrapRecipeCategory,
                                 isFromFilteredNameRecipe: false,

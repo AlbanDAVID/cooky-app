@@ -529,10 +529,10 @@ packages:
     dependency: "direct main"
     description:
       name: marmiteur
-      sha256: edf68182372dafd11c0e70396cf6cf92c00db001d3c055d8f00a71d408366389
+      sha256: eb7185fa74641a16e59276c1bad9cf65daa58b70fa4aef07332a3055cb223bb3
       url: "https://pub.dev"
     source: hosted
-    version: "2.0.0"
+    version: "3.0.0"
   matcher:
     dependency: transitive
     description:

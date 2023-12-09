@@ -37,7 +37,7 @@ dependencies:
   image_picker: ^1.0.4
   path_provider: ^2.1.1
   permission_handler: ^11.0.1
-  marmiteur: ^2.0.0
+  marmiteur: ^3.0.0
   pubspec_yaml: ^3.1.0
   package_info_plus: ^5.0.1
   url_launcher: ^6.2.1

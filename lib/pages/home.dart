@@ -36,6 +36,8 @@ class _HomeState extends State<Home> {
   late List<String> scrapStepsRecipe;
   late List scrapIngredient;
   late String scrapRecipeName;
+  late String scrapTotalTime;
+  late List scrapTags;
 
   // controller
   late TextEditingController _searchController;
@@ -273,48 +275,56 @@ class _HomeState extends State<Home> {
   }
 
   // marmiteur
-  void scrapMarmiteur(websiteURL) async {
+  void scrapMarmiteur(websiteURL, {autoFormat = true}) async {
     String recipeURL = websiteURL;
     var recipe = await marmiteur(recipeURL);
 
     scrapRecipeName = recipe['name'];
-    scrapStepsRecipe = [];
+    scrapStepsRecipe = recipe["recipeInstructions"].cast<String>();
     scrapIngredient = recipe["recipeIngredient"].cast<String>();
+    scrapTotalTime = recipe["totalTime"];
+    scrapTags = recipe["recipeCuisine"];
+
     // data cleaning by website :
     // retrieve website name :
-    int startIndex = recipeURL.indexOf('.') + 1; // Index après le premier point
-    int endIndex = recipeURL.indexOf(
-        '.', startIndex); // Index du premier slash après le premier point
+    // int startIndex = recipeURL.indexOf('.') + 1; // Index après le premier point
+    // int endIndex = recipeURL.indexOf(
+    //     '.', startIndex); // Index du premier slash après le premier point
 
-    String webSiteName = recipeURL.substring(startIndex, endIndex);
+    // String webSiteName = recipeURL.substring(startIndex, endIndex);
 
-    // CUISINE AZ : //
-    if (webSiteName == "cuisineaz") {
-      // tranform dynamic list from scraper to a list of string
-      scrapStepsRecipe = recipe['recipeInstructions'].cast<String>();
-      // remove first element for ingredients because is is empty for cuisineaz
-      scrapIngredient.removeAt(0);
-    }
+    // // CUISINE AZ : //
+    // if (webSiteName == "cuisineaz") {
+    //   // tranform dynamic list from scraper to a list of string
+    //   scrapStepsRecipe = recipe['recipeInstructions'].cast<String>();
+    //   // remove first element for ingredients because is is empty for cuisineaz
+    //   scrapIngredient.removeAt(0);
+    // }
 
-    // MARMITON : //
-    // exatract each json steps
-    if (webSiteName == "marmiton") {
-      for (var i = 0; i < recipe['recipeInstructions'].length; i++) {
-        var step = recipe["recipeInstructions"][i]["text"];
+    // // MARMITON : //
+    // // exatract each json steps
+    // if (webSiteName == "marmiton") {
+    //   for (var i = 0; i < recipe['recipeInstructions'].length; i++) {
+    //     var step = recipe["recipeInstructions"][i]["text"];
 
-        scrapStepsRecipe.add(step);
-      }
-    }
+    //     scrapStepsRecipe.add(step);
+    //   }
+    // }
 
     Scraping scrapInstance = Scraping(
-        scrapRecipeName: scrapRecipeName,
-        scrapStepsRecipe: scrapStepsRecipe,
-        scrapAllIngredient: scrapIngredient);
+      scrapRecipeName: scrapRecipeName,
+      scrapStepsRecipe: scrapStepsRecipe,
+      scrapAllIngredient: scrapIngredient,
+      scrapTotalTime: scrapTotalTime,
+      scrapTags: scrapTags,
+    );
 
     Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => scrapInstance),
     );
+
+    print(" scrapStepsRecipe : ${scrapStepsRecipe}");
   }
 
   // dunction to search
