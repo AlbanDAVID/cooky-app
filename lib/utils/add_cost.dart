@@ -66,14 +66,34 @@ class _AddCostState extends State<AddCost> {
                         controller: _controller,
                       ),
                       actions: [
-                        ElevatedButton(
-                          child: Text(AppLocalizations.of(context)!.add),
-                          onPressed: () async {
-                            setState(() {
-                              Navigator.pop(context);
-                              costList.insert(0, _controller.text);
-                            });
-                          },
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            ElevatedButton(
+                              child: Text(
+                                AppLocalizations.of(context)!.cancel,
+                              ),
+                              onPressed: () async {
+                                // go back to 1 last page
+                                Navigator.pop(context);
+                                _controller.clear();
+                              },
+                            ),
+                            SizedBox(
+                              width: 10,
+                            ),
+                            ElevatedButton(
+                              child: Text(
+                                AppLocalizations.of(context)!.add,
+                              ),
+                              onPressed: () async {
+                                // go back to 1 last page
+                                Navigator.pop(context);
+                                // go back to 2 last page (create recipe) and send data
+                                Navigator.pop(context, _controller.text);
+                              },
+                            )
+                          ],
                         )
                       ],
                     );

@@ -98,7 +98,8 @@ class _CreateRecipeState extends State<CreateRecipe> {
                 _getDataFromAddExistingCategory(context);
               });
             },
-            child: Text(AppLocalizations.of(context)!.addCategoryRequired),
+            child: Text(AppLocalizations.of(context)!.addCategoryRequired,
+                textAlign: TextAlign.center),
           )
         : Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             Text(
@@ -704,6 +705,27 @@ class _CreateRecipeState extends State<CreateRecipe> {
                           Icons.arrow_downward,
                           size: 16, // ajustez la taille selon vos besoins
                         ),
+                        Spacer(),
+                        InkWell(
+                          onTap: () {
+                            getDataFromAddIngred(context);
+                          },
+                          child: Icon(
+                            Icons.add,
+                            size: 30,
+                          ),
+                        ),
+                        SizedBox(
+                            width: 16), // Ajustez cet espace selon vos besoins
+                        InkWell(
+                          onLongPress: () {
+                            setState(() {
+                              allIngredientSelectedCreateRecipe = [];
+                            });
+                          },
+                          child: Icon(Icons.delete,
+                              size: 20, color: Colors.redAccent),
+                        ),
                       ],
                     ))
                 : TextButton(
@@ -724,31 +746,29 @@ class _CreateRecipeState extends State<CreateRecipe> {
                           Icons.arrow_upward,
                           size: 16, // ajustez la taille selon vos besoins
                         ),
+                        Spacer(),
+                        InkWell(
+                          onTap: () {
+                            getDataFromAddIngred(context);
+                          },
+                          child: Icon(
+                            Icons.add,
+                            size: 30,
+                          ),
+                        ),
+                        SizedBox(
+                            width: 16), // Ajustez cet espace selon vos besoins
+                        InkWell(
+                          onLongPress: () {
+                            setState(() {
+                              allIngredientSelectedCreateRecipe = [];
+                            });
+                          },
+                          child: Icon(Icons.delete,
+                              size: 20, color: Colors.redAccent),
+                        ),
                       ],
                     )),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                InkWell(
-                  onTap: () {
-                    getDataFromAddIngred(context);
-                  },
-                  child: Icon(
-                    Icons.add,
-                    size: 30,
-                  ),
-                ),
-                SizedBox(width: 16), // Ajustez cet espace selon vos besoins
-                InkWell(
-                  onLongPress: () {
-                    setState(() {
-                      allIngredientSelectedCreateRecipe = [];
-                    });
-                  },
-                  child: Icon(Icons.delete, size: 20, color: Colors.redAccent),
-                ),
-              ],
-            )
           ]);
   }
 
@@ -857,6 +877,27 @@ class _CreateRecipeState extends State<CreateRecipe> {
                           Icons.arrow_downward,
                           size: 16, // ajustez la taille selon vos besoins
                         ),
+                        Spacer(),
+                        InkWell(
+                          onTap: () {
+                            getDataFromCreateSteps(context);
+                          },
+                          child: Icon(
+                            Icons.add,
+                            size: 30,
+                          ),
+                        ),
+                        SizedBox(
+                            width: 16), // Ajustez cet espace selon vos besoins
+                        InkWell(
+                          onLongPress: () {
+                            setState(() {
+                              stepsRecipeFromCreateSteps = [];
+                            });
+                          },
+                          child: Icon(Icons.delete,
+                              size: 20, color: Colors.redAccent),
+                        ),
                       ],
                     ))
                 : TextButton(
@@ -877,31 +918,29 @@ class _CreateRecipeState extends State<CreateRecipe> {
                           Icons.arrow_upward,
                           size: 16, // ajustez la taille selon vos besoins
                         ),
+                        Spacer(),
+                        InkWell(
+                          onTap: () {
+                            getDataFromCreateSteps(context);
+                          },
+                          child: Icon(
+                            Icons.add,
+                            size: 30,
+                          ),
+                        ),
+                        SizedBox(
+                            width: 16), // Ajustez cet espace selon vos besoins
+                        InkWell(
+                          onLongPress: () {
+                            setState(() {
+                              stepsRecipeFromCreateSteps = [];
+                            });
+                          },
+                          child: Icon(Icons.delete,
+                              size: 20, color: Colors.redAccent),
+                        ),
                       ],
                     )),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                InkWell(
-                  onTap: () {
-                    getDataFromCreateSteps(context);
-                  },
-                  child: Icon(
-                    Icons.add,
-                    size: 30,
-                  ),
-                ),
-                SizedBox(width: 16), // Ajustez cet espace selon vos besoins
-                InkWell(
-                  onLongPress: () {
-                    setState(() {
-                      stepsRecipeFromCreateSteps = [];
-                    });
-                  },
-                  child: Icon(Icons.delete, size: 20, color: Colors.redAccent),
-                ),
-              ],
-            )
           ]);
   }
 
@@ -1017,6 +1056,27 @@ class _CreateRecipeState extends State<CreateRecipe> {
                           Icons.arrow_downward,
                           size: 16, // ajustez la taille selon vos besoins
                         ),
+                        Spacer(),
+                        InkWell(
+                          onTap: () {
+                            getDataFromAddTags(context);
+                          },
+                          child: Icon(
+                            Icons.add,
+                            size: 30,
+                          ),
+                        ),
+                        SizedBox(
+                            width: 16), // Ajustez cet espace selon vos besoins
+                        InkWell(
+                          onLongPress: () {
+                            setState(() {
+                              tags = [];
+                            });
+                          },
+                          child: Icon(Icons.delete,
+                              size: 20, color: Colors.redAccent),
+                        ),
                       ],
                     ))
                 : TextButton(
@@ -1037,31 +1097,29 @@ class _CreateRecipeState extends State<CreateRecipe> {
                           Icons.arrow_upward,
                           size: 16, // ajustez la taille selon vos besoins
                         ),
+                        Spacer(),
+                        InkWell(
+                          onTap: () {
+                            getDataFromAddTags(context);
+                          },
+                          child: Icon(
+                            Icons.add,
+                            size: 30,
+                          ),
+                        ),
+                        SizedBox(
+                            width: 16), // Ajustez cet espace selon vos besoins
+                        InkWell(
+                          onLongPress: () {
+                            setState(() {
+                              tags = [];
+                            });
+                          },
+                          child: Icon(Icons.delete,
+                              size: 20, color: Colors.redAccent),
+                        ),
                       ],
                     )),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                InkWell(
-                  onTap: () {
-                    getDataFromAddTags(context);
-                  },
-                  child: Icon(
-                    Icons.add,
-                    size: 30,
-                  ),
-                ),
-                SizedBox(width: 16), // Ajustez cet espace selon vos besoins
-                InkWell(
-                  onLongPress: () {
-                    setState(() {
-                      tags = [];
-                    });
-                  },
-                  child: Icon(Icons.delete, size: 20, color: Colors.redAccent),
-                ),
-              ],
-            )
           ]);
   }
 

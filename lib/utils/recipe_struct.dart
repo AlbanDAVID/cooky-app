@@ -229,6 +229,7 @@ class _RecipeStructState extends State<RecipeStruct> {
             appBar: AppBar(
               // Title (recipe name)
               title: Text(
+                textAlign: TextAlign.center,
                 maxLines: 2,
                 widget.recipeName,
                 style: TextStyle(

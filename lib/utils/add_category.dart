@@ -70,22 +70,47 @@ class _AddExistingCategoryState extends State<AddExistingCategory> {
                   context: context,
                   builder: (context) {
                     return AlertDialog(
-                      title: Text(AppLocalizations.of(context)!.addCategory,
-                          textAlign: TextAlign.center),
-                      content: TextField(
-                        controller: _controller,
-                      ),
-                      actions: [
-                        ElevatedButton(
-                          child: Text(AppLocalizations.of(context)!.add),
-                          onPressed: () async {
-                            var catName = CategoriesNames(_controller.text);
-                            await _categoriesNamesService.addCategory(catName);
-                            Navigator.pop(context);
-                          },
-                        )
-                      ],
-                    );
+                        title: Text(AppLocalizations.of(context)!.addCategory,
+                            textAlign: TextAlign.center),
+                        content: TextField(
+                          controller: _controller,
+                        ),
+                        actions: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              ElevatedButton(
+                                child: Text(
+                                  AppLocalizations.of(context)!.cancel,
+                                ),
+                                onPressed: () async {
+                                  // go back to 1 last page
+                                  Navigator.pop(context);
+                                  _controller.clear();
+                                },
+                              ),
+                              SizedBox(
+                                width: 10,
+                              ),
+                              ElevatedButton(
+                                child: Text(
+                                  AppLocalizations.of(context)!.add,
+                                ),
+                                onPressed: () async {
+                                  var catName =
+                                      CategoriesNames(_controller.text);
+                                  await _categoriesNamesService
+                                      .addCategory(catName);
+
+                                  // go back to 1 last page
+                                  Navigator.pop(context);
+                                  // go back to 2 last page (create recipe) and send data
+                                  Navigator.pop(context, _controller.text);
+                                },
+                              )
+                            ],
+                          )
+                        ]);
                   });
             },
             child: Icon(Icons.add),

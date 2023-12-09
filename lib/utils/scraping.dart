@@ -608,6 +608,39 @@ class _ScrapingState extends State<Scraping> {
                     Icons.arrow_downward,
                     size: 16, // ajustez la taille selon vos besoins
                   ),
+                  Spacer(),
+                  InkWell(
+                    onTap: () async {
+                      final result = await showDialog(
+                          context: context,
+                          builder: (context) {
+                            return DialogEditStep(
+                              controller: TextEditingController(text: ""),
+                            );
+                          });
+                      if (result != null) {
+                        String addedIngredScrap = result;
+                        print(
+                            'Received data from SecondScreen: $addedIngredScrap');
+                        setState(() {});
+                        widget.scrapAllIngredient.add(addedIngredScrap);
+                      }
+                    },
+                    child: Icon(
+                      Icons.add,
+                      size: 30,
+                    ),
+                  ),
+                  SizedBox(width: 16), // Ajustez cet espace selon vos besoins
+                  InkWell(
+                    onLongPress: () {
+                      setState(() {
+                        widget.scrapAllIngredient = [];
+                      });
+                    },
+                    child:
+                        Icon(Icons.delete, size: 20, color: Colors.redAccent),
+                  ),
                 ],
               ))
           : TextButton(
@@ -628,43 +661,41 @@ class _ScrapingState extends State<Scraping> {
                     Icons.arrow_upward,
                     size: 16, // ajustez la taille selon vos besoins
                   ),
+                  Spacer(),
+                  InkWell(
+                    onTap: () async {
+                      final result = await showDialog(
+                          context: context,
+                          builder: (context) {
+                            return DialogEditStep(
+                              controller: TextEditingController(text: ""),
+                            );
+                          });
+                      if (result != null) {
+                        String addedIngredScrap = result;
+                        print(
+                            'Received data from SecondScreen: $addedIngredScrap');
+                        setState(() {});
+                        widget.scrapAllIngredient.add(addedIngredScrap);
+                      }
+                    },
+                    child: Icon(
+                      Icons.add,
+                      size: 30,
+                    ),
+                  ),
+                  SizedBox(width: 16), // Ajustez cet espace selon vos besoins
+                  InkWell(
+                    onLongPress: () {
+                      setState(() {
+                        widget.scrapAllIngredient = [];
+                      });
+                    },
+                    child:
+                        Icon(Icons.delete, size: 20, color: Colors.redAccent),
+                  ),
                 ],
               )),
-      Row(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          InkWell(
-            onTap: () async {
-              final result = await showDialog(
-                  context: context,
-                  builder: (context) {
-                    return DialogEditStep(
-                      controller: TextEditingController(text: ""),
-                    );
-                  });
-              if (result != null) {
-                String addedIngredScrap = result;
-                print('Received data from SecondScreen: $addedIngredScrap');
-                setState(() {});
-                widget.scrapAllIngredient.add(addedIngredScrap);
-              }
-            },
-            child: Icon(
-              Icons.add,
-              size: 30,
-            ),
-          ),
-          SizedBox(width: 16), // Ajustez cet espace selon vos besoins
-          InkWell(
-            onLongPress: () {
-              setState(() {
-                widget.scrapAllIngredient = [];
-              });
-            },
-            child: Icon(Icons.delete, size: 20, color: Colors.redAccent),
-          ),
-        ],
-      )
     ]);
   }
 
@@ -773,6 +804,26 @@ class _ScrapingState extends State<Scraping> {
                     Icons.arrow_downward,
                     size: 16, // ajustez la taille selon vos besoins
                   ),
+                  Spacer(),
+                  InkWell(
+                    onTap: () {
+                      getDataFromCreateSteps(context);
+                    },
+                    child: Icon(
+                      Icons.add,
+                      size: 30,
+                    ),
+                  ),
+                  SizedBox(width: 16), // Ajustez cet espace selon vos besoins
+                  InkWell(
+                    onLongPress: () {
+                      setState(() {
+                        widget.scrapStepsRecipe = [];
+                      });
+                    },
+                    child:
+                        Icon(Icons.delete, size: 20, color: Colors.redAccent),
+                  ),
                 ],
               ))
           : TextButton(
@@ -793,31 +844,28 @@ class _ScrapingState extends State<Scraping> {
                     Icons.arrow_upward,
                     size: 16, // ajustez la taille selon vos besoins
                   ),
+                  Spacer(),
+                  InkWell(
+                    onTap: () {
+                      getDataFromCreateSteps(context);
+                    },
+                    child: Icon(
+                      Icons.add,
+                      size: 30,
+                    ),
+                  ),
+                  SizedBox(width: 16), // Ajustez cet espace selon vos besoins
+                  InkWell(
+                    onLongPress: () {
+                      setState(() {
+                        widget.scrapStepsRecipe = [];
+                      });
+                    },
+                    child:
+                        Icon(Icons.delete, size: 20, color: Colors.redAccent),
+                  ),
                 ],
               )),
-      Row(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          InkWell(
-            onTap: () {
-              getDataFromCreateSteps(context);
-            },
-            child: Icon(
-              Icons.add,
-              size: 30,
-            ),
-          ),
-          SizedBox(width: 16), // Ajustez cet espace selon vos besoins
-          InkWell(
-            onLongPress: () {
-              setState(() {
-                widget.scrapStepsRecipe = [];
-              });
-            },
-            child: Icon(Icons.delete, size: 20, color: Colors.redAccent),
-          ),
-        ],
-      )
     ]);
   }
 
@@ -922,6 +970,26 @@ class _ScrapingState extends State<Scraping> {
                     Icons.arrow_downward,
                     size: 16, // ajustez la taille selon vos besoins
                   ),
+                  Spacer(),
+                  InkWell(
+                    onTap: () {
+                      getDataFromAddTags(context);
+                    },
+                    child: Icon(
+                      Icons.add,
+                      size: 30,
+                    ),
+                  ),
+                  SizedBox(width: 16), // Ajustez cet espace selon vos besoins
+                  InkWell(
+                    onLongPress: () {
+                      setState(() {
+                        tags!.clear();
+                      });
+                    },
+                    child:
+                        Icon(Icons.delete, size: 20, color: Colors.redAccent),
+                  ),
                 ],
               ))
           : TextButton(
@@ -942,31 +1010,28 @@ class _ScrapingState extends State<Scraping> {
                     Icons.arrow_upward,
                     size: 16, // ajustez la taille selon vos besoins
                   ),
+                  Spacer(),
+                  InkWell(
+                    onTap: () {
+                      getDataFromAddTags(context);
+                    },
+                    child: Icon(
+                      Icons.add,
+                      size: 30,
+                    ),
+                  ),
+                  SizedBox(width: 16), // Ajustez cet espace selon vos besoins
+                  InkWell(
+                    onLongPress: () {
+                      setState(() {
+                        tags!.clear();
+                      });
+                    },
+                    child:
+                        Icon(Icons.delete, size: 20, color: Colors.redAccent),
+                  ),
                 ],
               )),
-      Row(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          InkWell(
-            onTap: () {
-              getDataFromAddTags(context);
-            },
-            child: Icon(
-              Icons.add,
-              size: 30,
-            ),
-          ),
-          SizedBox(width: 16), // Ajustez cet espace selon vos besoins
-          InkWell(
-            onLongPress: () {
-              setState(() {
-                tags!.clear();
-              });
-            },
-            child: Icon(Icons.delete, size: 20, color: Colors.redAccent),
-          ),
-        ],
-      )
     ]);
   }
 
