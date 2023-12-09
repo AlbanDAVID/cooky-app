@@ -1197,6 +1197,7 @@ class _ScrapingState extends State<Scraping> {
                                 tags: tags,
                                 uniqueId: creationDate,
                                 recipeCategory: scrapRecipeCategory,
+                                isFromFilteredNameRecipe: false,
                               );
 
                               // Navigate to the new page with the form data and save

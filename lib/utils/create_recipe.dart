@@ -1301,6 +1301,7 @@ class _CreateRecipeState extends State<CreateRecipe> {
                                 uniqueId: creationDate,
                                 recipeCategory:
                                     recipeCategoryFromAddExistingCategory,
+                                isFromFilteredNameRecipe: false,
                               );
 
                               // Navigate to the new page with the form data and save

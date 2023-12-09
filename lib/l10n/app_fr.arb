@@ -90,7 +90,8 @@
     "searchRecipeName" : "Chercher un nom de recette",
     "recipes" : "Recettes",
     "searchRecipe" : "Chercher une recette",
-     "delete" : "Supprimer"}
+     "delete" : "Supprimer",
+     "home" : "Accueil"}
 
 
 

@@ -18,7 +18,6 @@ class RecipeDatabase {
   // [11] notation stars (List<double?>)
   // [12] preparation time, rest time, cook time (List<List?>)
   // [13] ustensiles (List<String?>)
-  // [14] isFromEditRecipeStruct (List<bool>),
 
   List recipeList = [];
 

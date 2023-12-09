@@ -6,11 +6,16 @@ Priority :
 - *** check with all devices
 
 
-- *** bien fermer les barres de recherches quand on clique ailleurs 
-- *** régler pb de set state pages (quand on delete element depuis affichage recette et edition recette)
+
+
 - *** new scrap
 - *** coherente navigation (especially witk back return)
 - *** ajouter directement element saisis dans create recipe (pour être plus précis : pour la saisie manuelle, ne pas devoir cliquer sur l'élément sur la liste)
+
+- *** bien fermer les barres de recherches quand on clique ailleurs 
+- *** coherente navigation (especially witk back return) : 
+  
+
 
 - deleted durong recipe create (translation of "delete" to do)
 - police non monospace

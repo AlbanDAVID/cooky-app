@@ -90,7 +90,8 @@
    "searchRecipeName" : "Search a recipe name",
    "recipes" : "Recipes",
    "searchRecipe" : "Search a recipe",
-   "delete" : "Delete"}
+   "delete" : "Delete",
+   "home" :  "Home"}
 
 
 

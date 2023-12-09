@@ -1229,6 +1229,7 @@ class _EditRecipeState extends State<EditRecipe> {
                               isFromScrap: recipeList[getIndex()][8],
                               uniqueId: recipeList[getIndex()][9],
                               recipeCategory: recipeList[getIndex()][7],
+                              isFromFilteredNameRecipe: false,
                             );
 
                             //Navigate to the new page with the form data and save

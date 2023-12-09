@@ -80,6 +80,13 @@ class _HomeState extends State<Home> {
                   ),
                   actions: [
                     ElevatedButton(
+                      child: Text(AppLocalizations.of(context)!.cancel),
+                      onPressed: () async {
+                        _controller.clear();
+                        Navigator.pop(context);
+                      },
+                    ),
+                    ElevatedButton(
                       child: Text(AppLocalizations.of(context)!.add),
                       onPressed: () async {
                         _searchController.clear();
@@ -320,399 +327,432 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-          title: Text("cooky",
-              style: const TextStyle(color: Color.fromRGBO(54, 27, 99, 1))),
-          centerTitle: true,
-          elevation: 0,
-          //leading: const Icon(Icons.menu),
-          actions: isEditDeleteMode
-              ? <Widget>[
-                  TextButton(
-                    style: TextButton.styleFrom(
-                      foregroundColor: Colors.black,
-                    ),
-                    onPressed: () {
-                      _dialogDeleteAll(context);
-                    },
-                    child: Text(
-                      AppLocalizations.of(context)!.deleteAll,
-                    ),
-                  ),
-                  IconButton(
-                    icon: const Icon(Icons.close),
-                    onPressed: () {
-                      setState(() {
-                        isEditDeleteMode = false;
-                      });
-                    },
-                  ),
-                ]
-              : <Widget>[
-                  IconButton(
-                      onPressed: () {
-                        setState(() {
-                          isSearchPressed = true;
-                          loadAllData();
-                        });
-                      },
-                      icon: const Icon(Icons.search)),
-                  PopupMenuButton<int>(
-                    onSelected: (item) => handleClick(item),
-                    itemBuilder: (context) => [
-                      PopupMenuItem<int>(
-                          value: 0,
-                          child:
-                              Text(AppLocalizations.of(context)!.editDelete)),
-                      PopupMenuItem<int>(
-                          value: 1,
-                          child:
-                              Text(AppLocalizations.of(context)!.addCategory))
-                    ],
-                  ),
-                ]),
-      body: Column(children: [
-        if (isSearchPressed == true) ...[
-          TextField(
-            controller: _searchController,
-            onChanged: (value) {
-              filterList(value);
-            },
-            decoration: InputDecoration(
-              prefixIcon: const Icon(Icons.search),
-              suffixIcon: _searchController.text.isNotEmpty
-                  ? IconButton(
-                      onPressed: () {
-                        _searchController.clear();
-                        filterList('');
-                      },
-                      icon: const Icon(Icons.clear),
-                    )
-                  : IconButton(
-                      onPressed: () {
-                        _searchController.clear();
-                        filterList('');
-                        isSearchPressed = false;
-                      },
-                      icon: const Icon(Icons.clear),
-                    ),
-              hintText: AppLocalizations.of(context)!.searchRecipe,
-            ),
-          ),
-          if (_searchController.text != "")
-            Expanded(
-                child: ListView.builder(
-                    itemCount: recipeListFilteredSearch.length,
-                    itemBuilder: (context, index) {
-                      return ListTile(
-                        title: Center(
-                          child: Text(
-                            recipeListFilteredSearch[index][0],
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontSize: 15,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
+    return PopScope(
+        canPop: false,
+        child: Scaffold(
+          appBar: AppBar(
+              title: Text("cooky",
+                  style: const TextStyle(color: Color.fromRGBO(54, 27, 99, 1))),
+              centerTitle: true,
+              elevation: 0,
+              //leading: const Icon(Icons.menu),
+              actions: isEditDeleteMode
+                  ? <Widget>[
+                      TextButton(
+                        style: TextButton.styleFrom(
+                          foregroundColor: Colors.black,
                         ),
-                        onTap: () {
-                          setState(() {});
-                          loadAllData();
-
-                          RecipeStruct recipeInstance = RecipeStruct(
-                            recipeName: recipeListFilteredSearch[index][0],
-                            totalTime: recipeListFilteredSearch[index][1],
-                            difficulty: recipeListFilteredSearch[index][2],
-                            cost: recipeListFilteredSearch[index][3],
-                            allIngredientSelected:
-                                recipeListFilteredSearch[index][4],
-                            pathImageSelectedFromImagePicker:
-                                recipeListFilteredSearch[index][5],
-                            stepsRecipeFromCreateSteps:
-                                recipeListFilteredSearch[index][6],
-                            isFromScrap: recipeListFilteredSearch[index][8],
-                            tags: recipeListFilteredSearch[index][10],
-                            uniqueId: recipeListFilteredSearch[index][9],
-                            recipeCategory: recipeListFilteredSearch[index][7],
-                          );
-
-                          // to display all list after editing (and not only the list from filter search)
-                          loadAllData();
-                          recipeListFilteredSearch = db.recipeList;
-                          _searchController.clear();
-                          isSearchPressed = false;
-
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => recipeInstance,
-                            ),
-                          );
+                        onPressed: () {
+                          _dialogDeleteAll(context);
                         },
-                      );
-                    }))
-        ],
-        if (isSearchPressed == false) ...[
-          SizedBox(
-              height: 700,
-              child: ValueListenableBuilder(
-                valueListenable:
-                    Hive.box<CategoriesNames>('catBox').listenable(),
-                builder: (context, Box<CategoriesNames> box, _) {
-                  return Padding(
-                      padding: EdgeInsets.all(0),
-                      child: ListView.builder(
-                        itemCount: box.values.length,
+                        child: Text(
+                          AppLocalizations.of(context)!.deleteAll,
+                        ),
+                      ),
+                      IconButton(
+                        icon: const Icon(Icons.close),
+                        onPressed: () {
+                          setState(() {
+                            isEditDeleteMode = false;
+                          });
+                        },
+                      ),
+                    ]
+                  : <Widget>[
+                      IconButton(
+                          onPressed: () {
+                            setState(() {
+                              isSearchPressed = true;
+                              loadAllData();
+                            });
+                          },
+                          icon: const Icon(Icons.search)),
+                      PopupMenuButton<int>(
+                        onSelected: (item) => handleClick(item),
+                        itemBuilder: (context) => [
+                          PopupMenuItem<int>(
+                              value: 0,
+                              child: Text(
+                                  AppLocalizations.of(context)!.editDelete)),
+                          PopupMenuItem<int>(
+                              value: 1,
+                              child: Text(
+                                  AppLocalizations.of(context)!.addCategory))
+                        ],
+                      ),
+                    ]),
+          body: Column(children: [
+            if (isSearchPressed == true) ...[
+              TextField(
+                controller: _searchController,
+                onChanged: (value) {
+                  filterList(value);
+                },
+                decoration: InputDecoration(
+                  prefixIcon: const Icon(Icons.search),
+                  suffixIcon: _searchController.text.isNotEmpty
+                      ? IconButton(
+                          onPressed: () {
+                            _searchController.clear();
+                            filterList('');
+                          },
+                          icon: const Icon(Icons.clear),
+                        )
+                      : IconButton(
+                          onPressed: () {
+                            _searchController.clear();
+                            filterList('');
+                            isSearchPressed = false;
+                          },
+                          icon: const Icon(Icons.clear),
+                        ),
+                  hintText: AppLocalizations.of(context)!.searchRecipe,
+                ),
+              ),
+              if (_searchController.text != "")
+                Expanded(
+                    child: ListView.builder(
+                        itemCount: recipeListFilteredSearch.length,
                         itemBuilder: (context, index) {
-                          var cat = box.getAt(index);
                           return ListTile(
-                            title: TextButton(
-                              onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => FilteredNameRecipe(
-                                      categoryName:
-                                          cat!.categoryName.toString(),
+                            title: Center(
+                              child: Text(
+                                recipeListFilteredSearch[index][0],
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                            onTap: () {
+                              setState(() {});
+                              loadAllData();
+
+                              RecipeStruct recipeInstance = RecipeStruct(
+                                recipeName: recipeListFilteredSearch[index][0],
+                                totalTime: recipeListFilteredSearch[index][1],
+                                difficulty: recipeListFilteredSearch[index][2],
+                                cost: recipeListFilteredSearch[index][3],
+                                allIngredientSelected:
+                                    recipeListFilteredSearch[index][4],
+                                pathImageSelectedFromImagePicker:
+                                    recipeListFilteredSearch[index][5],
+                                stepsRecipeFromCreateSteps:
+                                    recipeListFilteredSearch[index][6],
+                                isFromScrap: recipeListFilteredSearch[index][8],
+                                tags: recipeListFilteredSearch[index][10],
+                                uniqueId: recipeListFilteredSearch[index][9],
+                                recipeCategory: recipeListFilteredSearch[index]
+                                    [7],
+                                isFromFilteredNameRecipe: false,
+                              );
+
+                              // to display all list after editing (and not only the list from filter search)
+                              loadAllData();
+                              recipeListFilteredSearch = db.recipeList;
+                              _searchController.clear();
+                              isSearchPressed = false;
+
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => recipeInstance,
+                                ),
+                              );
+                            },
+                          );
+                        }))
+            ],
+            if (isSearchPressed == false) ...[
+              SizedBox(
+                  height: 700,
+                  child: ValueListenableBuilder(
+                    valueListenable:
+                        Hive.box<CategoriesNames>('catBox').listenable(),
+                    builder: (context, Box<CategoriesNames> box, _) {
+                      return Padding(
+                          padding: EdgeInsets.all(0),
+                          child: ListView.builder(
+                            itemCount: box.values.length,
+                            itemBuilder: (context, index) {
+                              var cat = box.getAt(index);
+                              return ListTile(
+                                title: TextButton(
+                                  onPressed: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            FilteredNameRecipe(
+                                          categoryName:
+                                              cat!.categoryName.toString(),
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                  style: TextButton.styleFrom(
+                                    backgroundColor:
+                                        Color.fromRGBO(249, 246, 253, 0.49),
+                                    // Couleur du bouton
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(
+                                          10.0), // Bords arrondis
                                     ),
                                   ),
-                                );
-                              },
-                              style: TextButton.styleFrom(
-                                backgroundColor:
-                                    Color.fromRGBO(249, 246, 253, 0.49),
-                                // Couleur du bouton
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(
-                                      10.0), // Bords arrondis
+                                  child: Center(
+                                    child: Text(
+                                      textAlign: TextAlign.center,
+                                      cat!.categoryName,
+                                      style: TextStyle(
+                                          fontSize: 20, color: Colors.black),
+                                    ),
+                                  ),
                                 ),
-                              ),
-                              child: Center(
-                                child: Text(
-                                  textAlign: TextAlign.center,
-                                  cat!.categoryName,
-                                  style: TextStyle(
-                                      fontSize: 20, color: Colors.black),
-                                ),
-                              ),
-                            ),
-                            trailing: isEditDeleteMode
-                                ? Wrap(
-                                    children: [
-                                      IconButton(
-                                        icon: const Icon(Icons.edit),
-                                        onPressed: () async {
-                                          setState(() {
-                                            isEditDeleteMode = false;
-                                            _searchController.clear();
-                                            isSearchPressed = false;
-                                          });
+                                trailing: isEditDeleteMode
+                                    ? Wrap(
+                                        children: [
+                                          IconButton(
+                                            icon: const Icon(Icons.edit),
+                                            onPressed: () async {
+                                              setState(() {
+                                                isEditDeleteMode = false;
+                                                _searchController.clear();
+                                                isSearchPressed = false;
+                                              });
 
-                                          showDialog(
-                                              context: context,
-                                              builder: (context) {
-                                                return AlertDialog(
-                                                  title: Column(children: [
-                                                    Text(
-                                                        AppLocalizations.of(
-                                                                context)!
-                                                            .editCategory,
-                                                        textAlign:
-                                                            TextAlign.center),
-                                                    Center(
-                                                        child: Text(
+                                              showDialog(
+                                                  context: context,
+                                                  builder: (context) {
+                                                    return AlertDialog(
+                                                      title: Column(children: [
+                                                        Text(
                                                             AppLocalizations.of(
                                                                     context)!
-                                                                .infoMessage1,
+                                                                .editCategory,
                                                             textAlign: TextAlign
-                                                                .center,
-                                                            style: TextStyle(
-                                                                fontSize: 15,
-                                                                fontStyle:
-                                                                    FontStyle
-                                                                        .italic)))
-                                                  ]),
-                                                  content: TextField(
-                                                    controller: _controller,
-                                                  ),
-                                                  actions: [
-                                                    ElevatedButton(
-                                                      child: Text(
-                                                          AppLocalizations.of(
-                                                                  context)!
-                                                              .edit),
-                                                      onPressed: () async {
-                                                        var categoryNameToReplace =
-                                                            cat!.categoryName;
-                                                        var newCategoryName =
-                                                            _controller.text;
-                                                        var catName =
-                                                            CategoriesNames(
+                                                                .center),
+                                                        Center(
+                                                            child: Text(
+                                                                AppLocalizations.of(
+                                                                        context)!
+                                                                    .infoMessage1,
+                                                                textAlign:
+                                                                    TextAlign
+                                                                        .center,
+                                                                style: TextStyle(
+                                                                    fontSize:
+                                                                        15,
+                                                                    fontStyle:
+                                                                        FontStyle
+                                                                            .italic)))
+                                                      ]),
+                                                      content: TextField(
+                                                        controller: _controller,
+                                                      ),
+                                                      actions: [
+                                                        ElevatedButton(
+                                                          child: Text(
+                                                              AppLocalizations.of(
+                                                                      context)!
+                                                                  .cancel),
+                                                          onPressed: () async {
+                                                            _controller.clear();
+                                                            Navigator.pop(
+                                                                context);
+                                                          },
+                                                        ),
+                                                        ElevatedButton(
+                                                          child: Text(
+                                                              AppLocalizations.of(
+                                                                      context)!
+                                                                  .edit),
+                                                          onPressed: () async {
+                                                            var categoryNameToReplace =
+                                                                cat!.categoryName;
+                                                            var newCategoryName =
                                                                 _controller
-                                                                    .text);
-                                                        await Hive.box<
-                                                                    CategoriesNames>(
-                                                                'catBox')
-                                                            .putAt(
-                                                                index, catName);
+                                                                    .text;
+                                                            var catName =
+                                                                CategoriesNames(
+                                                                    _controller
+                                                                        .text);
+                                                            await Hive.box<
+                                                                        CategoriesNames>(
+                                                                    'catBox')
+                                                                .putAt(index,
+                                                                    catName);
 
-                                                        await renameCategoryRecipeAfterEditCategory(
-                                                            categoryNameToReplace,
-                                                            newCategoryName);
-                                                        Navigator.pop(context);
-                                                        _controller.clear();
-                                                        _searchController
-                                                            .clear();
-                                                        isSearchPressed = false;
-                                                      },
-                                                    )
-                                                  ],
-                                                );
-                                              });
-                                        },
-                                      ),
-                                      IconButton(
-                                        icon: const Icon(
-                                          Icons.delete,
-                                          color: Colors.redAccent,
-                                        ),
-                                        onPressed: () {
-                                          _dialogDeleteOneCategory(context,
-                                              cat!.categoryName, index);
-                                          _searchController.clear();
-                                          isSearchPressed = false;
-                                        },
-                                      ),
-                                    ],
-                                  )
-                                : null,
-                          );
-                        },
-                      ));
-                },
+                                                            await renameCategoryRecipeAfterEditCategory(
+                                                                categoryNameToReplace,
+                                                                newCategoryName);
+                                                            Navigator.pop(
+                                                                context);
+                                                            _controller.clear();
+                                                            _searchController
+                                                                .clear();
+                                                            isSearchPressed =
+                                                                false;
+                                                          },
+                                                        )
+                                                      ],
+                                                    );
+                                                  });
+                                            },
+                                          ),
+                                          IconButton(
+                                            icon: const Icon(
+                                              Icons.delete,
+                                              color: Colors.redAccent,
+                                            ),
+                                            onPressed: () {
+                                              _dialogDeleteOneCategory(context,
+                                                  cat!.categoryName, index);
+                                              _searchController.clear();
+                                              isSearchPressed = false;
+                                            },
+                                          ),
+                                        ],
+                                      )
+                                    : null,
+                              );
+                            },
+                          ));
+                    },
+                  )),
+            ]
+          ]),
+          drawer: Drawer(
+            backgroundColor: Color.fromRGBO(234, 221, 255, 1.000),
+            child: Column(children: [
+              DrawerHeader(
+                  child: Icon(
+                Icons.cookie,
+                size: 48,
               )),
-        ]
-      ]),
-      drawer: Drawer(
-        backgroundColor: Color.fromRGBO(234, 221, 255, 1.000),
-        child: Column(children: [
-          DrawerHeader(
-              child: Icon(
-            Icons.cookie,
-            size: 48,
-          )),
-          // home page list tile
-
-          ListTile(
-            leading: Icon(Icons.language_sharp),
-            title: Text(AppLocalizations.of(context)!.language),
-            onTap: () {
-              Navigator.popAndPushNamed(context, '/language');
-              _searchController.clear();
-              isSearchPressed = false;
-            },
-          ),
-          ListTile(
-            leading: Icon(Icons.info_outline),
-            title: Text(AppLocalizations.of(context)!.about),
-            onTap: () {
-              Navigator.popAndPushNamed(context, '/about');
-              _searchController.clear();
-              isSearchPressed = false;
-            },
-          )
-        ]),
-      ),
-
-      // floatingActionButton for create a recipe:
-      floatingActionButton: isFloatingActionButtonPressed
-          ? Column(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                FloatingActionButton.extended(
-                  onPressed: () async {
-                    setState(() {
-                      isFloatingActionButtonPressed = false;
-                      _searchController.clear();
-                      isSearchPressed = false;
-                    });
-
-                    showDialog(
-                        context: context,
-                        builder: (context) {
-                          return AlertDialog(
-                            title: Column(children: [
-                              Text(AppLocalizations.of(context)!.addFromWeb),
-                              Text(
-                                  AppLocalizations.of(context)!
-                                      .messageDialBoxAddFromWeb,
-                                  style: TextStyle(
-                                      fontSize: 15,
-                                      fontStyle: FontStyle.italic))
-                            ]),
-                            content: TextField(
-                              controller: _controller,
-                              decoration: InputDecoration(
-                                hintText: AppLocalizations.of(context)!.pastUrl,
-                              ),
-                            ),
-                            actions: [
-                              ElevatedButton(
-                                child: Text(AppLocalizations.of(context)!.add),
-                                onPressed: () async {
-                                  var recipeURL = _controller.text;
-                                  scrapMarmiteur(recipeURL);
-                                  Navigator.pop(context);
-                                  _controller.clear();
-                                },
-                              )
-                            ],
-                          );
-                        });
-                  },
-                  label: Column(children: [
-                    Text(AppLocalizations.of(context)!.addFromWeb),
-                    Text(
-                      AppLocalizations.of(context)!.beta,
-                    )
-                  ]),
-                ),
-                SizedBox(height: 16),
-                FloatingActionButton.extended(
-                  onPressed: () {
-                    setState(() {
-                      isFloatingActionButtonPressed = false;
-                      _searchController.clear();
-                      isSearchPressed = false;
-                    });
-                    Navigator.pushNamed(context, '/create_recipe');
-                  },
-                  label: Text(AppLocalizations.of(context)!.create),
-                ),
-                SizedBox(height: 16),
-                TextButton(
-                  onPressed: () {
-                    setState(() {
-                      isFloatingActionButtonPressed = false;
-                      _searchController.clear();
-                      isSearchPressed = false;
-                    });
-                  },
-                  child: Text(AppLocalizations.of(context)!.back),
-                )
-              ],
-            )
-          : FloatingActionButton.extended(
-              onPressed: () {
-                setState(() {
-                  isFloatingActionButtonPressed = true;
+              // home page list tile
+              ListTile(
+                leading: Icon(Icons.home),
+                title: Text(AppLocalizations.of(context)!.home),
+                onTap: () {
+                  Navigator.popAndPushNamed(context, '/home');
                   _searchController.clear();
                   isSearchPressed = false;
-                });
-              },
-              label: Text(AppLocalizations.of(context)!.addDelightfulRecipe),
-            ),
-    );
+                },
+              ),
+              ListTile(
+                leading: Icon(Icons.language_sharp),
+                title: Text(AppLocalizations.of(context)!.language),
+                onTap: () {
+                  Navigator.popAndPushNamed(context, '/language');
+                  _searchController.clear();
+                  isSearchPressed = false;
+                },
+              ),
+              ListTile(
+                leading: Icon(Icons.info_outline),
+                title: Text(AppLocalizations.of(context)!.about),
+                onTap: () {
+                  Navigator.popAndPushNamed(context, '/about');
+                  _searchController.clear();
+                  isSearchPressed = false;
+                },
+              )
+            ]),
+          ),
+
+          // floatingActionButton for create a recipe:
+          floatingActionButton: isFloatingActionButtonPressed
+              ? Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    FloatingActionButton.extended(
+                      onPressed: () async {
+                        setState(() {
+                          isFloatingActionButtonPressed = false;
+                          _searchController.clear();
+                          isSearchPressed = false;
+                        });
+
+                        showDialog(
+                            context: context,
+                            builder: (context) {
+                              return AlertDialog(
+                                title: Column(children: [
+                                  Text(
+                                      AppLocalizations.of(context)!.addFromWeb),
+                                  Text(
+                                      AppLocalizations.of(context)!
+                                          .messageDialBoxAddFromWeb,
+                                      style: TextStyle(
+                                          fontSize: 15,
+                                          fontStyle: FontStyle.italic))
+                                ]),
+                                content: TextField(
+                                  controller: _controller,
+                                  decoration: InputDecoration(
+                                    hintText:
+                                        AppLocalizations.of(context)!.pastUrl,
+                                  ),
+                                ),
+                                actions: [
+                                  ElevatedButton(
+                                    child:
+                                        Text(AppLocalizations.of(context)!.add),
+                                    onPressed: () async {
+                                      var recipeURL = _controller.text;
+                                      scrapMarmiteur(recipeURL);
+                                      Navigator.pop(context);
+                                      _controller.clear();
+                                    },
+                                  )
+                                ],
+                              );
+                            });
+                      },
+                      label: Column(children: [
+                        Text(AppLocalizations.of(context)!.addFromWeb),
+                        Text(
+                          AppLocalizations.of(context)!.beta,
+                        )
+                      ]),
+                    ),
+                    SizedBox(height: 16),
+                    FloatingActionButton.extended(
+                      onPressed: () {
+                        setState(() {
+                          isFloatingActionButtonPressed = false;
+                          _searchController.clear();
+                          isSearchPressed = false;
+                        });
+                        Navigator.pushNamed(context, '/create_recipe');
+                      },
+                      label: Text(AppLocalizations.of(context)!.create),
+                    ),
+                    SizedBox(height: 16),
+                    TextButton(
+                      onPressed: () {
+                        setState(() {
+                          isFloatingActionButtonPressed = false;
+                          _searchController.clear();
+                          isSearchPressed = false;
+                        });
+                      },
+                      child: Text(AppLocalizations.of(context)!.back),
+                    )
+                  ],
+                )
+              : FloatingActionButton.extended(
+                  onPressed: () {
+                    setState(() {
+                      isFloatingActionButtonPressed = true;
+                      _searchController.clear();
+                      isSearchPressed = false;
+                    });
+                  },
+                  label:
+                      Text(AppLocalizations.of(context)!.addDelightfulRecipe),
+                ),
+        ));
   }
 }

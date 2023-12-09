@@ -90,6 +90,7 @@ class MyApp extends StatelessWidget {
             const AddIngredientQuantity(),
         '/language': (context) => const Language(),
         '/about': (context) => const About(),
+        '/home': (context) => const Home(),
       },
     );
   }

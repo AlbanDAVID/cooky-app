@@ -27,6 +27,7 @@ class RecipeStruct extends StatefulWidget {
       tags; // not final and not required because I added after, so olders recipes does not have tags in their index. So, it can't works for old recipe if this fiels is required
   String uniqueId;
   String recipeCategory;
+  bool isFromFilteredNameRecipe;
 
   RecipeStruct({
     super.key,
@@ -41,6 +42,7 @@ class RecipeStruct extends StatefulWidget {
     this.tags,
     required this.uniqueId,
     required this.recipeCategory,
+    required this.isFromFilteredNameRecipe,
   });
 
   @override
@@ -218,247 +220,269 @@ class _RecipeStructState extends State<RecipeStruct> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          // Title (recipe name)
-          title: Text(
-            maxLines: 2,
-            widget.recipeName,
-            style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          centerTitle: true,
-          elevation: 0,
-          actions: [
-            PopupMenuButton<int>(
-              onSelected: (item) => handleClick(item),
-              itemBuilder: (context) => [
-                PopupMenuItem<int>(
-                    value: 0, child: Text(AppLocalizations.of(context)!.edit)),
-                PopupMenuItem<int>(
-                    value: 1, child: Text(AppLocalizations.of(context)!.delete))
-              ],
-            ),
-          ],
-          //leading: const Icon(Icons.menu),
-        ),
-        body: Column(children: [
-          // alow to develop or collapse ingredients list :
-          if (isShowIngredientPressed == true) ...[
-            TextButton(
+    return PopScope(
+        canPop: widget.isFromFilteredNameRecipe ? true : false,
+        child: Scaffold(
+            appBar: AppBar(
+              // Title (recipe name)
+              title: Text(
+                maxLines: 2,
+                widget.recipeName,
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+
+              centerTitle: true,
+              elevation: 0,
+              leading: IconButton(
                 onPressed: () {
-                  setState(() {
-                    isShowIngredientPressed = false;
-                  });
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => Home()),
+                  );
                 },
-                child: Row(
-                  children: [
-                    Text(
-                      AppLocalizations.of(context)!.collapse,
-                      style: TextStyle(
-                        fontSize: 16,
-                      ),
-                    ),
-                    Icon(
-                      Icons.arrow_downward,
-                      size: 16, // ajustez la taille selon vos besoins
-                    ),
+                icon: Icon(Icons.home),
+              ),
+
+              actions: [
+                PopupMenuButton<int>(
+                  onSelected: (item) => handleClick(item),
+                  itemBuilder: (context) => [
+                    PopupMenuItem<int>(
+                        value: 0,
+                        child: Text(AppLocalizations.of(context)!.edit)),
+                    PopupMenuItem<int>(
+                        value: 1,
+                        child: Text(AppLocalizations.of(context)!.delete))
                   ],
-                )),
-            SizedBox(
-                height: 600,
-                child: ListView.builder(
-                  itemCount: widget.allIngredientSelected.length,
-                  itemBuilder: (context, index) {
-                    final ingredient = widget.allIngredientSelected[index][0];
-                    final quantity = widget.allIngredientSelected[index][1];
-                    final unit = widget.allIngredientSelected[index][2];
-
-                    final formattedString = '$ingredient : ($quantity$unit)';
-                    return widget.isFromScrap
-                        ? ListTile(
-                            title: Text(widget.allIngredientSelected[index]),
-                            trailing: Checkbox(
-                                value: _isChecked[index],
-                                onChanged: (bool? value) {
-                                  if (_isChecked[index] == false) {
-                                    return setState(() {
-                                      _isChecked[index] = true;
-                                    });
-                                  } else {
-                                    return setState(() {
-                                      _isChecked[index] = false;
-                                    });
-                                  }
-                                }),
-                          )
-                        : ListTile(
-                            title: Text(formattedString),
-                            trailing: Checkbox(
-                              value: _isChecked[index],
-                              onChanged: (bool? value) {
-                                if (_isChecked[index] == false) {
-                                  return setState(() {
-                                    _isChecked[index] = true;
-                                  });
-                                } else {
-                                  return setState(() {
-                                    _isChecked[index] = false;
-                                  });
-                                }
-                              },
-                            ),
-                          );
-                  },
-                ))
-          ],
-          if (isShowIngredientPressed == false) ...[
-            Expanded(
-                child: ListView(children: [
-              Expanded(
-                  child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 40.0),
-                      // ignore: avoid_unnecessary_containers
-                      child: Container(
-                          child: Column(children: [
-                        // Spacing between title and image
-                        SizedBox(height: 16),
-
-                        // Recipe picture
-                        Center(
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(10.0),
-                            child: widget.pathImageSelectedFromImagePicker !=
-                                    null
-                                ? Image.file(
-                                    File(widget
-                                        .pathImageSelectedFromImagePicker!),
-                                  ) // File(imageSelectedFromImagePicker!) to transform string path to a widget (ClipRRect does not support Imge.file with just string path, need a widget)
-                                : Image.asset(
-                                    defautImage,
-                                  ),
+                ),
+              ],
+              //leading: const Icon(Icons.menu),
+            ),
+            body: Column(children: [
+              // alow to develop or collapse ingredients list :
+              if (isShowIngredientPressed == true) ...[
+                TextButton(
+                    onPressed: () {
+                      setState(() {
+                        isShowIngredientPressed = false;
+                      });
+                    },
+                    child: Row(
+                      children: [
+                        Text(
+                          AppLocalizations.of(context)!.collapse,
+                          style: TextStyle(
+                            fontSize: 16,
                           ),
                         ),
-
-                        // Spacing between title and image
-                        SizedBox(height: 16),
-
-                        // Row for info (time, difficulty, cost)
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            // Total time
-                            Text(
-                              ('${widget.totalTime}  '),
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            // Difficulty
-                            Text(
-                              ('${widget.difficulty}  '),
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            // Cost
-                            Text(
-                              widget.cost,
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ],
+                        Icon(
+                          Icons.arrow_downward,
+                          size: 16, // ajustez la taille selon vos besoins
                         ),
-                        SizedBox(height: 16),
-                        // tags
-                        if (widget.tags != null) ...[
-                          Row(children: [
-                            Expanded(
-                                child: SizedBox(
-                                    height: 100,
-                                    child: ListView.separated(
-                                      controller: _scrollController,
-                                      scrollDirection: Axis.horizontal,
-                                      itemCount: allTags.length,
-                                      itemBuilder: (context, index) {
-                                        return Chip(
-                                            label: Text('${allTags[index]}'));
-                                      },
-                                      separatorBuilder:
-                                          (BuildContext context, int index) {
-                                        return SizedBox(
-                                          width: 5,
-                                        );
-                                      },
-                                    ))),
-                            SizedBox(
-                              width: 0,
-                            ),
-                            if (showArrow)
-                              IconButton(
-                                  onPressed: () {
-                                    _scrollController.animateTo(
-                                      _scrollController
-                                          .position.maxScrollExtent,
-                                      duration: Duration(milliseconds: 500),
-                                      curve: Curves.easeInOut,
-                                    );
+                      ],
+                    )),
+                SizedBox(
+                    height: 600,
+                    child: ListView.builder(
+                      itemCount: widget.allIngredientSelected.length,
+                      itemBuilder: (context, index) {
+                        final ingredient =
+                            widget.allIngredientSelected[index][0];
+                        final quantity = widget.allIngredientSelected[index][1];
+                        final unit = widget.allIngredientSelected[index][2];
+
+                        final formattedString =
+                            '$ingredient : ($quantity$unit)';
+                        return widget.isFromScrap
+                            ? ListTile(
+                                title:
+                                    Text(widget.allIngredientSelected[index]),
+                                trailing: Checkbox(
+                                    value: _isChecked[index],
+                                    onChanged: (bool? value) {
+                                      if (_isChecked[index] == false) {
+                                        return setState(() {
+                                          _isChecked[index] = true;
+                                        });
+                                      } else {
+                                        return setState(() {
+                                          _isChecked[index] = false;
+                                        });
+                                      }
+                                    }),
+                              )
+                            : ListTile(
+                                title: Text(formattedString),
+                                trailing: Checkbox(
+                                  value: _isChecked[index],
+                                  onChanged: (bool? value) {
+                                    if (_isChecked[index] == false) {
+                                      return setState(() {
+                                        _isChecked[index] = true;
+                                      });
+                                    } else {
+                                      return setState(() {
+                                        _isChecked[index] = false;
+                                      });
+                                    }
                                   },
-                                  icon: Icon(Icons.arrow_circle_right_sharp)),
-                          ])
-                        ],
+                                ),
+                              );
+                      },
+                    ))
+              ],
+              if (isShowIngredientPressed == false) ...[
+                Expanded(
+                    child: ListView(children: [
+                  Expanded(
+                      child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 40.0),
+                          // ignore: avoid_unnecessary_containers
+                          child: Container(
+                              child: Column(children: [
+                            // Spacing between title and image
+                            SizedBox(height: 16),
 
-                        if (widget.tags == null) ...[
-                          Text("")
-                        ], // show nothing if widget.tags == null
+                            // Recipe picture
+                            Center(
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(10.0),
+                                child: widget
+                                            .pathImageSelectedFromImagePicker !=
+                                        null
+                                    ? Image.file(
+                                        File(widget
+                                            .pathImageSelectedFromImagePicker!),
+                                      ) // File(imageSelectedFromImagePicker!) to transform string path to a widget (ClipRRect does not support Imge.file with just string path, need a widget)
+                                    : Image.asset(
+                                        defautImage,
+                                      ),
+                              ),
+                            ),
 
-                        SizedBox(height: 30),
-                        // Show ingrdient button
-                        TextButton(
-                            onPressed: () {
-                              setState(() {
-                                isShowIngredientPressed = true;
-                              });
-                            },
-                            child: Row(
+                            // Spacing between title and image
+                            SizedBox(height: 16),
+
+                            // Row for info (time, difficulty, cost)
+                            Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
+                                // Total time
                                 Text(
-                                  AppLocalizations.of(context)!.showIngred,
+                                  ('${widget.totalTime}  '),
                                   style: TextStyle(
-                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
                                   ),
                                 ),
-                                Icon(
-                                  Icons.arrow_upward,
-                                  size:
-                                      16, // ajustez la taille selon vos besoins
+                                // Difficulty
+                                Text(
+                                  ('${widget.difficulty}  '),
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                // Cost
+                                Text(
+                                  widget.cost,
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
                               ],
-                            )),
-                      ]))))
-            ])),
-            Padding(
-                padding: EdgeInsets.all(10),
-                child: Container(
-                  alignment: Alignment.bottomCenter,
-                  child: FloatingActionButton.extended(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => ShowRecipeSteps(
-                                  steps: widget.stepsRecipeFromCreateSteps,
+                            ),
+                            SizedBox(height: 16),
+                            // tags
+                            if (widget.tags != null) ...[
+                              Row(children: [
+                                Expanded(
+                                    child: SizedBox(
+                                        height: 100,
+                                        child: ListView.separated(
+                                          controller: _scrollController,
+                                          scrollDirection: Axis.horizontal,
+                                          itemCount: allTags.length,
+                                          itemBuilder: (context, index) {
+                                            return Chip(
+                                                label:
+                                                    Text('${allTags[index]}'));
+                                          },
+                                          separatorBuilder:
+                                              (BuildContext context,
+                                                  int index) {
+                                            return SizedBox(
+                                              width: 5,
+                                            );
+                                          },
+                                        ))),
+                                SizedBox(
+                                  width: 0,
+                                ),
+                                if (showArrow)
+                                  IconButton(
+                                      onPressed: () {
+                                        _scrollController.animateTo(
+                                          _scrollController
+                                              .position.maxScrollExtent,
+                                          duration: Duration(milliseconds: 500),
+                                          curve: Curves.easeInOut,
+                                        );
+                                      },
+                                      icon:
+                                          Icon(Icons.arrow_circle_right_sharp)),
+                              ])
+                            ],
+
+                            if (widget.tags == null) ...[
+                              Text("")
+                            ], // show nothing if widget.tags == null
+
+                            SizedBox(height: 30),
+                            // Show ingrdient button
+                            TextButton(
+                                onPressed: () {
+                                  setState(() {
+                                    isShowIngredientPressed = true;
+                                  });
+                                },
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      AppLocalizations.of(context)!.showIngred,
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                      ),
+                                    ),
+                                    Icon(
+                                      Icons.arrow_upward,
+                                      size:
+                                          16, // ajustez la taille selon vos besoins
+                                    ),
+                                  ],
                                 )),
-                      );
-                    },
-                    label: Text(AppLocalizations.of(context)!.startToCook),
-                  ),
-                ))
-          ],
-        ]));
+                          ]))))
+                ])),
+                Padding(
+                    padding: EdgeInsets.all(10),
+                    child: Container(
+                      alignment: Alignment.bottomCenter,
+                      child: FloatingActionButton.extended(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => ShowRecipeSteps(
+                                      steps: widget.stepsRecipeFromCreateSteps,
+                                    )),
+                          );
+                        },
+                        label: Text(AppLocalizations.of(context)!.startToCook),
+                      ),
+                    ))
+              ],
+            ])));
   }
 }
