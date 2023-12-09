@@ -89,12 +89,15 @@ class _HomeState extends State<Home> {
                     ElevatedButton(
                       child: Text(AppLocalizations.of(context)!.add),
                       onPressed: () async {
-                        _searchController.clear();
-                        isSearchPressed = false;
+                        setState(() {
+                          isEditDeleteMode = false;
+                          _searchController.clear();
+                          isSearchPressed = false;
+                        });
+
                         var catName = CategoriesNames(_controller.text);
                         await _categoriesNamesService.addCategory(catName);
                         Navigator.pop(context);
-                        _controller.clear();
                       },
                     )
                   ],
@@ -557,7 +560,13 @@ class _HomeState extends State<Home> {
                                                                       context)!
                                                                   .cancel),
                                                           onPressed: () async {
-                                                            _controller.clear();
+                                                            setState(() {
+                                                              isSearchPressed =
+                                                                  false;
+                                                              _controller
+                                                                  .clear();
+                                                            });
+
                                                             Navigator.pop(
                                                                 context);
                                                           },
@@ -635,27 +644,27 @@ class _HomeState extends State<Home> {
                 leading: Icon(Icons.home),
                 title: Text(AppLocalizations.of(context)!.home),
                 onTap: () {
-                  Navigator.popAndPushNamed(context, '/home');
                   _searchController.clear();
                   isSearchPressed = false;
+                  Navigator.popAndPushNamed(context, '/home');
                 },
               ),
               ListTile(
                 leading: Icon(Icons.language_sharp),
                 title: Text(AppLocalizations.of(context)!.language),
                 onTap: () {
-                  Navigator.popAndPushNamed(context, '/language');
                   _searchController.clear();
                   isSearchPressed = false;
+                  Navigator.popAndPushNamed(context, '/language');
                 },
               ),
               ListTile(
                 leading: Icon(Icons.info_outline),
                 title: Text(AppLocalizations.of(context)!.about),
                 onTap: () {
-                  Navigator.popAndPushNamed(context, '/about');
                   _searchController.clear();
                   isSearchPressed = false;
+                  Navigator.popAndPushNamed(context, '/about');
                 },
               )
             ]),

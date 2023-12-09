@@ -69,24 +69,58 @@ class _LanguageState extends State<Language> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(AppLocalizations.of(context)!.language),
-      ),
-      body: ListView.builder(
-          itemCount: supportedLanguage.length,
-          itemBuilder: (context, index) {
-            return ListTile(
-              title: Text(supportedLanguage[index]),
-              onTap: () {
-                setState(() {
-                  _myBox.put("LANGUAGE",
-                      convertSupportedLanguageForLocalization(index));
-                });
-                dialbox();
-              },
-            );
-          }),
-    );
+    return PopScope(
+        canPop: false,
+        child: Scaffold(
+          appBar: AppBar(
+            title: Text(AppLocalizations.of(context)!.language),
+          ),
+          body: ListView.builder(
+              itemCount: supportedLanguage.length,
+              itemBuilder: (context, index) {
+                return ListTile(
+                  title: Text(supportedLanguage[index]),
+                  onTap: () {
+                    setState(() {
+                      _myBox.put("LANGUAGE",
+                          convertSupportedLanguageForLocalization(index));
+                    });
+                    dialbox();
+                  },
+                );
+              }),
+          drawer: Drawer(
+            backgroundColor: Color.fromRGBO(234, 221, 255, 1.000),
+            child: Column(children: [
+              DrawerHeader(
+                  child: Icon(
+                Icons.cookie,
+                size: 48,
+              )),
+              // home page list tile
+              ListTile(
+                leading: Icon(Icons.home),
+                title: Text(AppLocalizations.of(context)!.home),
+                onTap: () {
+                  Navigator.popAndPushNamed(context, '/home');
+                },
+              ),
+              ListTile(
+                leading: Icon(Icons.language_sharp),
+                title: Text(AppLocalizations.of(context)!.language),
+                onTap: () {
+                  Navigator.popAndPushNamed(context, '/language');
+                },
+              ),
+              ListTile(
+                leading: Icon(Icons.info_outline),
+                title: Text(AppLocalizations.of(context)!.about),
+                onTap: () {
+                  Navigator.popAndPushNamed(context, '/about');
+                },
+              )
+            ]),
+          ),
+        ));
   }
 }

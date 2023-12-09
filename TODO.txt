@@ -9,11 +9,9 @@ Priority :
 
 
 - *** new scrap
-- *** coherente navigation (especially witk back return)
 - *** ajouter directement element saisis dans create recipe (pour être plus précis : pour la saisie manuelle, ne pas devoir cliquer sur l'élément sur la liste)
-
-- *** bien fermer les barres de recherches quand on clique ailleurs 
-- *** coherente navigation (especially witk back return) : 
+- *** back button
+- *** buf tag edition 
   
 
 
@@ -38,6 +36,7 @@ Priority :
 - Interessting features :
 
 - will pop scope pour search bar 
+- hoe page : pas ajouter de catégorie vide
 - voir pour automatiquement ajuster les unités de meures (us, fr etc.)
 - connect to a nextcloud account 
 - rendre la selection de quantity plus stylée

@@ -88,7 +88,7 @@ class _RecipeStructState extends State<RecipeStruct> {
     });
   }
 
-  // manage visibility of the arrow
+  // manage visibility of the arrow (for tags list view horizontal scroll)
   void _onScroll() {
     if (_scrollController.offset > 0 && showArrow) {
       setState(() {
@@ -167,10 +167,13 @@ class _RecipeStructState extends State<RecipeStruct> {
                   onLongPress: () {
                     setState(() {
                       deleteOneRecipe();
-                      // go back to the 1 last page (this page :  RecipeStruct)
-                      Navigator.pop(context);
-                      // go back to the 2 last page (FilteredNameRecipe)
-                      Navigator.pop(context, "force rebuild page");
+
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => Home(),
+                        ),
+                      );
                     });
                   },
                   onPressed: () {},
