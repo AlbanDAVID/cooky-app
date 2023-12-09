@@ -20,7 +20,7 @@ class RecipeDatabase {
   // [13] ustensiles (List<String?>)
 
   List recipeList = [];
-  String languageSelected = "en";
+ 
   // reference our box
   final _myBox =
       Hive.box('mybox'); // pr charger la base de données sur database.dart
@@ -36,8 +36,5 @@ class RecipeDatabase {
     _myBox.put("ALL_LISTS", recipeList);
   }
 
-  // CRUD for languageSelected
-  Future<void> loadDataLanguage() async {
-    languageSelected = _myBox.get("LANGUAGE");
   }
 }
