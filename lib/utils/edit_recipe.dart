@@ -1227,6 +1227,7 @@ class _EditRecipeState extends State<EditRecipe> {
                               stepsRecipeFromCreateSteps:
                                   widget.editStepsRecipe,
                               isFromScrap: recipeList[getIndex()][8],
+                              tags: recipeList[getIndex()][10],
                               uniqueId: recipeList[getIndex()][9],
                               recipeCategory: recipeList[getIndex()][7],
                               isFromFilteredNameRecipe: false,
