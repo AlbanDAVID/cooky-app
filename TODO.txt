@@ -8,7 +8,7 @@ Priority :
 
 
 
-- add source scrap + image + prevent dire site
+- add source scrap + image + prevent dire site sooportés
 
 
 - supported website : 

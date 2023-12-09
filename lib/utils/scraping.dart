@@ -27,6 +27,7 @@ class Scraping extends StatefulWidget {
   List<String> scrapStepsRecipe;
   String scrapTotalTime;
   List scrapTags;
+  String? scrapImage;
   Scraping({
     super.key,
     required this.scrapRecipeName,
@@ -34,6 +35,7 @@ class Scraping extends StatefulWidget {
     required this.scrapAllIngredient,
     required this.scrapTotalTime,
     required this.scrapTags,
+    this.scrapImage,
   });
 
   @override
@@ -43,8 +45,6 @@ class Scraping extends StatefulWidget {
 
 class _ScrapingState extends State<Scraping> {
   // ignore: unused_field
-
-  String? scrapPathImage;
 
   late String scrapRecipeCategory;
 
@@ -490,9 +490,9 @@ class _ScrapingState extends State<Scraping> {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            content: scrapPathImage != null
-                ? Image.file(
-                    File(scrapPathImage!),
+            content: widget.scrapImage != null
+                ? Image.network(
+                    widget.scrapImage!,
                     width: 200,
                     height: 200,
                   )
@@ -526,7 +526,7 @@ class _ScrapingState extends State<Scraping> {
       String imageSelected = result;
       print('Received data from SecondScreen: $imageSelected');
       setState(() {});
-      scrapPathImage = imageSelected;
+      widget.scrapImage = imageSelected;
     }
   }
 
@@ -570,7 +570,7 @@ class _ScrapingState extends State<Scraping> {
             InkWell(
               onLongPress: () {
                 setState(() {
-                  scrapPathImage = null;
+                  widget.scrapImage = null;
                 });
               },
               child: Icon(Icons.delete, size: 20, color: Colors.redAccent),
@@ -1235,7 +1235,7 @@ class _ScrapingState extends State<Scraping> {
                                 finalscrapDifficulty,
                                 finalscrapCost,
                                 widget.scrapAllIngredient,
-                                scrapPathImage,
+                                widget.scrapImage,
                                 widget.scrapStepsRecipe,
                                 scrapRecipeCategory,
                                 isFromScrap,
@@ -1258,7 +1258,7 @@ class _ScrapingState extends State<Scraping> {
                                 allIngredientSelected:
                                     widget.scrapAllIngredient,
                                 pathImageSelectedFromImagePicker:
-                                    scrapPathImage,
+                                    widget.scrapImage,
                                 stepsRecipeFromCreateSteps:
                                     widget.scrapStepsRecipe,
                                 isFromScrap: isFromScrap,

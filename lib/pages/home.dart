@@ -38,6 +38,7 @@ class _HomeState extends State<Home> {
   late String scrapRecipeName;
   late String scrapTotalTime;
   late List scrapTags;
+  late List scrapImage;
 
   // controller
   late TextEditingController _searchController;
@@ -317,6 +318,7 @@ class _HomeState extends State<Home> {
       scrapAllIngredient: scrapIngredient,
       scrapTotalTime: scrapTotalTime,
       scrapTags: scrapTags,
+      scrapImage: recipe["image"][0],
     );
 
     Navigator.push(
