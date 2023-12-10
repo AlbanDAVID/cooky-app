@@ -283,39 +283,41 @@ class _HomeState extends State<Home> {
   }
 
   // display error marmiteur (dialbox)
-  Widget showDialogErrorMarmiteur() {
-    return AlertDialog(
-      content: Text(
-        AppLocalizations.of(context)!.errorScrap,
-        textAlign: TextAlign.center,
-        style: TextStyle(color: Colors.red),
-      ),
-      actions: [
-        ElevatedButton(
-          child: Text(AppLocalizations.of(context)!.back),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        )
-      ],
-    );
+  showDialogErrorMarmiteur() {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            content: Text(
+              AppLocalizations.of(context)!.errorScrap,
+              textAlign: TextAlign.center,
+              style: TextStyle(color: Colors.red),
+            ),
+            actions: [
+              ElevatedButton(
+                child: Text(AppLocalizations.of(context)!.back),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              )
+            ],
+          );
+        });
   }
 
   // marmiteur
-  Future scrapMarmiteur(websiteURL, {autoFormat = true}) async {
+  scrapMarmiteur(websiteURL, {autoFormat = true}) async {
     // retrieve data from marmiteur
 
     String recipeURL = websiteURL;
-    try {
-      marmiteurResult = await marmiteur(recipeURL);
-      if (marmiteurResult['name'] != null) {
-        setState(() {
-          isMarmiteurPassed = true;
-        });
-      }
-    } catch (error) {
-      return error;
+
+    marmiteurResult = await marmiteur(recipeURL);
+    if (marmiteurResult['name'] == null) {
+      setState(() {
+        isMarmiteurPassed = false;
+      });
     }
+    print(marmiteurResult['name']);
 
     // create variables
     scrapRecipeName = marmiteurResult['name'];
@@ -348,7 +350,6 @@ class _HomeState extends State<Home> {
       sourceUrlScrap: recipeURL,
     );
 
-    marmiteurResult['name'] == null;
     // send data to scrapInstance
     Navigator.push(
       context,
@@ -811,15 +812,20 @@ class _HomeState extends State<Home> {
                                         Text(AppLocalizations.of(context)!.add),
                                     onPressed: () async {
                                       var recipeURL = _controller.text;
+                                      await scrapMarmiteur(recipeURL);
 
-                                      scrapMarmiteur(recipeURL);
-                                      if (isMarmiteurPassed == false) {
-                                        _controller.clear();
-                                        Navigator.pop(context);
+                                      if (isMarmiteurPassed == true) {
+                                        setState(() {
+                                          Navigator.pop(context);
+                                          _controller.clear();
+                                        });
                                       } else {
-                                        showDialogErrorMarmiteur();
+                                        Navigator.pop(context);
+                                        setState(() {
+                                          _controller.clear();
+                                          showDialogErrorMarmiteur();
+                                        });
                                       }
-                                      print(' bool ! $isMarmiteurPassed');
                                     },
                                   )
                                 ],
