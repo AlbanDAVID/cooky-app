@@ -163,7 +163,6 @@ class _CreateRecipeState extends State<CreateRecipe> {
         ? ElevatedButton(
             onPressed: () async {
               setState(() {
-                isButtonAddRecipeNameVisible = false;
                 _getDataFromAddRecipeName(context);
               });
             },
@@ -266,7 +265,6 @@ class _CreateRecipeState extends State<CreateRecipe> {
         ? ElevatedButton(
             onPressed: () async {
               setState(() {
-                isButtonAddTotalTimeVisible = false;
                 _getDataFromAddTotalTime(context);
               });
             },
@@ -370,7 +368,6 @@ class _CreateRecipeState extends State<CreateRecipe> {
         ? ElevatedButton(
             onPressed: () async {
               setState(() {
-                isButtonAddDifficultyVisible = false;
                 _getDataFromAddDifficulty(context);
               });
             },
@@ -466,7 +463,6 @@ class _CreateRecipeState extends State<CreateRecipe> {
         ? ElevatedButton(
             onPressed: () async {
               setState(() {
-                isButtonAddCost = false;
                 _getDataFromAddCost(context);
               });
             },
@@ -591,7 +587,6 @@ class _CreateRecipeState extends State<CreateRecipe> {
         ? ElevatedButton(
             onPressed: () async {
               setState(() {
-                isButtonAddPictureVisible = false;
                 getDataFromMyImagePickerPage(context);
               });
             },
@@ -680,7 +675,6 @@ class _CreateRecipeState extends State<CreateRecipe> {
         ? ElevatedButton(
             onPressed: () async {
               setState(() {
-                isButtonAddIngredVisible = false;
                 getDataFromAddIngred(context);
               });
             },
@@ -852,7 +846,6 @@ class _CreateRecipeState extends State<CreateRecipe> {
         ? ElevatedButton(
             onPressed: () async {
               setState(() {
-                isButtonAddStepsVisible = false;
                 getDataFromCreateSteps(context);
               });
             },
@@ -1031,7 +1024,6 @@ class _CreateRecipeState extends State<CreateRecipe> {
         ? ElevatedButton(
             onPressed: () async {
               setState(() {
-                isButtonAddTagsVisible = false;
                 getDataFromAddTags(context);
               });
             },
