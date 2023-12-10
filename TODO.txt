@@ -7,9 +7,7 @@ Priority :
 - *** special thx
 - *** major bug ingrédient (edit + create recipe)
 - *** categoty empty (create recipe et home page) + required
-
-
--  *** beta, texte shoudl work 
+- *** box size are you sure, scrap et edit (avant de qitter)
 
 
 

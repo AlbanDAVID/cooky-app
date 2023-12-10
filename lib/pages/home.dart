@@ -50,7 +50,6 @@ class _HomeState extends State<Home> {
   bool _isConfirmBack = false;
   bool scrapInstanceCreated = false;
   Map marmiteurResult = {};
-  bool isMarmiteurPassed = true;
 
   // function to load recipe data
   loadAllData() {
@@ -311,13 +310,16 @@ class _HomeState extends State<Home> {
 
     String recipeURL = websiteURL;
 
-    marmiteurResult = await marmiteur(recipeURL);
-    if (marmiteurResult['name'] == null) {
-      setState(() {
-        isMarmiteurPassed = false;
-      });
+    try {
+      marmiteurResult = await marmiteur(recipeURL);
+      if (marmiteurResult['name'] == null) {
+        showDialogErrorMarmiteur();
+      }
+    } catch (error) {
+      return error;
     }
-    print(marmiteurResult['name']);
+
+    marmiteurResult = await marmiteur(recipeURL);
 
     // create variables
     scrapRecipeName = marmiteurResult['name'];
@@ -789,55 +791,49 @@ class _HomeState extends State<Home> {
                             context: context,
                             builder: (context) {
                               return AlertDialog(
-                                title: Column(children: [
-                                  Text(
+                                  title: Text(
                                       AppLocalizations.of(context)!.addFromWeb),
-                                  Text(
-                                      AppLocalizations.of(context)!
-                                          .messageDialBoxAddFromWeb,
-                                      style: TextStyle(
-                                          fontSize: 15,
-                                          fontStyle: FontStyle.italic))
-                                ]),
-                                content: TextField(
-                                  controller: _controller,
-                                  decoration: InputDecoration(
-                                    hintText:
-                                        AppLocalizations.of(context)!.pastUrl,
+                                  content: TextField(
+                                    controller: _controller,
+                                    decoration: InputDecoration(
+                                      hintText:
+                                          AppLocalizations.of(context)!.pastUrl,
+                                    ),
                                   ),
-                                ),
-                                actions: [
-                                  ElevatedButton(
-                                    child:
-                                        Text(AppLocalizations.of(context)!.add),
-                                    onPressed: () async {
-                                      var recipeURL = _controller.text;
-                                      await scrapMarmiteur(recipeURL);
-
-                                      if (isMarmiteurPassed == true) {
-                                        setState(() {
-                                          Navigator.pop(context);
-                                          _controller.clear();
-                                        });
-                                      } else {
-                                        Navigator.pop(context);
-                                        setState(() {
-                                          _controller.clear();
-                                          showDialogErrorMarmiteur();
-                                        });
-                                      }
-                                    },
-                                  )
-                                ],
-                              );
+                                  actions: [
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        ElevatedButton(
+                                          child: Text(
+                                              AppLocalizations.of(context)!
+                                                  .cancel),
+                                          onPressed: () async {
+                                            Navigator.pop(context);
+                                            _controller.clear();
+                                          },
+                                        ),
+                                        SizedBox(
+                                          width: 10,
+                                        ),
+                                        ElevatedButton(
+                                          child: Text(
+                                              AppLocalizations.of(context)!
+                                                  .add),
+                                          onPressed: () async {
+                                            var recipeURL = _controller.text;
+                                            scrapMarmiteur(recipeURL);
+                                            Navigator.pop(context);
+                                            _controller.clear();
+                                          },
+                                        )
+                                      ],
+                                    )
+                                  ]);
                             });
                       },
-                      label: Column(children: [
-                        Text(AppLocalizations.of(context)!.addFromWeb),
-                        Text(
-                          AppLocalizations.of(context)!.beta,
-                        )
-                      ]),
+                      label: Text(AppLocalizations.of(context)!.addFromWeb),
                     ),
                     SizedBox(height: 16),
                     FloatingActionButton.extended(
