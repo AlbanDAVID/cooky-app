@@ -1,5 +1,7 @@
 // ignore_for_file: prefer_const_constructors, use_build_context_synchronously
 
+import 'dart:io';
+
 import 'package:cook_app/pages/filtered_name_recipe.dart';
 import 'package:cook_app/data/categories_database/categories_names.dart';
 import 'package:cook_app/data/categories_database/categories_names_services.dart';
@@ -44,6 +46,8 @@ class _HomeState extends State<Home> {
   late TextEditingController _searchController;
 
   late List<dynamic> recipeListFilteredSearch;
+
+  bool _isConfirmBack = false;
 
   // function to load recipe data
   loadAllData() {
@@ -286,39 +290,13 @@ class _HomeState extends State<Home> {
     scrapTotalTime = recipe["totalTime"];
     scrapTags = recipe["recipeCuisine"];
 
-    // data cleaning by website :
-    // retrieve website name :
-    // int startIndex = recipeURL.indexOf('.') + 1; // Index après le premier point
-    // int endIndex = recipeURL.indexOf(
-    //     '.', startIndex); // Index du premier slash après le premier point
-
-    // String webSiteName = recipeURL.substring(startIndex, endIndex);
-
-    // // CUISINE AZ : //
-    // if (webSiteName == "cuisineaz") {
-    //   // tranform dynamic list from scraper to a list of string
-    //   scrapStepsRecipe = recipe['recipeInstructions'].cast<String>();
-    //   // remove first element for ingredients because is is empty for cuisineaz
-    //   scrapIngredient.removeAt(0);
-    // }
-
-    // // MARMITON : //
-    // // exatract each json steps
-    // if (webSiteName == "marmiton") {
-    //   for (var i = 0; i < recipe['recipeInstructions'].length; i++) {
-    //     var step = recipe["recipeInstructions"][i]["text"];
-
-    //     scrapStepsRecipe.add(step);
-    //   }
-    // }
-
     Scraping scrapInstance = Scraping(
       scrapRecipeName: scrapRecipeName,
       scrapStepsRecipe: scrapStepsRecipe,
       scrapAllIngredient: scrapIngredient,
       scrapTotalTime: scrapTotalTime,
       scrapTags: scrapTags,
-      scrapImage: recipe["image"][0],
+      urlImageScrap: recipe["image"][0],
     );
 
     Navigator.push(
@@ -340,10 +318,68 @@ class _HomeState extends State<Home> {
     });
   }
 
+  // show dialog when back button pressed :
+  Future<void> _showDialog() async {
+    showDialog<bool>(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            content: SizedBox(
+              height: 35.0,
+              child: Text(AppLocalizations.of(context)!.quitAppConfirm,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
+            ),
+            actions: <Widget>[
+              Container(
+                alignment: Alignment.center,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    TextButton(
+                      child: Text(
+                        AppLocalizations.of(context)!.confirmExit,
+                        style: TextStyle(color: Colors.red),
+                      ),
+                      onPressed: () {
+                        setState(() {
+                          // we can go back
+                          _isConfirmBack = true;
+                          // exit app
+                          exit(0);
+                        });
+                      },
+                    ),
+                    SizedBox(
+                        width:
+                            8), // Ajoutez un espacement entre les boutons si nécessaire
+                    TextButton(
+                      child: Text(
+                        AppLocalizations.of(context)!.no,
+                        style: TextStyle(color: Colors.lightGreen),
+                      ),
+                      onPressed: () {
+                        Navigator.of(context).pop(false);
+                      },
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          );
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
     return PopScope(
         canPop: false,
+        onPopInvoked: (bool didPop) async {
+          if (didPop) {
+            return;
+          }
+          _showDialog();
+        },
         child: Scaffold(
           appBar: AppBar(
               title: Text("cooky",
@@ -461,6 +497,8 @@ class _HomeState extends State<Home> {
                                 recipeCategory: recipeListFilteredSearch[index]
                                     [7],
                                 isFromFilteredNameRecipe: false,
+                                urlImageScrap: recipeListFilteredSearch[index]
+                                    [14],
                               );
 
                               // to display all list after editing (and not only the list from filter search)

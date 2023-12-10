@@ -66,19 +66,19 @@ class _FilteredNameRecipeState extends State<FilteredNameRecipe> {
   }
 
   void sendDataToEditAtEditRecipe(
-    BuildContext context,
-    editAllIngredient,
-    editStepsRecipe,
-    editRecipeCategory,
-    editRecipeName,
-    editTotalTime,
-    editDifficulty,
-    editCost,
-    isFromScrap,
-    editPathImage,
-    tags,
-    uniqueId,
-  ) async {
+      BuildContext context,
+      editAllIngredient,
+      editStepsRecipe,
+      editRecipeCategory,
+      editRecipeName,
+      editTotalTime,
+      editDifficulty,
+      editCost,
+      isFromScrap,
+      editPathImage,
+      tags,
+      uniqueId,
+      editUrlScrap) async {
     // for final result await, in fact we could send antoher variable, it's to force filtered_name_recipe to rebuild again and take in count the new recipe name
     final result = await Navigator.push(
       context,
@@ -95,6 +95,7 @@ class _FilteredNameRecipeState extends State<FilteredNameRecipe> {
           isFromScrap: isFromScrap,
           editPathImage: editPathImage,
           tags: tags,
+          editUrlImageScrap: editUrlScrap,
         ),
       ),
     );
@@ -349,7 +350,9 @@ class _FilteredNameRecipeState extends State<FilteredNameRecipe> {
                                                     recipeListFilteredSearch[
                                                         index][10],
                                                     recipeListFilteredSearch[
-                                                        index][9]);
+                                                        index][9],
+                                                    recipeListFilteredSearch[
+                                                        index][14]);
 
                                                 // to display all list after editing (and not only the list from filter search)
                                                 loadAllData();
@@ -406,6 +409,8 @@ class _FilteredNameRecipeState extends State<FilteredNameRecipe> {
                                       recipeCategory:
                                           recipeListFilteredSearch[index][7],
                                       isFromFilteredNameRecipe: true,
+                                      urlImageScrap:
+                                          recipeListFilteredSearch[index][14],
                                     );
 
                                     // to display all list after display a recipe (and not only the list from filter search)

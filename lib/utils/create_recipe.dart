@@ -62,6 +62,7 @@ class _CreateRecipeState extends State<CreateRecipe> {
   bool isButtonAddTagsVisible = true;
   bool isshowTagsAddedPressed = false;
   bool isFromEditRecipeStruct = false;
+  bool _isConfirmBack = false;
 
   ////// FUNCTIONS FOR RECIPE CATEGORY //////
 
@@ -1218,163 +1219,170 @@ class _CreateRecipeState extends State<CreateRecipe> {
     }
   }
 
+  // show dialog when back button pressed :
+  Future<void> _showDialog() async {
+    showDialog<bool>(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            content: SizedBox(
+                height: 200.0,
+                child: Column(children: [
+                  Text(AppLocalizations.of(context)!.areYouSureExit,
+                      textAlign: TextAlign.center,
+                      style:
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                  Center(
+                      child: Text(AppLocalizations.of(context)!.saveEditLater,
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontSize: 15, fontStyle: FontStyle.italic)))
+                ])),
+            actions: <Widget>[
+              TextButton(
+                child: Text(AppLocalizations.of(context)!.confirmExit,
+                    style: TextStyle(color: Colors.red)),
+                onPressed: () {
+                  setState(() {
+                    // we can go back
+                    _isConfirmBack = true;
+                    // go back to tthe page before dialbox (create recipe)
+                    Navigator.of(context).pop(_isConfirmBack);
+                    // go back to the page before create recipe (home)
+                    Navigator.of(context).pop();
+                  });
+                },
+              ),
+              TextButton(
+                child: Text(AppLocalizations.of(context)!.no,
+                    style: TextStyle(color: Colors.lightGreen)),
+                onPressed: () {
+                  Navigator.of(context).pop(false);
+                },
+              ),
+            ],
+          );
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
     // use WillPopScope for pop an alert dialog before exiting page. It works, but is deprecated
-    return WillPopScope(
-        onWillPop: () async {
-          final value = await showDialog<bool>(
-              context: context,
-              builder: (context) {
-                return AlertDialog(
-                  content: SizedBox(
-                      height: 300.0,
-                      child: Column(children: [
-                        Text(AppLocalizations.of(context)!.areYouSureExit,
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                                fontSize: 20, fontWeight: FontWeight.bold)),
-                        Center(
-                            child: Text(
-                                AppLocalizations.of(context)!.saveEditLater,
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    fontSize: 15, fontStyle: FontStyle.italic)))
-                      ])),
-                  actions: <Widget>[
-                    TextButton(
-                      child: Text(AppLocalizations.of(context)!.confirmExit,
-                          style: TextStyle(color: Colors.red)),
-                      onPressed: () {
-                        Navigator.of(context).pop(true);
-                      },
-                    ),
-                    TextButton(
-                      child: Text(AppLocalizations.of(context)!.no,
-                          style: TextStyle(color: Colors.lightGreen)),
-                      onPressed: () {
-                        Navigator.of(context).pop(false);
-                      },
-                    ),
-                  ],
-                );
-              });
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(AppLocalizations.of(context)!.createRecipe),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Form(
+          canPop: _isConfirmBack,
+          onPopInvoked: (bool didPop) async {
+            if (didPop) {
+              return;
+            }
+            _showDialog();
+          },
+          child:
+              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            Expanded(
+                child: ListView(children: <Widget>[
+              // SHOW RECIPE CATEGORY, RECIPE NAME ,TOTAL TIME ,DIFFICULTY, COST, ADD PICTURE, SELECT INGREDIENT, ADD STEPS OR SELECT INGREDIENT AND SHOW INGRED ADDED OR ADD STEPS AND SHOW STEPS:
+              ShowWidget(),
+            ])),
+            // Button fot submit form
+            if (isShowIngredientsSelectedPressed == false &&
+                isshowStepsAddedPressed == false &&
+                isshowTagsAddedPressed == false) ...[
+              Container(
+                  alignment: Alignment.bottomRight,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      // handle deleted variable
+                      final finalRecipeNameFromAddRecipeName =
+                          recipeNameFromAddRecipeName == "Deleted"
+                              ? "No title"
+                              : recipeNameFromAddRecipeName;
 
-          return value == true;
-        },
-        child: Scaffold(
-          appBar: AppBar(
-            title: Text(AppLocalizations.of(context)!.createRecipe),
-          ),
-          body: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Form(
-              child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Expanded(
-                        child: ListView(children: <Widget>[
-                      // SHOW RECIPE CATEGORY, RECIPE NAME ,TOTAL TIME ,DIFFICULTY, COST, ADD PICTURE, SELECT INGREDIENT, ADD STEPS OR SELECT INGREDIENT AND SHOW INGRED ADDED OR ADD STEPS AND SHOW STEPS:
-                      ShowWidget(),
-                    ])),
-                    // Button fot submit form
-                    if (isShowIngredientsSelectedPressed == false &&
-                        isshowStepsAddedPressed == false &&
-                        isshowTagsAddedPressed == false) ...[
-                      Container(
-                          alignment: Alignment.bottomRight,
-                          child: ElevatedButton(
-                            onPressed: () {
-                              // handle deleted variable
-                              final finalRecipeNameFromAddRecipeName =
-                                  recipeNameFromAddRecipeName == "Deleted"
-                                      ? "No title"
-                                      : recipeNameFromAddRecipeName;
+                      final finalTotalTimeFromAddTotalTime =
+                          totalTimeFromAddTotalTime == "Deleted"
+                              ? ""
+                              : totalTimeFromAddTotalTime;
 
-                              final finalTotalTimeFromAddTotalTime =
-                                  totalTimeFromAddTotalTime == "Deleted"
-                                      ? ""
-                                      : totalTimeFromAddTotalTime;
+                      final finalVarFromAddDifficulty =
+                          varFromAddDifficulty == "Deleted"
+                              ? ""
+                              : varFromAddDifficulty;
 
-                              final finalVarFromAddDifficulty =
-                                  varFromAddDifficulty == "Deleted"
-                                      ? ""
-                                      : varFromAddDifficulty;
+                      final finalVarFromAddCost =
+                          varFromAddCost == "Deleted" ? "" : varFromAddCost;
 
-                              final finalVarFromAddCost =
-                                  varFromAddCost == "Deleted"
-                                      ? ""
-                                      : varFromAddCost;
+                      // create a varible with the date of creation
+                      DateTime now = DateTime.now();
+                      String creationDate =
+                          'variable_${now.year}${now.month}${now.day}_${now.hour}${now.minute}${now.second}';
 
-                              // create a varible with the date of creation
-                              DateTime now = DateTime.now();
-                              String creationDate =
-                                  'variable_${now.year}${now.month}${now.day}_${now.hour}${now.minute}${now.second}';
+                      // retrieve database list
+                      List listOfLists = _myBox.get('ALL_LISTS') ?? [];
 
-                              // retrieve database list
-                              List listOfLists = _myBox.get('ALL_LISTS') ?? [];
+                      // create null index for future add :
+                      double? stars = null;
+                      List? detailTIme = null;
+                      List? utensils = null;
 
-                              // create null index for future add :
-                              double? stars = null;
-                              List? detailTIme = null;
-                              List? utensils = null;
+                      // Add a new list to the list of lists
 
-                              // Add a new list to the list of lists
+                      listOfLists.add([
+                        finalRecipeNameFromAddRecipeName,
+                        finalTotalTimeFromAddTotalTime,
+                        finalVarFromAddDifficulty,
+                        finalVarFromAddCost,
+                        allIngredientSelectedCreateRecipe,
+                        pathImageSelectedFromImagePicker,
+                        stepsRecipeFromCreateSteps,
+                        recipeCategoryFromAddExistingCategory,
+                        isFromScrap,
+                        creationDate,
+                        tags,
+                        stars,
+                        detailTIme,
+                        utensils,
+                        false
+                      ]);
 
-                              listOfLists.add([
-                                finalRecipeNameFromAddRecipeName,
-                                finalTotalTimeFromAddTotalTime,
-                                finalVarFromAddDifficulty,
-                                finalVarFromAddCost,
-                                allIngredientSelectedCreateRecipe,
-                                pathImageSelectedFromImagePicker,
-                                stepsRecipeFromCreateSteps,
-                                recipeCategoryFromAddExistingCategory,
-                                isFromScrap,
-                                creationDate,
-                                tags,
-                                stars,
-                                detailTIme,
-                                utensils,
-                                false
-                              ]);
+                      // Update list of lists in Hive
+                      _myBox.put('ALL_LISTS', listOfLists);
 
-                              // Update list of lists in Hive
-                              _myBox.put('ALL_LISTS', listOfLists);
+                      // Create an instance of RecipeDetailsPage with the form data
+                      RecipeStruct recipeDetailsPage = RecipeStruct(
+                        recipeName: finalRecipeNameFromAddRecipeName,
+                        totalTime: finalTotalTimeFromAddTotalTime,
+                        difficulty: finalVarFromAddDifficulty,
+                        cost: finalVarFromAddCost,
+                        allIngredientSelected:
+                            allIngredientSelectedCreateRecipe,
+                        pathImageSelectedFromImagePicker:
+                            pathImageSelectedFromImagePicker,
+                        stepsRecipeFromCreateSteps: stepsRecipeFromCreateSteps,
+                        isFromScrap: isFromScrap,
+                        tags: tags,
+                        uniqueId: creationDate,
+                        recipeCategory: recipeCategoryFromAddExistingCategory,
+                        isFromFilteredNameRecipe: false,
+                      );
 
-                              // Create an instance of RecipeDetailsPage with the form data
-                              RecipeStruct recipeDetailsPage = RecipeStruct(
-                                recipeName: finalRecipeNameFromAddRecipeName,
-                                totalTime: finalTotalTimeFromAddTotalTime,
-                                difficulty: finalVarFromAddDifficulty,
-                                cost: finalVarFromAddCost,
-                                allIngredientSelected:
-                                    allIngredientSelectedCreateRecipe,
-                                pathImageSelectedFromImagePicker:
-                                    pathImageSelectedFromImagePicker,
-                                stepsRecipeFromCreateSteps:
-                                    stepsRecipeFromCreateSteps,
-                                isFromScrap: isFromScrap,
-                                tags: tags,
-                                uniqueId: creationDate,
-                                recipeCategory:
-                                    recipeCategoryFromAddExistingCategory,
-                                isFromFilteredNameRecipe: false,
-                              );
-
-                              // Navigate to the new page with the form data and save
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => recipeDetailsPage),
-                              );
-                            },
-                            child: Text(AppLocalizations.of(context)!.add),
-                          )),
-                    ],
-                  ]),
-            ),
-          ),
-        ));
+                      // Navigate to the new page with the form data and save
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => recipeDetailsPage),
+                      );
+                    },
+                    child: Text(AppLocalizations.of(context)!.add),
+                  )),
+            ],
+          ]),
+        ),
+      ),
+    );
   }
 }

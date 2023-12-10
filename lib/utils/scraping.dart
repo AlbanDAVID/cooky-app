@@ -27,7 +27,8 @@ class Scraping extends StatefulWidget {
   List<String> scrapStepsRecipe;
   String scrapTotalTime;
   List scrapTags;
-  String? scrapImage;
+  String? pathImageSelectedFromImagePicker;
+  String? urlImageScrap;
   Scraping({
     super.key,
     required this.scrapRecipeName,
@@ -35,7 +36,8 @@ class Scraping extends StatefulWidget {
     required this.scrapAllIngredient,
     required this.scrapTotalTime,
     required this.scrapTags,
-    this.scrapImage,
+    this.pathImageSelectedFromImagePicker,
+    this.urlImageScrap,
   });
 
   @override
@@ -483,6 +485,31 @@ class _ScrapingState extends State<Scraping> {
   /// ////// //////////// FUNCTIONS FOR ADD PICTURE //////
   ///
   ///
+  ///
+
+  // function to decide image to display
+  _imageToDisplay() {
+    if (widget.urlImageScrap != null) {
+      return Image.network(
+        widget.urlImageScrap!,
+        width: 200,
+        height: 200,
+      );
+    } else if (widget.pathImageSelectedFromImagePicker != null) {
+      return Image.file(
+        File(widget.pathImageSelectedFromImagePicker!),
+        width: 200,
+        height: 200,
+      );
+    } else if (widget.urlImageScrap == null &&
+        widget.pathImageSelectedFromImagePicker == null) {
+      return Image.asset(
+        defautImage,
+        width: 200,
+        height: 200,
+      );
+    }
+  }
 
   // function to display a dialog with picture preview
   void _showImagePreview(BuildContext context) {
@@ -490,17 +517,7 @@ class _ScrapingState extends State<Scraping> {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            content: widget.scrapImage != null
-                ? Image.network(
-                    widget.scrapImage!,
-                    width: 200,
-                    height: 200,
-                  )
-                : Image.asset(
-                    defautImage,
-                    width: 200,
-                    height: 200,
-                  ),
+            content: _imageToDisplay(),
             actions: [
               TextButton(
                 onPressed: () {
@@ -526,7 +543,8 @@ class _ScrapingState extends State<Scraping> {
       String imageSelected = result;
       print('Received data from SecondScreen: $imageSelected');
       setState(() {});
-      widget.scrapImage = imageSelected;
+      widget.pathImageSelectedFromImagePicker = imageSelected;
+      widget.urlImageScrap = null;
     }
   }
 
@@ -570,7 +588,8 @@ class _ScrapingState extends State<Scraping> {
             InkWell(
               onLongPress: () {
                 setState(() {
-                  widget.scrapImage = null;
+                  widget.pathImageSelectedFromImagePicker = null;
+                  widget.urlImageScrap = null;
                 });
               },
               child: Icon(Icons.delete, size: 20, color: Colors.redAccent),
@@ -1235,7 +1254,7 @@ class _ScrapingState extends State<Scraping> {
                                 finalscrapDifficulty,
                                 finalscrapCost,
                                 widget.scrapAllIngredient,
-                                widget.scrapImage,
+                                widget.pathImageSelectedFromImagePicker,
                                 widget.scrapStepsRecipe,
                                 scrapRecipeCategory,
                                 isFromScrap,
@@ -1244,6 +1263,7 @@ class _ScrapingState extends State<Scraping> {
                                 stars,
                                 detailTIme,
                                 utensils,
+                                widget.urlImageScrap
                               ]);
 
                               // Save edidted list in hive
@@ -1251,22 +1271,22 @@ class _ScrapingState extends State<Scraping> {
 
                               //Create an instance of RecipeDetailsPage with the form data
                               RecipeStruct recipeDetailsPage = RecipeStruct(
-                                recipeName: finalscrapRecipeName,
-                                totalTime: finalscrapTotalTime,
-                                difficulty: finalscrapDifficulty,
-                                cost: finalscrapCost,
-                                allIngredientSelected:
-                                    widget.scrapAllIngredient,
-                                pathImageSelectedFromImagePicker:
-                                    widget.scrapImage,
-                                stepsRecipeFromCreateSteps:
-                                    widget.scrapStepsRecipe,
-                                isFromScrap: isFromScrap,
-                                tags: widget.scrapTags,
-                                uniqueId: creationDate,
-                                recipeCategory: scrapRecipeCategory,
-                                isFromFilteredNameRecipe: false,
-                              );
+                                  recipeName: finalscrapRecipeName,
+                                  totalTime: finalscrapTotalTime,
+                                  difficulty: finalscrapDifficulty,
+                                  cost: finalscrapCost,
+                                  allIngredientSelected:
+                                      widget.scrapAllIngredient,
+                                  pathImageSelectedFromImagePicker:
+                                      widget.pathImageSelectedFromImagePicker,
+                                  stepsRecipeFromCreateSteps:
+                                      widget.scrapStepsRecipe,
+                                  isFromScrap: isFromScrap,
+                                  tags: widget.scrapTags,
+                                  uniqueId: creationDate,
+                                  recipeCategory: scrapRecipeCategory,
+                                  isFromFilteredNameRecipe: false,
+                                  urlImageScrap: widget.urlImageScrap);
 
                               // Navigate to the new page with the form data and save
                               Navigator.push(

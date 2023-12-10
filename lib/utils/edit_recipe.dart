@@ -33,21 +33,22 @@ class EditRecipe extends StatefulWidget {
   bool isFromScrap;
   List? tags;
   String uniqueId;
+  String? editUrlImageScrap;
 
-  EditRecipe({
-    Key? key,
-    required this.editAllIngredient,
-    this.editPathImage,
-    required this.editStepsRecipe,
-    required this.editRecipeCategory,
-    required this.editRecipeName,
-    required this.editTotalTime,
-    required this.editDifficulty,
-    required this.editCost,
-    required this.isFromScrap,
-    this.tags,
-    required this.uniqueId,
-  }) : super(key: key);
+  EditRecipe(
+      {super.key,
+      required this.editAllIngredient,
+      this.editPathImage,
+      required this.editStepsRecipe,
+      required this.editRecipeCategory,
+      required this.editRecipeName,
+      required this.editTotalTime,
+      required this.editDifficulty,
+      required this.editCost,
+      required this.isFromScrap,
+      this.tags,
+      required this.uniqueId,
+      this.editUrlImageScrap});
 
   @override
   // ignore: library_private_types_in_public_api
@@ -497,6 +498,31 @@ class _EditRecipeState extends State<EditRecipe> {
   /// ////// //////////// FUNCTIONS FOR ADD PICTURE //////
   ///
   ///
+  ///
+
+  // function to decide image to display
+  _imageToDisplay() {
+    if (widget.editUrlImageScrap != null) {
+      return Image.network(
+        widget.editUrlImageScrap!,
+        width: 200,
+        height: 200,
+      );
+    } else if (widget.editPathImage != null) {
+      return Image.file(
+        File(widget.editPathImage!),
+        width: 200,
+        height: 200,
+      );
+    } else if (widget.editUrlImageScrap == null &&
+        widget.editPathImage == null) {
+      return Image.asset(
+        defautImage,
+        width: 200,
+        height: 200,
+      );
+    }
+  }
 
   // function to display a dialog with picture preview
   void _showImagePreview(BuildContext context) {
@@ -504,17 +530,7 @@ class _EditRecipeState extends State<EditRecipe> {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            content: widget.editPathImage != null
-                ? Image.file(
-                    File(widget.editPathImage!),
-                    width: 200,
-                    height: 200,
-                  )
-                : Image.asset(
-                    defautImage,
-                    width: 200,
-                    height: 200,
-                  ),
+            content: _imageToDisplay(),
             actions: [
               TextButton(
                 onPressed: () {
@@ -542,6 +558,7 @@ class _EditRecipeState extends State<EditRecipe> {
       setState(() {});
 
       widget.editPathImage = imageSelected;
+      widget.editUrlImageScrap = null;
     }
   }
 
@@ -586,6 +603,7 @@ class _EditRecipeState extends State<EditRecipe> {
               onLongPress: () {
                 setState(() {
                   widget.editPathImage = null;
+                  widget.editUrlImageScrap = null;
                 });
               },
               child: Icon(Icons.delete, size: 20, color: Colors.redAccent),
@@ -1279,6 +1297,8 @@ class _EditRecipeState extends State<EditRecipe> {
                             recipeList[getIndex()][6] = widget.editStepsRecipe;
                             recipeList[getIndex()][7] =
                                 widget.editRecipeCategory;
+                            recipeList[getIndex()][14] =
+                                widget.editUrlImageScrap;
 
                             // Save edidted list in hive
                             _myBox.put("ALL_LISTS", recipeList);
@@ -1299,6 +1319,7 @@ class _EditRecipeState extends State<EditRecipe> {
                               uniqueId: recipeList[getIndex()][9],
                               recipeCategory: recipeList[getIndex()][7],
                               isFromFilteredNameRecipe: false,
+                              urlImageScrap: recipeList[getIndex()][14],
                             );
 
                             //Navigate to the new page with the form data and save

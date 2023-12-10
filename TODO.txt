@@ -6,11 +6,13 @@ Priority :
 - *** check with all devices
 - *** special thx
 - *** major bug ingrédient (edit + create recipe)
+- *** categoty empty
+- disposition image format paysage
 
 
 
 
-- add source scrap + image + prevent dire site sooportés + erreur si scrap n'est pas fait 
+- add source scrap + image + prevent dire site sooportés + erreur si scrap n'est pas fait + PT20 M
 
 
 - supported website : 
@@ -45,7 +47,7 @@ Priority :
 - voir pour automatiquement ajuster les unités de meures (us, fr etc.)
 - connect to a nextcloud account 
 - rendre la selection de quantity plus stylée
-- possibility to add tags, ingred ans save it
+- possibility to add tags, ingred ans save it in a BDD
 - possibilité de saisir le nom de l'ingrédient puis de faire saisie intuitive de la quantité
 - mettre des fleche pour montrer u'on peut scroller des les suggestions (ex : tagsn ingrédient, quantité..)
 - add  
@@ -54,7 +56,7 @@ Priority :
   // [13] ustensiles (List) 
 - povoir éditer category lors de créatio nde recette ou autre (et pas seulement sur home page)
 - add US unit
-- add checkbox ingred (save)
+- add checkbox ingred (save in a BDD)
 
 - add edit in ingred selection (where there is only delete option for now)
 - attention ; pour collapse ingred et steps : si je developpe et que je sroll trop à partir de add ingred par ex, impossible de revenir à la normal, il faudrait bloquer add ingred add steps qui est le prmeier element de la liste
@@ -62,11 +64,10 @@ Priority :
 - bien signifier que category n'a pas été renseigné si on clique sur sumbit (pour add from scrap et manually)
 - pouvoir deplacer les catégorie de place sur home page
 - ajouter message erreur scrapping (si impssible)
-- - ajouter possibilité de supprimé uniquement recette d'une catégorie sur home page (pour 'instant on put le faire que une fois dans la catégorie)
+
 - improve scraping (more website)
-- notation des recettes 
-- integer for ingredient (for automatic tell how many person)
-- checkbox ingredients
+- notation des recettes (stars)
+- integer type for ingredient (for automatic tell how many person)
 _ possibility to enlarge the text steps
 - sort recipe by date add + filter by tag
 
@@ -88,7 +89,7 @@ Other idea :
 - check list ce qu'on a dans les placards
 
 BUG : 
-- willpopscope est deprecated
+
 - minor : quand on ajoute une ctégorie et qu'on saisi manuellement sans rien mettre, ça créé une catégorie vide
 - major : quand j'ajoute un ingrédient et que je je clique sur le crayon pour modifier et que je quitte la page edit sabs rien faire : pour editer ou supprimer voire meêm supprime tous les ingrédients... (rien n'est envoyé dans la page create recipe mais l'ingrédient reste parce pb de set state ?)
 - major : edit in a categorie : si on quitte sans faire submit, les ingrédients séléctionné reste temporairement en émmoire (disparaisse au redemarrage de lappli)

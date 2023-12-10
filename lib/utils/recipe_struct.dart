@@ -28,6 +28,7 @@ class RecipeStruct extends StatefulWidget {
   String uniqueId;
   String recipeCategory;
   bool isFromFilteredNameRecipe;
+  final String? urlImageScrap;
 
   RecipeStruct({
     super.key,
@@ -43,6 +44,7 @@ class RecipeStruct extends StatefulWidget {
     required this.uniqueId,
     required this.recipeCategory,
     required this.isFromFilteredNameRecipe,
+    this.urlImageScrap,
   });
 
   @override
@@ -101,21 +103,39 @@ class _RecipeStructState extends State<RecipeStruct> {
     }
   }
 
+  // function to decide image to display
+  _imageToDisplay() {
+    if (widget.urlImageScrap != null) {
+      return Image.network(
+        widget.urlImageScrap!,
+      );
+    } else if (widget.pathImageSelectedFromImagePicker != null) {
+      return Image.file(
+        File(widget.pathImageSelectedFromImagePicker!),
+      );
+    } else if (widget.urlImageScrap == null &&
+        widget.pathImageSelectedFromImagePicker == null) {
+      return Image.asset(
+        defautImage,
+      );
+    }
+  }
+
   // function to edit recipe
   void sendDataToEditAtEditRecipe(
-    BuildContext context,
-    editAllIngredient,
-    editStepsRecipe,
-    editRecipeCategory,
-    editRecipeName,
-    editTotalTime,
-    editDifficulty,
-    editCost,
-    isFromScrap,
-    editPathImage,
-    tags,
-    uniqueId,
-  ) async {
+      BuildContext context,
+      editAllIngredient,
+      editStepsRecipe,
+      editRecipeCategory,
+      editRecipeName,
+      editTotalTime,
+      editDifficulty,
+      editCost,
+      isFromScrap,
+      editPathImage,
+      tags,
+      uniqueId,
+      editUrlScrap) async {
     await Navigator.push(
       context,
       MaterialPageRoute(
@@ -131,6 +151,7 @@ class _RecipeStructState extends State<RecipeStruct> {
           isFromScrap: isFromScrap,
           editPathImage: editPathImage,
           tags: tags,
+          editUrlImageScrap: editUrlScrap,
         ),
       ),
     );
@@ -199,19 +220,19 @@ class _RecipeStructState extends State<RecipeStruct> {
       case 0: //edit
         setState(() {
           sendDataToEditAtEditRecipe(
-            context,
-            widget.allIngredientSelected,
-            widget.stepsRecipeFromCreateSteps,
-            widget.recipeCategory,
-            widget.recipeName,
-            widget.totalTime,
-            widget.difficulty,
-            widget.cost,
-            widget.isFromScrap,
-            widget.pathImageSelectedFromImagePicker,
-            widget.tags,
-            widget.uniqueId,
-          );
+              context,
+              widget.allIngredientSelected,
+              widget.stepsRecipeFromCreateSteps,
+              widget.recipeCategory,
+              widget.recipeName,
+              widget.totalTime,
+              widget.difficulty,
+              widget.cost,
+              widget.isFromScrap,
+              widget.pathImageSelectedFromImagePicker,
+              widget.tags,
+              widget.uniqueId,
+              widget.urlImageScrap);
         });
 
       case 1: // delete
@@ -354,16 +375,7 @@ class _RecipeStructState extends State<RecipeStruct> {
                             Center(
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(10.0),
-                                child: widget
-                                            .pathImageSelectedFromImagePicker !=
-                                        null
-                                    ? Image.file(
-                                        File(widget
-                                            .pathImageSelectedFromImagePicker!),
-                                      ) // File(imageSelectedFromImagePicker!) to transform string path to a widget (ClipRRect does not support Imge.file with just string path, need a widget)
-                                    : Image.asset(
-                                        defautImage,
-                                      ),
+                                child: _imageToDisplay(),
                               ),
                             ),
 
