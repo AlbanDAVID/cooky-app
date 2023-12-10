@@ -1305,22 +1305,22 @@ class _EditRecipeState extends State<EditRecipe> {
 
                             // Create an instance of RecipeDetailsPage with the form data
                             RecipeStruct recipeDetailsPage = RecipeStruct(
-                              recipeName: finalEditRecipeName,
-                              totalTime: finalEditTotalTime,
-                              difficulty: finalEditDifficulty,
-                              cost: finalEditCost,
-                              allIngredientSelected: widget.editAllIngredient,
-                              pathImageSelectedFromImagePicker:
-                                  widget.editPathImage,
-                              stepsRecipeFromCreateSteps:
-                                  widget.editStepsRecipe,
-                              isFromScrap: recipeList[getIndex()][8],
-                              tags: recipeList[getIndex()][10],
-                              uniqueId: recipeList[getIndex()][9],
-                              recipeCategory: recipeList[getIndex()][7],
-                              isFromFilteredNameRecipe: false,
-                              urlImageScrap: recipeList[getIndex()][14],
-                            );
+                                recipeName: finalEditRecipeName,
+                                totalTime: finalEditTotalTime,
+                                difficulty: finalEditDifficulty,
+                                cost: finalEditCost,
+                                allIngredientSelected: widget.editAllIngredient,
+                                pathImageSelectedFromImagePicker:
+                                    widget.editPathImage,
+                                stepsRecipeFromCreateSteps:
+                                    widget.editStepsRecipe,
+                                isFromScrap: recipeList[getIndex()][8],
+                                tags: recipeList[getIndex()][10],
+                                uniqueId: recipeList[getIndex()][9],
+                                recipeCategory: recipeList[getIndex()][7],
+                                isFromFilteredNameRecipe: false,
+                                urlImageScrap: recipeList[getIndex()][14],
+                                sourceUrlScrap: recipeList[getIndex()][15]);
 
                             //Navigate to the new page with the form data and save
                             Navigator.push(

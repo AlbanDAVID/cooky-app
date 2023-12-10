@@ -92,7 +92,9 @@
     "searchRecipe" : "Chercher une recette",
      "delete" : "Supprimer",
      "home" : "Accueil",
-     "quitAppConfirm" : "Quitter l'application ?"}
+     "quitAppConfirm" : "Quitter l'application ?",
+     "sourceUrlScrap" : "Source",
+     "errorScrap" : "Erreur : cette URL n'est pas supportée"}
 
 
 

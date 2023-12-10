@@ -92,7 +92,9 @@
    "searchRecipe" : "Search a recipe",
    "delete" : "Delete",
    "home" :  "Home",
-   "quitAppConfirm" : "Quit the app?"}
+   "quitAppConfirm" : "Quit the app?",
+   "sourceUrlScrap" : "Source",
+   "errorScrap" : "Error : this URL is not supported"}
 
 
 

@@ -48,6 +48,9 @@ class _HomeState extends State<Home> {
   late List<dynamic> recipeListFilteredSearch;
 
   bool _isConfirmBack = false;
+  bool scrapInstanceCreated = false;
+  Map marmiteurResult = {};
+  bool isMarmiteurPassed = true;
 
   // function to load recipe data
   loadAllData() {
@@ -279,35 +282,81 @@ class _HomeState extends State<Home> {
         });
   }
 
+  // display error marmiteur (dialbox)
+  Widget showDialogErrorMarmiteur() {
+    return AlertDialog(
+      content: Text(
+        AppLocalizations.of(context)!.errorScrap,
+        textAlign: TextAlign.center,
+        style: TextStyle(color: Colors.red),
+      ),
+      actions: [
+        ElevatedButton(
+          child: Text(AppLocalizations.of(context)!.back),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        )
+      ],
+    );
+  }
+
   // marmiteur
-  void scrapMarmiteur(websiteURL, {autoFormat = true}) async {
+  Future scrapMarmiteur(websiteURL, {autoFormat = true}) async {
+    // retrieve data from marmiteur
+
     String recipeURL = websiteURL;
-    var recipe = await marmiteur(recipeURL);
+    try {
+      marmiteurResult = await marmiteur(recipeURL);
+      if (marmiteurResult['name'] != null) {
+        setState(() {
+          isMarmiteurPassed = true;
+        });
+      }
+    } catch (error) {
+      return error;
+    }
 
-    scrapRecipeName = recipe['name'];
-    scrapStepsRecipe = recipe["recipeInstructions"].cast<String>();
-    scrapIngredient = recipe["recipeIngredient"].cast<String>();
-    scrapTotalTime = recipe["totalTime"];
-    scrapTags = recipe["recipeCuisine"];
+    // create variables
+    scrapRecipeName = marmiteurResult['name'];
+    scrapStepsRecipe = marmiteurResult["recipeInstructions"].cast<String>();
+    scrapIngredient = marmiteurResult["recipeIngredient"].cast<String>();
+    scrapTotalTime = marmiteurResult["totalTime"];
+    scrapTags = marmiteurResult["recipeCuisine"];
 
+    // function to clean totalTime (remove prefix "PT" if any)
+    String removePrefixPT(String scrapTotalTime) {
+      if (scrapTotalTime.length >= 2 &&
+          scrapTotalTime.substring(0, 2) == "PT") {
+        return scrapTotalTime.substring(2);
+      } else {
+        return scrapTotalTime;
+      }
+    }
+
+    // clean scrapTotalTime
+    scrapTotalTime = removePrefixPT(scrapTotalTime);
+
+    // initiate Scraping() class
     Scraping scrapInstance = Scraping(
       scrapRecipeName: scrapRecipeName,
       scrapStepsRecipe: scrapStepsRecipe,
       scrapAllIngredient: scrapIngredient,
       scrapTotalTime: scrapTotalTime,
       scrapTags: scrapTags,
-      urlImageScrap: recipe["image"][0],
+      urlImageScrap: marmiteurResult["image"][0],
+      sourceUrlScrap: recipeURL,
     );
 
+    marmiteurResult['name'] == null;
+    // send data to scrapInstance
     Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => scrapInstance),
     );
-
-    print(" scrapStepsRecipe : ${scrapStepsRecipe}");
   }
 
-  // dunction to search
+  // function to search
   void filterList(String searchTerm) {
     setState(() {
       // Apply the search term to filter the list
@@ -499,6 +548,8 @@ class _HomeState extends State<Home> {
                                 isFromFilteredNameRecipe: false,
                                 urlImageScrap: recipeListFilteredSearch[index]
                                     [14],
+                                sourceUrlScrap: recipeListFilteredSearch[index]
+                                    [15],
                               );
 
                               // to display all list after editing (and not only the list from filter search)
@@ -760,9 +811,15 @@ class _HomeState extends State<Home> {
                                         Text(AppLocalizations.of(context)!.add),
                                     onPressed: () async {
                                       var recipeURL = _controller.text;
+
                                       scrapMarmiteur(recipeURL);
-                                      Navigator.pop(context);
-                                      _controller.clear();
+                                      if (isMarmiteurPassed == false) {
+                                        _controller.clear();
+                                        Navigator.pop(context);
+                                      } else {
+                                        showDialogErrorMarmiteur();
+                                      }
+                                      print(' bool ! $isMarmiteurPassed');
                                     },
                                   )
                                 ],

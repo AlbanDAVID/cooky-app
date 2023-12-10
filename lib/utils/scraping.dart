@@ -29,16 +29,17 @@ class Scraping extends StatefulWidget {
   List scrapTags;
   String? pathImageSelectedFromImagePicker;
   String? urlImageScrap;
-  Scraping({
-    super.key,
-    required this.scrapRecipeName,
-    required this.scrapStepsRecipe,
-    required this.scrapAllIngredient,
-    required this.scrapTotalTime,
-    required this.scrapTags,
-    this.pathImageSelectedFromImagePicker,
-    this.urlImageScrap,
-  });
+  String? sourceUrlScrap;
+  Scraping(
+      {super.key,
+      required this.scrapRecipeName,
+      required this.scrapStepsRecipe,
+      required this.scrapAllIngredient,
+      required this.scrapTotalTime,
+      required this.scrapTags,
+      this.pathImageSelectedFromImagePicker,
+      this.urlImageScrap,
+      this.sourceUrlScrap});
 
   @override
   // ignore: library_private_types_in_public_api
@@ -1263,7 +1264,8 @@ class _ScrapingState extends State<Scraping> {
                                 stars,
                                 detailTIme,
                                 utensils,
-                                widget.urlImageScrap
+                                widget.urlImageScrap,
+                                widget.sourceUrlScrap
                               ]);
 
                               // Save edidted list in hive
@@ -1271,22 +1273,24 @@ class _ScrapingState extends State<Scraping> {
 
                               //Create an instance of RecipeDetailsPage with the form data
                               RecipeStruct recipeDetailsPage = RecipeStruct(
-                                  recipeName: finalscrapRecipeName,
-                                  totalTime: finalscrapTotalTime,
-                                  difficulty: finalscrapDifficulty,
-                                  cost: finalscrapCost,
-                                  allIngredientSelected:
-                                      widget.scrapAllIngredient,
-                                  pathImageSelectedFromImagePicker:
-                                      widget.pathImageSelectedFromImagePicker,
-                                  stepsRecipeFromCreateSteps:
-                                      widget.scrapStepsRecipe,
-                                  isFromScrap: isFromScrap,
-                                  tags: widget.scrapTags,
-                                  uniqueId: creationDate,
-                                  recipeCategory: scrapRecipeCategory,
-                                  isFromFilteredNameRecipe: false,
-                                  urlImageScrap: widget.urlImageScrap);
+                                recipeName: finalscrapRecipeName,
+                                totalTime: finalscrapTotalTime,
+                                difficulty: finalscrapDifficulty,
+                                cost: finalscrapCost,
+                                allIngredientSelected:
+                                    widget.scrapAllIngredient,
+                                pathImageSelectedFromImagePicker:
+                                    widget.pathImageSelectedFromImagePicker,
+                                stepsRecipeFromCreateSteps:
+                                    widget.scrapStepsRecipe,
+                                isFromScrap: isFromScrap,
+                                tags: widget.scrapTags,
+                                uniqueId: creationDate,
+                                recipeCategory: scrapRecipeCategory,
+                                isFromFilteredNameRecipe: false,
+                                urlImageScrap: widget.urlImageScrap,
+                                sourceUrlScrap: widget.sourceUrlScrap,
+                              );
 
                               // Navigate to the new page with the form data and save
                               Navigator.push(

@@ -1346,7 +1346,8 @@ class _CreateRecipeState extends State<CreateRecipe> {
                         stars,
                         detailTIme,
                         utensils,
-                        false
+                        null, // it's not an scrap image URL, so url is null
+                        null, // not an url source scrap, so it's null
                       ]);
 
                       // Update list of lists in Hive
@@ -1368,6 +1369,7 @@ class _CreateRecipeState extends State<CreateRecipe> {
                         uniqueId: creationDate,
                         recipeCategory: recipeCategoryFromAddExistingCategory,
                         isFromFilteredNameRecipe: false,
+                        sourceUrlScrap: null,
                       );
 
                       // Navigate to the new page with the form data and save

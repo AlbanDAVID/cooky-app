@@ -388,30 +388,31 @@ class _FilteredNameRecipeState extends State<FilteredNameRecipe> {
                                     loadAllData();
 
                                     RecipeStruct recipeInstance = RecipeStruct(
-                                      recipeName:
-                                          recipeListFilteredSearch[index][0],
-                                      totalTime: recipeListFilteredSearch[index]
-                                          [1],
-                                      difficulty:
-                                          recipeListFilteredSearch[index][2],
-                                      cost: recipeListFilteredSearch[index][3],
-                                      allIngredientSelected:
-                                          recipeListFilteredSearch[index][4],
-                                      pathImageSelectedFromImagePicker:
-                                          recipeListFilteredSearch[index][5],
-                                      stepsRecipeFromCreateSteps:
-                                          recipeListFilteredSearch[index][6],
-                                      isFromScrap:
-                                          recipeListFilteredSearch[index][8],
-                                      tags: recipeListFilteredSearch[index][10],
-                                      uniqueId: recipeListFilteredSearch[index]
-                                          [9],
-                                      recipeCategory:
-                                          recipeListFilteredSearch[index][7],
-                                      isFromFilteredNameRecipe: true,
-                                      urlImageScrap:
-                                          recipeListFilteredSearch[index][14],
-                                    );
+                                        recipeName:
+                                            recipeListFilteredSearch[index][0],
+                                        totalTime:
+                                            recipeListFilteredSearch[index][1],
+                                        difficulty:
+                                            recipeListFilteredSearch[index][2],
+                                        cost: recipeListFilteredSearch[index]
+                                            [3],
+                                        allIngredientSelected:
+                                            recipeListFilteredSearch[index][4],
+                                        pathImageSelectedFromImagePicker:
+                                            recipeListFilteredSearch[index][5],
+                                        stepsRecipeFromCreateSteps:
+                                            recipeListFilteredSearch[index][6],
+                                        isFromScrap:
+                                            recipeListFilteredSearch[index][8],
+                                        tags: recipeListFilteredSearch[index]
+                                            [10],
+                                        uniqueId:
+                                            recipeListFilteredSearch[index][9],
+                                        recipeCategory:
+                                            recipeListFilteredSearch[index][7],
+                                        isFromFilteredNameRecipe: true,
+                                        urlImageScrap: recipeListFilteredSearch[index][14],
+                                        sourceUrlScrap: recipeListFilteredSearch[index][15]);
 
                                     // to display all list after display a recipe (and not only the list from filter search)
                                     loadAllData();

@@ -2,17 +2,17 @@ Priority :
 
 - *** Lancement sur f droid : changer app name, créer icone,  check license ( f droid et github)
 - * check with differet police size (from smartphone user)
-- * cohérence taille et couleur police  (+ aligmeent show ingredient)  
+- * cohérence taille et couleur police  (+ aligmeent show ingredient par rapport aux  autre élément dans reate recipe)  
 - *** check with all devices
 - *** special thx
 - *** major bug ingrédient (edit + create recipe)
-- *** categoty empty
-- disposition image format paysage
+- *** categoty empty (create recipe et home page) + required
+
+
+-  *** beta, texte shoudl work 
 
 
 
-
-- add source scrap + image + prevent dire site sooportés + erreur si scrap n'est pas fait + PT20 M
 
 
 - supported website : 
@@ -40,10 +40,12 @@ Priority :
 
 ----
 - Interessting features :
+- afficher les tags sur deux lignes et mettre un effet blur uand la liste est trop longue 
+- gérer la pge en mode payasge
 - scrap : etraire tag + clean total time
 - limiter nombre de caractère nom de la recette (pour ne pas qu'il y ait 3 petits poitn quand la recette s'affiche si le titre est trop grand)
-
-- hoe page : pas ajouter de catégorie vide
+- mettre des limite de caractère aux mots, phrases..
+- home page : pas ajouter de catégorie vide
 - voir pour automatiquement ajuster les unités de meures (us, fr etc.)
 - connect to a nextcloud account 
 - rendre la selection de quantity plus stylée

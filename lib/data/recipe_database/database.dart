@@ -19,6 +19,7 @@ class RecipeDatabase {
   // [12] preparation time, rest time, cook time (List<List?>)
   // [13] ustensiles (List<String?>)
   //[14] url image scrap (List<String?>),
+  // [15] url image scrap (List<String?>)
 
   List recipeList = [];
 

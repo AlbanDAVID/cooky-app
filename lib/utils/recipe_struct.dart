@@ -13,6 +13,7 @@ import 'package:go_router/go_router.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:cook_app/data/recipe_database/database.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class RecipeStruct extends StatefulWidget {
   final String recipeName;
@@ -29,6 +30,7 @@ class RecipeStruct extends StatefulWidget {
   String recipeCategory;
   bool isFromFilteredNameRecipe;
   final String? urlImageScrap;
+  final String? sourceUrlScrap;
 
   RecipeStruct({
     super.key,
@@ -45,6 +47,7 @@ class RecipeStruct extends StatefulWidget {
     required this.recipeCategory,
     required this.isFromFilteredNameRecipe,
     this.urlImageScrap,
+    this.sourceUrlScrap,
   });
 
   @override
@@ -214,6 +217,47 @@ class _RecipeStructState extends State<RecipeStruct> {
         });
   }
 
+  // function to lauch an url
+  _launchURL(url) async {
+    Uri _url = Uri.parse(url);
+    if (await launchUrl(_url)) {
+      await launchUrl(_url);
+    } else {
+      throw 'Could not launch $_url';
+    }
+  }
+
+  // dial box to display source url scrap
+  void _dialogUrlScrap(BuildContext context) {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return Container(
+              padding: EdgeInsetsDirectional.fromSTEB(0, 200, 0, 100),
+              child: AlertDialog(
+                content: TextButton(
+                  onPressed: () {
+                    _launchURL(widget.sourceUrlScrap);
+                  },
+                  child: Text(
+                    widget.sourceUrlScrap!,
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+
+                actions: [
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: Text(AppLocalizations.of(context)!.back),
+                  ),
+                ],
+                // Ajustez les valeurs selon vos besoins
+              ));
+        });
+  }
+
   // function for handle click on popup menu
   void handleClick(int item) {
     switch (item) {
@@ -239,6 +283,11 @@ class _RecipeStructState extends State<RecipeStruct> {
         setState(() {
           _dialogDelete(context);
         });
+
+      case 2: // urls scrap source
+        setState(() {
+          _dialogUrlScrap(context);
+        });
     }
   }
 
@@ -261,15 +310,22 @@ class _RecipeStructState extends State<RecipeStruct> {
 
               centerTitle: true,
               elevation: 0,
-              leading: IconButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => Home()),
-                  );
-                },
-                icon: Icon(Icons.home),
-              ),
+              leading: widget.isFromFilteredNameRecipe
+                  ? IconButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      icon: Icon(Icons.arrow_back),
+                    )
+                  : IconButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => Home()),
+                        );
+                      },
+                      icon: Icon(Icons.home),
+                    ),
 
               actions: [
                 PopupMenuButton<int>(
@@ -280,7 +336,12 @@ class _RecipeStructState extends State<RecipeStruct> {
                         child: Text(AppLocalizations.of(context)!.edit)),
                     PopupMenuItem<int>(
                         value: 1,
-                        child: Text(AppLocalizations.of(context)!.delete))
+                        child: Text(AppLocalizations.of(context)!.delete)),
+                    if (widget.sourceUrlScrap != null)
+                      PopupMenuItem<int>(
+                          value: 2,
+                          child: Text(
+                              AppLocalizations.of(context)!.sourceUrlScrap)),
                   ],
                 ),
               ],
@@ -387,26 +448,38 @@ class _RecipeStructState extends State<RecipeStruct> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 // Total time
-                                Text(
-                                  ('${widget.totalTime}  '),
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
+                                Row(children: [
+                                  if (widget.totalTime != "")
+                                    Icon(Icons.access_time),
+                                  Text(
+                                    (' ${widget.totalTime} '),
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  )
+                                ]),
                                 // Difficulty
-                                Text(
-                                  ('${widget.difficulty}  '),
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
+                                if (widget.difficulty != "")
+                                  Row(children: [
+                                    Icon(Icons.cookie_outlined),
+                                    Text(
+                                      ('${widget.difficulty} '),
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    )
+                                  ]),
                                 // Cost
-                                Text(
-                                  widget.cost,
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
+                                if (widget.cost != "")
+                                  Row(children: [
+                                    Icon(Icons.monetization_on_outlined),
+                                    Text(
+                                      ('${widget.cost} '),
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ]),
                               ],
                             ),
                             SizedBox(height: 16),
@@ -422,6 +495,7 @@ class _RecipeStructState extends State<RecipeStruct> {
                                           itemCount: allTags.length,
                                           itemBuilder: (context, index) {
                                             return Chip(
+                                                padding: EdgeInsets.all(0),
                                                 label:
                                                     Text('${allTags[index]}'));
                                           },
