@@ -97,15 +97,17 @@ class _AddExistingCategoryState extends State<AddExistingCategory> {
                                   AppLocalizations.of(context)!.add,
                                 ),
                                 onPressed: () async {
-                                  var catName =
-                                      CategoriesNames(_controller.text);
-                                  await _categoriesNamesService
-                                      .addCategory(catName);
+                                  if (_controller.text.trim().isNotEmpty) {
+                                    var catName =
+                                        CategoriesNames(_controller.text);
+                                    await _categoriesNamesService
+                                        .addCategory(catName);
 
-                                  // go back to 1 last page
-                                  Navigator.pop(context);
-                                  // go back to 2 last page (create recipe) and send data
-                                  Navigator.pop(context, _controller.text);
+                                    // go back to 1 last page
+                                    Navigator.pop(context);
+                                    // go back to 2 last page (create recipe) and send data
+                                    Navigator.pop(context, _controller.text);
+                                  }
                                 },
                               )
                             ],

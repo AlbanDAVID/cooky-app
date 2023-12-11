@@ -94,7 +94,9 @@
    "home" :  "Home",
    "quitAppConfirm" : "Quit the app?",
    "sourceUrlScrap" : "Source",
-   "errorScrap" : "Error : this URL is not supported"}
+   "errorScrap" : "Error : this URL is not supported",
+   "noRecipes" : "No recipes to display.",
+   "categoryEmpty" : "Category is required."}
 
 
 

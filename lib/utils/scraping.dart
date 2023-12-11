@@ -30,16 +30,18 @@ class Scraping extends StatefulWidget {
   String? pathImageSelectedFromImagePicker;
   String? urlImageScrap;
   String? sourceUrlScrap;
-  Scraping(
-      {super.key,
-      required this.scrapRecipeName,
-      required this.scrapStepsRecipe,
-      required this.scrapAllIngredient,
-      required this.scrapTotalTime,
-      required this.scrapTags,
-      this.pathImageSelectedFromImagePicker,
-      this.urlImageScrap,
-      this.sourceUrlScrap});
+  String? scrapRecipeCategory;
+  Scraping({
+    super.key,
+    required this.scrapRecipeName,
+    required this.scrapStepsRecipe,
+    required this.scrapAllIngredient,
+    required this.scrapTotalTime,
+    required this.scrapTags,
+    this.pathImageSelectedFromImagePicker,
+    this.urlImageScrap,
+    this.sourceUrlScrap,
+  });
 
   @override
   // ignore: library_private_types_in_public_api
@@ -49,8 +51,6 @@ class Scraping extends StatefulWidget {
 class _ScrapingState extends State<Scraping> {
   // ignore: unused_field
 
-  late String scrapRecipeCategory;
-
   String scrapDifficulty = "";
   String scrapCost = "";
   bool isFromScrap = true;
@@ -59,6 +59,7 @@ class _ScrapingState extends State<Scraping> {
   bool isshowStepsAddedPressed = false;
   bool isButtonAddCategoryVisible = true;
   bool isshowTagsAddedPressed = false;
+  bool _isConfirmBack = false;
 
   // load database
   final _myBox = Hive.box('mybox');
@@ -68,6 +69,29 @@ class _ScrapingState extends State<Scraping> {
   String previewImageTextField = "";
   String defautImage = "recipe_pics/no_image.png";
 
+  // dialbox error error if category is empty :
+  void showDialogCategoryEmpty() {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            content: Text(
+              AppLocalizations.of(context)!.categoryEmpty,
+              textAlign: TextAlign.center,
+              style: TextStyle(color: Colors.red),
+            ),
+            actions: [
+              ElevatedButton(
+                child: Text(AppLocalizations.of(context)!.back),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              )
+            ],
+          );
+        });
+  }
+
   ////// FUNCTIONS FOR RECIPE CATEGORY //////
 
   // get data from class AddExistingCategory()
@@ -75,7 +99,7 @@ class _ScrapingState extends State<Scraping> {
     final result = await Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => AddExistingCategory(),
+        builder: (context) => const AddExistingCategory(),
       ),
     );
 
@@ -84,9 +108,9 @@ class _ScrapingState extends State<Scraping> {
 
       print('Received data from SecondScreen: $categoryName');
       setState(() {
-        // Update visibility button
+        isButtonAddCategoryVisible = false;
       });
-      scrapRecipeCategory = categoryName;
+      widget.scrapRecipeCategory = categoryName;
     }
   }
 
@@ -97,7 +121,6 @@ class _ScrapingState extends State<Scraping> {
         ? ElevatedButton(
             onPressed: () async {
               setState(() {
-                isButtonAddCategoryVisible = false;
                 _getDataFromAddExistingCategory(context);
               });
             },
@@ -112,7 +135,7 @@ class _ScrapingState extends State<Scraping> {
             ),
             Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
               Text(
-                scrapRecipeCategory,
+                widget.scrapRecipeCategory!,
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
@@ -1148,163 +1171,174 @@ class _ScrapingState extends State<Scraping> {
     }
   }
 
+  // show dialog when back button pressed :
+  Future<void> _showDialog() async {
+    showDialog<bool>(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            content: SizedBox(
+                height: 200.0,
+                child: Column(children: [
+                  Text(AppLocalizations.of(context)!.areYouSureExit,
+                      textAlign: TextAlign.center,
+                      style:
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                  Center(
+                      child: Text(AppLocalizations.of(context)!.saveEditLater,
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontSize: 15, fontStyle: FontStyle.italic)))
+                ])),
+            actions: <Widget>[
+              TextButton(
+                child: Text(AppLocalizations.of(context)!.confirmExit,
+                    style: TextStyle(color: Colors.red)),
+                onPressed: () {
+                  setState(() {
+                    // we can go back
+                    _isConfirmBack = true;
+                    // go back to tthe page before dialbox (create recipe)
+                    Navigator.of(context).pop(_isConfirmBack);
+                    // go back to the page before create recipe (home)
+                    Navigator.of(context).pop();
+                  });
+                },
+              ),
+              TextButton(
+                child: Text(AppLocalizations.of(context)!.no,
+                    style: TextStyle(color: Colors.lightGreen)),
+                onPressed: () {
+                  Navigator.of(context).pop(false);
+                },
+              ),
+            ],
+          );
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
     // use WillPopScope for pop an alert dialog before exiting page. It works, but is deprecated
-    return WillPopScope(
-        onWillPop: () async {
-          final value = await showDialog<bool>(
-              context: context,
-              builder: (context) {
-                return AlertDialog(
-                  content: SizedBox(
-                      height: 300.0,
-                      child: Column(children: [
-                        Text(AppLocalizations.of(context)!.areYouSureExit,
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                                fontSize: 20, fontWeight: FontWeight.bold)),
-                        Center(
-                            child: Text(
-                                AppLocalizations.of(context)!.saveEditLater,
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    fontSize: 15, fontStyle: FontStyle.italic)))
-                      ])),
-                  actions: <Widget>[
-                    TextButton(
-                      child: Text(AppLocalizations.of(context)!.confirmExit,
-                          style: TextStyle(color: Colors.red)),
-                      onPressed: () {
-                        Navigator.of(context).pop(true);
-                      },
-                    ),
-                    TextButton(
-                      child: Text(AppLocalizations.of(context)!.no,
-                          style: TextStyle(color: Colors.lightGreen)),
-                      onPressed: () {
-                        Navigator.of(context).pop(false);
-                      },
-                    ),
-                  ],
-                );
-              });
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(AppLocalizations.of(context)!.addFromWeb),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Form(
+          canPop: _isConfirmBack,
+          onPopInvoked: (bool didPop) async {
+            if (didPop) {
+              return;
+            }
+            _showDialog();
+          },
+          child:
+              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            Expanded(
+                child: ListView(children: <Widget>[
+              // SHOW RECIPE CATEGORY, RECIPE NAME ,TOTAL TIME ,DIFFICULTY, COST, ADD PICTURE, SELECT INGREDIENT, ADD STEPS OR SELECT INGREDIENT AND SHOW INGRED ADDED OR ADD STEPS AND SHOW STEPS:
+              ShowWidget(),
+            ])),
+            // Button fot submit form
+            if (isShowIngredientsSelectedPressed == false &&
+                isshowStepsAddedPressed == false &&
+                isshowTagsAddedPressed == false) ...[
+              Container(
+                  alignment: Alignment.bottomRight,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      // handle deleted variable
+                      final finalscrapRecipeName =
+                          widget.scrapRecipeName == "Deleted"
+                              ? "No title"
+                              : widget.scrapRecipeName;
 
-          return value == true;
-        },
-        child: Scaffold(
-          appBar: AppBar(
-            title: Text(AppLocalizations.of(context)!.addFromWeb),
-          ),
-          body: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Form(
-              child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Expanded(
-                        child: ListView(children: <Widget>[
-                      // SHOW RECIPE CATEGORY, RECIPE NAME ,TOTAL TIME ,DIFFICULTY, COST, ADD PICTURE, SELECT INGREDIENT, ADD STEPS OR SELECT INGREDIENT AND SHOW INGRED ADDED OR ADD STEPS AND SHOW STEPS:
-                      ShowWidget(),
-                    ])),
-                    // Button fot submit form
-                    if (isShowIngredientsSelectedPressed == false &&
-                        isshowStepsAddedPressed == false &&
-                        isshowTagsAddedPressed == false) ...[
-                      Container(
-                          alignment: Alignment.bottomRight,
-                          child: ElevatedButton(
-                            onPressed: () {
-                              // handle deleted variable
-                              final finalscrapRecipeName =
-                                  widget.scrapRecipeName == "Deleted"
-                                      ? "No title"
-                                      : widget.scrapRecipeName;
+                      final finalscrapTotalTime =
+                          widget.scrapTotalTime == "Deleted"
+                              ? ""
+                              : widget.scrapTotalTime;
 
-                              final finalscrapTotalTime =
-                                  widget.scrapTotalTime == "Deleted"
-                                      ? ""
-                                      : widget.scrapTotalTime;
+                      final finalscrapDifficulty =
+                          scrapDifficulty == "Deleted" ? "" : scrapDifficulty;
 
-                              final finalscrapDifficulty =
-                                  scrapDifficulty == "Deleted"
-                                      ? ""
-                                      : scrapDifficulty;
+                      final finalscrapCost =
+                          scrapCost == "Deleted" ? "" : scrapCost;
 
-                              final finalscrapCost =
-                                  scrapCost == "Deleted" ? "" : scrapCost;
+                      // create a varible with the date of creation
+                      DateTime now = DateTime.now();
+                      String creationDate =
+                          'variable_${now.year}${now.month}${now.day}_${now.hour}${now.minute}${now.second}';
 
-                              // create a varible with the date of creation
-                              DateTime now = DateTime.now();
-                              String creationDate =
-                                  'variable_${now.year}${now.month}${now.day}_${now.hour}${now.minute}${now.second}';
+                      // get all data
+                      List listOfLists = _myBox.get('ALL_LISTS') ?? [];
 
-                              // get all data
-                              List listOfLists = _myBox.get('ALL_LISTS') ?? [];
+                      // create null index for future add :
+                      double? stars = null;
+                      List? detailTIme = null;
+                      List? utensils = null;
 
-                              // create null index for future add :
-                              double? stars = null;
-                              List? detailTIme = null;
-                              List? utensils = null;
+                      // Give edidted values to recipeList
+                      // Add a new list to the list of lists
+                      try {
+                        listOfLists.add([
+                          finalscrapRecipeName,
+                          finalscrapTotalTime,
+                          finalscrapDifficulty,
+                          finalscrapCost,
+                          widget.scrapAllIngredient,
+                          widget.pathImageSelectedFromImagePicker,
+                          widget.scrapStepsRecipe,
+                          widget.scrapRecipeCategory!,
+                          isFromScrap,
+                          creationDate,
+                          widget.scrapTags,
+                          stars,
+                          detailTIme,
+                          utensils,
+                          widget.urlImageScrap,
+                          widget.sourceUrlScrap
+                        ]);
+                      } catch (e) {
+                        return showDialogCategoryEmpty();
+                      }
 
-                              // Give edidted values to recipeList
-                              // Add a new list to the list of lists
-                              listOfLists.add([
-                                finalscrapRecipeName,
-                                finalscrapTotalTime,
-                                finalscrapDifficulty,
-                                finalscrapCost,
-                                widget.scrapAllIngredient,
-                                widget.pathImageSelectedFromImagePicker,
-                                widget.scrapStepsRecipe,
-                                scrapRecipeCategory,
-                                isFromScrap,
-                                creationDate,
-                                widget.scrapTags,
-                                stars,
-                                detailTIme,
-                                utensils,
-                                widget.urlImageScrap,
-                                widget.sourceUrlScrap
-                              ]);
+                      // Save edidted list in hive
+                      _myBox.put("ALL_LISTS", listOfLists);
 
-                              // Save edidted list in hive
-                              _myBox.put("ALL_LISTS", listOfLists);
+                      //Create an instance of RecipeDetailsPage with the form data
+                      RecipeStruct recipeDetailsPage = RecipeStruct(
+                        recipeName: finalscrapRecipeName,
+                        totalTime: finalscrapTotalTime,
+                        difficulty: finalscrapDifficulty,
+                        cost: finalscrapCost,
+                        allIngredientSelected: widget.scrapAllIngredient,
+                        pathImageSelectedFromImagePicker:
+                            widget.pathImageSelectedFromImagePicker,
+                        stepsRecipeFromCreateSteps: widget.scrapStepsRecipe,
+                        isFromScrap: isFromScrap,
+                        tags: widget.scrapTags,
+                        uniqueId: creationDate,
+                        recipeCategory: widget.scrapRecipeCategory!,
+                        isFromFilteredNameRecipe: false,
+                        urlImageScrap: widget.urlImageScrap,
+                        sourceUrlScrap: widget.sourceUrlScrap,
+                      );
 
-                              //Create an instance of RecipeDetailsPage with the form data
-                              RecipeStruct recipeDetailsPage = RecipeStruct(
-                                recipeName: finalscrapRecipeName,
-                                totalTime: finalscrapTotalTime,
-                                difficulty: finalscrapDifficulty,
-                                cost: finalscrapCost,
-                                allIngredientSelected:
-                                    widget.scrapAllIngredient,
-                                pathImageSelectedFromImagePicker:
-                                    widget.pathImageSelectedFromImagePicker,
-                                stepsRecipeFromCreateSteps:
-                                    widget.scrapStepsRecipe,
-                                isFromScrap: isFromScrap,
-                                tags: widget.scrapTags,
-                                uniqueId: creationDate,
-                                recipeCategory: scrapRecipeCategory,
-                                isFromFilteredNameRecipe: false,
-                                urlImageScrap: widget.urlImageScrap,
-                                sourceUrlScrap: widget.sourceUrlScrap,
-                              );
-
-                              // Navigate to the new page with the form data and save
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => recipeDetailsPage),
-                              );
-                            },
-                            child: Text(AppLocalizations.of(context)!.add),
-                          ))
-                    ],
-                  ]),
-            ),
-          ),
-        ));
+                      // Navigate to the new page with the form data and save
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => recipeDetailsPage),
+                      );
+                    },
+                    child: Text(AppLocalizations.of(context)!.add),
+                  ))
+            ],
+          ]),
+        ),
+      ),
+    );
   }
 }

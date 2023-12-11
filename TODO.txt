@@ -1,15 +1,20 @@
 Priority : 
 
 - *** Lancement sur f droid : changer app name, créer icone,  check license ( f droid et github)
-- * check with differet police size (from smartphone user)
+- * check with differet police size (from smartphone user) + UI about
 - * cohérence taille et couleur police  (+ aligmeent show ingredient par rapport aux  autre élément dans reate recipe)  
-- *** check with all devices
+- *** check with all devices 
 - *** special thx
-- *** major bug ingrédient (edit + create recipe)
-- *** categoty empty (create recipe et home page) + required (create recipe)
-- *** box size are you sure, scrap et edit (avant de qitter)
-- *** suggestion cat
-- *** move categorie 
+
+
+release : 
+- ligne rouges mode release
+- bug taille photo
+- bug scrap
+- check long texte step
+
+
+
 
 
 
@@ -27,65 +32,48 @@ Priority :
 
 
 
-- dial box if category is empty (create recipe)
-- backup database (possibilty to export, import, ask for conserv data if uninstall app)
-- BDD on nextcloud
-- camera right access iOS (for add pics)
-- "nothing to show if 0 categorie", ajouter qq catégoirie au début sur home page si aucune catégorie
 
-
-- faire disparaitre "manually" et "from web" en cliquant dans le vide
 
 
 
 
 ----
 - Interessting features :
-- catégorie au départ home page 
+- add creape recipe button inside a category et quand on arrive sur create recipe, il y a déjç la catégorie d'où l'on vient dans le champ requis
+- backup database (possibilty to export, import, ask for conserv data if uninstall app)
+- BDD on nextcloud
+- camera right access iOS (for add pics)
+- faire disparaitre "manually" et "from web" en cliquant dans le vide
+- message erreur si categorie est vide (un petit texte rouge dans la dialbox par ex)
+- suggestion cat première fois que l'ppli est runnée (sur hoe page)
 - save tags in a bdd
 - afficher les tags sur deux lignes et mettre un effet blur uand la liste est trop longue 
 - gérer la pge en mode payasge
 - scrap : etraire tag (s'il y a ?)
 - limiter nombre de caractère nom de la recette (pour ne pas qu'il y ait 3 petits poitn quand la recette s'affiche si le titre est trop grand)
 - mettre des limite de caractère aux mots, phrases..
-- home page : ne pas pouvoir ajouter de catégorie vide
 - voir pour automatiquement ajuster les unités de meures (us, fr etc.)
 - connect to a nextcloud account 
 - rendre la selection de quantity plus stylée
 
-- possibilité de saisir le nom de l'ingrédient puis de faire saisie intuitive de la quantité
+- possibilité de saisir le nom de l'ingrédient mauellement puis de faire saisie intuitive de la quantité
 - mettre des fleche pour montrer u'on peut scroller des les suggestions (ex : tagsn ingrédient, quantité..)
 - add  
   // [11] notation stars (Double)
   // [12] preparation time, rest time, cook time (List)
   // [13] ustensiles (List) 
-- povoir éditer category lors de créatio d'une recette ou autre (et pas seulement sur home page)
-- add US unit
+- povoir éditer category lors de créatio d'une recette ou dand edit page (et pas seulement sur home page)
 - add checkbox ingred (save in a BDD)
-
 - add edit in ingred selection (where there is only delete option for now)
-
-- bien signifier que category n'a pas été renseigné si on clique sur sumbit (pour add from scrap et manually)
-- pouvoir deplacer les catégorie de place sur home page
-
-
 - improve scraping (more website)
 - notation des recettes (stars)
+- ustensiles
+- preparation time (la triade temps de prép, cuisson, repos)
 - integer type for ingredient (for automatic tell how many person)
-_ possibility to enlarge the text steps
+- possibility to enlarge the text steps
 - sort recipe by date add + filter by tag
-
-
 - deletion : select several items to delete ou edit the category
-- add creape recipe button inside a category et quand on arrive sur create recipe, il y a déjç la catégorie d'où l'on vient dans le champ requis
 - impression et sauvegarde en pdf
-
-
-Autre: 
-
-
-
-
 
 
 Other idea :
@@ -93,11 +81,8 @@ Other idea :
 
 BUG : 
 
-
-- major : quand j'ajoute un ingrédient et que je je clique sur le crayon pour modifier et que je quitte la page edit sabs rien faire : pour editer ou supprimer voire meêm supprime tous les ingrédients... (rien n'est envoyé dans la page create recipe mais l'ingrédient reste parce pb de set state ?)
-- major : edit in a categorie : si on quitte sans faire submit, les ingrédients séléctionné reste temporairement en émmoire (disparaisse au redemarrage de lappli)
-- minor : - identation quand on ajoute une nouvelle étape après que d'autrzs ont été créées (step 1, step 2 (alors qu'il y a déjà step 1 et 2 par ex, il faudrait reprendre l'ndentation par rapport au éléments déjà ajoués))
-- minor : quand je suprprime un champ dans recipe create et que je delete, puis j'édite : je vois le delete dans la champ de texte
+- minor : identation quand on ajoute une nouvelle étape après que d'autrzs ont été créées (step 1, step 2 (alors qu'il y a déjà step 1 et 2 par ex, il faudrait reprendre l'ndentation par rapport au éléments déjà ajoués))
+- minor : quand je suprprime un champ dans recipe create et que je delete, puis j'édite : je vois le "delete" dans la champ de texte (par de trad en français)
 - NE DECONNE PAS EN MODE REALSE mais en bebug : bug add picture (when taking a pics)
 
 

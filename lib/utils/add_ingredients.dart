@@ -176,6 +176,15 @@ class _AddIngredState extends State<AddIngred> {
                       ]),
                       actions: [
                         ElevatedButton(
+                          child: Text(AppLocalizations.of(context)!.cancel),
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        ElevatedButton(
                           child: Text(AppLocalizations.of(context)!.add),
                           onPressed: () async {
                             allIngredientSelected.add([

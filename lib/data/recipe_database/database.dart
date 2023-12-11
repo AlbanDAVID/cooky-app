@@ -14,10 +14,9 @@ class RecipeDatabase {
   //[8] isFromScrap (List<bool>),
   //[9] creationDate (List<String>) (it's an unique ID : 'variable_${now.year}${now.month}${now.day}_${now.hour}${now.minute}${now.second}')
   //[10] tags (List<List<dynamic>>)
-  // For a future add :
-  // [11] notation stars (List<double?>)
-  // [12] preparation time, rest time, cook time (List<List?>)
-  // [13] ustensiles (List<String?>)
+  // [11] notation stars (List<double?>) (not style used, for a future add)
+  // [12] preparation time, rest time, cook time (List<List?>) (not style used, for a future add)
+  // [13] ustensiles (List<String?>) (not style used, for a future add)
   //[14] url image scrap (List<String?>),
   // [15] url image scrap (List<String?>)
 

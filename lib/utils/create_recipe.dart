@@ -64,6 +64,29 @@ class _CreateRecipeState extends State<CreateRecipe> {
   bool isFromEditRecipeStruct = false;
   bool _isConfirmBack = false;
 
+  // dialbox error error if category is empty :
+  void showDialogCategoryEmpty() {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            content: Text(
+              AppLocalizations.of(context)!.categoryEmpty,
+              textAlign: TextAlign.center,
+              style: TextStyle(color: Colors.red),
+            ),
+            actions: [
+              ElevatedButton(
+                child: Text(AppLocalizations.of(context)!.back),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              )
+            ],
+          );
+        });
+  }
+
   ////// FUNCTIONS FOR RECIPE CATEGORY //////
 
   // get data from class AddExistingCategory()
@@ -95,7 +118,6 @@ class _CreateRecipeState extends State<CreateRecipe> {
         ? ElevatedButton(
             onPressed: () async {
               setState(() {
-                isButtonAddCategoryVisible = false;
                 _getDataFromAddExistingCategory(context);
               });
             },
@@ -648,6 +670,70 @@ class _CreateRecipeState extends State<CreateRecipe> {
   /// ////// //////////// FUNCTIONS FOR ADD INGREDIENTS //////
   ///
   ///
+  ///
+
+  // function to edit ingredient
+  editIngred(editName, editQuantity, editUnit, index) {
+    return showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+              title: Text(AppLocalizations.of(context)!.addIngred2),
+              content: Column(children: [
+                TextField(
+                    controller: editName,
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      hintText: AppLocalizations.of(context)!.ingredName,
+                    )),
+                TextField(
+                    controller: editQuantity,
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      hintText: AppLocalizations.of(context)!.quantity,
+                    )),
+                TextField(
+                    controller: editUnit,
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      hintText: AppLocalizations.of(context)!.unit,
+                    ))
+              ]),
+              actions: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    ElevatedButton(
+                      child: Text(AppLocalizations.of(context)!.cancel),
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                    ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    ElevatedButton(
+                      child: Text(AppLocalizations.of(context)!.add),
+                      onPressed: () async {
+                        allIngredientSelectedCreateRecipe[index][0] =
+                            editName.text;
+                        allIngredientSelectedCreateRecipe[index][1] =
+                            editQuantity.text;
+                        allIngredientSelectedCreateRecipe[index][2] =
+                            editUnit.text;
+                        Navigator.pop(context);
+
+                        editName.clear();
+                        editQuantity.clear();
+                        editUnit.clear();
+                        setState(() {});
+                      },
+                    )
+                  ],
+                )
+              ]);
+        });
+  }
 
   // get  from class AddIngred()
   void getDataFromAddIngred(BuildContext context) async {
@@ -788,8 +874,17 @@ class _CreateRecipeState extends State<CreateRecipe> {
                   IconButton(
                     icon: const Icon(Icons.edit),
                     onPressed: () {
-                      allIngredientSelectedCreateRecipe.removeAt(index);
-                      getDataFromAddIngred(context);
+                      editIngred(
+                          TextEditingController(
+                              text: allIngredientSelectedCreateRecipe[index]
+                                  [0]),
+                          TextEditingController(
+                              text: allIngredientSelectedCreateRecipe[index]
+                                  [1]),
+                          TextEditingController(
+                              text: allIngredientSelectedCreateRecipe[index]
+                                  [2]),
+                          index);
                     },
                   ),
                   GestureDetector(
@@ -1322,28 +1417,33 @@ class _CreateRecipeState extends State<CreateRecipe> {
                       List? utensils = null;
 
                       // Add a new list to the list of lists
-
-                      listOfLists.add([
-                        finalRecipeNameFromAddRecipeName,
-                        finalTotalTimeFromAddTotalTime,
-                        finalVarFromAddDifficulty,
-                        finalVarFromAddCost,
-                        allIngredientSelectedCreateRecipe,
-                        pathImageSelectedFromImagePicker,
-                        stepsRecipeFromCreateSteps,
-                        recipeCategoryFromAddExistingCategory,
-                        isFromScrap,
-                        creationDate,
-                        tags,
-                        stars,
-                        detailTIme,
-                        utensils,
-                        null, // it's not an scrap image URL, so url is null
-                        null, // not an url source scrap, so it's null
-                      ]);
+                      try {
+                        listOfLists.add([
+                          finalRecipeNameFromAddRecipeName,
+                          finalTotalTimeFromAddTotalTime,
+                          finalVarFromAddDifficulty,
+                          finalVarFromAddCost,
+                          allIngredientSelectedCreateRecipe,
+                          pathImageSelectedFromImagePicker,
+                          stepsRecipeFromCreateSteps,
+                          recipeCategoryFromAddExistingCategory,
+                          isFromScrap,
+                          creationDate,
+                          tags,
+                          stars,
+                          detailTIme,
+                          utensils,
+                          null, // it's not an scrap image URL, so url is null
+                          null, // not an url source scrap, so it's null
+                        ]);
+                      } catch (e) {
+                        return showDialogCategoryEmpty();
+                      }
 
                       // Update list of lists in Hive
                       _myBox.put('ALL_LISTS', listOfLists);
+
+                      // check if required field category is missing :
 
                       // Create an instance of RecipeDetailsPage with the form data
                       RecipeStruct recipeDetailsPage = RecipeStruct(
@@ -1373,7 +1473,7 @@ class _CreateRecipeState extends State<CreateRecipe> {
                     },
                     child: Text(AppLocalizations.of(context)!.add),
                   )),
-            ],
+            ]
           ]),
         ),
       ),

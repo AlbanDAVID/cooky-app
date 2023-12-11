@@ -423,137 +423,133 @@ class _RecipeStructState extends State<RecipeStruct> {
               if (isShowIngredientPressed == false) ...[
                 Expanded(
                     child: ListView(children: [
-                  Expanded(
-                      child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 40.0),
-                          // ignore: avoid_unnecessary_containers
-                          child: Container(
-                              child: Column(children: [
-                            // Spacing between title and image
-                            SizedBox(height: 16),
+                  Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 40.0),
+                      // ignore: avoid_unnecessary_containers
+                      child: Container(
+                          child: Column(children: [
+                        // Spacing between title and image
+                        SizedBox(height: 16),
 
-                            // Recipe picture
-                            Center(
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(10.0),
-                                child: _imageToDisplay(),
-                              ),
-                            ),
+                        // Recipe picture
+                        Center(
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(10.0),
+                            child: _imageToDisplay(),
+                          ),
+                        ),
 
-                            // Spacing between title and image
-                            SizedBox(height: 16),
+                        // Spacing between title and image
+                        SizedBox(height: 16),
 
-                            // Row for info (time, difficulty, cost)
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                // Total time
-                                Row(children: [
-                                  if (widget.totalTime != "")
-                                    Icon(Icons.access_time),
-                                  Text(
-                                    (' ${widget.totalTime} '),
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  )
-                                ]),
-                                // Difficulty
-                                if (widget.difficulty != "")
-                                  Row(children: [
-                                    Icon(Icons.cookie_outlined),
-                                    Text(
-                                      ('${widget.difficulty} '),
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    )
-                                  ]),
-                                // Cost
-                                if (widget.cost != "")
-                                  Row(children: [
-                                    Icon(Icons.monetization_on_outlined),
-                                    Text(
-                                      ('${widget.cost} '),
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ]),
-                              ],
-                            ),
-                            SizedBox(height: 16),
-                            // tags
-                            if (widget.tags != null) ...[
-                              Row(children: [
-                                Expanded(
-                                    child: SizedBox(
-                                        height: 100,
-                                        child: ListView.separated(
-                                          controller: _scrollController,
-                                          scrollDirection: Axis.horizontal,
-                                          itemCount: allTags.length,
-                                          itemBuilder: (context, index) {
-                                            return Chip(
-                                                padding: EdgeInsets.all(0),
-                                                label:
-                                                    Text('${allTags[index]}'));
-                                          },
-                                          separatorBuilder:
-                                              (BuildContext context,
-                                                  int index) {
-                                            return SizedBox(
-                                              width: 5,
-                                            );
-                                          },
-                                        ))),
-                                SizedBox(
-                                  width: 0,
+                        // Row for info (time, difficulty, cost)
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            // Total time
+                            Row(children: [
+                              if (widget.totalTime != "")
+                                Icon(Icons.access_time),
+                              Text(
+                                (' ${widget.totalTime} '),
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
                                 ),
-                                if (showArrow)
-                                  IconButton(
-                                      onPressed: () {
-                                        _scrollController.animateTo(
-                                          _scrollController
-                                              .position.maxScrollExtent,
-                                          duration: Duration(milliseconds: 500),
-                                          curve: Curves.easeInOut,
+                              )
+                            ]),
+                            // Difficulty
+                            if (widget.difficulty != "")
+                              Row(children: [
+                                Icon(Icons.cookie_outlined),
+                                Text(
+                                  ('${widget.difficulty} '),
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                )
+                              ]),
+                            // Cost
+                            if (widget.cost != "")
+                              Row(children: [
+                                Icon(Icons.monetization_on_outlined),
+                                Text(
+                                  ('${widget.cost} '),
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ]),
+                          ],
+                        ),
+                        SizedBox(height: 16),
+                        // tags
+                        if (widget.tags != null) ...[
+                          Row(children: [
+                            Expanded(
+                                child: SizedBox(
+                                    height: 100,
+                                    child: ListView.separated(
+                                      controller: _scrollController,
+                                      scrollDirection: Axis.horizontal,
+                                      itemCount: allTags.length,
+                                      itemBuilder: (context, index) {
+                                        return Chip(
+                                            padding: EdgeInsets.all(0),
+                                            label: Text('${allTags[index]}'));
+                                      },
+                                      separatorBuilder:
+                                          (BuildContext context, int index) {
+                                        return SizedBox(
+                                          width: 5,
                                         );
                                       },
-                                      icon:
-                                          Icon(Icons.arrow_circle_right_sharp)),
-                              ])
-                            ],
+                                    ))),
+                            SizedBox(
+                              width: 0,
+                            ),
+                            if (showArrow)
+                              IconButton(
+                                  onPressed: () {
+                                    _scrollController.animateTo(
+                                      _scrollController
+                                          .position.maxScrollExtent,
+                                      duration: Duration(milliseconds: 500),
+                                      curve: Curves.easeInOut,
+                                    );
+                                  },
+                                  icon: Icon(Icons.arrow_circle_right_sharp)),
+                          ])
+                        ],
 
-                            if (widget.tags == null) ...[
-                              Text("")
-                            ], // show nothing if widget.tags == null
+                        if (widget.tags == null) ...[
+                          Text("")
+                        ], // show nothing if widget.tags == null
 
-                            SizedBox(height: 30),
-                            // Show ingrdient button
-                            TextButton(
-                                onPressed: () {
-                                  setState(() {
-                                    isShowIngredientPressed = true;
-                                  });
-                                },
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Text(
-                                      AppLocalizations.of(context)!.showIngred,
-                                      style: TextStyle(
-                                        fontSize: 16,
-                                      ),
-                                    ),
-                                    Icon(
-                                      Icons.arrow_upward,
-                                      size:
-                                          16, // ajustez la taille selon vos besoins
-                                    ),
-                                  ],
-                                )),
-                          ]))))
+                        SizedBox(height: 30),
+                        // Show ingrdient button
+                        TextButton(
+                            onPressed: () {
+                              setState(() {
+                                isShowIngredientPressed = true;
+                              });
+                            },
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  AppLocalizations.of(context)!.showIngred,
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                  ),
+                                ),
+                                Icon(
+                                  Icons.arrow_upward,
+                                  size:
+                                      16, // ajustez la taille selon vos besoins
+                                ),
+                              ],
+                            )),
+                      ])))
                 ])),
                 Padding(
                     padding: EdgeInsets.all(10),
