@@ -581,156 +581,194 @@ class _HomeState extends State<Home> {
                     builder: (context, Box<CategoriesNames> box, _) {
                       return Padding(
                           padding: EdgeInsets.all(0),
-                          child: ListView.builder(
-                            itemCount: box.values.length,
-                            itemBuilder: (context, index) {
-                              var cat = box.getAt(index);
-                              return ListTile(
-                                title: TextButton(
-                                  onPressed: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) =>
-                                            FilteredNameRecipe(
-                                          categoryName:
-                                              cat!.categoryName.toString(),
-                                        ),
-                                      ),
-                                    );
-                                  },
-                                  style: TextButton.styleFrom(
-                                    backgroundColor:
-                                        Color.fromRGBO(249, 246, 253, 0.49),
-                                    // Couleur du bouton
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(
-                                          10.0), // Bords arrondis
-                                    ),
-                                  ),
-                                  child: Center(
-                                    child: Text(
-                                      textAlign: TextAlign.center,
-                                      cat!.categoryName,
-                                      style: TextStyle(
-                                          fontSize: 20, color: Colors.black),
-                                    ),
-                                  ),
-                                ),
-                                trailing: isEditDeleteMode
-                                    ? Wrap(
-                                        children: [
-                                          IconButton(
-                                            icon: const Icon(Icons.edit),
-                                            onPressed: () async {
-                                              setState(() {
-                                                isEditDeleteMode = false;
-                                                _searchController.clear();
-                                                isSearchPressed = false;
-                                              });
+                          child: ReorderableListView(
+                            onReorder: (int oldIndex, int newIndex) {
+                              setState(() {
+                                if (oldIndex < newIndex) {
+                                  newIndex--;
+                                }
 
-                                              showDialog(
-                                                  context: context,
-                                                  builder: (context) {
-                                                    return AlertDialog(
-                                                      title: Column(children: [
-                                                        Text(
-                                                            AppLocalizations.of(
-                                                                    context)!
-                                                                .editCategory,
-                                                            textAlign: TextAlign
-                                                                .center),
-                                                        Center(
+                                final oldItem =
+                                    Hive.box<CategoriesNames>('catBox')
+                                        .getAt(oldIndex);
+                                final newItem =
+                                    Hive.box<CategoriesNames>('catBox')
+                                        .getAt(newIndex);
+                                Hive.box<CategoriesNames>('catBox')
+                                    .putAt(oldIndex, newItem!);
+                                Hive.box<CategoriesNames>('catBox')
+                                    .putAt(newIndex, oldItem!);
+                              });
+                            },
+                            children: <Widget>[
+                              for (int index = 0;
+                                  index <
+                                      Hive.box<CategoriesNames>('catBox')
+                                          .length;
+                                  index += 1)
+                                ListTile(
+                                  key: Key('$index'),
+                                  title: TextButton(
+                                    onPressed: () {
+                                      print(box.values.toString());
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              FilteredNameRecipe(
+                                            categoryName: box
+                                                .getAt(index)!
+                                                .categoryName
+                                                .toString(),
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                    style: TextButton.styleFrom(
+                                      backgroundColor:
+                                          Color.fromRGBO(249, 246, 253, 0.49),
+                                      // Couleur du bouton
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(
+                                            10.0), // Bords arrondis
+                                      ),
+                                    ),
+                                    child: Center(
+                                      child: Text(
+                                        textAlign: TextAlign.center,
+                                        box.getAt(index)!.categoryName,
+                                        style: TextStyle(
+                                            fontSize: 20, color: Colors.black),
+                                      ),
+                                    ),
+                                  ),
+                                  trailing: isEditDeleteMode
+                                      ? Wrap(
+                                          children: [
+                                            IconButton(
+                                              icon: const Icon(Icons.edit),
+                                              onPressed: () async {
+                                                setState(() {
+                                                  isEditDeleteMode = false;
+                                                  _searchController.clear();
+                                                  isSearchPressed = false;
+                                                });
+
+                                                showDialog(
+                                                    context: context,
+                                                    builder: (context) {
+                                                      return AlertDialog(
+                                                        title: Column(
+                                                            children: [
+                                                              Text(
+                                                                  AppLocalizations.of(
+                                                                          context)!
+                                                                      .editCategory,
+                                                                  textAlign:
+                                                                      TextAlign
+                                                                          .center),
+                                                              Center(
+                                                                  child: Text(
+                                                                      AppLocalizations.of(
+                                                                              context)!
+                                                                          .infoMessage1,
+                                                                      textAlign:
+                                                                          TextAlign
+                                                                              .center,
+                                                                      style: TextStyle(
+                                                                          fontSize:
+                                                                              15,
+                                                                          fontStyle:
+                                                                              FontStyle.italic)))
+                                                            ]),
+                                                        content: TextField(
+                                                          controller:
+                                                              _controller,
+                                                        ),
+                                                        actions: [
+                                                          ElevatedButton(
                                                             child: Text(
                                                                 AppLocalizations.of(
                                                                         context)!
-                                                                    .infoMessage1,
-                                                                textAlign:
-                                                                    TextAlign
-                                                                        .center,
-                                                                style: TextStyle(
-                                                                    fontSize:
-                                                                        15,
-                                                                    fontStyle:
-                                                                        FontStyle
-                                                                            .italic)))
-                                                      ]),
-                                                      content: TextField(
-                                                        controller: _controller,
-                                                      ),
-                                                      actions: [
-                                                        ElevatedButton(
-                                                          child: Text(
-                                                              AppLocalizations.of(
-                                                                      context)!
-                                                                  .cancel),
-                                                          onPressed: () async {
-                                                            setState(() {
-                                                              isSearchPressed =
-                                                                  false;
+                                                                    .cancel),
+                                                            onPressed:
+                                                                () async {
+                                                              setState(() {
+                                                                isSearchPressed =
+                                                                    false;
+                                                                _controller
+                                                                    .clear();
+                                                              });
+
+                                                              Navigator.pop(
+                                                                  context);
+                                                            },
+                                                          ),
+                                                          ElevatedButton(
+                                                            child: Text(
+                                                                AppLocalizations.of(
+                                                                        context)!
+                                                                    .edit),
+                                                            onPressed:
+                                                                () async {
+                                                              var categoryNameToReplace = box
+                                                                  .getAt(index)!
+                                                                  .categoryName;
+                                                              var newCategoryName =
+                                                                  _controller
+                                                                      .text;
+                                                              var catName =
+                                                                  CategoriesNames(
+                                                                      _controller
+                                                                          .text);
+                                                              await Hive.box<
+                                                                          CategoriesNames>(
+                                                                      'catBox')
+                                                                  .putAt(index,
+                                                                      catName);
+
+                                                              await renameCategoryRecipeAfterEditCategory(
+                                                                  categoryNameToReplace,
+                                                                  newCategoryName);
+                                                              Navigator.pop(
+                                                                  context);
                                                               _controller
                                                                   .clear();
-                                                            });
-
-                                                            Navigator.pop(
-                                                                context);
-                                                          },
-                                                        ),
-                                                        ElevatedButton(
-                                                          child: Text(
-                                                              AppLocalizations.of(
-                                                                      context)!
-                                                                  .edit),
-                                                          onPressed: () async {
-                                                            var categoryNameToReplace =
-                                                                cat!.categoryName;
-                                                            var newCategoryName =
-                                                                _controller
-                                                                    .text;
-                                                            var catName =
-                                                                CategoriesNames(
-                                                                    _controller
-                                                                        .text);
-                                                            await Hive.box<
-                                                                        CategoriesNames>(
-                                                                    'catBox')
-                                                                .putAt(index,
-                                                                    catName);
-
-                                                            await renameCategoryRecipeAfterEditCategory(
-                                                                categoryNameToReplace,
-                                                                newCategoryName);
-                                                            Navigator.pop(
-                                                                context);
-                                                            _controller.clear();
-                                                            _searchController
-                                                                .clear();
-                                                            isSearchPressed =
-                                                                false;
-                                                          },
-                                                        )
-                                                      ],
-                                                    );
-                                                  });
-                                            },
-                                          ),
-                                          IconButton(
-                                            icon: const Icon(
-                                              Icons.delete,
-                                              color: Colors.redAccent,
+                                                              _searchController
+                                                                  .clear();
+                                                              isSearchPressed =
+                                                                  false;
+                                                              print(
+                                                                  categoryNameToReplace);
+                                                            },
+                                                          )
+                                                        ],
+                                                      );
+                                                    });
+                                              },
                                             ),
-                                            onPressed: () {
-                                              _dialogDeleteOneCategory(context,
-                                                  cat!.categoryName, index);
-                                              _searchController.clear();
-                                              isSearchPressed = false;
-                                            },
-                                          ),
-                                        ],
-                                      )
-                                    : null,
-                              );
-                            },
+                                            IconButton(
+                                              icon: const Icon(
+                                                Icons.delete,
+                                                color: Colors.redAccent,
+                                              ),
+                                              onPressed: () {
+                                                _dialogDeleteOneCategory(
+                                                    context,
+                                                    box
+                                                        .getAt(index)!
+                                                        .categoryName
+                                                        .toString(),
+                                                    index);
+                                                _searchController.clear();
+                                                isSearchPressed = false;
+                                              },
+                                            ),
+                                          ],
+                                        )
+                                      : null,
+                                )
+                            ],
                           ));
                     },
                   )),
