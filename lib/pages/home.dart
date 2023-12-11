@@ -107,6 +107,7 @@ class _HomeState extends State<Home> {
                         var catName = CategoriesNames(_controller.text);
                         await _categoriesNamesService.addCategory(catName);
                         Navigator.pop(context);
+                        _controller.clear();
                       },
                     )
                   ],
