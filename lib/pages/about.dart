@@ -50,35 +50,47 @@ class _AboutState extends State<About> {
           appBar: AppBar(
             title: Text(AppLocalizations.of(context)!.about),
           ),
-          body: ListView(
-            children: ListTile.divideTiles(context: context, tiles: [
-              ListTile(
-                  title: Column(children: [
-                Text('${AppLocalizations.of(context)!.version} : '),
-                Text(_packageInfo.version)
-              ])),
-              ListTile(
-                  title: Column(children: [
-                Text('${AppLocalizations.of(context)!.licence} : '),
-                const Text("BSD 3-Clause")
-              ])),
-              ListTile(
-                  title: Column(children: [
-                Text(
-                  '${AppLocalizations.of(context)!.sourceCode} :',
-                ),
-                ElevatedButton(
-                  onPressed: () async {
-                    _launchURL();
-                  },
-                  child: const Text(
-                    "https://github.com/AlbanDAVID/cooky-app",
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-              ])),
-            ]).toList(),
-          ),
+          body: Column(children: [
+            const Divider(),
+            Expanded(
+              child: ListView(
+                children: ListTile.divideTiles(context: context, tiles: [
+                  ListTile(
+                      title: Column(children: [
+                    Text('${AppLocalizations.of(context)!.version} : ',
+                        textAlign: TextAlign.center),
+                    Text(_packageInfo.version, textAlign: TextAlign.center)
+                  ])),
+                  ListTile(
+                      title: Column(children: [
+                    Text('${AppLocalizations.of(context)!.licence} : ',
+                        textAlign: TextAlign.center),
+                    const Text("BSD 3-Clause", textAlign: TextAlign.center)
+                  ])),
+                  ListTile(
+                      title: Column(children: [
+                    Text('${AppLocalizations.of(context)!.sourceCode} :',
+                        textAlign: TextAlign.center),
+                    ElevatedButton(
+                      onPressed: () async {
+                        _launchURL();
+                      },
+                      child: const Text(
+                        "https://github.com/AlbanDAVID/cooky-app",
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ])),
+                  ListTile(
+                      title: Column(children: [
+                    Text('${AppLocalizations.of(context)!.version} : ',
+                        textAlign: TextAlign.center),
+                    Text(_packageInfo.version, textAlign: TextAlign.center)
+                  ])),
+                ]).toList(),
+              ),
+            ),
+          ]),
           drawer: Drawer(
             backgroundColor: const Color.fromRGBO(234, 221, 255, 1.000),
             child: Column(children: [

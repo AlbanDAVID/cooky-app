@@ -426,15 +426,16 @@ class _RecipeStructState extends State<RecipeStruct> {
                       child: Container(
                           child: Column(children: [
                         // Spacing between title and image
-                        SizedBox(height: 16),
 
                         // Recipe picture
-                        Center(
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(10.0),
-                            child: _imageToDisplay(),
-                          ),
-                        ),
+                        Container(
+                            height: 400,
+                            child: Center(
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(10.0),
+                                child: _imageToDisplay(),
+                              ),
+                            )),
 
                         // Spacing between title and image
                         SizedBox(height: 16),

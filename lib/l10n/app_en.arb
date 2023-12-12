@@ -78,7 +78,7 @@
    "tsp" : "tablespoon",
    "listUnits": "g, kg, mg, ml, l, cl, tsp, tbsp, pinch, drop, piece, tbspoz, pound, cup, pt, qt, gal",
    "language" : "Language",
-   "supportedLanguage" : "English,French,Your phone phone language (english and french available)",
+   "supportedLanguage" : "English,French,Your device language (english and french available)",
    "askRestart" : "Please restart your application",
    "ok" : "Ok",
    "about" : "About",

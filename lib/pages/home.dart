@@ -437,7 +437,8 @@ class _HomeState extends State<Home> {
         child: Scaffold(
           appBar: AppBar(
               title: Text("cooky",
-                  style: const TextStyle(color: Color.fromRGBO(54, 27, 99, 1))),
+                  style:
+                      const TextStyle(color: Color.fromRGBO(104, 60, 173, 1))),
               centerTitle: true,
               elevation: 0,
               //leading: const Icon(Icons.menu),
@@ -593,7 +594,7 @@ class _HomeState extends State<Home> {
                               Hive.box<CategoriesNames>('catBox').listenable(),
                           builder: (context, Box<CategoriesNames> box, _) {
                             return Padding(
-                                padding: EdgeInsets.all(0),
+                                padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
                                 child: ReorderableListView(
                                   onReorder: (int oldIndex, int newIndex) {
                                     setState(() {
@@ -636,25 +637,24 @@ class _HomeState extends State<Home> {
                                               ),
                                             );
                                           },
-                                          style: TextButton.styleFrom(
-                                            backgroundColor: Color.fromRGBO(
-                                                249, 246, 253, 0.49),
-                                            // Couleur du bouton
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(
-                                                      10.0), // Bords arrondis
-                                            ),
-                                          ),
                                           child: Center(
-                                            child: Text(
+                                              child: Column(children: [
+                                            Text(
                                               textAlign: TextAlign.center,
                                               box.getAt(index)!.categoryName,
                                               style: TextStyle(
-                                                  fontSize: 20,
-                                                  color: Colors.black),
+                                                fontSize: 20,
+                                              ),
                                             ),
-                                          ),
+                                            const Divider(
+                                              height: 40,
+                                              color: Color.fromRGBO(
+                                                  81, 22, 175, 1),
+                                              indent: 50,
+                                              endIndent: 50,
+                                              thickness: 0.40,
+                                            ),
+                                          ])),
                                         ),
                                         trailing: isEditDeleteMode
                                             ? Wrap(
@@ -779,7 +779,7 @@ class _HomeState extends State<Home> {
                                                 ],
                                               )
                                             : null,
-                                      )
+                                      ),
                                   ],
                                 ));
                           },

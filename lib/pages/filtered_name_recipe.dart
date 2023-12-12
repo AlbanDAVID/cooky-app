@@ -204,7 +204,9 @@ class _FilteredNameRecipeState extends State<FilteredNameRecipe> {
         canPop: false,
         child: Scaffold(
           appBar: AppBar(
-            title: Text(AppLocalizations.of(context)!.recipes),
+            title: Text(
+              widget.categoryName,
+            ),
             centerTitle: true,
             leading: IconButton(
               onPressed: () {
