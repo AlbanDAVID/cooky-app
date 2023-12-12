@@ -50,7 +50,6 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   intl: ^0.18.1
-  flutter_launcher_icons: ^0.13.1
 
 dev_dependencies:
   flutter_test:
@@ -80,11 +79,6 @@ flutter:
   assets:
     - recipe_pics/no_image.png
     - android/app/src/main/res/mipmap-hdpi/ic_launcher.png
-
-flutter_launcher_icons:
-  adroid: true
-  ios: true
-  image_path: "recipe_pics/cookie_logo.png"
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

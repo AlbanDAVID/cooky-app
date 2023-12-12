@@ -67,7 +67,8 @@ class _AboutState extends State<About> {
                       title: Column(children: [
                     Text('${AppLocalizations.of(context)!.licence} : ',
                         textAlign: TextAlign.center),
-                    const Text("BSD 3-Clause", textAlign: TextAlign.center)
+                    const Text("GNU General Public License v3.0",
+                        textAlign: TextAlign.center)
                   ])),
                   ListTile(
                       title: Column(children: [
@@ -87,7 +88,7 @@ class _AboutState extends State<About> {
                       title: Column(children: [
                     Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                       const Icon(Icons.mood_sharp),
-                      Text('${AppLocalizations.of(context)!.thxContrib}',
+                      Text(' ${AppLocalizations.of(context)!.thxContrib}',
                           textAlign: TextAlign.center),
                     ]),
                     ListTile(
