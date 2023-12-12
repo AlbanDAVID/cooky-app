@@ -1,11 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:cook_app/utils/dialbox_add_ingredient_quantity.dart';
-import 'package:cook_app/utils/search_bar_UI.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:hive_flutter/hive_flutter.dart';
-import 'package:flutter_picker/flutter_picker.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AddIngred extends StatefulWidget {
@@ -98,7 +94,6 @@ class _AddIngredState extends State<AddIngred> {
                     // Handle the result (finalQuantity) here
                     if (result != null) {
                       List finalQuantity = result;
-                      print('Received data from SecondScreen: $finalQuantity');
                       setState(() {});
                       finalQuantity.insert(0, filteredList[index]);
                       allIngredientSelected.add(finalQuantity);

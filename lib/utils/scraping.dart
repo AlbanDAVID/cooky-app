@@ -1,13 +1,11 @@
-import 'dart:convert';
+// ignore_for_file: avoid_init_to_null, non_constant_identifier_names
 
-import 'dart:ffi';
 import 'dart:io';
 
 import 'package:cook_app/data/recipe_database/database.dart';
 import 'package:cook_app/utils/add_category.dart';
 import 'package:cook_app/utils/add_cost.dart';
 import 'package:cook_app/utils/add_difficulty.dart';
-import 'package:cook_app/utils/add_ingredients.dart';
 import 'package:cook_app/utils/add_pics.dart';
 import 'package:cook_app/utils/add_recipename.dart';
 import 'package:cook_app/utils/add_tags.dart';
@@ -78,7 +76,7 @@ class _ScrapingState extends State<Scraping> {
             content: Text(
               AppLocalizations.of(context)!.categoryEmpty,
               textAlign: TextAlign.center,
-              style: TextStyle(color: Colors.red),
+              style: const TextStyle(color: Colors.red),
             ),
             actions: [
               ElevatedButton(
@@ -106,7 +104,6 @@ class _ScrapingState extends State<Scraping> {
     if (result != null) {
       String categoryName = result;
 
-      print('Received data from SecondScreen: $categoryName');
       setState(() {
         isButtonAddCategoryVisible = false;
       });
@@ -129,15 +126,15 @@ class _ScrapingState extends State<Scraping> {
         : Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             Text(
               AppLocalizations.of(context)!.category,
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 16,
               ),
             ),
             Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
               Text(
                 widget.scrapRecipeCategory!,
-                style: TextStyle(
-                  fontSize: 20,
+                style: const TextStyle(
+                  fontSize: 16,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -145,7 +142,7 @@ class _ScrapingState extends State<Scraping> {
                 onTap: () {
                   _getDataFromAddExistingCategory(context);
                 },
-                child: Icon(
+                child: const Icon(
                   Icons.create,
                   size: 30,
                 ),
@@ -163,14 +160,13 @@ class _ScrapingState extends State<Scraping> {
     final result = await Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => AddRecipeName(),
+        builder: (context) => const AddRecipeName(),
       ),
     );
 
     if (result != null) {
       String recipeName = result;
 
-      print('Received data from SecondScreen: $recipeName');
       setState(() {
         // Update visibility button
       });
@@ -184,7 +180,7 @@ class _ScrapingState extends State<Scraping> {
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       Text(
         AppLocalizations.of(context)!.recipeName,
-        style: TextStyle(
+        style: const TextStyle(
           fontSize: 16,
         ),
       ),
@@ -192,13 +188,14 @@ class _ScrapingState extends State<Scraping> {
         SizedBox(
             width: 300,
             child: Text(
-              softWrap: true,
+              maxLines: 3,
               overflow: TextOverflow.ellipsis,
               widget.scrapRecipeName,
-              style: widget.scrapRecipeName == "Deleted"
-                  ? TextStyle(fontSize: 15, fontStyle: FontStyle.italic)
-                  : TextStyle(
-                      fontSize: 20,
+              style: widget.scrapRecipeName ==
+                      AppLocalizations.of(context)!.deleted
+                  ? const TextStyle(fontSize: 10, fontStyle: FontStyle.italic)
+                  : const TextStyle(
+                      fontSize: 16,
                       fontWeight: FontWeight.bold,
                     ),
             )),
@@ -221,24 +218,25 @@ class _ScrapingState extends State<Scraping> {
                     });
                 if (result != null) {
                   String data = result;
-                  print('Received data from SecondScreen: $data');
                   setState(() {});
                   widget.scrapRecipeName = data;
                 }
               },
-              child: Icon(
+              child: const Icon(
                 Icons.create,
                 size: 30,
               ),
             ),
-            SizedBox(width: 16), // Ajustez cet espace selon vos besoins
+            const SizedBox(width: 16), // Ajustez cet espace selon vos besoins
             InkWell(
               onLongPress: () {
                 setState(() {
-                  widget.scrapRecipeName = "Deleted";
+                  widget.scrapRecipeName =
+                      AppLocalizations.of(context)!.deleted;
                 });
               },
-              child: Icon(Icons.delete, size: 20, color: Colors.redAccent),
+              child:
+                  const Icon(Icons.delete, size: 20, color: Colors.redAccent),
             ),
           ],
         )
@@ -256,14 +254,13 @@ class _ScrapingState extends State<Scraping> {
     final result = await Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => AddTotalTime(),
+        builder: (context) => const AddTotalTime(),
       ),
     );
 
     if (result != null) {
       String totalTime = result;
 
-      print('Received data from SecondScreen: $totalTime');
       setState(() {
         // Update visibility button
       });
@@ -277,15 +274,16 @@ class _ScrapingState extends State<Scraping> {
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       Text(
         AppLocalizations.of(context)!.totalTime,
-        style: TextStyle(
+        style: const TextStyle(
           fontSize: 16,
         ),
       ),
       Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
         Text(widget.scrapTotalTime,
-            style: widget.scrapTotalTime == "Deleted"
-                ? TextStyle(fontSize: 15, fontStyle: FontStyle.italic)
-                : TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+            style: widget.scrapTotalTime ==
+                    AppLocalizations.of(context)!.deleted
+                ? const TextStyle(fontSize: 10, fontStyle: FontStyle.italic)
+                : const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
         Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
@@ -305,31 +303,31 @@ class _ScrapingState extends State<Scraping> {
                     });
                 if (result != null) {
                   String data = result;
-                  print('Received data from SecondScreen: $data');
                   setState(() {});
                   widget.scrapTotalTime = data;
                 }
               },
-              child: Icon(
+              child: const Icon(
                 Icons.create,
                 size: 30,
               ),
             ),
-            SizedBox(width: 16), // Ajustez cet espace selon vos besoins
+            const SizedBox(width: 16), // Ajustez cet espace selon vos besoins
             InkWell(
               onLongPress: () {
                 setState(() {
-                  widget.scrapTotalTime = "Deleted";
+                  widget.scrapTotalTime = AppLocalizations.of(context)!.deleted;
                   Text(
                     widget.scrapTotalTime,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 20,
                       fontStyle: FontStyle.italic,
                     ),
                   );
                 });
               },
-              child: Icon(Icons.delete, size: 20, color: Colors.redAccent),
+              child:
+                  const Icon(Icons.delete, size: 20, color: Colors.redAccent),
             ),
           ],
         )
@@ -347,14 +345,13 @@ class _ScrapingState extends State<Scraping> {
     final result = await Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => AddDifficulty(),
+        builder: (context) => const AddDifficulty(),
       ),
     );
 
     if (result != null) {
       String difficulty = result;
 
-      print('Received data from SecondScreen: $difficulty');
       setState(() {
         // Update visibility button
       });
@@ -368,15 +365,15 @@ class _ScrapingState extends State<Scraping> {
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       Text(
         AppLocalizations.of(context)!.difficulty,
-        style: TextStyle(
+        style: const TextStyle(
           fontSize: 16,
         ),
       ),
       Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
         Text(scrapDifficulty,
-            style: scrapDifficulty == "Deleted"
-                ? TextStyle(fontSize: 15, fontStyle: FontStyle.italic)
-                : TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+            style: scrapDifficulty == AppLocalizations.of(context)!.deleted
+                ? const TextStyle(fontSize: 10, fontStyle: FontStyle.italic)
+                : const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
         Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
@@ -396,24 +393,24 @@ class _ScrapingState extends State<Scraping> {
                     });
                 if (result != null) {
                   String data = result;
-                  print('Received data from SecondScreen: $data');
                   setState(() {});
                   scrapDifficulty = data;
                 }
               },
-              child: Icon(
+              child: const Icon(
                 Icons.create,
                 size: 30,
               ),
             ),
-            SizedBox(width: 16), // Ajustez cet espace selon vos besoins
+            const SizedBox(width: 16), // Ajustez cet espace selon vos besoins
             InkWell(
               onLongPress: () {
                 setState(() {
-                  scrapDifficulty = "Deleted";
+                  scrapDifficulty = AppLocalizations.of(context)!.deleted;
                 });
               },
-              child: Icon(Icons.delete, size: 20, color: Colors.redAccent),
+              child:
+                  const Icon(Icons.delete, size: 20, color: Colors.redAccent),
             ),
           ],
         )
@@ -430,14 +427,13 @@ class _ScrapingState extends State<Scraping> {
     final result = await Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => AddCost(),
+        builder: (context) => const AddCost(),
       ),
     );
 
     if (result != null) {
       String cost = result;
 
-      print('Received data from SecondScreen: $cost');
       setState(() {
         // Update visibility button
       });
@@ -451,15 +447,15 @@ class _ScrapingState extends State<Scraping> {
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       Text(
         AppLocalizations.of(context)!.cost,
-        style: TextStyle(
+        style: const TextStyle(
           fontSize: 16,
         ),
       ),
       Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
         Text(scrapCost,
-            style: scrapCost == "Deleted"
-                ? TextStyle(fontSize: 15, fontStyle: FontStyle.italic)
-                : TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+            style: scrapCost == AppLocalizations.of(context)!.deleted
+                ? const TextStyle(fontSize: 10, fontStyle: FontStyle.italic)
+                : const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
         Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
@@ -478,24 +474,24 @@ class _ScrapingState extends State<Scraping> {
                     });
                 if (result != null) {
                   String data = result;
-                  print('Received data from SecondScreen: $data');
                   setState(() {});
                   scrapCost = data;
                 }
               },
-              child: Icon(
+              child: const Icon(
                 Icons.create,
                 size: 30,
               ),
             ),
-            SizedBox(width: 16), // Ajustez cet espace selon vos besoins
+            const SizedBox(width: 16), // Ajustez cet espace selon vos besoins
             InkWell(
               onLongPress: () {
                 setState(() {
-                  scrapCost = "Deleted";
+                  scrapCost = AppLocalizations.of(context)!.deleted;
                 });
               },
-              child: Icon(Icons.delete, size: 20, color: Colors.redAccent),
+              child:
+                  const Icon(Icons.delete, size: 20, color: Colors.redAccent),
             ),
           ],
         )
@@ -559,13 +555,12 @@ class _ScrapingState extends State<Scraping> {
     final result = await Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => MyImagePickerPage(),
+        builder: (context) => const MyImagePickerPage(),
       ),
     );
 
     if (result != null) {
       String imageSelected = result;
-      print('Received data from SecondScreen: $imageSelected');
       setState(() {});
       widget.pathImageSelectedFromImagePicker = imageSelected;
       widget.urlImageScrap = null;
@@ -578,7 +573,7 @@ class _ScrapingState extends State<Scraping> {
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       Text(
         AppLocalizations.of(context)!.picture,
-        style: TextStyle(
+        style: const TextStyle(
           fontSize: 16,
         ),
       ),
@@ -590,8 +585,8 @@ class _ScrapingState extends State<Scraping> {
             child: Text(
               previewImageTextField =
                   AppLocalizations.of(context)!.previewPicture,
-              style: TextStyle(
-                fontSize: 20,
+              style: const TextStyle(
+                fontSize: 16,
                 fontWeight: FontWeight.bold,
                 decoration: TextDecoration.underline,
               ),
@@ -603,12 +598,12 @@ class _ScrapingState extends State<Scraping> {
               onTap: () {
                 getDataFromMyImagePickerPage(context);
               },
-              child: Icon(
+              child: const Icon(
                 Icons.create,
                 size: 30,
               ),
             ),
-            SizedBox(width: 16), // Ajustez cet espace selon vos besoins
+            const SizedBox(width: 16), // Ajustez cet espace selon vos besoins
             InkWell(
               onLongPress: () {
                 setState(() {
@@ -616,7 +611,8 @@ class _ScrapingState extends State<Scraping> {
                   widget.urlImageScrap = null;
                 });
               },
-              child: Icon(Icons.delete, size: 20, color: Colors.redAccent),
+              child:
+                  const Icon(Icons.delete, size: 20, color: Colors.redAccent),
             ),
           ],
         )
@@ -647,15 +643,15 @@ class _ScrapingState extends State<Scraping> {
                 children: [
                   Text(
                     AppLocalizations.of(context)!.collapse,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 16,
                     ),
                   ),
-                  Icon(
+                  const Icon(
                     Icons.arrow_downward,
                     size: 16, // ajustez la taille selon vos besoins
                   ),
-                  Spacer(),
+                  const Spacer(),
                   InkWell(
                     onTap: () async {
                       final result = await showDialog(
@@ -667,26 +663,25 @@ class _ScrapingState extends State<Scraping> {
                           });
                       if (result != null) {
                         String addedIngredScrap = result;
-                        print(
-                            'Received data from SecondScreen: $addedIngredScrap');
                         setState(() {});
                         widget.scrapAllIngredient.add(addedIngredScrap);
                       }
                     },
-                    child: Icon(
+                    child: const Icon(
                       Icons.add,
                       size: 30,
                     ),
                   ),
-                  SizedBox(width: 16), // Ajustez cet espace selon vos besoins
+                  const SizedBox(
+                      width: 16), // Ajustez cet espace selon vos besoins
                   InkWell(
                     onLongPress: () {
                       setState(() {
                         widget.scrapAllIngredient = [];
                       });
                     },
-                    child:
-                        Icon(Icons.delete, size: 20, color: Colors.redAccent),
+                    child: const Icon(Icons.delete,
+                        size: 20, color: Colors.redAccent),
                   ),
                 ],
               ))
@@ -700,15 +695,15 @@ class _ScrapingState extends State<Scraping> {
                 children: [
                   Text(
                     AppLocalizations.of(context)!.showIngred,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 16,
                     ),
                   ),
-                  Icon(
+                  const Icon(
                     Icons.arrow_upward,
                     size: 16, // ajustez la taille selon vos besoins
                   ),
-                  Spacer(),
+                  const Spacer(),
                   InkWell(
                     onTap: () async {
                       final result = await showDialog(
@@ -720,26 +715,25 @@ class _ScrapingState extends State<Scraping> {
                           });
                       if (result != null) {
                         String addedIngredScrap = result;
-                        print(
-                            'Received data from SecondScreen: $addedIngredScrap');
                         setState(() {});
                         widget.scrapAllIngredient.add(addedIngredScrap);
                       }
                     },
-                    child: Icon(
+                    child: const Icon(
                       Icons.add,
                       size: 30,
                     ),
                   ),
-                  SizedBox(width: 16), // Ajustez cet espace selon vos besoins
+                  const SizedBox(
+                      width: 16), // Ajustez cet espace selon vos besoins
                   InkWell(
                     onLongPress: () {
                       setState(() {
                         widget.scrapAllIngredient = [];
                       });
                     },
-                    child:
-                        Icon(Icons.delete, size: 20, color: Colors.redAccent),
+                    child: const Icon(Icons.delete,
+                        size: 20, color: Colors.redAccent),
                   ),
                 ],
               )),
@@ -776,8 +770,6 @@ class _ScrapingState extends State<Scraping> {
                           });
                       if (result != null) {
                         String addedIngredScrap = result;
-                        print(
-                            'Received data from SecondScreen: $addedIngredScrap');
                         setState(() {});
                         widget.scrapAllIngredient[index] = addedIngredScrap;
                       }
@@ -816,13 +808,12 @@ class _ScrapingState extends State<Scraping> {
     final result = await Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => CreateSteps(),
+        builder: (context) => const CreateSteps(),
       ),
     );
 
     if (result != null) {
       List<String> stepsRecipe = result;
-      print('Received data from SecondScreen: $stepsRecipe');
       setState(() {});
       widget.scrapStepsRecipe.addAll(stepsRecipe);
     }
@@ -843,33 +834,34 @@ class _ScrapingState extends State<Scraping> {
                 children: [
                   Text(
                     AppLocalizations.of(context)!.collapse,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 16,
                     ),
                   ),
-                  Icon(
+                  const Icon(
                     Icons.arrow_downward,
                     size: 16, // ajustez la taille selon vos besoins
                   ),
-                  Spacer(),
+                  const Spacer(),
                   InkWell(
                     onTap: () {
                       getDataFromCreateSteps(context);
                     },
-                    child: Icon(
+                    child: const Icon(
                       Icons.add,
                       size: 30,
                     ),
                   ),
-                  SizedBox(width: 16), // Ajustez cet espace selon vos besoins
+                  const SizedBox(
+                      width: 16), // Ajustez cet espace selon vos besoins
                   InkWell(
                     onLongPress: () {
                       setState(() {
                         widget.scrapStepsRecipe = [];
                       });
                     },
-                    child:
-                        Icon(Icons.delete, size: 20, color: Colors.redAccent),
+                    child: const Icon(Icons.delete,
+                        size: 20, color: Colors.redAccent),
                   ),
                 ],
               ))
@@ -883,33 +875,34 @@ class _ScrapingState extends State<Scraping> {
                 children: [
                   Text(
                     AppLocalizations.of(context)!.showSteps,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 16,
                     ),
                   ),
-                  Icon(
+                  const Icon(
                     Icons.arrow_upward,
                     size: 16, // ajustez la taille selon vos besoins
                   ),
-                  Spacer(),
+                  const Spacer(),
                   InkWell(
                     onTap: () {
                       getDataFromCreateSteps(context);
                     },
-                    child: Icon(
+                    child: const Icon(
                       Icons.add,
                       size: 30,
                     ),
                   ),
-                  SizedBox(width: 16), // Ajustez cet espace selon vos besoins
+                  const SizedBox(
+                      width: 16), // Ajustez cet espace selon vos besoins
                   InkWell(
                     onLongPress: () {
                       setState(() {
                         widget.scrapStepsRecipe = [];
                       });
                     },
-                    child:
-                        Icon(Icons.delete, size: 20, color: Colors.redAccent),
+                    child: const Icon(Icons.delete,
+                        size: 20, color: Colors.redAccent),
                   ),
                 ],
               )),
@@ -943,7 +936,6 @@ class _ScrapingState extends State<Scraping> {
                         });
                     if (result != null) {
                       String stepEdited = result;
-                      print('Received data from SecondScreen: $stepEdited');
                       setState(() {});
                       widget.scrapStepsRecipe[index] = stepEdited;
                     }
@@ -982,13 +974,12 @@ class _ScrapingState extends State<Scraping> {
     final result = await Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => AddTags(),
+        builder: (context) => const AddTags(),
       ),
     );
 
     if (result != null) {
       List data = result;
-      print('Received data from SecondScreen: $data');
       setState(() {});
       widget.scrapTags!.addAll(data);
     }
@@ -1009,33 +1000,34 @@ class _ScrapingState extends State<Scraping> {
                 children: [
                   Text(
                     AppLocalizations.of(context)!.collapse,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 16,
                     ),
                   ),
-                  Icon(
+                  const Icon(
                     Icons.arrow_downward,
                     size: 16, // ajustez la taille selon vos besoins
                   ),
-                  Spacer(),
+                  const Spacer(),
                   InkWell(
                     onTap: () {
                       getDataFromAddTags(context);
                     },
-                    child: Icon(
+                    child: const Icon(
                       Icons.add,
                       size: 30,
                     ),
                   ),
-                  SizedBox(width: 16), // Ajustez cet espace selon vos besoins
+                  const SizedBox(
+                      width: 16), // Ajustez cet espace selon vos besoins
                   InkWell(
                     onLongPress: () {
                       setState(() {
                         widget.scrapTags!.clear();
                       });
                     },
-                    child:
-                        Icon(Icons.delete, size: 20, color: Colors.redAccent),
+                    child: const Icon(Icons.delete,
+                        size: 20, color: Colors.redAccent),
                   ),
                 ],
               ))
@@ -1049,33 +1041,34 @@ class _ScrapingState extends State<Scraping> {
                 children: [
                   Text(
                     AppLocalizations.of(context)!.showTags,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 16,
                     ),
                   ),
-                  Icon(
+                  const Icon(
                     Icons.arrow_upward,
                     size: 16, // ajustez la taille selon vos besoins
                   ),
-                  Spacer(),
+                  const Spacer(),
                   InkWell(
                     onTap: () {
                       getDataFromAddTags(context);
                     },
-                    child: Icon(
+                    child: const Icon(
                       Icons.add,
                       size: 30,
                     ),
                   ),
-                  SizedBox(width: 16), // Ajustez cet espace selon vos besoins
+                  const SizedBox(
+                      width: 16), // Ajustez cet espace selon vos besoins
                   InkWell(
                     onLongPress: () {
                       setState(() {
                         widget.scrapTags!.clear();
                       });
                     },
-                    child:
-                        Icon(Icons.delete, size: 20, color: Colors.redAccent),
+                    child: const Icon(Icons.delete,
+                        size: 20, color: Colors.redAccent),
                   ),
                 ],
               )),
@@ -1107,7 +1100,6 @@ class _ScrapingState extends State<Scraping> {
                         });
                     if (result != null) {
                       String data = result;
-                      print('Received data from SecondScreen: $data');
                       setState(() {});
                       widget.scrapTags![index] = data;
                     }
@@ -1167,7 +1159,7 @@ class _ScrapingState extends State<Scraping> {
         showTagsAdded(),
       ]);
     } else {
-      return Text("Error, no widgets to display");
+      return const Text("Error, no widgets to display");
     }
   }
 
@@ -1182,18 +1174,18 @@ class _ScrapingState extends State<Scraping> {
                 child: Column(children: [
                   Text(AppLocalizations.of(context)!.areYouSureExit,
                       textAlign: TextAlign.center,
-                      style:
-                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                      style: const TextStyle(
+                          fontSize: 20, fontWeight: FontWeight.bold)),
                   Center(
                       child: Text(AppLocalizations.of(context)!.saveEditLater,
                           textAlign: TextAlign.center,
-                          style: TextStyle(
+                          style: const TextStyle(
                               fontSize: 15, fontStyle: FontStyle.italic)))
                 ])),
             actions: <Widget>[
               TextButton(
                 child: Text(AppLocalizations.of(context)!.confirmExit,
-                    style: TextStyle(color: Colors.red)),
+                    style: const TextStyle(color: Colors.red)),
                 onPressed: () {
                   setState(() {
                     // we can go back
@@ -1207,7 +1199,7 @@ class _ScrapingState extends State<Scraping> {
               ),
               TextButton(
                 child: Text(AppLocalizations.of(context)!.no,
-                    style: TextStyle(color: Colors.lightGreen)),
+                    style: const TextStyle(color: Colors.lightGreen)),
                 onPressed: () {
                   Navigator.of(context).pop(false);
                 },
@@ -1250,21 +1242,25 @@ class _ScrapingState extends State<Scraping> {
                   child: ElevatedButton(
                     onPressed: () {
                       // handle deleted variable
-                      final finalscrapRecipeName =
-                          widget.scrapRecipeName == "Deleted"
-                              ? "No title"
-                              : widget.scrapRecipeName;
+                      final finalscrapRecipeName = widget.scrapRecipeName ==
+                              AppLocalizations.of(context)!.deleted
+                          ? AppLocalizations.of(context)!.noTitle
+                          : widget.scrapRecipeName;
 
-                      final finalscrapTotalTime =
-                          widget.scrapTotalTime == "Deleted"
-                              ? ""
-                              : widget.scrapTotalTime;
+                      final finalscrapTotalTime = widget.scrapTotalTime ==
+                              AppLocalizations.of(context)!.deleted
+                          ? ""
+                          : widget.scrapTotalTime;
 
-                      final finalscrapDifficulty =
-                          scrapDifficulty == "Deleted" ? "" : scrapDifficulty;
+                      final finalscrapDifficulty = scrapDifficulty ==
+                              AppLocalizations.of(context)!.deleted
+                          ? ""
+                          : scrapDifficulty;
 
                       final finalscrapCost =
-                          scrapCost == "Deleted" ? "" : scrapCost;
+                          scrapCost == AppLocalizations.of(context)!.deleted
+                              ? ""
+                              : scrapCost;
 
                       // create a varible with the date of creation
                       DateTime now = DateTime.now();

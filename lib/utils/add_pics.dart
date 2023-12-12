@@ -3,11 +3,13 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class MyImagePickerPage extends StatefulWidget {
+  const MyImagePickerPage({super.key});
+
   @override
+  // ignore: library_private_types_in_public_api
   _MyImagePickerPageState createState() => _MyImagePickerPageState();
 }
 
@@ -43,7 +45,6 @@ class _MyImagePickerPageState extends State<MyImagePickerPage> {
       });
 
       // You can now use the file name (fileName) if needed
-      print('Generated file name: $filePath');
 
       pathImageSelected = filePath;
     }
@@ -59,10 +60,22 @@ class _MyImagePickerPageState extends State<MyImagePickerPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            _image == null
-                ? Text(AppLocalizations.of(context)!.noPic)
-                : Image.file(_image!),
-            SizedBox(height: 20),
+            SizedBox(
+              height: 500,
+              width: 400,
+              child: _image == null
+                  ? Text(AppLocalizations.of(context)!.noPic,
+                      textAlign: TextAlign.center)
+                  : Center(
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(10.0),
+                        child: Image.file(_image!),
+                      ),
+                    ),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
             ElevatedButton(
               onPressed: () => _pickImage(ImageSource.gallery),
               child: Text(AppLocalizations.of(context)!.chooseGallery),

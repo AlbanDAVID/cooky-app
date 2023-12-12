@@ -1,6 +1,5 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors
 
-import 'package:cook_app/utils/search_bar_UI.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -48,7 +47,7 @@ class _AddTagsState extends State<AddTags> {
     // add list from dialbox_add_ingredient to allIngredientSelected
     return Scaffold(
         appBar: AppBar(
-          title: const Text('Add tags'),
+          title: Text(AppLocalizations.of(context)!.addTags),
           actions: [
             // IconButton(onPressed: () {showSearch(context: context, delegate: delegate)}, icon: const Icon(Icons.search))
           ],

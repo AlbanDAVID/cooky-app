@@ -1,6 +1,5 @@
 // ignore_for_file: prefer_const_constructors
 
-import 'dart:ffi';
 import 'dart:io';
 
 import 'package:cook_app/data/recipe_database/database.dart';
@@ -103,7 +102,6 @@ class _EditRecipeState extends State<EditRecipe> {
     if (result != null) {
       String categoryName = result;
 
-      print('Received data from SecondScreen: $categoryName');
       setState(() {
         // Update visibility button
       });
@@ -125,7 +123,7 @@ class _EditRecipeState extends State<EditRecipe> {
         Text(
           widget.editRecipeCategory,
           style: TextStyle(
-            fontSize: 20,
+            fontSize: 16,
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -158,7 +156,6 @@ class _EditRecipeState extends State<EditRecipe> {
     if (result != null) {
       String recipeName = result;
 
-      print('Received data from SecondScreen: $recipeName');
       setState(() {
         // Update visibility button
       });
@@ -181,15 +178,16 @@ class _EditRecipeState extends State<EditRecipe> {
             // to have a limit if the text is too long (add ...)
             width: 300,
             child: Text(
-              softWrap: true,
+              maxLines: 3,
               overflow: TextOverflow.ellipsis,
               widget.editRecipeName,
-              style: widget.editRecipeName == "Deleted"
-                  ? TextStyle(fontSize: 15, fontStyle: FontStyle.italic)
-                  : TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
+              style:
+                  widget.editRecipeName == AppLocalizations.of(context)!.deleted
+                      ? TextStyle(fontSize: 10, fontStyle: FontStyle.italic)
+                      : TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
             )),
         Row(
           mainAxisAlignment: MainAxisAlignment.end,
@@ -210,7 +208,6 @@ class _EditRecipeState extends State<EditRecipe> {
                     });
                 if (result != null) {
                   String data = result;
-                  print('Received data from SecondScreen: $data');
                   setState(() {});
                   widget.editRecipeName = data;
                 }
@@ -224,7 +221,7 @@ class _EditRecipeState extends State<EditRecipe> {
             InkWell(
               onLongPress: () {
                 setState(() {
-                  widget.editRecipeName = "Deleted";
+                  widget.editRecipeName = AppLocalizations.of(context)!.deleted;
                 });
               },
               child: Icon(Icons.delete, size: 20, color: Colors.redAccent),
@@ -252,7 +249,6 @@ class _EditRecipeState extends State<EditRecipe> {
     if (result != null) {
       String totalTime = result;
 
-      print('Received data from SecondScreen: $totalTime');
       setState(() {
         // Update visibility button
       });
@@ -272,9 +268,9 @@ class _EditRecipeState extends State<EditRecipe> {
       ),
       Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
         Text(widget.editTotalTime,
-            style: widget.editTotalTime == "Deleted"
-                ? TextStyle(fontSize: 15, fontStyle: FontStyle.italic)
-                : TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+            style: widget.editTotalTime == AppLocalizations.of(context)!.deleted
+                ? TextStyle(fontSize: 10, fontStyle: FontStyle.italic)
+                : TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
         Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
@@ -294,7 +290,6 @@ class _EditRecipeState extends State<EditRecipe> {
                     });
                 if (result != null) {
                   String data = result;
-                  print('Received data from SecondScreen: $data');
                   setState(() {});
                   widget.editTotalTime = data;
                 }
@@ -308,7 +303,7 @@ class _EditRecipeState extends State<EditRecipe> {
             InkWell(
               onLongPress: () {
                 setState(() {
-                  widget.editTotalTime = "Deleted";
+                  widget.editTotalTime = AppLocalizations.of(context)!.deleted;
                   Text(
                     widget.editTotalTime,
                     style: TextStyle(
@@ -343,7 +338,6 @@ class _EditRecipeState extends State<EditRecipe> {
     if (result != null) {
       String difficulty = result;
 
-      print('Received data from SecondScreen: $difficulty');
       setState(() {
         // Update visibility button
       });
@@ -363,9 +357,10 @@ class _EditRecipeState extends State<EditRecipe> {
       ),
       Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
         Text(widget.editDifficulty,
-            style: widget.editDifficulty == "Deleted"
-                ? TextStyle(fontSize: 15, fontStyle: FontStyle.italic)
-                : TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+            style:
+                widget.editDifficulty == AppLocalizations.of(context)!.deleted
+                    ? TextStyle(fontSize: 10, fontStyle: FontStyle.italic)
+                    : TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
         Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
@@ -385,7 +380,6 @@ class _EditRecipeState extends State<EditRecipe> {
                     });
                 if (result != null) {
                   String data = result;
-                  print('Received data from SecondScreen: $data');
                   setState(() {});
                   widget.editDifficulty = data;
                 }
@@ -399,7 +393,7 @@ class _EditRecipeState extends State<EditRecipe> {
             InkWell(
               onLongPress: () {
                 setState(() {
-                  widget.editDifficulty = "Deleted";
+                  widget.editDifficulty = AppLocalizations.of(context)!.deleted;
                 });
               },
               child: Icon(Icons.delete, size: 20, color: Colors.redAccent),
@@ -426,7 +420,6 @@ class _EditRecipeState extends State<EditRecipe> {
     if (result != null) {
       String cost = result;
 
-      print('Received data from SecondScreen: $cost');
       setState(() {
         // Update visibility button
       });
@@ -446,9 +439,9 @@ class _EditRecipeState extends State<EditRecipe> {
       ),
       Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
         Text(widget.editCost,
-            style: widget.editCost == "Deleted"
-                ? TextStyle(fontSize: 15, fontStyle: FontStyle.italic)
-                : TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+            style: widget.editCost == AppLocalizations.of(context)!.deleted
+                ? TextStyle(fontSize: 10, fontStyle: FontStyle.italic)
+                : TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
         Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
@@ -468,7 +461,6 @@ class _EditRecipeState extends State<EditRecipe> {
                     });
                 if (result != null) {
                   String data = result;
-                  print('Received data from SecondScreen: $data');
                   setState(() {});
                   widget.editCost = data;
                 }
@@ -482,7 +474,7 @@ class _EditRecipeState extends State<EditRecipe> {
             InkWell(
               onLongPress: () {
                 setState(() {
-                  widget.editCost = "Deleted";
+                  widget.editCost = AppLocalizations.of(context)!.deleted;
                 });
               },
               child: Icon(Icons.delete, size: 20, color: Colors.redAccent),
@@ -555,7 +547,6 @@ class _EditRecipeState extends State<EditRecipe> {
 
     if (result != null) {
       String imageSelected = result;
-      print('Received data from SecondScreen: $imageSelected');
       setState(() {});
 
       widget.editPathImage = imageSelected;
@@ -582,7 +573,7 @@ class _EditRecipeState extends State<EditRecipe> {
               previewImageTextField =
                   AppLocalizations.of(context)!.previewPicture,
               style: TextStyle(
-                fontSize: 20,
+                fontSize: 16,
                 fontWeight: FontWeight.bold,
                 decoration: TextDecoration.underline,
               ),
@@ -695,7 +686,6 @@ class _EditRecipeState extends State<EditRecipe> {
 
     if (result != null) {
       List allIngredientSelected = result;
-      print('Received data from SecondScreen: $allIngredientSelected');
       setState(() {});
       widget.editAllIngredient.addAll(allIngredientSelected);
     }
@@ -737,8 +727,6 @@ class _EditRecipeState extends State<EditRecipe> {
                                 });
                             if (result != null) {
                               String addedIngredScrap = result;
-                              print(
-                                  'Received data from SecondScreen: $addedIngredScrap');
                               setState(() {});
                               widget.editAllIngredient.add(addedIngredScrap);
                             }
@@ -794,8 +782,6 @@ class _EditRecipeState extends State<EditRecipe> {
                                 });
                             if (result != null) {
                               String addedIngredScrap = result;
-                              print(
-                                  'Received data from SecondScreen: $addedIngredScrap');
                               setState(() {});
                               widget.editAllIngredient.add(addedIngredScrap);
                             }
@@ -857,8 +843,6 @@ class _EditRecipeState extends State<EditRecipe> {
                                 });
                             if (result != null) {
                               String addedIngredScrap = result;
-                              print(
-                                  'Received data from SecondScreen: $addedIngredScrap');
                               setState(() {});
                               widget.editAllIngredient[index] =
                                   addedIngredScrap;
@@ -914,7 +898,6 @@ class _EditRecipeState extends State<EditRecipe> {
 
     if (result != null) {
       List<String> stepsRecipe = result;
-      print('Received data from SecondScreen: $stepsRecipe');
       setState(() {});
       widget.editStepsRecipe.addAll(stepsRecipe);
     }
@@ -1034,7 +1017,6 @@ class _EditRecipeState extends State<EditRecipe> {
                         });
                     if (result != null) {
                       String stepEdited = result;
-                      print('Received data from SecondScreen: $stepEdited');
                       setState(() {});
                       widget.editStepsRecipe[index] = stepEdited;
                     }
@@ -1079,7 +1061,6 @@ class _EditRecipeState extends State<EditRecipe> {
 
     if (result != null) {
       List data = result;
-      print('Received data from SecondScreen: $data');
       setState(() {});
       widget.tags!.addAll(data);
     }
@@ -1198,7 +1179,6 @@ class _EditRecipeState extends State<EditRecipe> {
                         });
                     if (result != null) {
                       String data = result;
-                      print('Received data from SecondScreen: $data');
                       setState(() {});
                       widget.tags![index] = data;
                     }
@@ -1341,22 +1321,25 @@ class _EditRecipeState extends State<EditRecipe> {
                 child: ElevatedButton(
                   onPressed: () {
                     // handle deleted variable
-                    final finalEditRecipeName =
-                        widget.editRecipeName == "Deleted"
-                            ? "No title"
-                            : widget.editRecipeName;
+                    final finalEditRecipeName = widget.editRecipeName ==
+                            AppLocalizations.of(context)!.deleted
+                        ? AppLocalizations.of(context)!.noTitle
+                        : widget.editRecipeName;
 
-                    final finalEditTotalTime = widget.editTotalTime == "Deleted"
+                    final finalEditTotalTime = widget.editTotalTime ==
+                            AppLocalizations.of(context)!.deleted
                         ? ""
                         : widget.editTotalTime;
 
-                    final finalEditDifficulty =
-                        widget.editDifficulty == "Deleted"
-                            ? ""
-                            : widget.editDifficulty;
+                    final finalEditDifficulty = widget.editDifficulty ==
+                            AppLocalizations.of(context)!.deleted
+                        ? ""
+                        : widget.editDifficulty;
 
                     final finalEditCost =
-                        widget.editCost == "Deleted" ? "" : widget.editCost;
+                        widget.editCost == AppLocalizations.of(context)!.deleted
+                            ? ""
+                            : widget.editCost;
 
                     // get all data
                     List recipeList = _myBox.get('ALL_LISTS') ?? [];

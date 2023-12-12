@@ -1,5 +1,4 @@
 import 'package:cook_app/data/language_database/language_database.dart';
-import 'package:cook_app/data/recipe_database/database.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -90,30 +89,30 @@ class _LanguageState extends State<Language> {
                 );
               }),
           drawer: Drawer(
-            backgroundColor: Color.fromRGBO(234, 221, 255, 1.000),
+            backgroundColor: const Color.fromRGBO(234, 221, 255, 1.000),
             child: Column(children: [
-              DrawerHeader(
+              const DrawerHeader(
                   child: Icon(
                 Icons.cookie,
                 size: 48,
               )),
               // home page list tile
               ListTile(
-                leading: Icon(Icons.home),
+                leading: const Icon(Icons.home),
                 title: Text(AppLocalizations.of(context)!.home),
                 onTap: () {
                   Navigator.popAndPushNamed(context, '/home');
                 },
               ),
               ListTile(
-                leading: Icon(Icons.language_sharp),
+                leading: const Icon(Icons.language_sharp),
                 title: Text(AppLocalizations.of(context)!.language),
                 onTap: () {
                   Navigator.popAndPushNamed(context, '/language');
                 },
               ),
               ListTile(
-                leading: Icon(Icons.info_outline),
+                leading: const Icon(Icons.info_outline),
                 title: Text(AppLocalizations.of(context)!.about),
                 onTap: () {
                   Navigator.popAndPushNamed(context, '/about');

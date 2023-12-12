@@ -2,7 +2,6 @@ import 'package:cook_app/data/recipe_database/database.dart';
 import 'package:cook_app/pages/home.dart';
 import 'package:cook_app/utils/edit_recipe.dart';
 import 'package:cook_app/utils/recipe_struct.dart';
-import 'package:cook_app/utils/search_bar_UI.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -102,7 +101,6 @@ class _FilteredNameRecipeState extends State<FilteredNameRecipe> {
 
     if (result != null) {
       String editRecipeName = result;
-      print('Received data from SecondScreen: $editRecipeName');
       setState(() {});
       finalEditRecipeName = editRecipeName;
     }
@@ -143,14 +141,14 @@ class _FilteredNameRecipeState extends State<FilteredNameRecipe> {
         context: context,
         builder: (BuildContext context) {
           return Container(
-              padding: EdgeInsetsDirectional.fromSTEB(0, 200, 0, 100),
+              padding: const EdgeInsetsDirectional.fromSTEB(0, 200, 0, 100),
               child: AlertDialog(
                 title: Column(children: [
                   Text(AppLocalizations.of(context)!.areYouSure),
                   Text(AppLocalizations.of(context)!.confirmLongPress4,
                       textAlign: TextAlign.center,
-                      style:
-                          TextStyle(fontSize: 15, fontStyle: FontStyle.italic))
+                      style: const TextStyle(
+                          fontSize: 15, fontStyle: FontStyle.italic))
                 ]),
                 content: TextButton(
                   onLongPress: () {
@@ -171,7 +169,7 @@ class _FilteredNameRecipeState extends State<FilteredNameRecipe> {
                   onPressed: () {},
                   child: Text(confirmText,
                       textAlign: TextAlign.center,
-                      style: TextStyle(color: Colors.red)),
+                      style: const TextStyle(color: Colors.red)),
                 ),
                 actions: [
                   ElevatedButton(
@@ -295,7 +293,7 @@ class _FilteredNameRecipeState extends State<FilteredNameRecipe> {
                   future: loadAllData(),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
-                      return CircularProgressIndicator();
+                      return const CircularProgressIndicator();
                     } else if (snapshot.hasError) {
                       return Text('Erreur: ${snapshot.error}');
                     } else {
@@ -311,7 +309,7 @@ class _FilteredNameRecipeState extends State<FilteredNameRecipe> {
                                     child: Text(
                                       recipeListFilteredSearch[index][0],
                                       textAlign: TextAlign.center,
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                         fontSize: 15,
                                         fontWeight: FontWeight.bold,
                                       ),
@@ -433,13 +431,11 @@ class _FilteredNameRecipeState extends State<FilteredNameRecipe> {
 
                                     if (result != null) {
                                       String refresh = result;
-                                      print(
-                                          'Received data from SecondScreen: $refresh');
                                       setState(() {});
                                     }
                                   },
                                 ),
-                                Divider(
+                                const Divider(
                                   height: 50,
                                   color: Colors.grey,
                                   indent: 50,
@@ -449,7 +445,7 @@ class _FilteredNameRecipeState extends State<FilteredNameRecipe> {
                               ],
                             );
                           } else {
-                            return SizedBox.shrink();
+                            return const SizedBox.shrink();
                           }
                         },
                       );

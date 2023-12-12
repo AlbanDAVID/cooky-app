@@ -1,23 +1,21 @@
 Priority : 
 
 - *** Lancement sur f droid : changer app name, créer icone,  check license ( f droid et github)
-- * check with differet police size (from smartphone user) + UI about
-- * cohérence taille et couleur police  (+ aligmeent show ingredient par rapport aux  autre élément dans reate recipe)  
-- *** check with all devices 
 - *** special thx
-- max alignement titre 
+- *** check with all devices 
+- *** dart fix issue
+- *** ligne rouges lancelent mode release
 
-release : 
-- ligne rouges mode release
-- bug taille photo
-- bug scrap
-- check long texte step
 
+- * cohérence taille et couleur police + UI about
 
 
 
-
-
+Code : 
+- clean code
+  - const 
+  - print prod
+  - reorganiser page 
 
 
 
@@ -27,18 +25,14 @@ release :
 
 
 
-  
-
-
-
-
-
-
 
 
 
 ----
 - Interessting features :
+- aligner monter ingrdient, motrer steps et tags 
+- erreur scrap, faut il changer la condition (name == null) ? 
+- police taille max
 - add creape recipe button inside a category et quand on arrive sur create recipe, il y a déjç la catégorie d'où l'on vient dans le champ requis
 - backup database (possibilty to export, import, ask for conserv data if uninstall app)
 - BDD on nextcloud
@@ -82,7 +76,7 @@ Other idea :
 BUG : 
 
 - minor : identation quand on ajoute une nouvelle étape après que d'autrzs ont été créées (step 1, step 2 (alors qu'il y a déjà step 1 et 2 par ex, il faudrait reprendre l'ndentation par rapport au éléments déjà ajoués))
-- minor : quand je suprprime un champ dans recipe create et que je delete, puis j'édite : je vois le "delete" dans la champ de texte (par de trad en français)
+- minor : quand je suprprime un champ dans recipe create et que je delete, puis j'édite : je vois le "delete" dans la champ de texte à éditer
 - NE DECONNE PAS EN MODE REALSE mais en bebug : bug add picture (when taking a pics)
 
 

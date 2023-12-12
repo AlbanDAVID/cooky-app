@@ -1,9 +1,8 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, non_constant_identifier_names
 
 import 'dart:io';
 
 import 'package:cook_app/data/recipe_database/database.dart';
-import 'package:cook_app/pages/home.dart';
 import 'package:cook_app/utils/add_category.dart';
 import 'package:cook_app/utils/add_cost.dart';
 import 'package:cook_app/utils/add_difficulty.dart';
@@ -101,7 +100,6 @@ class _CreateRecipeState extends State<CreateRecipe> {
     if (result != null) {
       String categoryName = result;
 
-      print('Received data from SecondScreen: $categoryName');
       setState(() {
         // Update visibility button
 
@@ -135,7 +133,7 @@ class _CreateRecipeState extends State<CreateRecipe> {
               Text(
                 recipeCategoryFromAddExistingCategory,
                 style: TextStyle(
-                  fontSize: 20,
+                  fontSize: 16,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -168,7 +166,6 @@ class _CreateRecipeState extends State<CreateRecipe> {
     if (result != null) {
       String recipeName = result;
 
-      print('Received data from SecondScreen: $recipeName');
       setState(() {
         // Update visibility button
 
@@ -202,12 +199,13 @@ class _CreateRecipeState extends State<CreateRecipe> {
                   // to have a limit if the text is too long (add ...)
                   width: 300,
                   child: Text(recipeNameFromAddRecipeName,
-                      softWrap: true,
+                      maxLines: 3,
                       overflow: TextOverflow.ellipsis,
-                      style: recipeNameFromAddRecipeName == "Deleted"
-                          ? TextStyle(fontSize: 15, fontStyle: FontStyle.italic)
+                      style: recipeNameFromAddRecipeName ==
+                              AppLocalizations.of(context)!.deleted
+                          ? TextStyle(fontSize: 10, fontStyle: FontStyle.italic)
                           : TextStyle(
-                              fontSize: 20, fontWeight: FontWeight.bold))),
+                              fontSize: 16, fontWeight: FontWeight.bold))),
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
@@ -227,7 +225,6 @@ class _CreateRecipeState extends State<CreateRecipe> {
                           });
                       if (result != null) {
                         String data = result;
-                        print('Received data from SecondScreen: $data');
                         setState(() {});
                         recipeNameFromAddRecipeName = data;
                       }
@@ -241,7 +238,8 @@ class _CreateRecipeState extends State<CreateRecipe> {
                   InkWell(
                     onLongPress: () {
                       setState(() {
-                        recipeNameFromAddRecipeName = "Deleted";
+                        recipeNameFromAddRecipeName =
+                            AppLocalizations.of(context)!.deleted;
                       });
                     },
                     child:
@@ -270,7 +268,6 @@ class _CreateRecipeState extends State<CreateRecipe> {
     if (result != null) {
       String totalTime = result;
 
-      print('Received data from SecondScreen: $totalTime');
       setState(() {
         // Update visibility button
 
@@ -301,9 +298,10 @@ class _CreateRecipeState extends State<CreateRecipe> {
             ),
             Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
               Text(totalTimeFromAddTotalTime,
-                  style: totalTimeFromAddTotalTime == "Deleted"
-                      ? TextStyle(fontSize: 15, fontStyle: FontStyle.italic)
-                      : TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                  style: totalTimeFromAddTotalTime ==
+                          AppLocalizations.of(context)!.deleted
+                      ? TextStyle(fontSize: 10, fontStyle: FontStyle.italic)
+                      : TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
@@ -323,7 +321,6 @@ class _CreateRecipeState extends State<CreateRecipe> {
                           });
                       if (result != null) {
                         String data = result;
-                        print('Received data from SecondScreen: $data');
                         setState(() {});
                         totalTimeFromAddTotalTime = data;
                       }
@@ -337,7 +334,8 @@ class _CreateRecipeState extends State<CreateRecipe> {
                   InkWell(
                     onLongPress: () {
                       setState(() {
-                        totalTimeFromAddTotalTime = "Deleted";
+                        totalTimeFromAddTotalTime =
+                            AppLocalizations.of(context)!.deleted;
                         Text(
                           totalTimeFromAddTotalTime,
                           style: TextStyle(
@@ -373,7 +371,6 @@ class _CreateRecipeState extends State<CreateRecipe> {
     if (result != null) {
       String difficulty = result;
 
-      print('Received data from SecondScreen: $difficulty');
       setState(() {
         // Update visibility button
 
@@ -404,9 +401,10 @@ class _CreateRecipeState extends State<CreateRecipe> {
             ),
             Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
               Text(varFromAddDifficulty,
-                  style: varFromAddDifficulty == "Deleted"
-                      ? TextStyle(fontSize: 15, fontStyle: FontStyle.italic)
-                      : TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                  style: varFromAddDifficulty ==
+                          AppLocalizations.of(context)!.deleted
+                      ? TextStyle(fontSize: 10, fontStyle: FontStyle.italic)
+                      : TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
@@ -426,7 +424,6 @@ class _CreateRecipeState extends State<CreateRecipe> {
                           });
                       if (result != null) {
                         String data = result;
-                        print('Received data from SecondScreen: $data');
                         setState(() {});
                         varFromAddDifficulty = data;
                       }
@@ -440,7 +437,8 @@ class _CreateRecipeState extends State<CreateRecipe> {
                   InkWell(
                     onLongPress: () {
                       setState(() {
-                        varFromAddDifficulty = "Deleted";
+                        varFromAddDifficulty =
+                            AppLocalizations.of(context)!.deleted;
                       });
                     },
                     child:
@@ -468,7 +466,6 @@ class _CreateRecipeState extends State<CreateRecipe> {
     if (result != null) {
       String cost = result;
 
-      print('Received data from SecondScreen: $cost');
       setState(() {
         // Update visibility button
 
@@ -499,9 +496,9 @@ class _CreateRecipeState extends State<CreateRecipe> {
             ),
             Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
               Text(varFromAddCost,
-                  style: varFromAddCost == "Deleted"
-                      ? TextStyle(fontSize: 15, fontStyle: FontStyle.italic)
-                      : TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                  style: varFromAddCost == AppLocalizations.of(context)!.deleted
+                      ? TextStyle(fontSize: 10, fontStyle: FontStyle.italic)
+                      : TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
@@ -521,7 +518,6 @@ class _CreateRecipeState extends State<CreateRecipe> {
                           });
                       if (result != null) {
                         String data = result;
-                        print('Received data from SecondScreen: $data');
                         setState(() {});
                         varFromAddCost = data;
                       }
@@ -535,7 +531,7 @@ class _CreateRecipeState extends State<CreateRecipe> {
                   InkWell(
                     onLongPress: () {
                       setState(() {
-                        varFromAddCost = "Deleted";
+                        varFromAddCost = AppLocalizations.of(context)!.deleted;
                       });
                     },
                     child:
@@ -594,7 +590,6 @@ class _CreateRecipeState extends State<CreateRecipe> {
 
     if (result != null) {
       String imageSelected = result;
-      print('Received data from SecondScreen: $imageSelected');
       setState(() {
         isButtonAddPictureVisible = false;
       });
@@ -630,7 +625,7 @@ class _CreateRecipeState extends State<CreateRecipe> {
                     previewImageTextField =
                         AppLocalizations.of(context)!.previewPicture,
                     style: TextStyle(
-                      fontSize: 20,
+                      fontSize: 16,
                       fontWeight: FontWeight.bold,
                       decoration: TextDecoration.underline,
                     ),
@@ -746,7 +741,6 @@ class _CreateRecipeState extends State<CreateRecipe> {
 
     if (result != null) {
       List allIngredientSelected = result;
-      print('Received data from SecondScreen: $allIngredientSelected');
       setState(() {
         isButtonAddIngredVisible = false;
       });
@@ -926,7 +920,6 @@ class _CreateRecipeState extends State<CreateRecipe> {
 
     if (result != null) {
       List<String> stepsRecipe = result;
-      print('Received data from SecondScreen: $stepsRecipe');
       setState(() {
         isButtonAddStepsVisible = false;
       });
@@ -1060,7 +1053,6 @@ class _CreateRecipeState extends State<CreateRecipe> {
                         });
                     if (result != null) {
                       String stepEdited = result;
-                      print('Received data from SecondScreen: $stepEdited');
                       setState(() {});
                       stepsRecipeFromCreateSteps[index] = stepEdited;
                     }
@@ -1104,7 +1096,6 @@ class _CreateRecipeState extends State<CreateRecipe> {
 
     if (result != null) {
       List data = result;
-      print('Received data from SecondScreen: $data');
       setState(() {
         isButtonAddTagsVisible = false;
       });
@@ -1236,7 +1227,6 @@ class _CreateRecipeState extends State<CreateRecipe> {
                         });
                     if (result != null) {
                       String data = result;
-                      print('Received data from SecondScreen: $data');
                       setState(() {});
                       tags![index] = data;
                     }
@@ -1386,22 +1376,26 @@ class _CreateRecipeState extends State<CreateRecipe> {
                     onPressed: () {
                       // handle deleted variable
                       final finalRecipeNameFromAddRecipeName =
-                          recipeNameFromAddRecipeName == "Deleted"
-                              ? "No title"
+                          recipeNameFromAddRecipeName ==
+                                  AppLocalizations.of(context)!.deleted
+                              ? AppLocalizations.of(context)!.noTitle
                               : recipeNameFromAddRecipeName;
 
                       final finalTotalTimeFromAddTotalTime =
-                          totalTimeFromAddTotalTime == "Deleted"
+                          totalTimeFromAddTotalTime ==
+                                  AppLocalizations.of(context)!.deleted
                               ? ""
                               : totalTimeFromAddTotalTime;
 
-                      final finalVarFromAddDifficulty =
-                          varFromAddDifficulty == "Deleted"
-                              ? ""
-                              : varFromAddDifficulty;
+                      final finalVarFromAddDifficulty = varFromAddDifficulty ==
+                              AppLocalizations.of(context)!.deleted
+                          ? ""
+                          : varFromAddDifficulty;
 
-                      final finalVarFromAddCost =
-                          varFromAddCost == "Deleted" ? "" : varFromAddCost;
+                      final finalVarFromAddCost = varFromAddCost ==
+                              AppLocalizations.of(context)!.deleted
+                          ? ""
+                          : varFromAddCost;
 
                       // create a varible with the date of creation
                       DateTime now = DateTime.now();
@@ -1412,9 +1406,9 @@ class _CreateRecipeState extends State<CreateRecipe> {
                       List listOfLists = _myBox.get('ALL_LISTS') ?? [];
 
                       // create null index for future add :
-                      double? stars = null;
-                      List? detailTIme = null;
-                      List? utensils = null;
+                      double? stars;
+                      List? detailTIme;
+                      List? utensils;
 
                       // Add a new list to the list of lists
                       try {

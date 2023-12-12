@@ -1,13 +1,6 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors
 
-import 'package:cook_app/data/categories_database/categories_names.dart';
-import 'package:cook_app/data/categories_database/categories_names_services.dart';
-import 'package:cook_app/pages/filtered_name_recipe.dart';
-import 'package:cook_app/utils/create_recipe.dart';
-import 'package:cook_app/utils/search_bar_UI.dart';
 import 'package:flutter/material.dart';
-import 'package:hive/hive.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AddRecipeName extends StatefulWidget {

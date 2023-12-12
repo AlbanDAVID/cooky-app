@@ -1,7 +1,6 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, override_on_non_overriding_member
 
 import 'package:cook_app/pages/about.dart';
-import 'package:cook_app/pages/filtered_name_recipe.dart';
 import 'package:cook_app/pages/language.dart';
 import 'package:cook_app/utils/add_ingredients.dart';
 import 'package:cook_app/data/categories_database/categories_names.dart';
@@ -11,7 +10,6 @@ import 'package:cook_app/utils/dialbox_add_ingredient_quantity.dart';
 import 'package:flutter/material.dart';
 import 'package:cook_app/pages/home.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:go_router/go_router.dart';
 
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';

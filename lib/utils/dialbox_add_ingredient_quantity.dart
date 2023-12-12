@@ -1,12 +1,10 @@
-// ignore_for_file: unnecessary_string_interpolations
+// ignore_for_file: unnecessary_string_interpolations, sized_box_for_whitespace
 
-import 'package:cook_app/utils/add_ingredients.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AddIngredientQuantity extends StatefulWidget {
-  const AddIngredientQuantity({Key? key}) : super(key: key);
+  const AddIngredientQuantity({super.key});
 
   @override
   State<AddIngredientQuantity> createState() => _AddIngredientQuantityState();

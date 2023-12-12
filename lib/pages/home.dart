@@ -5,7 +5,6 @@ import 'dart:io';
 import 'package:cook_app/pages/filtered_name_recipe.dart';
 import 'package:cook_app/data/categories_database/categories_names.dart';
 import 'package:cook_app/data/categories_database/categories_names_services.dart';
-import 'package:cook_app/pages/language.dart';
 import 'package:cook_app/utils/recipe_struct.dart';
 import 'package:cook_app/utils/scraping.dart';
 import 'package:flutter/material.dart';
@@ -13,7 +12,6 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:cook_app/data/recipe_database/database.dart';
 import 'package:marmiteur/marmiteur.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -624,7 +622,6 @@ class _HomeState extends State<Home> {
                                         key: Key('$index'),
                                         title: TextButton(
                                           onPressed: () {
-                                            print(box.values.toString());
                                             Navigator.push(
                                               context,
                                               MaterialPageRoute(
@@ -754,8 +751,6 @@ class _HomeState extends State<Home> {
                                                                         .clear();
                                                                     isSearchPressed =
                                                                         false;
-                                                                    print(
-                                                                        categoryNameToReplace);
                                                                   },
                                                                 )
                                                               ],

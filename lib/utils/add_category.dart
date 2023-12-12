@@ -1,9 +1,8 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:cook_app/data/categories_database/categories_names.dart';
 import 'package:cook_app/data/categories_database/categories_names_services.dart';
-import 'package:cook_app/pages/filtered_name_recipe.dart';
-import 'package:cook_app/utils/create_recipe.dart';
 import 'package:flutter/material.dart';
-import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -28,7 +27,7 @@ class _AddExistingCategoryState extends State<AddExistingCategory> {
           centerTitle: true,
           elevation: 0,
           //leading: const Icon(Icons.menu),
-          actions: [
+          actions: const [
             // IconButton(onPressed: () {}, icon: const Icon(Icons.search))
           ],
         ),
@@ -41,7 +40,7 @@ class _AddExistingCategoryState extends State<AddExistingCategory> {
                     Hive.box<CategoriesNames>('catBox').listenable(),
                 builder: (context, Box<CategoriesNames> box, _) {
                   return Padding(
-                      padding: EdgeInsets.all(20),
+                      padding: const EdgeInsets.all(20),
                       child: ListView.builder(
                         itemCount: box.values.length,
                         itemBuilder: (context, index) {
@@ -49,14 +48,14 @@ class _AddExistingCategoryState extends State<AddExistingCategory> {
                           return TextButton(
                             onPressed: () {
                               final String categoryName =
-                                  cat!.categoryName.toString();
+                                  cat.categoryName.toString();
                               Navigator.pop(context, categoryName);
                             },
                             child: Center(
                               child: Text(
                                 cat!.categoryName,
                                 textAlign: TextAlign.center,
-                                style: TextStyle(fontSize: 15),
+                                style: const TextStyle(fontSize: 15),
                               ),
                             ),
                           );
@@ -89,7 +88,7 @@ class _AddExistingCategoryState extends State<AddExistingCategory> {
                                   _controller.clear();
                                 },
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 width: 10,
                               ),
                               ElevatedButton(
@@ -115,7 +114,7 @@ class _AddExistingCategoryState extends State<AddExistingCategory> {
                         ]);
                   });
             },
-            child: Icon(Icons.add),
+            child: const Icon(Icons.add),
           ),
         ]));
   }

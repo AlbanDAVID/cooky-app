@@ -1,15 +1,11 @@
-// ignore_for_file: prefer_const_constructors, must_be_immutable
+// ignore_for_file: prefer_const_constructors, must_be_immutable, no_leading_underscores_for_local_identifiers
 
 import 'dart:io';
 
-import 'package:cook_app/pages/about.dart';
-import 'package:cook_app/pages/filtered_name_recipe.dart';
 import 'package:cook_app/pages/home.dart';
-import 'package:cook_app/utils/add_pics.dart';
 import 'package:cook_app/utils/edit_recipe.dart';
 import 'package:cook_app/utils/steps_struct.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:cook_app/data/recipe_database/database.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -297,10 +293,11 @@ class _RecipeStructState extends State<RecipeStruct> {
         canPop: widget.isFromFilteredNameRecipe ? true : false,
         child: Scaffold(
             appBar: AppBar(
+              toolbarHeight: 100.0,
               // Title (recipe name)
               title: Text(
                 textAlign: TextAlign.center,
-                maxLines: 2,
+                maxLines: 3,
                 widget.recipeName,
                 style: TextStyle(
                   fontSize: 20,
@@ -462,7 +459,7 @@ class _RecipeStructState extends State<RecipeStruct> {
                               Row(children: [
                                 Icon(Icons.cookie_outlined),
                                 Text(
-                                  ('${widget.difficulty} '),
+                                  (' ${widget.difficulty} '),
                                   style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                   ),
@@ -473,7 +470,7 @@ class _RecipeStructState extends State<RecipeStruct> {
                               Row(children: [
                                 Icon(Icons.monetization_on_outlined),
                                 Text(
-                                  ('${widget.cost} '),
+                                  (' ${widget.cost} '),
                                   style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                   ),
@@ -487,7 +484,7 @@ class _RecipeStructState extends State<RecipeStruct> {
                           Row(children: [
                             Expanded(
                                 child: SizedBox(
-                                    height: 100,
+                                    height: 70,
                                     child: ListView.separated(
                                       controller: _scrollController,
                                       scrollDirection: Axis.horizontal,

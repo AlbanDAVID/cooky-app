@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, must_be_immutable, prefer_typing_uninitialized_variables
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, must_be_immutable, prefer_typing_uninitialized_variables, sized_box_for_whitespace
 
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -155,7 +155,6 @@ class _CreateStepsState extends State<CreateSteps> {
                             });
                         if (result != null) {
                           String stepEdited = result;
-                          print('Received data from SecondScreen: $stepEdited');
                           setState(() {});
                           stepsRecipe[index] = stepEdited;
                         }
@@ -191,7 +190,6 @@ class _CreateStepsState extends State<CreateSteps> {
                   });
               if (result != null) {
                 String controller = result;
-                print('Received data from SecondScreen: $controller');
                 setState(() {});
                 stepsRecipe.add(controller);
                 numberSteps++;
