@@ -1,10 +1,10 @@
 Priority : 
 
-- *** Lancement sur f droid : changer app name, créer icone,  check license ( f droid et github)
+- *** Lancement sur f droid : changer app name,  check license ( f droid et github)
 - * lignes rouges lancelent mode release
 - ***** BIEN RETESTER L'APP AVANT LANCEMENT FINAL
 
-- *** special thx + feel free participate
+
 - *** check with all devices 
 - verif CRUD :
   - DONE :delete home page 

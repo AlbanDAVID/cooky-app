@@ -1,3 +1,5 @@
+// ignore_for_file: unnecessary_string_interpolations
+
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:package_info_plus/package_info_plus.dart';
@@ -33,8 +35,8 @@ class _AboutState extends State<About> {
     });
   }
 
-  _launchURL() async {
-    Uri _url = Uri.parse('https://github.com/AlbanDAVID/cooky-app');
+  _launchURL(url) async {
+    Uri _url = Uri.parse(url);
     if (await launchUrl(_url)) {
       await launchUrl(_url);
     } else {
@@ -73,19 +75,39 @@ class _AboutState extends State<About> {
                         textAlign: TextAlign.center),
                     ElevatedButton(
                       onPressed: () async {
-                        _launchURL();
+                        _launchURL('https://github.com/AlbanDAVID/Cooky-app');
                       },
                       child: const Text(
-                        "https://github.com/AlbanDAVID/cooky-app",
+                        "https://github.com/AlbanDAVID/Cooky-app",
                         textAlign: TextAlign.center,
                       ),
                     ),
                   ])),
                   ListTile(
                       title: Column(children: [
-                    Text('${AppLocalizations.of(context)!.version} : ',
-                        textAlign: TextAlign.center),
-                    Text(_packageInfo.version, textAlign: TextAlign.center)
+                    Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                      const Icon(Icons.mood_sharp),
+                      Text('${AppLocalizations.of(context)!.thxContrib}',
+                          textAlign: TextAlign.center),
+                    ]),
+                    ListTile(
+                      title: Text(
+                          '${AppLocalizations.of(context)!.feelFreeContrib}',
+                          textAlign: TextAlign.justify),
+                    ),
+                    ListTile(
+                      title: Text('${AppLocalizations.of(context)!.dougy147}',
+                          textAlign: TextAlign.justify),
+                    ),
+                    ElevatedButton(
+                      onPressed: () async {
+                        _launchURL('https://github.com/dougy147');
+                      },
+                      child: const Text(
+                        "dougy147 github",
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
                   ])),
                 ]).toList(),
               ),

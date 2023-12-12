@@ -1,14 +1,14 @@
 // ignore_for_file: prefer_const_constructors, override_on_non_overriding_member
 
-import 'package:cook_app/pages/about.dart';
-import 'package:cook_app/pages/language.dart';
-import 'package:cook_app/pages/add_ingredients.dart';
-import 'package:cook_app/data/categories_database/categories_names.dart';
-import 'package:cook_app/data/categories_database/categories_names_services.dart';
-import 'package:cook_app/pages/create_recipe.dart';
-import 'package:cook_app/utils/dialbox_add_ingredient_quantity.dart';
+import 'package:Cooky/pages/about.dart';
+import 'package:Cooky/pages/language.dart';
+import 'package:Cooky/pages/add_ingredients.dart';
+import 'package:Cooky/data/categories_database/categories_names.dart';
+import 'package:Cooky/data/categories_database/categories_names_services.dart';
+import 'package:Cooky/pages/create_recipe.dart';
+import 'package:Cooky/utils/dialbox_add_ingredient_quantity.dart';
 import 'package:flutter/material.dart';
-import 'package:cook_app/pages/home.dart';
+import 'package:Cooky/pages/home.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'package:hive_flutter/hive_flutter.dart';

@@ -2,14 +2,14 @@
 
 import 'dart:io';
 
-import 'package:cook_app/pages/filtered_name_recipe.dart';
-import 'package:cook_app/data/categories_database/categories_names.dart';
-import 'package:cook_app/data/categories_database/categories_names_services.dart';
-import 'package:cook_app/pages/recipe_struct.dart';
-import 'package:cook_app/pages/scraping.dart';
+import 'package:Cooky/pages/filtered_name_recipe.dart';
+import 'package:Cooky/data/categories_database/categories_names.dart';
+import 'package:Cooky/data/categories_database/categories_names_services.dart';
+import 'package:Cooky/pages/recipe_struct.dart';
+import 'package:Cooky/pages/scraping.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:cook_app/data/recipe_database/database.dart';
+import 'package:Cooky/data/recipe_database/database.dart';
 import 'package:marmiteur/marmiteur.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -436,7 +436,7 @@ class _HomeState extends State<Home> {
         },
         child: Scaffold(
           appBar: AppBar(
-              title: Text("cooky",
+              title: Text("Cooky",
                   style:
                       const TextStyle(color: Color.fromRGBO(104, 60, 173, 1))),
               centerTitle: true,
@@ -468,13 +468,21 @@ class _HomeState extends State<Home> {
                       IconButton(
                           onPressed: () {
                             setState(() {
+                              isFloatingActionButtonPressed = false;
                               isSearchPressed = true;
                               loadAllData();
                             });
                           },
                           icon: const Icon(Icons.search)),
                       PopupMenuButton<int>(
-                        onSelected: (item) => handleClick(item),
+                        onOpened: () {
+                          setState(() {
+                            isFloatingActionButtonPressed = false;
+                          });
+                        },
+                        onSelected: (item) {
+                          handleClick(item);
+                        },
                         itemBuilder: (context) => [
                           PopupMenuItem<int>(
                               value: 0,
@@ -646,13 +654,12 @@ class _HomeState extends State<Home> {
                                                 fontSize: 20,
                                               ),
                                             ),
-                                            const Divider(
-                                              height: 40,
-                                              color: Color.fromRGBO(
-                                                  81, 22, 175, 1),
-                                              indent: 50,
-                                              endIndent: 50,
-                                              thickness: 0.40,
+                                            Text(
+                                              textAlign: TextAlign.center,
+                                              "_",
+                                              style: TextStyle(
+                                                fontSize: 20,
+                                              ),
                                             ),
                                           ])),
                                         ),

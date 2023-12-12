@@ -2,12 +2,12 @@
 
 import 'dart:io';
 
-import 'package:cook_app/pages/home.dart';
-import 'package:cook_app/pages/edit_recipe.dart';
-import 'package:cook_app/utils/steps_struct.dart';
+import 'package:Cooky/pages/home.dart';
+import 'package:Cooky/pages/edit_recipe.dart';
+import 'package:Cooky/utils/steps_struct.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:cook_app/data/recipe_database/database.dart';
+import 'package:Cooky/data/recipe_database/database.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:url_launcher/url_launcher.dart';
 

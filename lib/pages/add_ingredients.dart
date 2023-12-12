@@ -1,6 +1,6 @@
 // ignore_for_file: prefer_const_constructors
 
-import 'package:cook_app/utils/dialbox_add_ingredient_quantity.dart';
+import 'package:Cooky/utils/dialbox_add_ingredient_quantity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 

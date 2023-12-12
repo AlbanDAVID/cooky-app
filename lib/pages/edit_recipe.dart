@@ -2,21 +2,21 @@
 
 import 'dart:io';
 
-import 'package:cook_app/data/recipe_database/database.dart';
-import 'package:cook_app/pages/add_category.dart';
-import 'package:cook_app/pages/add_cost.dart';
-import 'package:cook_app/pages/add_difficulty.dart';
-import 'package:cook_app/pages/add_ingredients.dart';
-import 'package:cook_app/pages/add_pics.dart';
-import 'package:cook_app/pages/add_recipename.dart';
-import 'package:cook_app/pages/add_tags.dart';
-import 'package:cook_app/pages/add_totaltime.dart';
-import 'package:cook_app/pages/create_steps.dart';
-import 'package:cook_app/utils/dialbox_edit.dart';
+import 'package:Cooky/data/recipe_database/database.dart';
+import 'package:Cooky/pages/add_category.dart';
+import 'package:Cooky/pages/add_cost.dart';
+import 'package:Cooky/pages/add_difficulty.dart';
+import 'package:Cooky/pages/add_ingredients.dart';
+import 'package:Cooky/pages/add_pics.dart';
+import 'package:Cooky/pages/add_recipename.dart';
+import 'package:Cooky/pages/add_tags.dart';
+import 'package:Cooky/pages/add_totaltime.dart';
+import 'package:Cooky/pages/create_steps.dart';
+import 'package:Cooky/utils/dialbox_edit.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:flutter/material.dart';
-import 'package:cook_app/pages/recipe_struct.dart';
+import 'package:Cooky/pages/recipe_struct.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 // ignore: must_be_immutable

@@ -1,6 +1,6 @@
 // ignore_for_file: unused_local_variable
 
-import 'package:cook_app/data/categories_database/categories_names.dart';
+import 'package:Cooky/data/categories_database/categories_names.dart';
 import 'package:hive/hive.dart';
 
 class CategoriesNamesService {

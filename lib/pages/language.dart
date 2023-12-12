@@ -1,4 +1,4 @@
-import 'package:cook_app/data/language_database/language_database.dart';
+import 'package:Cooky/data/language_database/language_database.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';

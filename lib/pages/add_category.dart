@@ -1,7 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 
-import 'package:cook_app/data/categories_database/categories_names.dart';
-import 'package:cook_app/data/categories_database/categories_names_services.dart';
+import 'package:Cooky/data/categories_database/categories_names.dart';
+import 'package:Cooky/data/categories_database/categories_names_services.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';

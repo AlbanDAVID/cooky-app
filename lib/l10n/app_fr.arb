@@ -98,7 +98,10 @@
      "noRecipes" : "Aucune recette à afficher.",
      "categoryEmpty" : "Merci de renseigner une catégorie.",
      "addTags" : "Ajouter des mots-clés",
-     "noTitle" : "Sans titre"}
+     "noTitle" : "Sans titre",
+     "thxContrib" : "Contributeurs et remerciements :",
+     "dougy147" : "Un grand merci à dougy147 pour sa librairie marmiteur permettant d'aller récupérer nos recettes favorites sur internet !",
+     "feelFreeContrib" : "N'hésitez pas à apporter votre contribution pour améliorer cette application !"}
 
 
 

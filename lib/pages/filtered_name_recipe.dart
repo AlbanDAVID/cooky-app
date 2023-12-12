@@ -1,7 +1,7 @@
-import 'package:cook_app/data/recipe_database/database.dart';
-import 'package:cook_app/pages/home.dart';
-import 'package:cook_app/pages/edit_recipe.dart';
-import 'package:cook_app/pages/recipe_struct.dart';
+import 'package:Cooky/data/recipe_database/database.dart';
+import 'package:Cooky/pages/home.dart';
+import 'package:Cooky/pages/edit_recipe.dart';
+import 'package:Cooky/pages/recipe_struct.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
