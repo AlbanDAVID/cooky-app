@@ -797,9 +797,8 @@ class _HomeState extends State<Home> {
             backgroundColor: Color.fromRGBO(234, 221, 255, 1.000),
             child: Column(children: [
               DrawerHeader(
-                  child: Icon(
-                Icons.cookie,
-                size: 48,
+                  child: Image.asset(
+                "android/app/src/main/res/mipmap-hdpi/ic_launcher.png",
               )),
               // home page list tile
               ListTile(
