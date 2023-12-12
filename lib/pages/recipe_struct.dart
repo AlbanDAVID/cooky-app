@@ -3,7 +3,7 @@
 import 'dart:io';
 
 import 'package:cook_app/pages/home.dart';
-import 'package:cook_app/utils/edit_recipe.dart';
+import 'package:cook_app/pages/edit_recipe.dart';
 import 'package:cook_app/utils/steps_struct.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';

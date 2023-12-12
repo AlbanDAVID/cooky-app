@@ -1,27 +1,31 @@
 Priority : 
 
 - *** Lancement sur f droid : changer app name, créer icone,  check license ( f droid et github)
-- *** special thx
 - *** check with all devices 
-- *** dart fix issue
-- *** ligne rouges lancelent mode release
+- *** lignes rouges lancelent mode release
+- ***** BIEN RETESTER L'APP AVANT LANCEMENT FINAL
+
+- *** special thx + UI ABOUT (ligne de démarcation)
+- *** UI home page 
+- *** _myBox.put('ALL_LISTS', recipeList);
 
 
-- * cohérence taille et couleur police + UI about
 
 
 
 Code : 
-- clean code
-  - const 
-  - print prod
-  - reorganiser page 
+- refacto
 
 
 
 - supported website : 
   - fr : marmiton, cuusine az, elle.fr, mes recettes faciles, hervé cuisine
   - en : epicurious, allrecipes, simply recipes, nyt cooking
+
+
+- verif CRUD :
+  - DONE :delete home page 
+  
 
 
 

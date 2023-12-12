@@ -3,20 +3,20 @@
 import 'dart:io';
 
 import 'package:cook_app/data/recipe_database/database.dart';
-import 'package:cook_app/utils/add_category.dart';
-import 'package:cook_app/utils/add_cost.dart';
-import 'package:cook_app/utils/add_difficulty.dart';
-import 'package:cook_app/utils/add_ingredients.dart';
-import 'package:cook_app/utils/add_pics.dart';
-import 'package:cook_app/utils/add_recipename.dart';
-import 'package:cook_app/utils/add_tags.dart';
-import 'package:cook_app/utils/add_totaltime.dart';
-import 'package:cook_app/utils/create_steps.dart';
+import 'package:cook_app/pages/add_category.dart';
+import 'package:cook_app/pages/add_cost.dart';
+import 'package:cook_app/pages/add_difficulty.dart';
+import 'package:cook_app/pages/add_ingredients.dart';
+import 'package:cook_app/pages/add_pics.dart';
+import 'package:cook_app/pages/add_recipename.dart';
+import 'package:cook_app/pages/add_tags.dart';
+import 'package:cook_app/pages/add_totaltime.dart';
+import 'package:cook_app/pages/create_steps.dart';
 import 'package:cook_app/utils/dialbox_edit.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:flutter/material.dart';
-import 'package:cook_app/utils/recipe_struct.dart';
+import 'package:cook_app/pages/recipe_struct.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 class CreateRecipe extends StatefulWidget {

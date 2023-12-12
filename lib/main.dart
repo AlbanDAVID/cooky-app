@@ -2,10 +2,10 @@
 
 import 'package:cook_app/pages/about.dart';
 import 'package:cook_app/pages/language.dart';
-import 'package:cook_app/utils/add_ingredients.dart';
+import 'package:cook_app/pages/add_ingredients.dart';
 import 'package:cook_app/data/categories_database/categories_names.dart';
 import 'package:cook_app/data/categories_database/categories_names_services.dart';
-import 'package:cook_app/utils/create_recipe.dart';
+import 'package:cook_app/pages/create_recipe.dart';
 import 'package:cook_app/utils/dialbox_add_ingredient_quantity.dart';
 import 'package:flutter/material.dart';
 import 'package:cook_app/pages/home.dart';

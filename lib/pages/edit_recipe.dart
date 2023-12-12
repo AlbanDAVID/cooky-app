@@ -1,63 +1,61 @@
-// ignore_for_file: avoid_init_to_null, non_constant_identifier_names
+// ignore_for_file: prefer_const_constructors
 
 import 'dart:io';
 
 import 'package:cook_app/data/recipe_database/database.dart';
-import 'package:cook_app/utils/add_category.dart';
-import 'package:cook_app/utils/add_cost.dart';
-import 'package:cook_app/utils/add_difficulty.dart';
-import 'package:cook_app/utils/add_pics.dart';
-import 'package:cook_app/utils/add_recipename.dart';
-import 'package:cook_app/utils/add_tags.dart';
-import 'package:cook_app/utils/add_totaltime.dart';
-import 'package:cook_app/utils/create_steps.dart';
+import 'package:cook_app/pages/add_category.dart';
+import 'package:cook_app/pages/add_cost.dart';
+import 'package:cook_app/pages/add_difficulty.dart';
+import 'package:cook_app/pages/add_ingredients.dart';
+import 'package:cook_app/pages/add_pics.dart';
+import 'package:cook_app/pages/add_recipename.dart';
+import 'package:cook_app/pages/add_tags.dart';
+import 'package:cook_app/pages/add_totaltime.dart';
+import 'package:cook_app/pages/create_steps.dart';
 import 'package:cook_app/utils/dialbox_edit.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:flutter/material.dart';
-import 'package:cook_app/utils/recipe_struct.dart';
+import 'package:cook_app/pages/recipe_struct.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 // ignore: must_be_immutable
-class Scraping extends StatefulWidget {
-  String scrapRecipeName;
-  List scrapAllIngredient;
-  List<String> scrapStepsRecipe;
-  String scrapTotalTime;
-  List scrapTags;
-  String? pathImageSelectedFromImagePicker;
-  String? urlImageScrap;
-  String? sourceUrlScrap;
-  String? scrapRecipeCategory;
-  Scraping({
-    super.key,
-    required this.scrapRecipeName,
-    required this.scrapStepsRecipe,
-    required this.scrapAllIngredient,
-    required this.scrapTotalTime,
-    required this.scrapTags,
-    this.pathImageSelectedFromImagePicker,
-    this.urlImageScrap,
-    this.sourceUrlScrap,
-  });
+class EditRecipe extends StatefulWidget {
+  List editAllIngredient;
+  String? editPathImage;
+  List<String> editStepsRecipe;
+  String editRecipeCategory;
+  String editRecipeName;
+  String editTotalTime;
+  String editDifficulty;
+  String editCost;
+  bool isFromScrap;
+  List? tags;
+  String uniqueId;
+  String? editUrlImageScrap;
+
+  EditRecipe(
+      {super.key,
+      required this.editAllIngredient,
+      this.editPathImage,
+      required this.editStepsRecipe,
+      required this.editRecipeCategory,
+      required this.editRecipeName,
+      required this.editTotalTime,
+      required this.editDifficulty,
+      required this.editCost,
+      required this.isFromScrap,
+      this.tags,
+      required this.uniqueId,
+      this.editUrlImageScrap});
 
   @override
   // ignore: library_private_types_in_public_api
-  _ScrapingState createState() => _ScrapingState();
+  _EditRecipeState createState() => _EditRecipeState();
 }
 
-class _ScrapingState extends State<Scraping> {
+class _EditRecipeState extends State<EditRecipe> {
   // ignore: unused_field
-
-  String scrapDifficulty = "";
-  String scrapCost = "";
-  bool isFromScrap = true;
-
-  bool isShowIngredientsSelectedPressed = false;
-  bool isshowStepsAddedPressed = false;
-  bool isButtonAddCategoryVisible = true;
-  bool isshowTagsAddedPressed = false;
-  bool _isConfirmBack = false;
 
   // load database
   final _myBox = Hive.box('mybox');
@@ -65,29 +63,29 @@ class _ScrapingState extends State<Scraping> {
   RecipeDatabase db = RecipeDatabase();
 
   String previewImageTextField = "";
+
+  bool isShowIngredientsSelectedPressed = false;
+  bool isshowStepsAddedPressed = false;
+  bool isshowTagsAddedPressed = false;
+  bool _isConfirmBack = false;
+
   String defautImage = "recipe_pics/no_image.png";
 
-  // dialbox error error if category is empty :
-  void showDialogCategoryEmpty() {
-    showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            content: Text(
-              AppLocalizations.of(context)!.categoryEmpty,
-              textAlign: TextAlign.center,
-              style: const TextStyle(color: Colors.red),
-            ),
-            actions: [
-              ElevatedButton(
-                child: Text(AppLocalizations.of(context)!.back),
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-              )
-            ],
-          );
-        });
+  // function to get index of the list to edit
+  getIndex() {
+    loadAllData();
+    for (int i = 0; i < db.recipeList.length; i++) {
+      if (db.recipeList[i][9] == widget.uniqueId) {
+        return i;
+      }
+    }
+  }
+
+// function to load data
+  loadAllData() {
+    setState(() {
+      db.loadData();
+    });
   }
 
   ////// FUNCTIONS FOR RECIPE CATEGORY //////
@@ -97,7 +95,7 @@ class _ScrapingState extends State<Scraping> {
     final result = await Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => const AddExistingCategory(),
+        builder: (context) => AddExistingCategory(),
       ),
     );
 
@@ -105,50 +103,41 @@ class _ScrapingState extends State<Scraping> {
       String categoryName = result;
 
       setState(() {
-        isButtonAddCategoryVisible = false;
+        // Update visibility button
       });
-      widget.scrapRecipeCategory = categoryName;
+      widget.editRecipeCategory = categoryName;
     }
   }
 
   // widget with button for adding category, and display category selected with edition button
   Widget addCategory() {
     setState(() {});
-    return isButtonAddCategoryVisible
-        ? ElevatedButton(
-            onPressed: () async {
-              setState(() {
-                _getDataFromAddExistingCategory(context);
-              });
-            },
-            child: Text(AppLocalizations.of(context)!.addCategoryRequired),
-          )
-        : Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            Text(
-              AppLocalizations.of(context)!.category,
-              style: const TextStyle(
-                fontSize: 16,
-              ),
-            ),
-            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-              Text(
-                widget.scrapRecipeCategory!,
-                style: const TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              InkWell(
-                onTap: () {
-                  _getDataFromAddExistingCategory(context);
-                },
-                child: const Icon(
-                  Icons.create,
-                  size: 30,
-                ),
-              ),
-            ]),
-          ]);
+    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+      Text(
+        AppLocalizations.of(context)!.category,
+        style: TextStyle(
+          fontSize: 16,
+        ),
+      ),
+      Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+        Text(
+          widget.editRecipeCategory,
+          style: TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        InkWell(
+          onTap: () {
+            _getDataFromAddExistingCategory(context);
+          },
+          child: Icon(
+            Icons.create,
+            size: 30,
+          ),
+        ),
+      ]),
+    ]);
   }
 
   ////////////////////////////////////////////////////////
@@ -160,7 +149,7 @@ class _ScrapingState extends State<Scraping> {
     final result = await Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => const AddRecipeName(),
+        builder: (context) => AddRecipeName(),
       ),
     );
 
@@ -170,7 +159,7 @@ class _ScrapingState extends State<Scraping> {
       setState(() {
         // Update visibility button
       });
-      widget.scrapRecipeName = recipeName;
+      widget.editRecipeName = recipeName;
     }
   }
 
@@ -180,24 +169,25 @@ class _ScrapingState extends State<Scraping> {
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       Text(
         AppLocalizations.of(context)!.recipeName,
-        style: const TextStyle(
+        style: TextStyle(
           fontSize: 16,
         ),
       ),
       Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
         SizedBox(
+            // to have a limit if the text is too long (add ...)
             width: 300,
             child: Text(
               maxLines: 3,
               overflow: TextOverflow.ellipsis,
-              widget.scrapRecipeName,
-              style: widget.scrapRecipeName ==
-                      AppLocalizations.of(context)!.deleted
-                  ? const TextStyle(fontSize: 10, fontStyle: FontStyle.italic)
-                  : const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                    ),
+              widget.editRecipeName,
+              style:
+                  widget.editRecipeName == AppLocalizations.of(context)!.deleted
+                      ? TextStyle(fontSize: 10, fontStyle: FontStyle.italic)
+                      : TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
             )),
         Row(
           mainAxisAlignment: MainAxisAlignment.end,
@@ -209,8 +199,8 @@ class _ScrapingState extends State<Scraping> {
                     builder: (context) {
                       return DialogEditRecipeField(
                         controller:
-                            TextEditingController(text: widget.scrapRecipeName),
-                        isFromScrap: true,
+                            TextEditingController(text: widget.editRecipeName),
+                        isFromScrap: false,
                         showSuggestion: () {
                           _getDataFromAddRecipeName(context);
                         },
@@ -219,24 +209,22 @@ class _ScrapingState extends State<Scraping> {
                 if (result != null) {
                   String data = result;
                   setState(() {});
-                  widget.scrapRecipeName = data;
+                  widget.editRecipeName = data;
                 }
               },
-              child: const Icon(
+              child: Icon(
                 Icons.create,
                 size: 30,
               ),
             ),
-            const SizedBox(width: 16), // Ajustez cet espace selon vos besoins
+            SizedBox(width: 16), // Ajustez cet espace selon vos besoins
             InkWell(
               onLongPress: () {
                 setState(() {
-                  widget.scrapRecipeName =
-                      AppLocalizations.of(context)!.deleted;
+                  widget.editRecipeName = AppLocalizations.of(context)!.deleted;
                 });
               },
-              child:
-                  const Icon(Icons.delete, size: 20, color: Colors.redAccent),
+              child: Icon(Icons.delete, size: 20, color: Colors.redAccent),
             ),
           ],
         )
@@ -254,7 +242,7 @@ class _ScrapingState extends State<Scraping> {
     final result = await Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => const AddTotalTime(),
+        builder: (context) => AddTotalTime(),
       ),
     );
 
@@ -264,7 +252,7 @@ class _ScrapingState extends State<Scraping> {
       setState(() {
         // Update visibility button
       });
-      widget.scrapTotalTime = totalTime;
+      widget.editTotalTime = totalTime;
     }
   }
 
@@ -274,16 +262,15 @@ class _ScrapingState extends State<Scraping> {
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       Text(
         AppLocalizations.of(context)!.totalTime,
-        style: const TextStyle(
+        style: TextStyle(
           fontSize: 16,
         ),
       ),
       Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-        Text(widget.scrapTotalTime,
-            style: widget.scrapTotalTime ==
-                    AppLocalizations.of(context)!.deleted
-                ? const TextStyle(fontSize: 10, fontStyle: FontStyle.italic)
-                : const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+        Text(widget.editTotalTime,
+            style: widget.editTotalTime == AppLocalizations.of(context)!.deleted
+                ? TextStyle(fontSize: 10, fontStyle: FontStyle.italic)
+                : TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
         Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
@@ -294,7 +281,7 @@ class _ScrapingState extends State<Scraping> {
                     builder: (context) {
                       return DialogEditRecipeField(
                         controller:
-                            TextEditingController(text: widget.scrapTotalTime),
+                            TextEditingController(text: widget.editTotalTime),
                         isFromScrap: false,
                         showSuggestion: () {
                           _getDataFromAddTotalTime(context);
@@ -304,30 +291,29 @@ class _ScrapingState extends State<Scraping> {
                 if (result != null) {
                   String data = result;
                   setState(() {});
-                  widget.scrapTotalTime = data;
+                  widget.editTotalTime = data;
                 }
               },
-              child: const Icon(
+              child: Icon(
                 Icons.create,
                 size: 30,
               ),
             ),
-            const SizedBox(width: 16), // Ajustez cet espace selon vos besoins
+            SizedBox(width: 16), // Ajustez cet espace selon vos besoins
             InkWell(
               onLongPress: () {
                 setState(() {
-                  widget.scrapTotalTime = AppLocalizations.of(context)!.deleted;
+                  widget.editTotalTime = AppLocalizations.of(context)!.deleted;
                   Text(
-                    widget.scrapTotalTime,
-                    style: const TextStyle(
+                    widget.editTotalTime,
+                    style: TextStyle(
                       fontSize: 20,
                       fontStyle: FontStyle.italic,
                     ),
                   );
                 });
               },
-              child:
-                  const Icon(Icons.delete, size: 20, color: Colors.redAccent),
+              child: Icon(Icons.delete, size: 20, color: Colors.redAccent),
             ),
           ],
         )
@@ -345,7 +331,7 @@ class _ScrapingState extends State<Scraping> {
     final result = await Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => const AddDifficulty(),
+        builder: (context) => AddDifficulty(),
       ),
     );
 
@@ -355,7 +341,7 @@ class _ScrapingState extends State<Scraping> {
       setState(() {
         // Update visibility button
       });
-      scrapDifficulty = difficulty;
+      widget.editDifficulty = difficulty;
     }
   }
 
@@ -365,15 +351,16 @@ class _ScrapingState extends State<Scraping> {
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       Text(
         AppLocalizations.of(context)!.difficulty,
-        style: const TextStyle(
+        style: TextStyle(
           fontSize: 16,
         ),
       ),
       Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-        Text(scrapDifficulty,
-            style: scrapDifficulty == AppLocalizations.of(context)!.deleted
-                ? const TextStyle(fontSize: 10, fontStyle: FontStyle.italic)
-                : const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+        Text(widget.editDifficulty,
+            style:
+                widget.editDifficulty == AppLocalizations.of(context)!.deleted
+                    ? TextStyle(fontSize: 10, fontStyle: FontStyle.italic)
+                    : TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
         Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
@@ -384,7 +371,7 @@ class _ScrapingState extends State<Scraping> {
                     builder: (context) {
                       return DialogEditRecipeField(
                         controller:
-                            TextEditingController(text: scrapDifficulty),
+                            TextEditingController(text: widget.editDifficulty),
                         isFromScrap: false,
                         showSuggestion: () {
                           _getDataFromAddDifficulty(context);
@@ -394,23 +381,22 @@ class _ScrapingState extends State<Scraping> {
                 if (result != null) {
                   String data = result;
                   setState(() {});
-                  scrapDifficulty = data;
+                  widget.editDifficulty = data;
                 }
               },
-              child: const Icon(
+              child: Icon(
                 Icons.create,
                 size: 30,
               ),
             ),
-            const SizedBox(width: 16), // Ajustez cet espace selon vos besoins
+            SizedBox(width: 16), // Ajustez cet espace selon vos besoins
             InkWell(
               onLongPress: () {
                 setState(() {
-                  scrapDifficulty = AppLocalizations.of(context)!.deleted;
+                  widget.editDifficulty = AppLocalizations.of(context)!.deleted;
                 });
               },
-              child:
-                  const Icon(Icons.delete, size: 20, color: Colors.redAccent),
+              child: Icon(Icons.delete, size: 20, color: Colors.redAccent),
             ),
           ],
         )
@@ -427,7 +413,7 @@ class _ScrapingState extends State<Scraping> {
     final result = await Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => const AddCost(),
+        builder: (context) => AddCost(),
       ),
     );
 
@@ -437,7 +423,7 @@ class _ScrapingState extends State<Scraping> {
       setState(() {
         // Update visibility button
       });
-      scrapCost = cost;
+      widget.editCost = cost;
     }
   }
 
@@ -447,15 +433,15 @@ class _ScrapingState extends State<Scraping> {
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       Text(
         AppLocalizations.of(context)!.cost,
-        style: const TextStyle(
+        style: TextStyle(
           fontSize: 16,
         ),
       ),
       Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-        Text(scrapCost,
-            style: scrapCost == AppLocalizations.of(context)!.deleted
-                ? const TextStyle(fontSize: 10, fontStyle: FontStyle.italic)
-                : const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+        Text(widget.editCost,
+            style: widget.editCost == AppLocalizations.of(context)!.deleted
+                ? TextStyle(fontSize: 10, fontStyle: FontStyle.italic)
+                : TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
         Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
@@ -465,7 +451,8 @@ class _ScrapingState extends State<Scraping> {
                     context: context,
                     builder: (context) {
                       return DialogEditRecipeField(
-                        controller: TextEditingController(text: scrapCost),
+                        controller:
+                            TextEditingController(text: widget.editCost),
                         isFromScrap: false,
                         showSuggestion: () {
                           _getDataFromAddCost(context);
@@ -475,23 +462,22 @@ class _ScrapingState extends State<Scraping> {
                 if (result != null) {
                   String data = result;
                   setState(() {});
-                  scrapCost = data;
+                  widget.editCost = data;
                 }
               },
-              child: const Icon(
+              child: Icon(
                 Icons.create,
                 size: 30,
               ),
             ),
-            const SizedBox(width: 16), // Ajustez cet espace selon vos besoins
+            SizedBox(width: 16), // Ajustez cet espace selon vos besoins
             InkWell(
               onLongPress: () {
                 setState(() {
-                  scrapCost = AppLocalizations.of(context)!.deleted;
+                  widget.editCost = AppLocalizations.of(context)!.deleted;
                 });
               },
-              child:
-                  const Icon(Icons.delete, size: 20, color: Colors.redAccent),
+              child: Icon(Icons.delete, size: 20, color: Colors.redAccent),
             ),
           ],
         )
@@ -509,20 +495,20 @@ class _ScrapingState extends State<Scraping> {
 
   // function to decide image to display
   _imageToDisplay() {
-    if (widget.urlImageScrap != null) {
+    if (widget.editUrlImageScrap != null) {
       return Image.network(
-        widget.urlImageScrap!,
+        widget.editUrlImageScrap!,
         width: 200,
         height: 200,
       );
-    } else if (widget.pathImageSelectedFromImagePicker != null) {
+    } else if (widget.editPathImage != null) {
       return Image.file(
-        File(widget.pathImageSelectedFromImagePicker!),
+        File(widget.editPathImage!),
         width: 200,
         height: 200,
       );
-    } else if (widget.urlImageScrap == null &&
-        widget.pathImageSelectedFromImagePicker == null) {
+    } else if (widget.editUrlImageScrap == null &&
+        widget.editPathImage == null) {
       return Image.asset(
         defautImage,
         width: 200,
@@ -555,15 +541,16 @@ class _ScrapingState extends State<Scraping> {
     final result = await Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => const MyImagePickerPage(),
+        builder: (context) => MyImagePickerPage(),
       ),
     );
 
     if (result != null) {
       String imageSelected = result;
       setState(() {});
-      widget.pathImageSelectedFromImagePicker = imageSelected;
-      widget.urlImageScrap = null;
+
+      widget.editPathImage = imageSelected;
+      widget.editUrlImageScrap = null;
     }
   }
 
@@ -573,7 +560,7 @@ class _ScrapingState extends State<Scraping> {
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       Text(
         AppLocalizations.of(context)!.picture,
-        style: const TextStyle(
+        style: TextStyle(
           fontSize: 16,
         ),
       ),
@@ -585,7 +572,7 @@ class _ScrapingState extends State<Scraping> {
             child: Text(
               previewImageTextField =
                   AppLocalizations.of(context)!.previewPicture,
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
                 decoration: TextDecoration.underline,
@@ -598,21 +585,20 @@ class _ScrapingState extends State<Scraping> {
               onTap: () {
                 getDataFromMyImagePickerPage(context);
               },
-              child: const Icon(
+              child: Icon(
                 Icons.create,
                 size: 30,
               ),
             ),
-            const SizedBox(width: 16), // Ajustez cet espace selon vos besoins
+            SizedBox(width: 16), // Ajustez cet espace selon vos besoins
             InkWell(
               onLongPress: () {
                 setState(() {
-                  widget.pathImageSelectedFromImagePicker = null;
-                  widget.urlImageScrap = null;
+                  widget.editPathImage = null;
+                  widget.editUrlImageScrap = null;
                 });
               },
-              child:
-                  const Icon(Icons.delete, size: 20, color: Colors.redAccent),
+              child: Icon(Icons.delete, size: 20, color: Colors.redAccent),
             ),
           ],
         )
@@ -627,6 +613,83 @@ class _ScrapingState extends State<Scraping> {
   /// ////// //////////// FUNCTIONS FOR ADD INGREDIENTS //////
   ///
   ///
+  ///
+
+  // function to edit ingredient
+  editIngred(editName, editQuantity, editUnit, index) {
+    return showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+              title: Text(AppLocalizations.of(context)!.addIngred2),
+              content: Column(children: [
+                TextField(
+                    controller: editName,
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      hintText: AppLocalizations.of(context)!.ingredName,
+                    )),
+                TextField(
+                    controller: editQuantity,
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      hintText: AppLocalizations.of(context)!.quantity,
+                    )),
+                TextField(
+                    controller: editUnit,
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      hintText: AppLocalizations.of(context)!.unit,
+                    ))
+              ]),
+              actions: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    ElevatedButton(
+                      child: Text(AppLocalizations.of(context)!.cancel),
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                    ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    ElevatedButton(
+                      child: Text(AppLocalizations.of(context)!.add),
+                      onPressed: () async {
+                        widget.editAllIngredient[index][0] = editName.text;
+                        widget.editAllIngredient[index][1] = editQuantity.text;
+                        widget.editAllIngredient[index][2] = editUnit.text;
+                        Navigator.pop(context);
+
+                        editName.clear();
+                        editQuantity.clear();
+                        editUnit.clear();
+                        setState(() {});
+                      },
+                    )
+                  ],
+                )
+              ]);
+        });
+  }
+
+  // get  from class AddIngred() (for isFromScrap = false)
+  void getDataFromAddIngred(BuildContext context) async {
+    final result = await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => AddIngred(),
+      ),
+    );
+
+    if (result != null) {
+      List allIngredientSelected = result;
+      setState(() {});
+      widget.editAllIngredient.addAll(allIngredientSelected);
+    }
+  }
 
   // widget with button for adding ingredients , and display preview  with edition button
   Widget addIngred() {
@@ -643,45 +706,48 @@ class _ScrapingState extends State<Scraping> {
                 children: [
                   Text(
                     AppLocalizations.of(context)!.collapse,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 16,
                     ),
                   ),
-                  const Icon(
+                  Icon(
                     Icons.arrow_downward,
                     size: 16, // ajustez la taille selon vos besoins
                   ),
-                  const Spacer(),
+                  Spacer(),
                   InkWell(
-                    onTap: () async {
-                      final result = await showDialog(
-                          context: context,
-                          builder: (context) {
-                            return DialogEditStep(
-                              controller: TextEditingController(text: ""),
-                            );
-                          });
-                      if (result != null) {
-                        String addedIngredScrap = result;
-                        setState(() {});
-                        widget.scrapAllIngredient.add(addedIngredScrap);
-                      }
-                    },
-                    child: const Icon(
+                    onTap: widget.isFromScrap
+                        ? () async {
+                            final result = await showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return DialogEditStep(
+                                    controller: TextEditingController(text: ""),
+                                  );
+                                });
+                            if (result != null) {
+                              String addedIngredScrap = result;
+                              setState(() {});
+                              widget.editAllIngredient.add(addedIngredScrap);
+                            }
+                          }
+                        : () {
+                            getDataFromAddIngred(context);
+                          },
+                    child: Icon(
                       Icons.add,
                       size: 30,
                     ),
                   ),
-                  const SizedBox(
-                      width: 16), // Ajustez cet espace selon vos besoins
+                  SizedBox(width: 16), // Ajustez cet espace selon vos besoins
                   InkWell(
                     onLongPress: () {
                       setState(() {
-                        widget.scrapAllIngredient = [];
+                        widget.editAllIngredient = [];
                       });
                     },
-                    child: const Icon(Icons.delete,
-                        size: 20, color: Colors.redAccent),
+                    child:
+                        Icon(Icons.delete, size: 20, color: Colors.redAccent),
                   ),
                 ],
               ))
@@ -695,45 +761,48 @@ class _ScrapingState extends State<Scraping> {
                 children: [
                   Text(
                     AppLocalizations.of(context)!.showIngred,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 16,
                     ),
                   ),
-                  const Icon(
+                  Icon(
                     Icons.arrow_upward,
                     size: 16, // ajustez la taille selon vos besoins
                   ),
-                  const Spacer(),
+                  Spacer(),
                   InkWell(
-                    onTap: () async {
-                      final result = await showDialog(
-                          context: context,
-                          builder: (context) {
-                            return DialogEditStep(
-                              controller: TextEditingController(text: ""),
-                            );
-                          });
-                      if (result != null) {
-                        String addedIngredScrap = result;
-                        setState(() {});
-                        widget.scrapAllIngredient.add(addedIngredScrap);
-                      }
-                    },
-                    child: const Icon(
+                    onTap: widget.isFromScrap
+                        ? () async {
+                            final result = await showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return DialogEditStep(
+                                    controller: TextEditingController(text: ""),
+                                  );
+                                });
+                            if (result != null) {
+                              String addedIngredScrap = result;
+                              setState(() {});
+                              widget.editAllIngredient.add(addedIngredScrap);
+                            }
+                          }
+                        : () {
+                            getDataFromAddIngred(context);
+                          },
+                    child: Icon(
                       Icons.add,
                       size: 30,
                     ),
                   ),
-                  const SizedBox(
-                      width: 16), // Ajustez cet espace selon vos besoins
+                  SizedBox(width: 16), // Ajustez cet espace selon vos besoins
                   InkWell(
                     onLongPress: () {
                       setState(() {
-                        widget.scrapAllIngredient = [];
+                        widget.editAllIngredient = [];
                       });
                     },
-                    child: const Icon(Icons.delete,
-                        size: 20, color: Colors.redAccent),
+                    child:
+                        Icon(Icons.delete, size: 20, color: Colors.redAccent),
                   ),
                 ],
               )),
@@ -745,40 +814,55 @@ class _ScrapingState extends State<Scraping> {
     return SizedBox(
         height: 600,
         child: ListView.builder(
-          itemCount: widget.scrapAllIngredient.length,
+          itemCount: widget.editAllIngredient.length,
           itemBuilder: (context, index) {
-            //  final ingredient = scrapAllIngredient[index][0];
-            //  final quantity = scrapAllIngredient[index][1];
-            //  final unit = scrapAllIngredient[index][2];
+            final ingredient = widget.editAllIngredient[index][0];
+            final quantity = widget.editAllIngredient[index][1];
+            final unit = widget.editAllIngredient[index][2];
 
-            //  final formattedString = '$ingredient : ($quantity$unit)';
+            final formattedString = '$ingredient : ($quantity$unit)';
             return ListTile(
-              title: Text(widget.scrapAllIngredient[index]),
+              title: widget.isFromScrap
+                  ? Text(widget.editAllIngredient[index])
+                  : Text(formattedString),
               trailing: Wrap(
                 spacing: -16,
                 children: [
                   IconButton(
                     icon: const Icon(Icons.edit),
-                    onPressed: () async {
-                      final result = await showDialog(
-                          context: context,
-                          builder: (context) {
-                            return DialogEditStep(
-                                controller: TextEditingController(
-                              text: widget.scrapAllIngredient[index].toString(),
-                            ));
-                          });
-                      if (result != null) {
-                        String addedIngredScrap = result;
-                        setState(() {});
-                        widget.scrapAllIngredient[index] = addedIngredScrap;
-                      }
-                    },
+                    onPressed: widget.isFromScrap
+                        ? () async {
+                            final result = await showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return DialogEditStep(
+                                      controller: TextEditingController(
+                                    text: widget.editAllIngredient[index]
+                                        .toString(),
+                                  ));
+                                });
+                            if (result != null) {
+                              String addedIngredScrap = result;
+                              setState(() {});
+                              widget.editAllIngredient[index] =
+                                  addedIngredScrap;
+                            }
+                          }
+                        : () {
+                            editIngred(
+                                TextEditingController(
+                                    text: widget.editAllIngredient[index][0]),
+                                TextEditingController(
+                                    text: widget.editAllIngredient[index][1]),
+                                TextEditingController(
+                                    text: widget.editAllIngredient[index][2]),
+                                index);
+                          },
                   ),
                   GestureDetector(
                     onLongPress: () {
                       setState(() {
-                        widget.scrapAllIngredient.removeAt(index);
+                        widget.editAllIngredient.removeAt(index);
                       });
                     },
                     child: IconButton(
@@ -808,14 +892,14 @@ class _ScrapingState extends State<Scraping> {
     final result = await Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => const CreateSteps(),
+        builder: (context) => CreateSteps(),
       ),
     );
 
     if (result != null) {
       List<String> stepsRecipe = result;
       setState(() {});
-      widget.scrapStepsRecipe.addAll(stepsRecipe);
+      widget.editStepsRecipe.addAll(stepsRecipe);
     }
   }
 
@@ -834,34 +918,33 @@ class _ScrapingState extends State<Scraping> {
                 children: [
                   Text(
                     AppLocalizations.of(context)!.collapse,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 16,
                     ),
                   ),
-                  const Icon(
+                  Icon(
                     Icons.arrow_downward,
                     size: 16, // ajustez la taille selon vos besoins
                   ),
-                  const Spacer(),
+                  Spacer(),
                   InkWell(
                     onTap: () {
                       getDataFromCreateSteps(context);
                     },
-                    child: const Icon(
+                    child: Icon(
                       Icons.add,
                       size: 30,
                     ),
                   ),
-                  const SizedBox(
-                      width: 16), // Ajustez cet espace selon vos besoins
+                  SizedBox(width: 16), // Ajustez cet espace selon vos besoins
                   InkWell(
                     onLongPress: () {
                       setState(() {
-                        widget.scrapStepsRecipe = [];
+                        widget.editStepsRecipe = [];
                       });
                     },
-                    child: const Icon(Icons.delete,
-                        size: 20, color: Colors.redAccent),
+                    child:
+                        Icon(Icons.delete, size: 20, color: Colors.redAccent),
                   ),
                 ],
               ))
@@ -875,34 +958,33 @@ class _ScrapingState extends State<Scraping> {
                 children: [
                   Text(
                     AppLocalizations.of(context)!.showSteps,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 16,
                     ),
                   ),
-                  const Icon(
+                  Icon(
                     Icons.arrow_upward,
                     size: 16, // ajustez la taille selon vos besoins
                   ),
-                  const Spacer(),
+                  Spacer(),
                   InkWell(
                     onTap: () {
                       getDataFromCreateSteps(context);
                     },
-                    child: const Icon(
+                    child: Icon(
                       Icons.add,
                       size: 30,
                     ),
                   ),
-                  const SizedBox(
-                      width: 16), // Ajustez cet espace selon vos besoins
+                  SizedBox(width: 16), // Ajustez cet espace selon vos besoins
                   InkWell(
                     onLongPress: () {
                       setState(() {
-                        widget.scrapStepsRecipe = [];
+                        widget.editStepsRecipe = [];
                       });
                     },
-                    child: const Icon(Icons.delete,
-                        size: 20, color: Colors.redAccent),
+                    child:
+                        Icon(Icons.delete, size: 20, color: Colors.redAccent),
                   ),
                 ],
               )),
@@ -914,11 +996,11 @@ class _ScrapingState extends State<Scraping> {
     return SizedBox(
       height: 600,
       child: ListView.builder(
-        itemCount: widget.scrapStepsRecipe.length,
+        itemCount: widget.editStepsRecipe.length,
         itemBuilder: (context, index) {
           return ListTile(
-            title:
-                Text(' Step ${index + 1}:\n${widget.scrapStepsRecipe[index]}'),
+            title: Text(
+                ' ${AppLocalizations.of(context)!.step} ${index + 1}:\n${widget.editStepsRecipe[index]}'),
             trailing: Wrap(
               spacing: -16,
               children: [
@@ -930,21 +1012,20 @@ class _ScrapingState extends State<Scraping> {
                         builder: (context) {
                           return DialogEditStep(
                             controller: TextEditingController(
-                                text:
-                                    widget.scrapStepsRecipe[index].toString()),
+                                text: widget.editStepsRecipe[index].toString()),
                           );
                         });
                     if (result != null) {
                       String stepEdited = result;
                       setState(() {});
-                      widget.scrapStepsRecipe[index] = stepEdited;
+                      widget.editStepsRecipe[index] = stepEdited;
                     }
                   },
                 ),
                 GestureDetector(
                   onLongPress: () {
                     setState(() {
-                      widget.scrapStepsRecipe.removeAt(index);
+                      widget.editStepsRecipe.removeAt(index);
                     });
                   },
                   child: IconButton(
@@ -974,14 +1055,14 @@ class _ScrapingState extends State<Scraping> {
     final result = await Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => const AddTags(),
+        builder: (context) => AddTags(),
       ),
     );
 
     if (result != null) {
       List data = result;
       setState(() {});
-      widget.scrapTags!.addAll(data);
+      widget.tags!.addAll(data);
     }
   }
 
@@ -1000,34 +1081,33 @@ class _ScrapingState extends State<Scraping> {
                 children: [
                   Text(
                     AppLocalizations.of(context)!.collapse,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 16,
                     ),
                   ),
-                  const Icon(
+                  Icon(
                     Icons.arrow_downward,
                     size: 16, // ajustez la taille selon vos besoins
                   ),
-                  const Spacer(),
+                  Spacer(),
                   InkWell(
                     onTap: () {
                       getDataFromAddTags(context);
                     },
-                    child: const Icon(
+                    child: Icon(
                       Icons.add,
                       size: 30,
                     ),
                   ),
-                  const SizedBox(
-                      width: 16), // Ajustez cet espace selon vos besoins
+                  SizedBox(width: 16), // Ajustez cet espace selon vos besoins
                   InkWell(
                     onLongPress: () {
                       setState(() {
-                        widget.scrapTags!.clear();
+                        widget.tags!.clear();
                       });
                     },
-                    child: const Icon(Icons.delete,
-                        size: 20, color: Colors.redAccent),
+                    child:
+                        Icon(Icons.delete, size: 20, color: Colors.redAccent),
                   ),
                 ],
               ))
@@ -1041,34 +1121,33 @@ class _ScrapingState extends State<Scraping> {
                 children: [
                   Text(
                     AppLocalizations.of(context)!.showTags,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 16,
                     ),
                   ),
-                  const Icon(
+                  Icon(
                     Icons.arrow_upward,
                     size: 16, // ajustez la taille selon vos besoins
                   ),
-                  const Spacer(),
+                  Spacer(),
                   InkWell(
                     onTap: () {
                       getDataFromAddTags(context);
                     },
-                    child: const Icon(
+                    child: Icon(
                       Icons.add,
                       size: 30,
                     ),
                   ),
-                  const SizedBox(
-                      width: 16), // Ajustez cet espace selon vos besoins
+                  SizedBox(width: 16), // Ajustez cet espace selon vos besoins
                   InkWell(
                     onLongPress: () {
                       setState(() {
-                        widget.scrapTags!.clear();
+                        widget.tags!.clear();
                       });
                     },
-                    child: const Icon(Icons.delete,
-                        size: 20, color: Colors.redAccent),
+                    child:
+                        Icon(Icons.delete, size: 20, color: Colors.redAccent),
                   ),
                 ],
               )),
@@ -1080,10 +1159,10 @@ class _ScrapingState extends State<Scraping> {
     return SizedBox(
       height: 600,
       child: ListView.builder(
-        itemCount: widget.scrapTags!.length,
+        itemCount: widget.tags!.length,
         itemBuilder: (context, index) {
           return ListTile(
-            title: Text('${widget.scrapTags![index]}'),
+            title: Text('${widget.tags![index]}'),
             trailing: Wrap(
               spacing: -16,
               children: [
@@ -1095,20 +1174,20 @@ class _ScrapingState extends State<Scraping> {
                         builder: (context) {
                           return DialogEditStep(
                             controller: TextEditingController(
-                                text: widget.scrapTags![index].toString()),
+                                text: widget.tags![index].toString()),
                           );
                         });
                     if (result != null) {
                       String data = result;
                       setState(() {});
-                      widget.scrapTags![index] = data;
+                      widget.tags![index] = data;
                     }
                   },
                 ),
                 GestureDetector(
                   onLongPress: () {
                     setState(() {
-                      widget.scrapTags!.removeAt(index);
+                      widget.tags!.removeAt(index);
                     });
                   },
                   child: IconButton(
@@ -1127,7 +1206,7 @@ class _ScrapingState extends State<Scraping> {
     );
   }
 
-  ///  ////////// SHOW WIDGET WITH CONDITION : /////
+  ////////// SHOW WIDGET WITH CONDITION : /////
   ///
 
   Widget ShowWidget() {
@@ -1159,7 +1238,7 @@ class _ScrapingState extends State<Scraping> {
         showTagsAdded(),
       ]);
     } else {
-      return const Text("Error, no widgets to display");
+      return Text("Error, no widgets to display");
     }
   }
 
@@ -1174,18 +1253,18 @@ class _ScrapingState extends State<Scraping> {
                 child: Column(children: [
                   Text(AppLocalizations.of(context)!.areYouSureExit,
                       textAlign: TextAlign.center,
-                      style: const TextStyle(
-                          fontSize: 20, fontWeight: FontWeight.bold)),
+                      style:
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
                   Center(
                       child: Text(AppLocalizations.of(context)!.saveEditLater,
                           textAlign: TextAlign.center,
-                          style: const TextStyle(
+                          style: TextStyle(
                               fontSize: 15, fontStyle: FontStyle.italic)))
                 ])),
             actions: <Widget>[
               TextButton(
                 child: Text(AppLocalizations.of(context)!.confirmExit,
-                    style: const TextStyle(color: Colors.red)),
+                    style: TextStyle(color: Colors.red)),
                 onPressed: () {
                   setState(() {
                     // we can go back
@@ -1199,7 +1278,7 @@ class _ScrapingState extends State<Scraping> {
               ),
               TextButton(
                 child: Text(AppLocalizations.of(context)!.no,
-                    style: const TextStyle(color: Colors.lightGreen)),
+                    style: TextStyle(color: Colors.lightGreen)),
                 onPressed: () {
                   Navigator.of(context).pop(false);
                 },
@@ -1214,7 +1293,7 @@ class _ScrapingState extends State<Scraping> {
     // use WillPopScope for pop an alert dialog before exiting page. It works, but is deprecated
     return Scaffold(
       appBar: AppBar(
-        title: Text(AppLocalizations.of(context)!.addFromWeb),
+        title: Text(AppLocalizations.of(context)!.editRecipe),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -1238,99 +1317,79 @@ class _ScrapingState extends State<Scraping> {
                 isshowStepsAddedPressed == false &&
                 isshowTagsAddedPressed == false) ...[
               Container(
-                  alignment: Alignment.bottomRight,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      // handle deleted variable
-                      final finalscrapRecipeName = widget.scrapRecipeName ==
-                              AppLocalizations.of(context)!.deleted
-                          ? AppLocalizations.of(context)!.noTitle
-                          : widget.scrapRecipeName;
+                alignment: Alignment.bottomRight,
+                child: ElevatedButton(
+                  onPressed: () {
+                    // handle deleted variable
+                    final finalEditRecipeName = widget.editRecipeName ==
+                            AppLocalizations.of(context)!.deleted
+                        ? AppLocalizations.of(context)!.noTitle
+                        : widget.editRecipeName;
 
-                      final finalscrapTotalTime = widget.scrapTotalTime ==
-                              AppLocalizations.of(context)!.deleted
-                          ? ""
-                          : widget.scrapTotalTime;
+                    final finalEditTotalTime = widget.editTotalTime ==
+                            AppLocalizations.of(context)!.deleted
+                        ? ""
+                        : widget.editTotalTime;
 
-                      final finalscrapDifficulty = scrapDifficulty ==
-                              AppLocalizations.of(context)!.deleted
-                          ? ""
-                          : scrapDifficulty;
+                    final finalEditDifficulty = widget.editDifficulty ==
+                            AppLocalizations.of(context)!.deleted
+                        ? ""
+                        : widget.editDifficulty;
 
-                      final finalscrapCost =
-                          scrapCost == AppLocalizations.of(context)!.deleted
-                              ? ""
-                              : scrapCost;
+                    final finalEditCost =
+                        widget.editCost == AppLocalizations.of(context)!.deleted
+                            ? ""
+                            : widget.editCost;
 
-                      // create a varible with the date of creation
-                      DateTime now = DateTime.now();
-                      String creationDate =
-                          'variable_${now.year}${now.month}${now.day}_${now.hour}${now.minute}${now.second}';
+                    // get all data
+                    List recipeList = _myBox.get('ALL_LISTS') ?? [];
 
-                      // get all data
-                      List listOfLists = _myBox.get('ALL_LISTS') ?? [];
+                    // get index of the list to edit
 
-                      // create null index for future add :
-                      double? stars = null;
-                      List? detailTIme = null;
-                      List? utensils = null;
+                    // Give edidted values to recipeList
+                    recipeList[getIndex()][0] = finalEditRecipeName;
+                    recipeList[getIndex()][1] = finalEditTotalTime;
+                    recipeList[getIndex()][2] = finalEditDifficulty;
+                    recipeList[getIndex()][3] = finalEditCost;
+                    recipeList[getIndex()][4] = widget.editAllIngredient;
+                    recipeList[getIndex()][5] = widget.editPathImage;
+                    recipeList[getIndex()][6] = widget.editStepsRecipe;
+                    recipeList[getIndex()][7] = widget.editRecipeCategory;
+                    recipeList[getIndex()][14] = widget.editUrlImageScrap;
 
-                      // Give edidted values to recipeList
-                      // Add a new list to the list of lists
-                      try {
-                        listOfLists.add([
-                          finalscrapRecipeName,
-                          finalscrapTotalTime,
-                          finalscrapDifficulty,
-                          finalscrapCost,
-                          widget.scrapAllIngredient,
-                          widget.pathImageSelectedFromImagePicker,
-                          widget.scrapStepsRecipe,
-                          widget.scrapRecipeCategory!,
-                          isFromScrap,
-                          creationDate,
-                          widget.scrapTags,
-                          stars,
-                          detailTIme,
-                          utensils,
-                          widget.urlImageScrap,
-                          widget.sourceUrlScrap
-                        ]);
-                      } catch (e) {
-                        return showDialogCategoryEmpty();
-                      }
+                    // Save edidted list in hive
+                    _myBox.put("ALL_LISTS", recipeList);
 
-                      // Save edidted list in hive
-                      _myBox.put("ALL_LISTS", listOfLists);
-
-                      //Create an instance of RecipeDetailsPage with the form data
-                      RecipeStruct recipeDetailsPage = RecipeStruct(
-                        recipeName: finalscrapRecipeName,
-                        totalTime: finalscrapTotalTime,
-                        difficulty: finalscrapDifficulty,
-                        cost: finalscrapCost,
-                        allIngredientSelected: widget.scrapAllIngredient,
-                        pathImageSelectedFromImagePicker:
-                            widget.pathImageSelectedFromImagePicker,
-                        stepsRecipeFromCreateSteps: widget.scrapStepsRecipe,
-                        isFromScrap: isFromScrap,
-                        tags: widget.scrapTags,
-                        uniqueId: creationDate,
-                        recipeCategory: widget.scrapRecipeCategory!,
+                    // Create an instance of RecipeDetailsPage with the form data
+                    RecipeStruct recipeDetailsPage = RecipeStruct(
+                        recipeName: finalEditRecipeName,
+                        totalTime: finalEditTotalTime,
+                        difficulty: finalEditDifficulty,
+                        cost: finalEditCost,
+                        allIngredientSelected: widget.editAllIngredient,
+                        pathImageSelectedFromImagePicker: widget.editPathImage,
+                        stepsRecipeFromCreateSteps: widget.editStepsRecipe,
+                        isFromScrap: recipeList[getIndex()][8],
+                        tags: recipeList[getIndex()][10],
+                        uniqueId: recipeList[getIndex()][9],
+                        recipeCategory: recipeList[getIndex()][7],
                         isFromFilteredNameRecipe: false,
-                        urlImageScrap: widget.urlImageScrap,
-                        sourceUrlScrap: widget.sourceUrlScrap,
-                      );
+                        urlImageScrap: recipeList[getIndex()][14],
+                        sourceUrlScrap: recipeList[getIndex()][15]);
 
-                      // Navigate to the new page with the form data and save
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => recipeDetailsPage),
-                      );
-                    },
-                    child: Text(AppLocalizations.of(context)!.add),
-                  ))
+                    //Navigate to the new page with the form data and save
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => recipeDetailsPage),
+                    );
+
+                    //Navigator.pop(context,
+                    //  finalEditRecipeName); // in fact we could send antoher variable, it's to force filtered_name_recipe and recip_struct (after editing) to rebuild again and take in count the new recipe name
+                  },
+                  child: Text(AppLocalizations.of(context)!.saveChanges),
+                ),
+              )
             ],
           ]),
         ),

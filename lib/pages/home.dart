@@ -5,8 +5,8 @@ import 'dart:io';
 import 'package:cook_app/pages/filtered_name_recipe.dart';
 import 'package:cook_app/data/categories_database/categories_names.dart';
 import 'package:cook_app/data/categories_database/categories_names_services.dart';
-import 'package:cook_app/utils/recipe_struct.dart';
-import 'package:cook_app/utils/scraping.dart';
+import 'package:cook_app/pages/recipe_struct.dart';
+import 'package:cook_app/pages/scraping.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:cook_app/data/recipe_database/database.dart';
@@ -230,9 +230,10 @@ class _HomeState extends State<Home> {
     // iterate over the list in reverse order (because with normal order all the elements are not deleted)
 
     for (int i = recipeList.length - 1; i >= 0; i--) {
-      if (recipeList[i][7].contains(categoryName)) {
+      if (recipeList[i][7] == categoryName) {
         recipeList.removeAt(i);
       }
+      _myBox.put('ALL_LISTS', recipeList);
     }
     // Remove the category name :
     Hive.box<CategoriesNames>('catBox').deleteAt(index);

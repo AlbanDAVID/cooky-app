@@ -1,61 +1,63 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: avoid_init_to_null, non_constant_identifier_names
 
 import 'dart:io';
 
 import 'package:cook_app/data/recipe_database/database.dart';
-import 'package:cook_app/utils/add_category.dart';
-import 'package:cook_app/utils/add_cost.dart';
-import 'package:cook_app/utils/add_difficulty.dart';
-import 'package:cook_app/utils/add_ingredients.dart';
-import 'package:cook_app/utils/add_pics.dart';
-import 'package:cook_app/utils/add_recipename.dart';
-import 'package:cook_app/utils/add_tags.dart';
-import 'package:cook_app/utils/add_totaltime.dart';
-import 'package:cook_app/utils/create_steps.dart';
+import 'package:cook_app/pages/add_category.dart';
+import 'package:cook_app/pages/add_cost.dart';
+import 'package:cook_app/pages/add_difficulty.dart';
+import 'package:cook_app/pages/add_pics.dart';
+import 'package:cook_app/pages/add_recipename.dart';
+import 'package:cook_app/pages/add_tags.dart';
+import 'package:cook_app/pages/add_totaltime.dart';
+import 'package:cook_app/pages/create_steps.dart';
 import 'package:cook_app/utils/dialbox_edit.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:flutter/material.dart';
-import 'package:cook_app/utils/recipe_struct.dart';
+import 'package:cook_app/pages/recipe_struct.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 // ignore: must_be_immutable
-class EditRecipe extends StatefulWidget {
-  List editAllIngredient;
-  String? editPathImage;
-  List<String> editStepsRecipe;
-  String editRecipeCategory;
-  String editRecipeName;
-  String editTotalTime;
-  String editDifficulty;
-  String editCost;
-  bool isFromScrap;
-  List? tags;
-  String uniqueId;
-  String? editUrlImageScrap;
-
-  EditRecipe(
-      {super.key,
-      required this.editAllIngredient,
-      this.editPathImage,
-      required this.editStepsRecipe,
-      required this.editRecipeCategory,
-      required this.editRecipeName,
-      required this.editTotalTime,
-      required this.editDifficulty,
-      required this.editCost,
-      required this.isFromScrap,
-      this.tags,
-      required this.uniqueId,
-      this.editUrlImageScrap});
+class Scraping extends StatefulWidget {
+  String scrapRecipeName;
+  List scrapAllIngredient;
+  List<String> scrapStepsRecipe;
+  String scrapTotalTime;
+  List scrapTags;
+  String? pathImageSelectedFromImagePicker;
+  String? urlImageScrap;
+  String? sourceUrlScrap;
+  String? scrapRecipeCategory;
+  Scraping({
+    super.key,
+    required this.scrapRecipeName,
+    required this.scrapStepsRecipe,
+    required this.scrapAllIngredient,
+    required this.scrapTotalTime,
+    required this.scrapTags,
+    this.pathImageSelectedFromImagePicker,
+    this.urlImageScrap,
+    this.sourceUrlScrap,
+  });
 
   @override
   // ignore: library_private_types_in_public_api
-  _EditRecipeState createState() => _EditRecipeState();
+  _ScrapingState createState() => _ScrapingState();
 }
 
-class _EditRecipeState extends State<EditRecipe> {
+class _ScrapingState extends State<Scraping> {
   // ignore: unused_field
+
+  String scrapDifficulty = "";
+  String scrapCost = "";
+  bool isFromScrap = true;
+
+  bool isShowIngredientsSelectedPressed = false;
+  bool isshowStepsAddedPressed = false;
+  bool isButtonAddCategoryVisible = true;
+  bool isshowTagsAddedPressed = false;
+  bool _isConfirmBack = false;
 
   // load database
   final _myBox = Hive.box('mybox');
@@ -63,29 +65,29 @@ class _EditRecipeState extends State<EditRecipe> {
   RecipeDatabase db = RecipeDatabase();
 
   String previewImageTextField = "";
-
-  bool isShowIngredientsSelectedPressed = false;
-  bool isshowStepsAddedPressed = false;
-  bool isshowTagsAddedPressed = false;
-  bool _isConfirmBack = false;
-
   String defautImage = "recipe_pics/no_image.png";
 
-  // function to get index of the list to edit
-  getIndex() {
-    loadAllData();
-    for (int i = 0; i < db.recipeList.length; i++) {
-      if (db.recipeList[i][9] == widget.uniqueId) {
-        return i;
-      }
-    }
-  }
-
-// function to load data
-  loadAllData() {
-    setState(() {
-      db.loadData();
-    });
+  // dialbox error error if category is empty :
+  void showDialogCategoryEmpty() {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            content: Text(
+              AppLocalizations.of(context)!.categoryEmpty,
+              textAlign: TextAlign.center,
+              style: const TextStyle(color: Colors.red),
+            ),
+            actions: [
+              ElevatedButton(
+                child: Text(AppLocalizations.of(context)!.back),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              )
+            ],
+          );
+        });
   }
 
   ////// FUNCTIONS FOR RECIPE CATEGORY //////
@@ -95,7 +97,7 @@ class _EditRecipeState extends State<EditRecipe> {
     final result = await Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => AddExistingCategory(),
+        builder: (context) => const AddExistingCategory(),
       ),
     );
 
@@ -103,41 +105,50 @@ class _EditRecipeState extends State<EditRecipe> {
       String categoryName = result;
 
       setState(() {
-        // Update visibility button
+        isButtonAddCategoryVisible = false;
       });
-      widget.editRecipeCategory = categoryName;
+      widget.scrapRecipeCategory = categoryName;
     }
   }
 
   // widget with button for adding category, and display category selected with edition button
   Widget addCategory() {
     setState(() {});
-    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      Text(
-        AppLocalizations.of(context)!.category,
-        style: TextStyle(
-          fontSize: 16,
-        ),
-      ),
-      Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-        Text(
-          widget.editRecipeCategory,
-          style: TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        InkWell(
-          onTap: () {
-            _getDataFromAddExistingCategory(context);
-          },
-          child: Icon(
-            Icons.create,
-            size: 30,
-          ),
-        ),
-      ]),
-    ]);
+    return isButtonAddCategoryVisible
+        ? ElevatedButton(
+            onPressed: () async {
+              setState(() {
+                _getDataFromAddExistingCategory(context);
+              });
+            },
+            child: Text(AppLocalizations.of(context)!.addCategoryRequired),
+          )
+        : Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            Text(
+              AppLocalizations.of(context)!.category,
+              style: const TextStyle(
+                fontSize: 16,
+              ),
+            ),
+            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+              Text(
+                widget.scrapRecipeCategory!,
+                style: const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              InkWell(
+                onTap: () {
+                  _getDataFromAddExistingCategory(context);
+                },
+                child: const Icon(
+                  Icons.create,
+                  size: 30,
+                ),
+              ),
+            ]),
+          ]);
   }
 
   ////////////////////////////////////////////////////////
@@ -149,7 +160,7 @@ class _EditRecipeState extends State<EditRecipe> {
     final result = await Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => AddRecipeName(),
+        builder: (context) => const AddRecipeName(),
       ),
     );
 
@@ -159,7 +170,7 @@ class _EditRecipeState extends State<EditRecipe> {
       setState(() {
         // Update visibility button
       });
-      widget.editRecipeName = recipeName;
+      widget.scrapRecipeName = recipeName;
     }
   }
 
@@ -169,25 +180,24 @@ class _EditRecipeState extends State<EditRecipe> {
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       Text(
         AppLocalizations.of(context)!.recipeName,
-        style: TextStyle(
+        style: const TextStyle(
           fontSize: 16,
         ),
       ),
       Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
         SizedBox(
-            // to have a limit if the text is too long (add ...)
             width: 300,
             child: Text(
               maxLines: 3,
               overflow: TextOverflow.ellipsis,
-              widget.editRecipeName,
-              style:
-                  widget.editRecipeName == AppLocalizations.of(context)!.deleted
-                      ? TextStyle(fontSize: 10, fontStyle: FontStyle.italic)
-                      : TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                        ),
+              widget.scrapRecipeName,
+              style: widget.scrapRecipeName ==
+                      AppLocalizations.of(context)!.deleted
+                  ? const TextStyle(fontSize: 10, fontStyle: FontStyle.italic)
+                  : const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
             )),
         Row(
           mainAxisAlignment: MainAxisAlignment.end,
@@ -199,8 +209,8 @@ class _EditRecipeState extends State<EditRecipe> {
                     builder: (context) {
                       return DialogEditRecipeField(
                         controller:
-                            TextEditingController(text: widget.editRecipeName),
-                        isFromScrap: false,
+                            TextEditingController(text: widget.scrapRecipeName),
+                        isFromScrap: true,
                         showSuggestion: () {
                           _getDataFromAddRecipeName(context);
                         },
@@ -209,22 +219,24 @@ class _EditRecipeState extends State<EditRecipe> {
                 if (result != null) {
                   String data = result;
                   setState(() {});
-                  widget.editRecipeName = data;
+                  widget.scrapRecipeName = data;
                 }
               },
-              child: Icon(
+              child: const Icon(
                 Icons.create,
                 size: 30,
               ),
             ),
-            SizedBox(width: 16), // Ajustez cet espace selon vos besoins
+            const SizedBox(width: 16), // Ajustez cet espace selon vos besoins
             InkWell(
               onLongPress: () {
                 setState(() {
-                  widget.editRecipeName = AppLocalizations.of(context)!.deleted;
+                  widget.scrapRecipeName =
+                      AppLocalizations.of(context)!.deleted;
                 });
               },
-              child: Icon(Icons.delete, size: 20, color: Colors.redAccent),
+              child:
+                  const Icon(Icons.delete, size: 20, color: Colors.redAccent),
             ),
           ],
         )
@@ -242,7 +254,7 @@ class _EditRecipeState extends State<EditRecipe> {
     final result = await Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => AddTotalTime(),
+        builder: (context) => const AddTotalTime(),
       ),
     );
 
@@ -252,7 +264,7 @@ class _EditRecipeState extends State<EditRecipe> {
       setState(() {
         // Update visibility button
       });
-      widget.editTotalTime = totalTime;
+      widget.scrapTotalTime = totalTime;
     }
   }
 
@@ -262,15 +274,16 @@ class _EditRecipeState extends State<EditRecipe> {
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       Text(
         AppLocalizations.of(context)!.totalTime,
-        style: TextStyle(
+        style: const TextStyle(
           fontSize: 16,
         ),
       ),
       Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-        Text(widget.editTotalTime,
-            style: widget.editTotalTime == AppLocalizations.of(context)!.deleted
-                ? TextStyle(fontSize: 10, fontStyle: FontStyle.italic)
-                : TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+        Text(widget.scrapTotalTime,
+            style: widget.scrapTotalTime ==
+                    AppLocalizations.of(context)!.deleted
+                ? const TextStyle(fontSize: 10, fontStyle: FontStyle.italic)
+                : const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
         Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
@@ -281,7 +294,7 @@ class _EditRecipeState extends State<EditRecipe> {
                     builder: (context) {
                       return DialogEditRecipeField(
                         controller:
-                            TextEditingController(text: widget.editTotalTime),
+                            TextEditingController(text: widget.scrapTotalTime),
                         isFromScrap: false,
                         showSuggestion: () {
                           _getDataFromAddTotalTime(context);
@@ -291,29 +304,30 @@ class _EditRecipeState extends State<EditRecipe> {
                 if (result != null) {
                   String data = result;
                   setState(() {});
-                  widget.editTotalTime = data;
+                  widget.scrapTotalTime = data;
                 }
               },
-              child: Icon(
+              child: const Icon(
                 Icons.create,
                 size: 30,
               ),
             ),
-            SizedBox(width: 16), // Ajustez cet espace selon vos besoins
+            const SizedBox(width: 16), // Ajustez cet espace selon vos besoins
             InkWell(
               onLongPress: () {
                 setState(() {
-                  widget.editTotalTime = AppLocalizations.of(context)!.deleted;
+                  widget.scrapTotalTime = AppLocalizations.of(context)!.deleted;
                   Text(
-                    widget.editTotalTime,
-                    style: TextStyle(
+                    widget.scrapTotalTime,
+                    style: const TextStyle(
                       fontSize: 20,
                       fontStyle: FontStyle.italic,
                     ),
                   );
                 });
               },
-              child: Icon(Icons.delete, size: 20, color: Colors.redAccent),
+              child:
+                  const Icon(Icons.delete, size: 20, color: Colors.redAccent),
             ),
           ],
         )
@@ -331,7 +345,7 @@ class _EditRecipeState extends State<EditRecipe> {
     final result = await Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => AddDifficulty(),
+        builder: (context) => const AddDifficulty(),
       ),
     );
 
@@ -341,7 +355,7 @@ class _EditRecipeState extends State<EditRecipe> {
       setState(() {
         // Update visibility button
       });
-      widget.editDifficulty = difficulty;
+      scrapDifficulty = difficulty;
     }
   }
 
@@ -351,16 +365,15 @@ class _EditRecipeState extends State<EditRecipe> {
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       Text(
         AppLocalizations.of(context)!.difficulty,
-        style: TextStyle(
+        style: const TextStyle(
           fontSize: 16,
         ),
       ),
       Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-        Text(widget.editDifficulty,
-            style:
-                widget.editDifficulty == AppLocalizations.of(context)!.deleted
-                    ? TextStyle(fontSize: 10, fontStyle: FontStyle.italic)
-                    : TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+        Text(scrapDifficulty,
+            style: scrapDifficulty == AppLocalizations.of(context)!.deleted
+                ? const TextStyle(fontSize: 10, fontStyle: FontStyle.italic)
+                : const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
         Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
@@ -371,7 +384,7 @@ class _EditRecipeState extends State<EditRecipe> {
                     builder: (context) {
                       return DialogEditRecipeField(
                         controller:
-                            TextEditingController(text: widget.editDifficulty),
+                            TextEditingController(text: scrapDifficulty),
                         isFromScrap: false,
                         showSuggestion: () {
                           _getDataFromAddDifficulty(context);
@@ -381,22 +394,23 @@ class _EditRecipeState extends State<EditRecipe> {
                 if (result != null) {
                   String data = result;
                   setState(() {});
-                  widget.editDifficulty = data;
+                  scrapDifficulty = data;
                 }
               },
-              child: Icon(
+              child: const Icon(
                 Icons.create,
                 size: 30,
               ),
             ),
-            SizedBox(width: 16), // Ajustez cet espace selon vos besoins
+            const SizedBox(width: 16), // Ajustez cet espace selon vos besoins
             InkWell(
               onLongPress: () {
                 setState(() {
-                  widget.editDifficulty = AppLocalizations.of(context)!.deleted;
+                  scrapDifficulty = AppLocalizations.of(context)!.deleted;
                 });
               },
-              child: Icon(Icons.delete, size: 20, color: Colors.redAccent),
+              child:
+                  const Icon(Icons.delete, size: 20, color: Colors.redAccent),
             ),
           ],
         )
@@ -413,7 +427,7 @@ class _EditRecipeState extends State<EditRecipe> {
     final result = await Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => AddCost(),
+        builder: (context) => const AddCost(),
       ),
     );
 
@@ -423,7 +437,7 @@ class _EditRecipeState extends State<EditRecipe> {
       setState(() {
         // Update visibility button
       });
-      widget.editCost = cost;
+      scrapCost = cost;
     }
   }
 
@@ -433,15 +447,15 @@ class _EditRecipeState extends State<EditRecipe> {
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       Text(
         AppLocalizations.of(context)!.cost,
-        style: TextStyle(
+        style: const TextStyle(
           fontSize: 16,
         ),
       ),
       Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-        Text(widget.editCost,
-            style: widget.editCost == AppLocalizations.of(context)!.deleted
-                ? TextStyle(fontSize: 10, fontStyle: FontStyle.italic)
-                : TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+        Text(scrapCost,
+            style: scrapCost == AppLocalizations.of(context)!.deleted
+                ? const TextStyle(fontSize: 10, fontStyle: FontStyle.italic)
+                : const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
         Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
@@ -451,8 +465,7 @@ class _EditRecipeState extends State<EditRecipe> {
                     context: context,
                     builder: (context) {
                       return DialogEditRecipeField(
-                        controller:
-                            TextEditingController(text: widget.editCost),
+                        controller: TextEditingController(text: scrapCost),
                         isFromScrap: false,
                         showSuggestion: () {
                           _getDataFromAddCost(context);
@@ -462,22 +475,23 @@ class _EditRecipeState extends State<EditRecipe> {
                 if (result != null) {
                   String data = result;
                   setState(() {});
-                  widget.editCost = data;
+                  scrapCost = data;
                 }
               },
-              child: Icon(
+              child: const Icon(
                 Icons.create,
                 size: 30,
               ),
             ),
-            SizedBox(width: 16), // Ajustez cet espace selon vos besoins
+            const SizedBox(width: 16), // Ajustez cet espace selon vos besoins
             InkWell(
               onLongPress: () {
                 setState(() {
-                  widget.editCost = AppLocalizations.of(context)!.deleted;
+                  scrapCost = AppLocalizations.of(context)!.deleted;
                 });
               },
-              child: Icon(Icons.delete, size: 20, color: Colors.redAccent),
+              child:
+                  const Icon(Icons.delete, size: 20, color: Colors.redAccent),
             ),
           ],
         )
@@ -495,20 +509,20 @@ class _EditRecipeState extends State<EditRecipe> {
 
   // function to decide image to display
   _imageToDisplay() {
-    if (widget.editUrlImageScrap != null) {
+    if (widget.urlImageScrap != null) {
       return Image.network(
-        widget.editUrlImageScrap!,
+        widget.urlImageScrap!,
         width: 200,
         height: 200,
       );
-    } else if (widget.editPathImage != null) {
+    } else if (widget.pathImageSelectedFromImagePicker != null) {
       return Image.file(
-        File(widget.editPathImage!),
+        File(widget.pathImageSelectedFromImagePicker!),
         width: 200,
         height: 200,
       );
-    } else if (widget.editUrlImageScrap == null &&
-        widget.editPathImage == null) {
+    } else if (widget.urlImageScrap == null &&
+        widget.pathImageSelectedFromImagePicker == null) {
       return Image.asset(
         defautImage,
         width: 200,
@@ -541,16 +555,15 @@ class _EditRecipeState extends State<EditRecipe> {
     final result = await Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => MyImagePickerPage(),
+        builder: (context) => const MyImagePickerPage(),
       ),
     );
 
     if (result != null) {
       String imageSelected = result;
       setState(() {});
-
-      widget.editPathImage = imageSelected;
-      widget.editUrlImageScrap = null;
+      widget.pathImageSelectedFromImagePicker = imageSelected;
+      widget.urlImageScrap = null;
     }
   }
 
@@ -560,7 +573,7 @@ class _EditRecipeState extends State<EditRecipe> {
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       Text(
         AppLocalizations.of(context)!.picture,
-        style: TextStyle(
+        style: const TextStyle(
           fontSize: 16,
         ),
       ),
@@ -572,7 +585,7 @@ class _EditRecipeState extends State<EditRecipe> {
             child: Text(
               previewImageTextField =
                   AppLocalizations.of(context)!.previewPicture,
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
                 decoration: TextDecoration.underline,
@@ -585,20 +598,21 @@ class _EditRecipeState extends State<EditRecipe> {
               onTap: () {
                 getDataFromMyImagePickerPage(context);
               },
-              child: Icon(
+              child: const Icon(
                 Icons.create,
                 size: 30,
               ),
             ),
-            SizedBox(width: 16), // Ajustez cet espace selon vos besoins
+            const SizedBox(width: 16), // Ajustez cet espace selon vos besoins
             InkWell(
               onLongPress: () {
                 setState(() {
-                  widget.editPathImage = null;
-                  widget.editUrlImageScrap = null;
+                  widget.pathImageSelectedFromImagePicker = null;
+                  widget.urlImageScrap = null;
                 });
               },
-              child: Icon(Icons.delete, size: 20, color: Colors.redAccent),
+              child:
+                  const Icon(Icons.delete, size: 20, color: Colors.redAccent),
             ),
           ],
         )
@@ -613,83 +627,6 @@ class _EditRecipeState extends State<EditRecipe> {
   /// ////// //////////// FUNCTIONS FOR ADD INGREDIENTS //////
   ///
   ///
-  ///
-
-  // function to edit ingredient
-  editIngred(editName, editQuantity, editUnit, index) {
-    return showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-              title: Text(AppLocalizations.of(context)!.addIngred2),
-              content: Column(children: [
-                TextField(
-                    controller: editName,
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      hintText: AppLocalizations.of(context)!.ingredName,
-                    )),
-                TextField(
-                    controller: editQuantity,
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      hintText: AppLocalizations.of(context)!.quantity,
-                    )),
-                TextField(
-                    controller: editUnit,
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      hintText: AppLocalizations.of(context)!.unit,
-                    ))
-              ]),
-              actions: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    ElevatedButton(
-                      child: Text(AppLocalizations.of(context)!.cancel),
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                    ),
-                    SizedBox(
-                      width: 10,
-                    ),
-                    ElevatedButton(
-                      child: Text(AppLocalizations.of(context)!.add),
-                      onPressed: () async {
-                        widget.editAllIngredient[index][0] = editName.text;
-                        widget.editAllIngredient[index][1] = editQuantity.text;
-                        widget.editAllIngredient[index][2] = editUnit.text;
-                        Navigator.pop(context);
-
-                        editName.clear();
-                        editQuantity.clear();
-                        editUnit.clear();
-                        setState(() {});
-                      },
-                    )
-                  ],
-                )
-              ]);
-        });
-  }
-
-  // get  from class AddIngred() (for isFromScrap = false)
-  void getDataFromAddIngred(BuildContext context) async {
-    final result = await Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => AddIngred(),
-      ),
-    );
-
-    if (result != null) {
-      List allIngredientSelected = result;
-      setState(() {});
-      widget.editAllIngredient.addAll(allIngredientSelected);
-    }
-  }
 
   // widget with button for adding ingredients , and display preview  with edition button
   Widget addIngred() {
@@ -706,48 +643,45 @@ class _EditRecipeState extends State<EditRecipe> {
                 children: [
                   Text(
                     AppLocalizations.of(context)!.collapse,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 16,
                     ),
                   ),
-                  Icon(
+                  const Icon(
                     Icons.arrow_downward,
                     size: 16, // ajustez la taille selon vos besoins
                   ),
-                  Spacer(),
+                  const Spacer(),
                   InkWell(
-                    onTap: widget.isFromScrap
-                        ? () async {
-                            final result = await showDialog(
-                                context: context,
-                                builder: (context) {
-                                  return DialogEditStep(
-                                    controller: TextEditingController(text: ""),
-                                  );
-                                });
-                            if (result != null) {
-                              String addedIngredScrap = result;
-                              setState(() {});
-                              widget.editAllIngredient.add(addedIngredScrap);
-                            }
-                          }
-                        : () {
-                            getDataFromAddIngred(context);
-                          },
-                    child: Icon(
+                    onTap: () async {
+                      final result = await showDialog(
+                          context: context,
+                          builder: (context) {
+                            return DialogEditStep(
+                              controller: TextEditingController(text: ""),
+                            );
+                          });
+                      if (result != null) {
+                        String addedIngredScrap = result;
+                        setState(() {});
+                        widget.scrapAllIngredient.add(addedIngredScrap);
+                      }
+                    },
+                    child: const Icon(
                       Icons.add,
                       size: 30,
                     ),
                   ),
-                  SizedBox(width: 16), // Ajustez cet espace selon vos besoins
+                  const SizedBox(
+                      width: 16), // Ajustez cet espace selon vos besoins
                   InkWell(
                     onLongPress: () {
                       setState(() {
-                        widget.editAllIngredient = [];
+                        widget.scrapAllIngredient = [];
                       });
                     },
-                    child:
-                        Icon(Icons.delete, size: 20, color: Colors.redAccent),
+                    child: const Icon(Icons.delete,
+                        size: 20, color: Colors.redAccent),
                   ),
                 ],
               ))
@@ -761,48 +695,45 @@ class _EditRecipeState extends State<EditRecipe> {
                 children: [
                   Text(
                     AppLocalizations.of(context)!.showIngred,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 16,
                     ),
                   ),
-                  Icon(
+                  const Icon(
                     Icons.arrow_upward,
                     size: 16, // ajustez la taille selon vos besoins
                   ),
-                  Spacer(),
+                  const Spacer(),
                   InkWell(
-                    onTap: widget.isFromScrap
-                        ? () async {
-                            final result = await showDialog(
-                                context: context,
-                                builder: (context) {
-                                  return DialogEditStep(
-                                    controller: TextEditingController(text: ""),
-                                  );
-                                });
-                            if (result != null) {
-                              String addedIngredScrap = result;
-                              setState(() {});
-                              widget.editAllIngredient.add(addedIngredScrap);
-                            }
-                          }
-                        : () {
-                            getDataFromAddIngred(context);
-                          },
-                    child: Icon(
+                    onTap: () async {
+                      final result = await showDialog(
+                          context: context,
+                          builder: (context) {
+                            return DialogEditStep(
+                              controller: TextEditingController(text: ""),
+                            );
+                          });
+                      if (result != null) {
+                        String addedIngredScrap = result;
+                        setState(() {});
+                        widget.scrapAllIngredient.add(addedIngredScrap);
+                      }
+                    },
+                    child: const Icon(
                       Icons.add,
                       size: 30,
                     ),
                   ),
-                  SizedBox(width: 16), // Ajustez cet espace selon vos besoins
+                  const SizedBox(
+                      width: 16), // Ajustez cet espace selon vos besoins
                   InkWell(
                     onLongPress: () {
                       setState(() {
-                        widget.editAllIngredient = [];
+                        widget.scrapAllIngredient = [];
                       });
                     },
-                    child:
-                        Icon(Icons.delete, size: 20, color: Colors.redAccent),
+                    child: const Icon(Icons.delete,
+                        size: 20, color: Colors.redAccent),
                   ),
                 ],
               )),
@@ -814,55 +745,40 @@ class _EditRecipeState extends State<EditRecipe> {
     return SizedBox(
         height: 600,
         child: ListView.builder(
-          itemCount: widget.editAllIngredient.length,
+          itemCount: widget.scrapAllIngredient.length,
           itemBuilder: (context, index) {
-            final ingredient = widget.editAllIngredient[index][0];
-            final quantity = widget.editAllIngredient[index][1];
-            final unit = widget.editAllIngredient[index][2];
+            //  final ingredient = scrapAllIngredient[index][0];
+            //  final quantity = scrapAllIngredient[index][1];
+            //  final unit = scrapAllIngredient[index][2];
 
-            final formattedString = '$ingredient : ($quantity$unit)';
+            //  final formattedString = '$ingredient : ($quantity$unit)';
             return ListTile(
-              title: widget.isFromScrap
-                  ? Text(widget.editAllIngredient[index])
-                  : Text(formattedString),
+              title: Text(widget.scrapAllIngredient[index]),
               trailing: Wrap(
                 spacing: -16,
                 children: [
                   IconButton(
                     icon: const Icon(Icons.edit),
-                    onPressed: widget.isFromScrap
-                        ? () async {
-                            final result = await showDialog(
-                                context: context,
-                                builder: (context) {
-                                  return DialogEditStep(
-                                      controller: TextEditingController(
-                                    text: widget.editAllIngredient[index]
-                                        .toString(),
-                                  ));
-                                });
-                            if (result != null) {
-                              String addedIngredScrap = result;
-                              setState(() {});
-                              widget.editAllIngredient[index] =
-                                  addedIngredScrap;
-                            }
-                          }
-                        : () {
-                            editIngred(
-                                TextEditingController(
-                                    text: widget.editAllIngredient[index][0]),
-                                TextEditingController(
-                                    text: widget.editAllIngredient[index][1]),
-                                TextEditingController(
-                                    text: widget.editAllIngredient[index][2]),
-                                index);
-                          },
+                    onPressed: () async {
+                      final result = await showDialog(
+                          context: context,
+                          builder: (context) {
+                            return DialogEditStep(
+                                controller: TextEditingController(
+                              text: widget.scrapAllIngredient[index].toString(),
+                            ));
+                          });
+                      if (result != null) {
+                        String addedIngredScrap = result;
+                        setState(() {});
+                        widget.scrapAllIngredient[index] = addedIngredScrap;
+                      }
+                    },
                   ),
                   GestureDetector(
                     onLongPress: () {
                       setState(() {
-                        widget.editAllIngredient.removeAt(index);
+                        widget.scrapAllIngredient.removeAt(index);
                       });
                     },
                     child: IconButton(
@@ -892,14 +808,14 @@ class _EditRecipeState extends State<EditRecipe> {
     final result = await Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => CreateSteps(),
+        builder: (context) => const CreateSteps(),
       ),
     );
 
     if (result != null) {
       List<String> stepsRecipe = result;
       setState(() {});
-      widget.editStepsRecipe.addAll(stepsRecipe);
+      widget.scrapStepsRecipe.addAll(stepsRecipe);
     }
   }
 
@@ -918,33 +834,34 @@ class _EditRecipeState extends State<EditRecipe> {
                 children: [
                   Text(
                     AppLocalizations.of(context)!.collapse,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 16,
                     ),
                   ),
-                  Icon(
+                  const Icon(
                     Icons.arrow_downward,
                     size: 16, // ajustez la taille selon vos besoins
                   ),
-                  Spacer(),
+                  const Spacer(),
                   InkWell(
                     onTap: () {
                       getDataFromCreateSteps(context);
                     },
-                    child: Icon(
+                    child: const Icon(
                       Icons.add,
                       size: 30,
                     ),
                   ),
-                  SizedBox(width: 16), // Ajustez cet espace selon vos besoins
+                  const SizedBox(
+                      width: 16), // Ajustez cet espace selon vos besoins
                   InkWell(
                     onLongPress: () {
                       setState(() {
-                        widget.editStepsRecipe = [];
+                        widget.scrapStepsRecipe = [];
                       });
                     },
-                    child:
-                        Icon(Icons.delete, size: 20, color: Colors.redAccent),
+                    child: const Icon(Icons.delete,
+                        size: 20, color: Colors.redAccent),
                   ),
                 ],
               ))
@@ -958,33 +875,34 @@ class _EditRecipeState extends State<EditRecipe> {
                 children: [
                   Text(
                     AppLocalizations.of(context)!.showSteps,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 16,
                     ),
                   ),
-                  Icon(
+                  const Icon(
                     Icons.arrow_upward,
                     size: 16, // ajustez la taille selon vos besoins
                   ),
-                  Spacer(),
+                  const Spacer(),
                   InkWell(
                     onTap: () {
                       getDataFromCreateSteps(context);
                     },
-                    child: Icon(
+                    child: const Icon(
                       Icons.add,
                       size: 30,
                     ),
                   ),
-                  SizedBox(width: 16), // Ajustez cet espace selon vos besoins
+                  const SizedBox(
+                      width: 16), // Ajustez cet espace selon vos besoins
                   InkWell(
                     onLongPress: () {
                       setState(() {
-                        widget.editStepsRecipe = [];
+                        widget.scrapStepsRecipe = [];
                       });
                     },
-                    child:
-                        Icon(Icons.delete, size: 20, color: Colors.redAccent),
+                    child: const Icon(Icons.delete,
+                        size: 20, color: Colors.redAccent),
                   ),
                 ],
               )),
@@ -996,11 +914,11 @@ class _EditRecipeState extends State<EditRecipe> {
     return SizedBox(
       height: 600,
       child: ListView.builder(
-        itemCount: widget.editStepsRecipe.length,
+        itemCount: widget.scrapStepsRecipe.length,
         itemBuilder: (context, index) {
           return ListTile(
-            title: Text(
-                ' ${AppLocalizations.of(context)!.step} ${index + 1}:\n${widget.editStepsRecipe[index]}'),
+            title:
+                Text(' Step ${index + 1}:\n${widget.scrapStepsRecipe[index]}'),
             trailing: Wrap(
               spacing: -16,
               children: [
@@ -1012,20 +930,21 @@ class _EditRecipeState extends State<EditRecipe> {
                         builder: (context) {
                           return DialogEditStep(
                             controller: TextEditingController(
-                                text: widget.editStepsRecipe[index].toString()),
+                                text:
+                                    widget.scrapStepsRecipe[index].toString()),
                           );
                         });
                     if (result != null) {
                       String stepEdited = result;
                       setState(() {});
-                      widget.editStepsRecipe[index] = stepEdited;
+                      widget.scrapStepsRecipe[index] = stepEdited;
                     }
                   },
                 ),
                 GestureDetector(
                   onLongPress: () {
                     setState(() {
-                      widget.editStepsRecipe.removeAt(index);
+                      widget.scrapStepsRecipe.removeAt(index);
                     });
                   },
                   child: IconButton(
@@ -1055,14 +974,14 @@ class _EditRecipeState extends State<EditRecipe> {
     final result = await Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => AddTags(),
+        builder: (context) => const AddTags(),
       ),
     );
 
     if (result != null) {
       List data = result;
       setState(() {});
-      widget.tags!.addAll(data);
+      widget.scrapTags!.addAll(data);
     }
   }
 
@@ -1081,33 +1000,34 @@ class _EditRecipeState extends State<EditRecipe> {
                 children: [
                   Text(
                     AppLocalizations.of(context)!.collapse,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 16,
                     ),
                   ),
-                  Icon(
+                  const Icon(
                     Icons.arrow_downward,
                     size: 16, // ajustez la taille selon vos besoins
                   ),
-                  Spacer(),
+                  const Spacer(),
                   InkWell(
                     onTap: () {
                       getDataFromAddTags(context);
                     },
-                    child: Icon(
+                    child: const Icon(
                       Icons.add,
                       size: 30,
                     ),
                   ),
-                  SizedBox(width: 16), // Ajustez cet espace selon vos besoins
+                  const SizedBox(
+                      width: 16), // Ajustez cet espace selon vos besoins
                   InkWell(
                     onLongPress: () {
                       setState(() {
-                        widget.tags!.clear();
+                        widget.scrapTags!.clear();
                       });
                     },
-                    child:
-                        Icon(Icons.delete, size: 20, color: Colors.redAccent),
+                    child: const Icon(Icons.delete,
+                        size: 20, color: Colors.redAccent),
                   ),
                 ],
               ))
@@ -1121,33 +1041,34 @@ class _EditRecipeState extends State<EditRecipe> {
                 children: [
                   Text(
                     AppLocalizations.of(context)!.showTags,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 16,
                     ),
                   ),
-                  Icon(
+                  const Icon(
                     Icons.arrow_upward,
                     size: 16, // ajustez la taille selon vos besoins
                   ),
-                  Spacer(),
+                  const Spacer(),
                   InkWell(
                     onTap: () {
                       getDataFromAddTags(context);
                     },
-                    child: Icon(
+                    child: const Icon(
                       Icons.add,
                       size: 30,
                     ),
                   ),
-                  SizedBox(width: 16), // Ajustez cet espace selon vos besoins
+                  const SizedBox(
+                      width: 16), // Ajustez cet espace selon vos besoins
                   InkWell(
                     onLongPress: () {
                       setState(() {
-                        widget.tags!.clear();
+                        widget.scrapTags!.clear();
                       });
                     },
-                    child:
-                        Icon(Icons.delete, size: 20, color: Colors.redAccent),
+                    child: const Icon(Icons.delete,
+                        size: 20, color: Colors.redAccent),
                   ),
                 ],
               )),
@@ -1159,10 +1080,10 @@ class _EditRecipeState extends State<EditRecipe> {
     return SizedBox(
       height: 600,
       child: ListView.builder(
-        itemCount: widget.tags!.length,
+        itemCount: widget.scrapTags!.length,
         itemBuilder: (context, index) {
           return ListTile(
-            title: Text('${widget.tags![index]}'),
+            title: Text('${widget.scrapTags![index]}'),
             trailing: Wrap(
               spacing: -16,
               children: [
@@ -1174,20 +1095,20 @@ class _EditRecipeState extends State<EditRecipe> {
                         builder: (context) {
                           return DialogEditStep(
                             controller: TextEditingController(
-                                text: widget.tags![index].toString()),
+                                text: widget.scrapTags![index].toString()),
                           );
                         });
                     if (result != null) {
                       String data = result;
                       setState(() {});
-                      widget.tags![index] = data;
+                      widget.scrapTags![index] = data;
                     }
                   },
                 ),
                 GestureDetector(
                   onLongPress: () {
                     setState(() {
-                      widget.tags!.removeAt(index);
+                      widget.scrapTags!.removeAt(index);
                     });
                   },
                   child: IconButton(
@@ -1206,7 +1127,7 @@ class _EditRecipeState extends State<EditRecipe> {
     );
   }
 
-  ////////// SHOW WIDGET WITH CONDITION : /////
+  ///  ////////// SHOW WIDGET WITH CONDITION : /////
   ///
 
   Widget ShowWidget() {
@@ -1238,7 +1159,7 @@ class _EditRecipeState extends State<EditRecipe> {
         showTagsAdded(),
       ]);
     } else {
-      return Text("Error, no widgets to display");
+      return const Text("Error, no widgets to display");
     }
   }
 
@@ -1253,18 +1174,18 @@ class _EditRecipeState extends State<EditRecipe> {
                 child: Column(children: [
                   Text(AppLocalizations.of(context)!.areYouSureExit,
                       textAlign: TextAlign.center,
-                      style:
-                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                      style: const TextStyle(
+                          fontSize: 20, fontWeight: FontWeight.bold)),
                   Center(
                       child: Text(AppLocalizations.of(context)!.saveEditLater,
                           textAlign: TextAlign.center,
-                          style: TextStyle(
+                          style: const TextStyle(
                               fontSize: 15, fontStyle: FontStyle.italic)))
                 ])),
             actions: <Widget>[
               TextButton(
                 child: Text(AppLocalizations.of(context)!.confirmExit,
-                    style: TextStyle(color: Colors.red)),
+                    style: const TextStyle(color: Colors.red)),
                 onPressed: () {
                   setState(() {
                     // we can go back
@@ -1278,7 +1199,7 @@ class _EditRecipeState extends State<EditRecipe> {
               ),
               TextButton(
                 child: Text(AppLocalizations.of(context)!.no,
-                    style: TextStyle(color: Colors.lightGreen)),
+                    style: const TextStyle(color: Colors.lightGreen)),
                 onPressed: () {
                   Navigator.of(context).pop(false);
                 },
@@ -1293,7 +1214,7 @@ class _EditRecipeState extends State<EditRecipe> {
     // use WillPopScope for pop an alert dialog before exiting page. It works, but is deprecated
     return Scaffold(
       appBar: AppBar(
-        title: Text(AppLocalizations.of(context)!.editRecipe),
+        title: Text(AppLocalizations.of(context)!.addFromWeb),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -1317,79 +1238,99 @@ class _EditRecipeState extends State<EditRecipe> {
                 isshowStepsAddedPressed == false &&
                 isshowTagsAddedPressed == false) ...[
               Container(
-                alignment: Alignment.bottomRight,
-                child: ElevatedButton(
-                  onPressed: () {
-                    // handle deleted variable
-                    final finalEditRecipeName = widget.editRecipeName ==
-                            AppLocalizations.of(context)!.deleted
-                        ? AppLocalizations.of(context)!.noTitle
-                        : widget.editRecipeName;
+                  alignment: Alignment.bottomRight,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      // handle deleted variable
+                      final finalscrapRecipeName = widget.scrapRecipeName ==
+                              AppLocalizations.of(context)!.deleted
+                          ? AppLocalizations.of(context)!.noTitle
+                          : widget.scrapRecipeName;
 
-                    final finalEditTotalTime = widget.editTotalTime ==
-                            AppLocalizations.of(context)!.deleted
-                        ? ""
-                        : widget.editTotalTime;
+                      final finalscrapTotalTime = widget.scrapTotalTime ==
+                              AppLocalizations.of(context)!.deleted
+                          ? ""
+                          : widget.scrapTotalTime;
 
-                    final finalEditDifficulty = widget.editDifficulty ==
-                            AppLocalizations.of(context)!.deleted
-                        ? ""
-                        : widget.editDifficulty;
+                      final finalscrapDifficulty = scrapDifficulty ==
+                              AppLocalizations.of(context)!.deleted
+                          ? ""
+                          : scrapDifficulty;
 
-                    final finalEditCost =
-                        widget.editCost == AppLocalizations.of(context)!.deleted
-                            ? ""
-                            : widget.editCost;
+                      final finalscrapCost =
+                          scrapCost == AppLocalizations.of(context)!.deleted
+                              ? ""
+                              : scrapCost;
 
-                    // get all data
-                    List recipeList = _myBox.get('ALL_LISTS') ?? [];
+                      // create a varible with the date of creation
+                      DateTime now = DateTime.now();
+                      String creationDate =
+                          'variable_${now.year}${now.month}${now.day}_${now.hour}${now.minute}${now.second}';
 
-                    // get index of the list to edit
+                      // get all data
+                      List listOfLists = _myBox.get('ALL_LISTS') ?? [];
 
-                    // Give edidted values to recipeList
-                    recipeList[getIndex()][0] = finalEditRecipeName;
-                    recipeList[getIndex()][1] = finalEditTotalTime;
-                    recipeList[getIndex()][2] = finalEditDifficulty;
-                    recipeList[getIndex()][3] = finalEditCost;
-                    recipeList[getIndex()][4] = widget.editAllIngredient;
-                    recipeList[getIndex()][5] = widget.editPathImage;
-                    recipeList[getIndex()][6] = widget.editStepsRecipe;
-                    recipeList[getIndex()][7] = widget.editRecipeCategory;
-                    recipeList[getIndex()][14] = widget.editUrlImageScrap;
+                      // create null index for future add :
+                      double? stars = null;
+                      List? detailTIme = null;
+                      List? utensils = null;
 
-                    // Save edidted list in hive
-                    _myBox.put("ALL_LISTS", recipeList);
+                      // Give edidted values to recipeList
+                      // Add a new list to the list of lists
+                      try {
+                        listOfLists.add([
+                          finalscrapRecipeName,
+                          finalscrapTotalTime,
+                          finalscrapDifficulty,
+                          finalscrapCost,
+                          widget.scrapAllIngredient,
+                          widget.pathImageSelectedFromImagePicker,
+                          widget.scrapStepsRecipe,
+                          widget.scrapRecipeCategory!,
+                          isFromScrap,
+                          creationDate,
+                          widget.scrapTags,
+                          stars,
+                          detailTIme,
+                          utensils,
+                          widget.urlImageScrap,
+                          widget.sourceUrlScrap
+                        ]);
+                      } catch (e) {
+                        return showDialogCategoryEmpty();
+                      }
 
-                    // Create an instance of RecipeDetailsPage with the form data
-                    RecipeStruct recipeDetailsPage = RecipeStruct(
-                        recipeName: finalEditRecipeName,
-                        totalTime: finalEditTotalTime,
-                        difficulty: finalEditDifficulty,
-                        cost: finalEditCost,
-                        allIngredientSelected: widget.editAllIngredient,
-                        pathImageSelectedFromImagePicker: widget.editPathImage,
-                        stepsRecipeFromCreateSteps: widget.editStepsRecipe,
-                        isFromScrap: recipeList[getIndex()][8],
-                        tags: recipeList[getIndex()][10],
-                        uniqueId: recipeList[getIndex()][9],
-                        recipeCategory: recipeList[getIndex()][7],
+                      // Save edidted list in hive
+                      _myBox.put("ALL_LISTS", listOfLists);
+
+                      //Create an instance of RecipeDetailsPage with the form data
+                      RecipeStruct recipeDetailsPage = RecipeStruct(
+                        recipeName: finalscrapRecipeName,
+                        totalTime: finalscrapTotalTime,
+                        difficulty: finalscrapDifficulty,
+                        cost: finalscrapCost,
+                        allIngredientSelected: widget.scrapAllIngredient,
+                        pathImageSelectedFromImagePicker:
+                            widget.pathImageSelectedFromImagePicker,
+                        stepsRecipeFromCreateSteps: widget.scrapStepsRecipe,
+                        isFromScrap: isFromScrap,
+                        tags: widget.scrapTags,
+                        uniqueId: creationDate,
+                        recipeCategory: widget.scrapRecipeCategory!,
                         isFromFilteredNameRecipe: false,
-                        urlImageScrap: recipeList[getIndex()][14],
-                        sourceUrlScrap: recipeList[getIndex()][15]);
+                        urlImageScrap: widget.urlImageScrap,
+                        sourceUrlScrap: widget.sourceUrlScrap,
+                      );
 
-                    //Navigate to the new page with the form data and save
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => recipeDetailsPage),
-                    );
-
-                    //Navigator.pop(context,
-                    //  finalEditRecipeName); // in fact we could send antoher variable, it's to force filtered_name_recipe and recip_struct (after editing) to rebuild again and take in count the new recipe name
-                  },
-                  child: Text(AppLocalizations.of(context)!.saveChanges),
-                ),
-              )
+                      // Navigate to the new page with the form data and save
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => recipeDetailsPage),
+                      );
+                    },
+                    child: Text(AppLocalizations.of(context)!.add),
+                  ))
             ],
           ]),
         ),
