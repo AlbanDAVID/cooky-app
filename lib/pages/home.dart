@@ -315,17 +315,14 @@ class _HomeState extends State<Home> {
 
     String recipeURL = websiteURL;
 
-    // try {
-    //   marmiteurResult = await marmiteur(recipeURL);
-    //   // if (marmiteurResult['name'] == null) {
-    //   // showDialogErrorMarmiteur();
-    //   //}
-    // } catch (e) {
-    //   print('error ! : $e');
-    //   return showDialogErrorMarmiteur();
-    // }
-
-    marmiteurResult = await marmiteur(recipeURL);
+    try {
+      marmiteurResult = await marmiteur(recipeURL);
+      if (marmiteurResult['name'] == null) {
+        showDialogErrorMarmiteur();
+      }
+    } catch (e) {
+      return e;
+    }
 
     // create variables
     scrapRecipeName = marmiteurResult['name'];

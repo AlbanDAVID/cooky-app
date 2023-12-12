@@ -5,7 +5,7 @@ Priority :
 - * cohérence taille et couleur police  (+ aligmeent show ingredient par rapport aux  autre élément dans reate recipe)  
 - *** check with all devices 
 - *** special thx
-
+- max alignement titre 
 
 release : 
 - ligne rouges mode release
