@@ -91,10 +91,9 @@ class _LanguageState extends State<Language> {
           drawer: Drawer(
             backgroundColor: const Color.fromRGBO(234, 221, 255, 1.000),
             child: Column(children: [
-              const DrawerHeader(
-                  child: Icon(
-                Icons.cookie,
-                size: 48,
+              DrawerHeader(
+                  child: Image.asset(
+                "android/app/src/main/res/mipmap-hdpi/ic_launcher.png",
               )),
               // home page list tile
               ListTile(

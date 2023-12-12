@@ -1,11 +1,12 @@
 Priority : 
-
+_ beau github
 - *** Lancement sur f droid : ( f droid et github)
 - * lignes rouges lancelent mode release
-- ***** BIEN RETESTER L'APP AVANT LANCEMENT FINAL
+
 
 
 - *** check with all devices 
+- ***** BIEN RETESTER L'APP AVANT LANCEMENT FINAL
 - verif CRUD :
   - DONE :delete home page 
   _ DONE : edit cat home page 
