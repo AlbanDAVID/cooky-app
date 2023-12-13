@@ -23,6 +23,7 @@ Code :
 
 ----
 - Interessting features :
+- add donation f droid 
 - demander droit logo cookie
 - stats
 - voir bug photo
