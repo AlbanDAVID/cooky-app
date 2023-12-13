@@ -234,6 +234,7 @@ class _RecipeStructState extends State<RecipeStruct> {
                 content: TextButton(
                   onPressed: () {
                     _launchURL(widget.sourceUrlScrap);
+                    Navigator.pop(context);
                   },
                   child: Text(
                     widget.sourceUrlScrap!,

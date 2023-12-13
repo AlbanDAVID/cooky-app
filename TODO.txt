@@ -1,17 +1,8 @@
 Priority : 
-_ beau github
+- beau github
 - *** Lancement sur f droid : ( f droid et github)
-- * lignes rouges lancelent mode release
 
 
-
-- *** check with all devices 
-- ***** BIEN RETESTER L'APP AVANT LANCEMENT FINAL
-- verif CRUD :
-  - DONE :delete home page 
-  _ DONE : edit cat home page 
-  - TODO : delete all recipe home page
-  - retester dj djjj
 
 Code : 
 - refacto
@@ -32,6 +23,8 @@ Code :
 
 ----
 - Interessting features :
+- demander droit logo cookie
+- stats
 - voir bug photo
 - signify able to move categorie home page
 - aligner monter ingrdient, motrer steps et tags 

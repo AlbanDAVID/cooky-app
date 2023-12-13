@@ -85,7 +85,7 @@
     "version" : "Version",
     "licence" : "Licence",
     "sourceCode" : "Code source",
-    "searchTag" : "Chercher un tag",
+    "searchTag" : "Chercher un mot-clé",
     "searchIngred" : "Chercher un ingrédient",
     "searchRecipeName" : "Chercher un nom de recette",
     "recipes" : "Recettes",
@@ -99,7 +99,7 @@
      "categoryEmpty" : "Merci de renseigner une catégorie.",
      "addTags" : "Ajouter des mots-clés",
      "noTitle" : "Sans titre",
-     "thxContrib" : "Contributeurs et remerciements :",
+     "thxContrib" : "Contributeurs et remerciements",
      "dougy147" : "Un grand merci à dougy147 pour sa librairie marmiteur permettant d'aller récupérer nos recettes favorites sur internet !",
      "feelFreeContrib" : "N'hésitez pas à apporter votre contribution pour améliorer cette application !"}
 
