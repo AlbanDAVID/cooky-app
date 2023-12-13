@@ -79,14 +79,31 @@ class _AboutState extends State<About> {
                   ])),
                   ListTile(
                       title: Column(children: [
-                    Text('${AppLocalizations.of(context)!.sourceCode} :',
+                    Text('${AppLocalizations.of(context)!.contact}',
                         textAlign: TextAlign.center),
+                    const SelectableText(
+                      "albdav.cooky@gmail.com",
+                      textAlign: TextAlign.center,
+                    ),
+                  ])),
+                  ListTile(
+                      title: Column(children: [
                     ElevatedButton(
                       onPressed: () async {
                         _launchURL('https://github.com/AlbanDAVID/Cooky-app');
                       },
-                      child: const Text(
-                        "https://github.com/AlbanDAVID/Cooky-app",
+                      child: Text(
+                        AppLocalizations.of(context)!.sourceCode,
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                    ElevatedButton(
+                      onPressed: () async {
+                        _launchURL(
+                            'https://github.com/AlbanDAVID/cooky-app/issues');
+                      },
+                      child: Text(
+                        AppLocalizations.of(context)!.reportIssue,
                         textAlign: TextAlign.center,
                       ),
                     ),
