@@ -1,3 +1,10 @@
+/*
+ * Author: Alban DAVID
+ * Github : https://github.com/AlbanDAVID/cooky-app
+ * This file is governed by the GNU General Public License, version 3.0.
+ * A copy of the license is included in the LICENSE file at the root of this project.
+ */
+
 import 'package:hive_flutter/hive_flutter.dart';
 
 // for recipe data :

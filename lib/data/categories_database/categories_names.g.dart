@@ -1,3 +1,10 @@
+/*
+ * Author: Alban DAVID
+ * Github : https://github.com/AlbanDAVID/cooky-app
+ * This file is governed by the GNU General Public License, version 3.0.
+ * A copy of the license is included in the LICENSE file at the root of this project.
+ */
+
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
 part of 'categories_names.dart';
