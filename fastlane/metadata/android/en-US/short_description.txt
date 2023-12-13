@@ -1,1 +1,1 @@
-Save and manage your favorite recipes.
+Recipe manager: import or create your favorite recipes.
