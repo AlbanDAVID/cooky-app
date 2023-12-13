@@ -1,0 +1,1 @@
+Gestionnaire de recettes : importez ou créez vos recettes préférées.
