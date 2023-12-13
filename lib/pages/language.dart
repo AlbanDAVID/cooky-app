@@ -1,3 +1,10 @@
+/*
+ * Author: Alban DAVID
+ * Github : https://github.com/AlbanDAVID/cooky-app
+ * This file is governed by the GNU General Public License, version 3.0.
+ * A copy of the license is included in the LICENSE file at the root of this project.
+ */
+
 import 'package:Cooky/data/language_database/language_database.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';

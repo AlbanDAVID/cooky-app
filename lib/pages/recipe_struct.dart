@@ -1,3 +1,10 @@
+/*
+ * Author: Alban DAVID
+ * Github : https://github.com/AlbanDAVID/cooky-app
+ * This file is governed by the GNU General Public License, version 3.0.
+ * A copy of the license is included in the LICENSE file at the root of this project.
+ */
+
 // ignore_for_file: prefer_const_constructors, must_be_immutable, no_leading_underscores_for_local_identifiers
 
 import 'dart:io';

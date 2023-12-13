@@ -1,3 +1,10 @@
+/*
+ * Author: Alban DAVID
+ * Github : https://github.com/AlbanDAVID/cooky-app
+ * This file is governed by the GNU General Public License, version 3.0.
+ * A copy of the license is included in the LICENSE file at the root of this project.
+ */
+
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, must_be_immutable, prefer_typing_uninitialized_variables, sized_box_for_whitespace
 
 import 'package:flutter/material.dart';
