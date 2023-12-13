@@ -1,4 +1,4 @@
-package com.example.Cooky
+package com.albdav.Cooky
 
 import io.flutter.embedding.android.FlutterActivity
 
