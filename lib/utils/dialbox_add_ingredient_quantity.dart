@@ -1,19 +1,27 @@
-// ignore_for_file: unnecessary_string_interpolations
+// ignore_for_file: unnecessary_string_interpolations, sized_box_for_whitespace
 
-import 'package:cook_app/utils/add_ingredients.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AddIngredientQuantity extends StatefulWidget {
-  const AddIngredientQuantity({Key? key}) : super(key: key);
+  const AddIngredientQuantity({super.key});
 
   @override
   State<AddIngredientQuantity> createState() => _AddIngredientQuantityState();
 }
 
 class _AddIngredientQuantityState extends State<AddIngredientQuantity> {
-  List<int> numbers = List.generate(20, (index) => index + 1);
-  List<String> units = ["g", "kg", "ml"];
+  List<int> numbers = List.generate(1000, (index) => index + 1);
+  late List<String> units;
+
   List finalQuantity = ["", ""];
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    units = AppLocalizations.of(context)!.listUnits.split(',');
+  }
 
   void addQuantity(String value) {
     setState(() {
@@ -47,60 +55,67 @@ class _AddIngredientQuantityState extends State<AddIngredientQuantity> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text("Add ingredients"),
+          title: Text(AppLocalizations.of(context)!.quantity),
         ),
         body: Column(children: [
-          Container(
-              height: 300,
-              child: Padding(
-                padding: const EdgeInsets.only(left: 50.0, right: 50, top: 50),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: ListView.builder(
-                        padding: EdgeInsets.all(50),
-                        itemCount: numbers.length,
-                        itemBuilder: (context, index) {
-                          return ListTile(
-                            title: Text('${numbers[index]}'),
-                            onTap: () {
-                              addQuantity('${numbers[index]}');
-                            },
-                          );
+          SizedBox(
+            height: 400,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Expanded(
+                  child: ListView.builder(
+                    itemCount: numbers.length,
+                    itemBuilder: (context, index) {
+                      return ListTile(
+                        title: Text('${numbers[index]}',
+                            textAlign: TextAlign.center),
+                        onTap: () {
+                          addQuantity('${numbers[index]}');
                         },
-                      ),
-                    ),
-                    Expanded(
-                      child: ListView.builder(
-                        padding: EdgeInsets.all(50),
-                        itemCount: units.length,
-                        itemBuilder: (context, index) {
-                          return ListTile(
-                            title: Text(units[index]),
-                            onTap: () {
-                              addUnit('${units[index]}');
-                            },
-                          );
-                        },
-                      ),
-                    ),
-                  ],
+                      );
+                    },
+                  ),
                 ),
-              )),
-          Column(children: [
-            Container(
-              height: 200,
-              child: displayQuantity(finalQuantity),
+                Expanded(
+                  child: ListView.builder(
+                    itemCount: units.length,
+                    itemBuilder: (context, index) {
+                      return ListTile(
+                        title: Text(units[index], textAlign: TextAlign.center),
+                        onTap: () {
+                          addUnit('${units[index]}');
+                        },
+                      );
+                    },
+                  ),
+                ),
+              ],
             ),
-            Container(
-                alignment: Alignment.centerRight,
-                child: MaterialButton(
-                  onPressed: () {
-                    Navigator.pop(context, finalQuantity);
-                  },
-                  child: const Text('Add'),
-                ))
-          ]),
+          ),
+          Container(
+            height: 200,
+            child: displayQuantity(finalQuantity),
+          ),
+          Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+            FloatingActionButton.extended(
+              onPressed: () {
+                Navigator.pop(
+                  context,
+                );
+              },
+              label: Text(AppLocalizations.of(context)!.cancel),
+            ),
+            const SizedBox(
+              width: 15,
+            ),
+            FloatingActionButton.extended(
+              onPressed: () {
+                Navigator.pop(context, finalQuantity);
+              },
+              label: Text(AppLocalizations.of(context)!.add),
+            )
+          ])
         ]));
   }
 }

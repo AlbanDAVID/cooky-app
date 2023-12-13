@@ -1,11 +1,11 @@
-// ignore_for_file: prefer_const_constructors
-
-import 'package:cook_app/data/recipe_database/database.dart';
-import 'package:cook_app/utils/edit_recipe.dart';
-import 'package:cook_app/utils/recipe_struct.dart';
+import 'package:Cooky/data/recipe_database/database.dart';
+import 'package:Cooky/pages/home.dart';
+import 'package:Cooky/pages/edit_recipe.dart';
+import 'package:Cooky/pages/recipe_struct.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class FilteredNameRecipe extends StatefulWidget {
   final String categoryName;
@@ -16,28 +16,54 @@ class FilteredNameRecipe extends StatefulWidget {
 }
 
 class _FilteredNameRecipeState extends State<FilteredNameRecipe> {
-  // get recipe database
   final _myBox = Hive.box('mybox');
   RecipeDatabase db = RecipeDatabase();
 
   late final String finalEditRecipeName;
 
   bool isEditDeleteMode = false;
+  bool isSearchPressed = false;
 
-  final String _confirmationTextDeleteOneRecipe =
-      "Yes, I want to delete this recipe";
+  late String _confirmationTextDeleteOneRecipe;
 
-  final String _confirmationTextDeleteAllRecipe =
-      "Yes, I want to delete all recipes of this category";
+  late String _confirmationTextDeleteAllRecipe;
 
-  // allow to loadAllData from database (recipe_database)
+  late TextEditingController _searchController;
+
+  late List<dynamic> recipeListFilteredSearch;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _searchController = TextEditingController();
+    loadAllData();
+    recipeListFilteredSearch = db.recipeList;
+  }
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    _confirmationTextDeleteOneRecipe =
+        AppLocalizations.of(context)!.confirmLongPress2;
+    _confirmationTextDeleteAllRecipe =
+        AppLocalizations.of(context)!.confirmLongPress3;
+  }
+
+  // function to load data
   loadAllData() {
     setState(() {
       db.loadData();
-    }); // Calling setState to force the widget to be rebuilt
+    });
   }
 
-  // send data to edit at EditRecipe()
   void sendDataToEditAtEditRecipe(
       BuildContext context,
       editAllIngredient,
@@ -47,10 +73,14 @@ class _FilteredNameRecipeState extends State<FilteredNameRecipe> {
       editTotalTime,
       editDifficulty,
       editCost,
-      index) async {
+      isFromScrap,
+      editPathImage,
+      tags,
+      uniqueId,
+      editUrlScrap) async {
+    // for final result await, in fact we could send antoher variable, it's to force filtered_name_recipe to rebuild again and take in count the new recipe name
     final result = await Navigator.push(
       context,
-      // send data to edit at EditRecipe()
       MaterialPageRoute(
         builder: (context) => EditRecipe(
           editAllIngredient: editAllIngredient,
@@ -60,46 +90,42 @@ class _FilteredNameRecipeState extends State<FilteredNameRecipe> {
           editTotalTime: editTotalTime,
           editDifficulty: editDifficulty,
           editCost: editCost,
-          index: index,
+          uniqueId: uniqueId,
+          isFromScrap: isFromScrap,
+          editPathImage: editPathImage,
+          tags: tags,
+          editUrlImageScrap: editUrlScrap,
         ),
       ),
     );
 
     if (result != null) {
       String editRecipeName = result;
-      print('Received data from SecondScreen: $editRecipeName');
       setState(() {});
       finalEditRecipeName = editRecipeName;
     }
   }
 
-  // delete a recipe
   void deleteOneRecipe(index) {
-    print(index);
-    // get all data
     List recipeList = _myBox.get('ALL_LISTS') ?? [];
-    // Remove the list of recipe selected
-    recipeList.removeAt(index);
-    // Save :
-    _myBox.put("ALL_LISTS", recipeList);
-  }
-
-  void deleteAllRecipe(myBox) {
-    // get all data
-    List recipeList = _myBox.get('ALL_LISTS') ?? [];
-    // Remove all the lists
-    // iterate over the list in reverse order (because with normal order all the elements are not deleted)
-    for (int i = recipeList.length - 1; i >= 0; i--) {
-      if (recipeList[i][7].contains(widget.categoryName)) {
+    for (int i = 0; i < recipeList.length; i++) {
+      if (recipeListFilteredSearch[index][9] == db.recipeList[i][9]) {
         recipeList.removeAt(i);
       }
     }
-
-    // Update the data in the box
     _myBox.put('ALL_LISTS', recipeList);
   }
 
-  // function for handle click on popup menu
+  void deleteAllRecipe(myBox) {
+    List recipeList = _myBox.get('ALL_LISTS') ?? [];
+    for (int i = recipeList.length - 1; i >= 0; i--) {
+      if (recipeList[i][7] == widget.categoryName) {
+        recipeList.removeAt(i);
+      }
+    }
+    _myBox.put('ALL_LISTS', recipeList);
+  }
+
   void handleClick(int item) {
     switch (item) {
       case 0:
@@ -115,13 +141,14 @@ class _FilteredNameRecipeState extends State<FilteredNameRecipe> {
         context: context,
         builder: (BuildContext context) {
           return Container(
-              padding: EdgeInsetsDirectional.fromSTEB(0, 300, 0, 200),
+              padding: const EdgeInsetsDirectional.fromSTEB(0, 200, 0, 100),
               child: AlertDialog(
-                title: Column(children: const [
-                  Text('Are you sure ?'),
-                  Text('Confirm the deletion with a long press',
-                      style:
-                          TextStyle(fontSize: 15, fontStyle: FontStyle.italic))
+                title: Column(children: [
+                  Text(AppLocalizations.of(context)!.areYouSure),
+                  Text(AppLocalizations.of(context)!.confirmLongPress4,
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(
+                          fontSize: 15, fontStyle: FontStyle.italic))
                 ]),
                 content: TextButton(
                   onLongPress: () {
@@ -131,11 +158,19 @@ class _FilteredNameRecipeState extends State<FilteredNameRecipe> {
                     });
 
                     Navigator.of(context).pop();
+                    setState(() {
+                      loadAllData();
+                      recipeListFilteredSearch = db.recipeList;
+                      _searchController.clear();
+
+                      isSearchPressed = false;
+                    });
                   },
                   onPressed: () {},
-                  child: Text(confirmText, style: TextStyle(color: Colors.red)),
+                  child: Text(confirmText,
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(color: Colors.red)),
                 ),
-
                 actions: [
                   ElevatedButton(
                     onPressed: () {
@@ -144,143 +179,284 @@ class _FilteredNameRecipeState extends State<FilteredNameRecipe> {
                       });
                       Navigator.of(context).pop();
                     },
-                    child: Text('Back'),
+                    child: Text(AppLocalizations.of(context)!.back),
                   ),
                 ],
-                // Ajustez les valeurs selon vos besoins
               ));
         });
   }
 
+  // function to search
+  void filterList(String searchTerm) {
+    setState(() {
+      // Apply the search term to filter the list
+      recipeListFilteredSearch = db.recipeList
+          .where((recipe) =>
+              recipe[7] == widget.categoryName &&
+              recipe[0].toLowerCase().contains(searchTerm.toLowerCase()))
+          .toList();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-          title: const Text("COOKY"),
-          centerTitle: true,
-          actions: isEditDeleteMode
-              ? <Widget>[
-                  TextButton(
-                    style: TextButton.styleFrom(
-                      foregroundColor: Colors.black,
-                    ),
-                    onPressed: () {
-                      _dialogDelete(
-                        context,
-                        _confirmationTextDeleteAllRecipe,
-                        deleteAllRecipe,
-                      );
-                    },
-                    child: Text(
-                      "Delete All",
-                    ),
-                  ),
-                  IconButton(
-                    icon: const Icon(Icons.close),
-                    onPressed: () {
-                      setState(() {
-                        isEditDeleteMode = false;
-                      });
-                    },
-                  ),
-                ]
-              : <Widget>[
-                  PopupMenuButton<int>(
-                    onSelected: (item) => handleClick(item),
-                    itemBuilder: (context) => [
-                      PopupMenuItem<int>(value: 0, child: Text('Edit/Delete')),
-                    ],
-                  ),
-                ]),
-      body: FutureBuilder(
-        // Need to wait loaAllData() before ListView.builder executed
-        future: loadAllData(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            // Shows a loading indicator if the function is running
-            return CircularProgressIndicator();
-          } else if (snapshot.hasError) {
-            // Show an error message if loadAllData() fails
-            return Text('Erreur: ${snapshot.error}');
-          } else {
-            // Once loadAllData() is complete, constructs the ListView.builder
-
-            return ListView.builder(
-              itemCount: db.recipeList.length,
-              itemBuilder: (context, index) {
-                // Recipe is filtered by the category we clicked on before
-                if (db.recipeList[index][7].contains(widget.categoryName)) {
-                  return ListTile(
-                    title: Text(db.recipeList[index][0]),
-                    trailing: isEditDeleteMode
-                        ? Wrap(
-                            children: [
-                              IconButton(
-                                icon: const Icon(Icons.edit),
-                                onPressed: () {
-                                  setState(() {
-                                    isEditDeleteMode = false;
-                                  });
-
-                                  sendDataToEditAtEditRecipe(
-                                      context,
-                                      db.recipeList[index][4],
-                                      db.recipeList[index][6],
-                                      db.recipeList[index][7],
-                                      db.recipeList[index][0],
-                                      db.recipeList[index][1],
-                                      db.recipeList[index][2],
-                                      db.recipeList[index][3],
-                                      index);
-                                },
-                              ),
-                              IconButton(
-                                icon: const Icon(
-                                  Icons.delete,
-                                  color: Colors.redAccent,
-                                ),
-                                onPressed: () {
-                                  _dialogDelete(
-                                      context,
-                                      _confirmationTextDeleteOneRecipe,
-                                      deleteOneRecipe,
-                                      index: index);
-                                },
-                              ),
-                            ],
-                          )
-                        : null,
-                    onTap: () {
-                      setState(() {});
-                      loadAllData();
-
-                      RecipeStruct recipeInstance = RecipeStruct(
-                        recipeName: db.recipeList[index][0],
-                        totalTime: db.recipeList[index][1],
-                        difficulty: db.recipeList[index][2],
-                        cost: db.recipeList[index][3],
-                        allIngredientSelected: db.recipeList[index][4],
-                        pathImageSelectedFromImagePicker: db.recipeList[index]
-                            [5],
-                        stepsRecipeFromCreateSteps: db.recipeList[index][6],
-                      );
-
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => recipeInstance,
-                        ),
-                      );
-                    },
-                  );
-                } else {
-                  return SizedBox.shrink();
-                }
+    return PopScope(
+        canPop: false,
+        child: Scaffold(
+          appBar: AppBar(
+            title: Text(
+              widget.categoryName,
+            ),
+            centerTitle: true,
+            leading: IconButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const Home()),
+                );
               },
-            );
-          }
-        },
-      ),
-    );
+              icon: const Icon(Icons.arrow_back),
+            ),
+            actions: isEditDeleteMode
+                ? <Widget>[
+                    TextButton(
+                      style: TextButton.styleFrom(
+                        foregroundColor: Colors.black,
+                      ),
+                      onPressed: () {
+                        _dialogDelete(
+                          context,
+                          _confirmationTextDeleteAllRecipe,
+                          deleteAllRecipe,
+                        );
+                      },
+                      child: Text(
+                        AppLocalizations.of(context)!.deleteAll,
+                      ),
+                    ),
+                    IconButton(
+                      icon: const Icon(Icons.close),
+                      onPressed: () {
+                        setState(() {
+                          isEditDeleteMode = false;
+                        });
+                      },
+                    ),
+                  ]
+                : <Widget>[
+                    IconButton(
+                        onPressed: () {
+                          setState(() {
+                            isSearchPressed = true;
+                          });
+                        },
+                        icon: const Icon(Icons.search)),
+                    PopupMenuButton<int>(
+                      onSelected: (item) => handleClick(item),
+                      itemBuilder: (context) => [
+                        PopupMenuItem<int>(
+                          value: 0,
+                          child: Text(AppLocalizations.of(context)!.editDelete),
+                        ),
+                      ],
+                    ),
+                  ],
+          ),
+          body: Column(
+            children: [
+              if (isSearchPressed == true)
+                TextField(
+                    controller: _searchController,
+                    onChanged: (value) {
+                      filterList(value);
+                    },
+                    decoration: InputDecoration(
+                      prefixIcon: const Icon(Icons.search),
+                      suffixIcon: _searchController.text.isNotEmpty
+                          ? IconButton(
+                              onPressed: () {
+                                _searchController.clear();
+                                filterList('');
+                              },
+                              icon: const Icon(Icons.clear),
+                            )
+                          : IconButton(
+                              onPressed: () {
+                                _searchController.clear();
+                                filterList('');
+                                isSearchPressed = false;
+                              },
+                              icon: const Icon(Icons.clear),
+                            ),
+                      hintText: AppLocalizations.of(context)!.searchRecipe,
+                    )),
+              Expanded(
+                child: FutureBuilder(
+                  future: loadAllData(),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const CircularProgressIndicator();
+                    } else if (snapshot.hasError) {
+                      return Text('Erreur: ${snapshot.error}');
+                    } else {
+                      return ListView.builder(
+                        itemCount: recipeListFilteredSearch.length,
+                        itemBuilder: (context, index) {
+                          if (recipeListFilteredSearch[index][7] ==
+                              widget.categoryName) {
+                            return Column(
+                              children: [
+                                ListTile(
+                                  title: Center(
+                                    child: Text(
+                                      recipeListFilteredSearch[index][0],
+                                      textAlign: TextAlign.center,
+                                      style: const TextStyle(
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                  trailing: isEditDeleteMode
+                                      ? Wrap(
+                                          children: [
+                                            IconButton(
+                                              icon: const Icon(Icons.edit),
+                                              onPressed: () {
+                                                setState(() {
+                                                  isEditDeleteMode = false;
+                                                });
+
+                                                sendDataToEditAtEditRecipe(
+                                                    context,
+                                                    recipeListFilteredSearch[
+                                                        index][4],
+                                                    recipeListFilteredSearch[
+                                                        index][6],
+                                                    recipeListFilteredSearch[
+                                                        index][7],
+                                                    recipeListFilteredSearch[
+                                                        index][0],
+                                                    recipeListFilteredSearch[
+                                                        index][1],
+                                                    recipeListFilteredSearch[
+                                                        index][2],
+                                                    recipeListFilteredSearch[
+                                                        index][3],
+                                                    recipeListFilteredSearch[
+                                                        index][8],
+                                                    recipeListFilteredSearch[
+                                                        index][5],
+                                                    recipeListFilteredSearch[
+                                                        index][10],
+                                                    recipeListFilteredSearch[
+                                                        index][9],
+                                                    recipeListFilteredSearch[
+                                                        index][14]);
+
+                                                // to display all list after editing (and not only the list from filter search)
+                                                loadAllData();
+                                                recipeListFilteredSearch =
+                                                    db.recipeList;
+
+                                                setState(() {
+                                                  _searchController.clear();
+
+                                                  isSearchPressed = false;
+                                                });
+                                              },
+                                            ),
+                                            IconButton(
+                                              icon: const Icon(
+                                                Icons.delete,
+                                                color: Colors.redAccent,
+                                              ),
+                                              onPressed: () {
+                                                _dialogDelete(
+                                                  context,
+                                                  _confirmationTextDeleteOneRecipe,
+                                                  deleteOneRecipe,
+                                                  index: index,
+                                                );
+                                              },
+                                            ),
+                                          ],
+                                        )
+                                      : null,
+                                  onTap: () async {
+                                    setState(() {});
+                                    loadAllData();
+
+                                    RecipeStruct recipeInstance = RecipeStruct(
+                                        recipeName:
+                                            recipeListFilteredSearch[index][0],
+                                        totalTime:
+                                            recipeListFilteredSearch[index][1],
+                                        difficulty:
+                                            recipeListFilteredSearch[index][2],
+                                        cost: recipeListFilteredSearch[index]
+                                            [3],
+                                        allIngredientSelected:
+                                            recipeListFilteredSearch[index][4],
+                                        pathImageSelectedFromImagePicker:
+                                            recipeListFilteredSearch[index][5],
+                                        stepsRecipeFromCreateSteps:
+                                            recipeListFilteredSearch[index][6],
+                                        isFromScrap:
+                                            recipeListFilteredSearch[index][8],
+                                        tags: recipeListFilteredSearch[index]
+                                            [10],
+                                        uniqueId:
+                                            recipeListFilteredSearch[index][9],
+                                        recipeCategory:
+                                            recipeListFilteredSearch[index][7],
+                                        isFromFilteredNameRecipe: true,
+                                        urlImageScrap: recipeListFilteredSearch[index][14],
+                                        sourceUrlScrap: recipeListFilteredSearch[index][15]);
+
+                                    // to display all list after display a recipe (and not only the list from filter search)
+                                    loadAllData();
+                                    recipeListFilteredSearch = db.recipeList;
+                                    setState(() {
+                                      _searchController.clear();
+
+                                      isSearchPressed = false;
+                                    });
+
+                                    // wait a value to force rebuild page after display the recipe :
+                                    final result = await Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => recipeInstance,
+                                      ),
+                                    );
+
+                                    if (result != null) {
+                                      String refresh = result;
+                                      setState(() {});
+                                    }
+                                  },
+                                ),
+                                const Divider(
+                                  height: 50,
+                                  color: Colors.grey,
+                                  indent: 50,
+                                  endIndent: 50,
+                                  thickness: 0.40,
+                                ),
+                              ],
+                            );
+                          } else {
+                            return const SizedBox.shrink();
+                          }
+                        },
+                      );
+                    }
+                  },
+                ),
+              ),
+            ],
+          ),
+        ));
   }
 }
