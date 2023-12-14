@@ -1,25 +1,9 @@
-Priority : 
-- beau github
-- *** Lancement sur f droid : ( f droid et github)
-
-
 
 Code : 
 - refacto
 
-
-
-- supported website : 
-  - fr : marmiton, cuusine az, elle.fr, mes recettes faciles, hervé cuisine
-  - en : epicurious, allrecipes, simply recipes, nyt cooking
-
-
-
-
 - Github : 
   - add future features, f droid link
-
-
 
 
 ----
