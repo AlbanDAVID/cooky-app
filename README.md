@@ -9,3 +9,7 @@
 - Scroll through the steps with a simple swipe while you cook.
 - Track your ingredient purchases with the integrated shopping list.
 
+**Contributors and thanks**
+- Don't hesitate to improve this app with your contribution!
+- A big thank to dougy147 for his marmiteur library allowing us to retrieve our favorite recipes from the internet!
+
