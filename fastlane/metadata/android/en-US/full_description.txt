@@ -8,5 +8,4 @@
   <li>Scroll through the steps with a simple swipe while you cook.</li><br>
   <li>Track your ingredient purchases with the integrated shopping list.</li><br>
 </ul>
-
- <li>You can support me by adding a star on my github and/or donate.</li><br>
+<li>You can support me by adding a star on my github and/or donate.</li><br>
