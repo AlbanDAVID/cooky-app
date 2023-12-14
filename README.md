@@ -2,12 +2,7 @@
   <img src="https://github.com/AlbanDAVID/cooky-app/blob/main/fastlane/metadata/android/fr-FR/images/icon.png" alt="Banner">
 </p>
 
-<a href="https://www.buymeacoffee.com/albdav">
-  <img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy me a coffee" style="width: 100px;">
-</a>
 
-
-<br>
 
 **Discover Cooky, your new free and open-source culinary companion that respects your privacy!**
 - Enjoy a minimalist and elegant interface.
@@ -28,4 +23,9 @@
 **Contributors and thanks**
  - Don't hesitate to improve this app with your contribution!
  - A big thank to [dougy147](https://github.com/dougy147) for his [marmiteur](https://pub.dev/packages/marmiteur/install) library allowing us to retrieve our favorite recipes from the internet!
+
+
+<a href="https://www.buymeacoffee.com/albdav">
+  <img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy me a coffee" style="width: 100px;">
+</a>
 
