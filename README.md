@@ -21,5 +21,5 @@
 
 **Contributors and thanks**
  - Don't hesitate to improve this app with your contribution!
- - A big thank to [dougy147](https://github.com/dougy147) for his marmiteur library allowing us to retrieve our favorite recipes from the internet!
+ - A big thank to [dougy147](https://github.com/dougy147) for his [marmiteur](https://pub.dev/packages/marmiteur/install) library allowing us to retrieve our favorite recipes from the internet!
 
