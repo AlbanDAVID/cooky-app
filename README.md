@@ -1,4 +1,4 @@
-# Cooky
+![](https://github.com/AlbanDAVID/cooky-app/blob/main/fastlane/metadata/android/fr-FR/images/icon.png)
 
 **Discover Cooky, your new free and open-source culinary companion that respects your privacy!**
 - Enjoy a minimalist and elegant interface.
