@@ -14,20 +14,10 @@
 
 **Screenshots**
 <div style="display: flex; justify-content: center;">
-  <div class="screenshot-container">
-    <img src="https://github.com/AlbanDAVID/cooky-app/blob/main/fastlane/metadata/android/en-US/images/phoneScreenshots/1.png" alt="screenshot1">
-  </div>
-  <div style="margin-left: 10px;"></div> <!-- Espace horizontal -->
-  <div class="screenshot-container">
-    <img src="https://github.com/AlbanDAVID/cooky-app/blob/main/fastlane/metadata/android/en-US/images/phoneScreenshots/2.png" alt="screenshot2">
-  </div>
+  <img src="https://github.com/AlbanDAVID/cooky-app/blob/main/fastlane/metadata/android/en-US/images/phoneScreenshots/1.png" alt="screenshot1" style="width:200px;">
+  <img src="https://github.com/AlbanDAVID/cooky-app/blob/main/fastlane/metadata/android/en-US/images/phoneScreenshots/2.png" alt="screenshot2" style="width:200px;">
 </div>
 
-<style>
-  .screenshot-container {
-    width: 200px;
-  }
-</style>
 
 **Contributors and thanks**
  - Don't hesitate to improve this app with your contribution!
