@@ -1,4 +1,7 @@
-![](https://github.com/AlbanDAVID/cooky-app/blob/main/fastlane/metadata/android/fr-FR/images/icon.png)
+<p align="center">
+  <img src="https://github.com/AlbanDAVID/cooky-app/blob/main/fastlane/metadata/android/fr-FR/images/icon.png" alt="Banner">
+</p>
+
 
 **Discover Cooky, your new free and open-source culinary companion that respects your privacy!**
 - Enjoy a minimalist and elegant interface.
