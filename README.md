@@ -13,6 +13,15 @@
 - Track your ingredient purchases with the integrated shopping list.
 
 **Screenshots**
+<style>
+  table {
+    border-collapse: collapse;
+  }
+  td {
+    border: none;
+  }
+</style>
+
 <table>
   <tr>
     <td align="center">
@@ -23,6 +32,7 @@
     </td>
   </tr>
 </table>
+
 
 **Contributors and thanks**
  - Don't hesitate to improve this app with your contribution!
