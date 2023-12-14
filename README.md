@@ -24,7 +24,7 @@
  - Don't hesitate to improve this app with your contribution!
  - A big thank to [dougy147](https://github.com/dougy147) for his [marmiteur](https://pub.dev/packages/marmiteur/install) library allowing us to retrieve our favorite recipes from the internet!
 
-
+<br>
 <a href="https://www.buymeacoffee.com/albdav">
   <img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy me a coffee" style="width: 100px;">
 </a>
