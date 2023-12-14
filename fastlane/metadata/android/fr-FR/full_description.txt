@@ -8,3 +8,5 @@
   <li>Faites défiler les étapes d'un simple swipe pendant que vous cuisinez.</li><br>
   <li>Suivez l'achat de vos ingrédients avec la liste de courses intégrée.</li><br>
 </ul>
+<li>Vous pouvez me soutenir en ajoutant une étoile sur mon github et/ou en faisant un don.</li><br>
+
