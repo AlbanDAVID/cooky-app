@@ -7,7 +7,7 @@
 </a>
 <br>
 
-
+<br>
 **Discover Cooky, your new free and open-source culinary companion that respects your privacy!**
 - Enjoy a minimalist and elegant interface.
 - Easily import recipes from the web or create them manually.
