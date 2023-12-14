@@ -13,17 +13,16 @@
 - Track your ingredient purchases with the integrated shopping list.
 
 **Screenshots**
-
+ <table style="border-collapse: collapse;">
   <tr>
-    <td align="center">
+    <td align="center" style="border: none;">
       <img src="https://github.com/AlbanDAVID/cooky-app/blob/main/fastlane/metadata/android/en-US/images/phoneScreenshots/1.png" alt="screenshot1" style="width:200px;">
     </td>
-    <td align="center">
+    <td align="center" style="border: none;">
       <img src="https://github.com/AlbanDAVID/cooky-app/blob/main/fastlane/metadata/android/en-US/images/phoneScreenshots/2.png" alt="screenshot2" style="width:200px;">
     </td>
   </tr>
-
-
+</table>
 
 **Contributors and thanks**
  - Don't hesitate to improve this app with your contribution!
