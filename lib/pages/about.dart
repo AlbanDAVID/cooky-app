@@ -110,6 +110,20 @@ class _AboutState extends State<About> {
                   ])),
                   ListTile(
                       title: Column(children: [
+                    Text('${AppLocalizations.of(context)!.supportMe}',
+                        textAlign: TextAlign.center),
+                    ElevatedButton(
+                      onPressed: () async {
+                        _launchURL('https://www.buymeacoffee.com/albdav');
+                      },
+                      child: Text(
+                        AppLocalizations.of(context)!.donate,
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ])),
+                  ListTile(
+                      title: Column(children: [
                     Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                       const Icon(Icons.mood_sharp),
                       Text(' ${AppLocalizations.of(context)!.thxContrib}',
