@@ -5,9 +5,10 @@
 <a href="https://www.buymeacoffee.com/albdav">
   <img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy me a coffee" style="width: 100px;">
 </a>
-<br>
+
 
 <br>
+
 **Discover Cooky, your new free and open-source culinary companion that respects your privacy!**
 - Enjoy a minimalist and elegant interface.
 - Easily import recipes from the web or create them manually.
