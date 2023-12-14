@@ -9,4 +9,4 @@
   <li>Track your ingredient purchases with the integrated shopping list.</li><br>
 </ul>
 
- <li>You can support me by adding a star on my github and/or donate</li><br>
+ <li>You can support me by adding a star on my github and/or donate.</li><br>
