@@ -17,7 +17,8 @@
   <img src="https://github.com/AlbanDAVID/cooky-app/blob/main/fastlane/metadata/android/en-US/images/phoneScreenshots/1.png" alt="screenshot1" style="width:200px;">
   <img src="https://github.com/AlbanDAVID/cooky-app/blob/main/fastlane/metadata/android/en-US/images/phoneScreenshots/2.png" alt="screenshot2" style="width:200px;">
 </div>
-<br> <!-- Ajout d'un saut de ligne -->
+<br>
+
 **Contributors and thanks**
  - Don't hesitate to improve this app with your contribution!
  - A big thank to [dougy147](https://github.com/dougy147) for his marmiteur library allowing us to retrieve our favorite recipes from the internet!
