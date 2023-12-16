@@ -52,7 +52,10 @@ android {
     }
 
 {
-    	release {
+   
+signingConfigs {
+
+ 	release {
         	keyAlias â'cookykey'
         	keyPassword '73195Al!'
         	storeFile file('/home/ad/cooky-app/private_cooky')
