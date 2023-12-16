@@ -1,0 +1,1 @@
+ /home/ad/cooky-app/cooky/.dart_tool/flutter_gen/gen_l10n/app_localizations_en.dart /home/ad/cooky-app/cooky/.dart_tool/flutter_gen/gen_l10n/app_localizations_fr.dart /home/ad/cooky-app/cooky/.dart_tool/flutter_gen/gen_l10n/app_localizations.dart:  /home/ad/cooky-app/cooky/l10n.yaml /home/ad/cooky-app/cooky/lib/l10n/app_en.arb /home/ad/cooky-app/cooky/lib/l10n/app_fr.arb

@@ -1,0 +1,1 @@
+ /home/ad/flutter_projects/cooky/.dart_tool/flutter_build/c6a68583b3f53349daa008c1de941630/native_assets.yaml: 
