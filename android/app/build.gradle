@@ -51,17 +51,6 @@ android {
         versionName flutterVersionName
     }
 
-    signingConfigs {
-        release {
-            keyAlias 'cookykey'
-            keyPassword '73195Al!'
-            storeFile file('/home/ad/cooky-app/private_cooky/cookykey.jks')
-            storePassword '73195Al!'
-    	}
-    }
-
-
-
     buildTypes {
         release {
             // TODO: Add your own signing config for the release build.
