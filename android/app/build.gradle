@@ -53,15 +53,14 @@ android {
 
 {
    
-signingConfigs {
-
- 	release {
-        	keyAlias â'cookykey'
-        	keyPassword '73195Al!'
-        	storeFile file('/home/ad/cooky-app/private_cooky')
-        	storePassword '73195Al!'
-    	}
-	}
+    signingConfigs {
+        release {
+            keyAlias â'cookykey'
+            keyPassword '73195Al!'
+            storeFile file('/home/ad/cooky-app/private_cooky')
+            storePassword '73195Al!'
+        }
+    }
 
 
     buildTypes {
