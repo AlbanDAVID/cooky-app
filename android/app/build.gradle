@@ -62,12 +62,12 @@ android {
 
     }
 
-//signingConfigs {
-//    	config {
-//        	keyAlias keystoreProperties['keyAlias']
-//        	keyPassword keystoreProperties['keyPassword']
-//        	storeFile file(keystoreProperties['storeFile'])
-//        	storePassword keystoreProperties['storePassword']
+//  signingConfigs {
+//      config {
+//          keyAlias keystoreProperties['keyAlias']
+//          keyPassword keystoreProperties['keyPassword']
+//          storeFile file(keystoreProperties['storeFile'])
+//          storePassword keystoreProperties['storePassword']
 //    	}
 //  	}
 
@@ -79,6 +79,11 @@ android {
             signingConfig signingConfigs.debug
         }
     }
+
+   aaptOptions {
+           noCompress 'otf'
+   }
+
 }
 
 flutter {
