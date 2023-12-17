@@ -61,8 +61,7 @@ android {
         versionName flutterVersionName
     }
 
-    android {
-        signingConfigs {
+    signingConfigs {
         config {
             keyAlias keystoreProperties['keyAlias']
             keyPassword keystoreProperties['keyPassword']
