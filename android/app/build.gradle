@@ -27,7 +27,7 @@ if (flutterVersionName == null) {
 // def keystorePropertiesFile = rootProject.file("keystore.properties")
 
 // Initialize a new Properties() object called keystoreProperties.
-/ def keystoreProperties = new Properties()
+// def keystoreProperties = new Properties()
 
 // Load your keystore.properties file into the keystoreProperties object.
 // keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
