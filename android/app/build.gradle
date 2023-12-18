@@ -80,10 +80,6 @@ android {
         }
     }
 
-   aaptOptions {
-           noCompress 'otf'
-   }
-
 }
 
 flutter {
