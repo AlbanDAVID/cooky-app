@@ -62,21 +62,25 @@ android {
 
     }
 
- // signingConfigs {
-  //   config {
-  //     keyAlias keystoreProperties['keyAlias']
-  //   keyPassword keystoreProperties['keyPassword']
-  // storeFile file(keystoreProperties['storeFile'])
-  // storePassword keystoreProperties['storePassword']
-  //	}
-  //	}
+//     signingConfigs {
+//        release {
+//            // You need to specify either an absolute path or include the
+//            // keystore file in the same directory as the build.gradle file.
+//            storeFile file(keystoreProperties['storeFile'])
+//             storePassword keystoreProperties['storePassword']
+//            keyAlias keystoreProperties['keyAlias']
+//            keyPassword keystoreProperties['keyPassword']
+//           
+//        }
+//    }
+
 
 
     buildTypes {
         release {
             // TODO: Add your own signing config for the release build.
             // Signing with the debug keys for now, so `flutter run --release` works.
-            signingConfig signingConfigs.debug
+             signingConfig signingConfigs.release
         }
     }
 
