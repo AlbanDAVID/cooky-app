@@ -11,6 +11,7 @@ Code :
 
 ----
 - Interessting features :
+- gérer retour page précédente photo mode paysage
 - add donation f droid 
 - demander droit logo cookie
 - stats
