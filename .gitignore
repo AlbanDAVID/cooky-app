@@ -45,3 +45,6 @@ app.*.map.json
 
 # keystore.properties
 keystore.properties
+
+# todo
+TODO.txt
