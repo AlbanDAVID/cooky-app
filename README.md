@@ -6,17 +6,22 @@
   <img src="https://github.com/AlbanDAVID/cooky-app/blob/main/fastlane/metadata/android/fr-FR/images/icon.png" alt="Banner">
 </p>
 
-<p align="left">
-  <a href="https://f-droid.org/fr/">
-    <img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png" height="75">
-  </a>
-</p>
+<div style="display: flex; justify-content: space-between;">
 
-<p align="left">
-  <a href="https://f-droid.org/fr/">
-    <img src="https://github.com/AlbanDAVID/cooky-app/blob/main/graphics_readme/github-get-it-on.png" height="75">
-  </a>
-</p>
+  <p align="left">
+    <a href="https://f-droid.org/fr/">
+      <img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png" height="75">
+    </a>
+  </p>
+
+  <p align="left">
+    <a href="https://f-droid.org/fr/">
+      <img src="https://github.com/AlbanDAVID/cooky-app/blob/main/graphics_readme/github-get-it-on.png" height="75">
+    </a>
+  </p>
+
+</div>
+
 
 
 **Discover Cooky, your new free and open-source culinary companion that respects your privacy!**
