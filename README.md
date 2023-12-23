@@ -34,7 +34,7 @@
 - Filter recipes by tags
 
 ### Translation
-:fr:
+:fr: <br>
 :us:
 
 ### Screenshots
