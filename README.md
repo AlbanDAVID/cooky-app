@@ -1,5 +1,6 @@
 [![GitHub Release](https://img.shields.io/github/release/AlbanDAVID/cooky-app.svg?logo=github)](https://github.com/AlbanDAVID/cooky-app/releases)
 ![GitHub Release](https://img.shields.io/f-droid/v/com.albdav.Cooky.svg?logo=F-Droid)
+[![](http://flutter-badge.zaynjarvis.com/version/{PackageName})](https://pub.dartlang.org/packages/{PackageName})
 
 
 
