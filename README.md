@@ -31,14 +31,14 @@
 - Scroll through the steps with a simple swipe while you cook.
 - Track your ingredient purchases with the integrated shopping list.
 
-**Screenshots**
+### Screenshots
 <div style="display: flex; justify-content: center;">
   <img src="https://github.com/AlbanDAVID/cooky-app/blob/main/fastlane/metadata/android/en-US/images/phoneScreenshots/1.png" alt="screenshot1" style="width:250px;">
   <img src="https://github.com/AlbanDAVID/cooky-app/blob/main/fastlane/metadata/android/en-US/images/phoneScreenshots/2.png" alt="screenshot2" style="width:250px;">
 </div>
 <br>
 
-**Contributors and thanks**
+### Contributors and thanks
  - Don't hesitate to improve this app with your contribution!
  - A big thank to [dougy147](https://github.com/dougy147) for his [marmiteur](https://pub.dev/packages/marmiteur/install) library allowing us to retrieve our favorite recipes from the internet!
 
