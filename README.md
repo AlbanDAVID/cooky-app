@@ -15,7 +15,7 @@
 
 <p align="center">
   <a href="https://www.buymeacoffee.com/albdav">
-    <img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy me a coffee" style="width: 100px;">
+    <img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy me a coffee" style="width: 125px;">
   </a>
 </p>
 
