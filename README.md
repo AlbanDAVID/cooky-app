@@ -5,7 +5,7 @@
 <p align="center">
   <img src="https://github.com/AlbanDAVID/cooky-app/blob/main/fastlane/metadata/android/fr-FR/images/icon.png" alt="Banner">
 </p>
-[![F-Droid](https://fdroid.gitlab.io/artwork/badge/get-it-on.png)](https://f-droid.org/fr/){:style="width: 75px;"}| [![GitHub Release](https://github.com/AlbanDAVID/cooky-app/blob/main/graphics_readme/github-get-it-on.png)](https://github.com/AlbanDAVID/cooky-app/releases)
+[![F-Droid](https://fdroid.gitlab.io/artwork/badge/get-it-on.png)](https://f-droid.org/fr/){:style="width: 75px;"}] | [![GitHub Release](https://github.com/AlbanDAVID/cooky-app/blob/main/graphics_readme/github-get-it-on.png)](https://github.com/AlbanDAVID/cooky-app/releases)
 
 
 
