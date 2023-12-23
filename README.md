@@ -1,5 +1,4 @@
-[![Latest Stable Version][https://img.shields.io/github/release/USER/REPO.svg?logo=github
-]
+[!https://img.shields.io/github/release/USER/REPO.svg?logo=github]
 
 <p align="center">
   <img src="https://github.com/AlbanDAVID/cooky-app/blob/main/fastlane/metadata/android/fr-FR/images/icon.png" alt="Banner">
