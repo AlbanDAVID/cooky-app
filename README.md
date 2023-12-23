@@ -35,7 +35,8 @@
 
 ### Translation
 :fr: <br>
-:us: :uk:
+:us:
+Feel free to add a new translation :)
 
 ### Screenshots
 <div style="display: flex; justify-content: center;">
