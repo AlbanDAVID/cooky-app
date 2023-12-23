@@ -33,8 +33,8 @@
 
 ### Screenshots
 <div style="display: flex; justify-content: center;">
-  <img src="https://github.com/AlbanDAVID/cooky-app/blob/main/graphics_readme/screen1.png" alt="screenshot1" style="width:250px;">
-  <img src="https://github.com/AlbanDAVID/cooky-app/blob/main/fastlane/metadata/android/en-US/images/phoneScreenshots/2.png" alt="screenshot2" style="width:250px;">
+  <img src="https://github.com/AlbanDAVID/cooky-app/blob/main/graphics_readme/screen1.png" alt="screenshot1" style="width:275px;">
+  <img src="https://github.com/AlbanDAVID/cooky-app/blob/main/graphics_readme/screen2.png" alt="screenshot2" style="width:275px;">
 </div>
 <br>
 
