@@ -33,7 +33,7 @@
 
 ### Screenshots
 <div style="display: flex; justify-content: center;">
-  <img src="https://github.com/AlbanDAVID/cooky-app/blob/main/graphics_readme/screen1.png" alt="screenshot1" style="width:275px;">
+  <img src="https://github.com/AlbanDAVID/cooky-app/blob/main/graphics_readme/screen1.png" alt="screenshot1" style="width:275px; margin-right: 20px;">
   <img src="https://github.com/AlbanDAVID/cooky-app/blob/main/graphics_readme/screen2.png" alt="screenshot2" style="width:275px;">
 </div>
 <br>
