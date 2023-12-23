@@ -33,6 +33,10 @@
 - Save data on nextcloud
 - Filter recipes by tags
 
+### Translation
+:fr:
+:en:
+
 ### Screenshots
 <div style="display: flex; justify-content: center;">
   <img src="https://github.com/AlbanDAVID/cooky-app/blob/main/graphics_readme/screen1.png" alt="screenshot1" style="width:275px; margin-right: 20px;">
