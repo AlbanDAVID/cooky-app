@@ -36,7 +36,7 @@
 ### Translation
 :fr: <br>
 :us: <br>
-Feel free to add a new translation :)
+Feel free to add a new translation :smile:
 
 ### Screenshots
 <div style="display: flex; justify-content: center;">
