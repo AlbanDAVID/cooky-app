@@ -43,7 +43,7 @@
 
 ### Translation
 :fr: <br>
-:us: <br>
+:uk: <br>
 Feel free to add a new translation :smile:
 
 ### Contributors and thanks
