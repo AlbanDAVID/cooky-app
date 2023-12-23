@@ -9,6 +9,12 @@
 [<img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png" width="150">](https://f-droid.org/fr/)
 [<img src="https://github.com/AlbanDAVID/cooky-app/blob/main/graphics_readme/github-get-it-on.png" width="150">](https://github.com/AlbanDAVID/cooky-app/releases) 
 
+<br>
+<a href="https://www.buymeacoffee.com/albdav">
+  <img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy me a coffee" style="width: 150px;">
+</a>
+
+
 **Discover Cooky, your new free and open-source culinary companion that respects your privacy!**
 - Enjoy a minimalist and elegant interface.
 - Easily import recipes from the web or create them manually.
@@ -29,8 +35,4 @@
  - Don't hesitate to improve this app with your contribution!
  - A big thank to [dougy147](https://github.com/dougy147) for his [marmiteur](https://pub.dev/packages/marmiteur/install) library allowing us to retrieve our favorite recipes from the internet!
 
-<br>
-<a href="https://www.buymeacoffee.com/albdav">
-  <img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy me a coffee" style="width: 100px;">
-</a>
 
