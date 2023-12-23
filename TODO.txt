@@ -1,0 +1,54 @@
+## TODO ##
+
+Priority :
+- Fix photo bug (5% of the time, the app crash when we take a picture (come back to home page screen, error : Lost device connection))
+- Categories name and the text "Cooky" in the app bar are not aligned
+
+Code :
+- Refacto
+
+Transaltion :
+- Any new language translation is welcome
+
+UI :
+- Improve UI
+
+Bugs :
+- minor : indentation : when we add a new step after other steps have been created (step 1, step 2 (while there are already step 1 and 2 for example, we would have to repeat the indentation in relation to the elements already added))
+- minor : when I delete a field in recipe create and I delete, then I edit: I see the "delete" in the text field to edit
+
+----
+Features to add :
+- connect to a nextcloud account
+- backup database (possibilty to export, import data ans ask for conserve data before app in uninstalled)
+- ask for right of the cooky logo
+- add stats page (number of recipe etc.)
+- in create recipe page or edit page : alig show ingredient, show steps ans show tags with the others
+- scrap error, try to add a better error catch (for now : name == null)
+- check with all police size
+- add creape recipe button inside a category and when we click on it, the category is already there (in the required field when we create a recipe)
+- make disappear "manually" et "from web" when we click anywhere else
+- add a messge error if the categorie name is empty (for now, we can't add an empty name but we don't have a warning)
+- suggest categories name on the first time the app is launched
+- save added tags in a bdd
+- display the tags on two lines and put a blur effect at the end of list view when the list is too long
+- manage landsacape view for all pages
+- limit number character recipe name (to avoid three little dots if the recipe name is too long)
+- put some character limit for words (ex, for difficulty, cost etc.)
+- add US units
+- improve UI of ingredient unit selection
+- be able to manualy entry ingredients, then intuitive entry for quantity
+- put arrows to show that we can scroll (in a lot of list view like tags, ingrdient etc.)
+- be able to edit category and move them when we create a recipe or edit (like the home page)
+- checkbox ingred : save in a BDD
+- add edit option in ingredients selection page (where there is only delete option for now)
+- improve scraping (more website)
+- add rating recipes (stars)
+- add utensils section
+- preparation time (the triad : preparation time, cook time, rest)
+- integer type for ingredient (for automatic tell how many person)
+- possibility to enlarge the text steps
+- Sort recipe by date add + filter by tag
+- deletion : be able to select several items to delete
+- print or export as pdf a recipe
+- In the taking picture page : preview the pics if any
