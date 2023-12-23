@@ -1,6 +1,7 @@
 [![GitHub Release](https://img.shields.io/github/release/AlbanDAVID/cooky-app.svg?logo=github)](https://github.com/AlbanDAVID/cooky-app/releases)
-![GitHub Release](https://img.shields.io/f-droid/v/com.albdav.Cooky.svg?logo=F-Droid) <br>
-:fr: :uk:
+![Fdroid Release](https://img.shields.io/f-droid/v/com.albdav.Cooky.svg?logo=F-Droid) <br>
+![Translation](https://github.com/AlbanDAVID/cooky-app/blob/main/graphics_readme/translate_image.png) :fr: :uk:
+
 
 <p align="center">
   <img src="https://github.com/AlbanDAVID/cooky-app/blob/main/fastlane/metadata/android/fr-FR/images/icon.png" alt="Banner">
