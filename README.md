@@ -1,5 +1,5 @@
 [![GitHub Release](https://img.shields.io/github/release/AlbanDAVID/cooky-app.svg?logo=github)](https://github.com/AlbanDAVID/cooky-app/releases)
-![GitHub Release](https://img.shields.io/f-droid/v/com.albdav.Cooky.svg?logo=F-Droid)
+![GitHub Release](https://img.shields.io/f-droid/v/io.github.friesi23.mhabit.svg?logo=F-Droid)
 
 
 
