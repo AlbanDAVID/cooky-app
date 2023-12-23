@@ -2,13 +2,17 @@
   <img src="https://github.com/AlbanDAVID/cooky-app/blob/main/fastlane/metadata/android/fr-FR/images/icon.png" alt="Banner">
 </p>
 
+<div align="center">
 
 [![GitHub Release](https://img.shields.io/github/release/AlbanDAVID/cooky-app.svg?logo=github)](https://github.com/AlbanDAVID/cooky-app/releases)
 ![GitHub Release](https://img.shields.io/f-droid/v/com.albdav.Cooky.svg?logo=F-Droid)
 [![](http://flutter-badge.zaynjarvis.com/version/flutter_signin_button)](https://pub.dartlang.org/packages/flutter_signin_button)
 
 [<img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png" width="150">](https://f-droid.org/fr/)
-[<img src="https://github.com/AlbanDAVID/cooky-app/blob/main/graphics_readme/github-get-it-on.png" width="150">](https://github.com/AlbanDAVID/cooky-app/releases) 
+[<img src="https://github.com/AlbanDAVID/cooky-app/blob/main/graphics_readme/github-get-it-on.png" width="150">](https://github.com/AlbanDAVID/cooky-app/releases)
+
+</div>
+
 
 <p align="center">
   <a href="https://www.buymeacoffee.com/albdav">
