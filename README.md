@@ -35,7 +35,7 @@
 
 ### Translation
 :fr: <br>
-:us:
+:us: <br>
 Feel free to add a new translation :)
 
 ### Screenshots
