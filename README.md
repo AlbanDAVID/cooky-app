@@ -33,10 +33,6 @@
 - Save data on nextcloud
 - Filter recipes by tags
 
-### Translation
-:fr: <br>
-:us: <br>
-Feel free to add a new translation :smile:
 
 ### Screenshots
 <div style="display: flex; justify-content: center;">
@@ -44,6 +40,11 @@ Feel free to add a new translation :smile:
   <img src="https://github.com/AlbanDAVID/cooky-app/blob/main/graphics_readme/screen2.png" alt="screenshot2" style="width:275px;">
 </div>
 <br>
+
+### Translation
+:fr: <br>
+:us: <br>
+Feel free to add a new translation :smile:
 
 ### Contributors and thanks
  - Don't hesitate to improve this app with your contribution!
