@@ -1,4 +1,4 @@
-[![GitHub Release](https://img.shields.io/github/release/USER/REPO.svg?logo=github)](https://github.com/USER/REPO/releases)
+[![GitHub Release](https://img.shields.io/github/release/AlbanDAVID/cooky-app.svg?logo=github)](https://github.com/AlbanDAVID/cooky-app/releases)
 
 <p align="center">
   <img src="https://github.com/AlbanDAVID/cooky-app/blob/main/fastlane/metadata/android/fr-FR/images/icon.png" alt="Banner">
