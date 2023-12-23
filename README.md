@@ -6,8 +6,8 @@
   <img src="https://github.com/AlbanDAVID/cooky-app/blob/main/fastlane/metadata/android/fr-FR/images/icon.png" alt="Banner">
 </p>
 
-[<img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png" width="200">](https://f-droid.org/fr/)
-[<img src="https://github.com/AlbanDAVID/cooky-app/blob/main/graphics_readme/github-get-it-on.png" width="200">](https://github.com/AlbanDAVID/cooky-app/releases) 
+[<img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png" width="150">](https://f-droid.org/fr/)
+[<img src="https://github.com/AlbanDAVID/cooky-app/blob/main/graphics_readme/github-get-it-on.png" width="150">](https://github.com/AlbanDAVID/cooky-app/releases) 
 
 **Discover Cooky, your new free and open-source culinary companion that respects your privacy!**
 - Enjoy a minimalist and elegant interface.
