@@ -13,14 +13,11 @@
 
 </div>
 
-
 <p align="center">
   <a href="https://www.buymeacoffee.com/albdav">
     <img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy me a coffee" style="width: 100px;">
   </a>
 </p>
-
-
 
 ### Discover Cooky, your new free and open-source culinary companion that respects your privacy!
 - Enjoy a minimalist and elegant interface.
@@ -30,6 +27,11 @@
 - Organize your recipes using categories and tags, and easily find them with the integrated search engine.
 - Scroll through the steps with a simple swipe while you cook.
 - Track your ingredient purchases with the integrated shopping list.
+
+### Features to come 
+- Be able to export/import database
+- Save data on nextcloud
+- Filter recipes by tags
 
 ### Screenshots
 <div style="display: flex; justify-content: center;">
