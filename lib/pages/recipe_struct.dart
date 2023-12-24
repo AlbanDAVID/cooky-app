@@ -500,26 +500,33 @@ class _RecipeStructState extends State<RecipeStruct> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Expanded(
-                                    child: SizedBox(
-                                        height: 70,
-                                        child: ListView.separated(
-                                          controller: _scrollController,
-                                          scrollDirection: Axis.horizontal,
-                                          itemCount: allTags.length,
-                                          itemBuilder: (context, index) {
-                                            return Chip(
-                                                padding: EdgeInsets.all(0),
-                                                label:
-                                                    Text('${allTags[index]}'));
-                                          },
-                                          separatorBuilder:
-                                              (BuildContext context,
-                                                  int index) {
-                                            return SizedBox(
-                                              width: 5,
-                                            );
-                                          },
-                                        ))),
+                                    child: Padding(
+                                        padding: EdgeInsetsDirectional.fromSTEB(
+                                            40, 0, 0, 0),
+                                        child: SizedBox(
+                                            height: 70,
+                                            child: ListView.separated(
+                                              controller: _scrollController,
+                                              scrollDirection: Axis.horizontal,
+                                              itemCount: allTags.length,
+                                              itemBuilder: (context, index) {
+                                                return Chip(
+                                                    padding: EdgeInsets.all(0),
+                                                    label: Text(
+                                                        '${allTags[index]}',
+                                                        textAlign:
+                                                            TextAlign.center,
+                                                        style: TextStyle(
+                                                            fontSize: 10.0)));
+                                              },
+                                              separatorBuilder:
+                                                  (BuildContext context,
+                                                      int index) {
+                                                return SizedBox(
+                                                  width: 5,
+                                                );
+                                              },
+                                            )))),
                                 SizedBox(
                                   width: 0,
                                 ),
