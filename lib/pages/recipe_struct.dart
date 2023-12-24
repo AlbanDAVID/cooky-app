@@ -494,41 +494,46 @@ class _RecipeStructState extends State<RecipeStruct> {
                         SizedBox(height: 16),
                         // tags
                         if (widget.tags != null) ...[
-                          Row(children: [
-                            Expanded(
-                                child: SizedBox(
-                                    height: 70,
-                                    child: ListView.separated(
-                                      controller: _scrollController,
-                                      scrollDirection: Axis.horizontal,
-                                      itemCount: allTags.length,
-                                      itemBuilder: (context, index) {
-                                        return Chip(
-                                            padding: EdgeInsets.all(0),
-                                            label: Text('${allTags[index]}'));
-                                      },
-                                      separatorBuilder:
-                                          (BuildContext context, int index) {
-                                        return SizedBox(
-                                          width: 5,
+                          Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Expanded(
+                                    child: SizedBox(
+                                        height: 70,
+                                        child: ListView.separated(
+                                          controller: _scrollController,
+                                          scrollDirection: Axis.horizontal,
+                                          itemCount: allTags.length,
+                                          itemBuilder: (context, index) {
+                                            return Chip(
+                                                padding: EdgeInsets.all(0),
+                                                label:
+                                                    Text('${allTags[index]}'));
+                                          },
+                                          separatorBuilder:
+                                              (BuildContext context,
+                                                  int index) {
+                                            return SizedBox(
+                                              width: 5,
+                                            );
+                                          },
+                                        ))),
+                                SizedBox(
+                                  width: 0,
+                                ),
+                                if (showArrow)
+                                  IconButton(
+                                      onPressed: () {
+                                        _scrollController.animateTo(
+                                          _scrollController
+                                              .position.maxScrollExtent,
+                                          duration: Duration(milliseconds: 500),
+                                          curve: Curves.easeInOut,
                                         );
                                       },
-                                    ))),
-                            SizedBox(
-                              width: 0,
-                            ),
-                            if (showArrow)
-                              IconButton(
-                                  onPressed: () {
-                                    _scrollController.animateTo(
-                                      _scrollController
-                                          .position.maxScrollExtent,
-                                      duration: Duration(milliseconds: 500),
-                                      curve: Curves.easeInOut,
-                                    );
-                                  },
-                                  icon: Icon(Icons.arrow_circle_right_sharp)),
-                          ])
+                                      icon:
+                                          Icon(Icons.arrow_circle_right_sharp)),
+                              ])
                         ],
 
                         if (widget.tags == null) ...[
