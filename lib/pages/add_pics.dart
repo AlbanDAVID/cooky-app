@@ -69,7 +69,7 @@ class _MyImagePickerPageState extends State<MyImagePickerPage> {
           children: <Widget>[
             ConstrainedBox(
               constraints: BoxConstraints(
-                  maxHeight: MediaQuery.of(context).size.height * 0.60,
+                  maxHeight: MediaQuery.of(context).size.height * 0.50,
                   maxWidth: MediaQuery.of(context).size.width * 0.95),
               child: _image == null
                   ? Text(AppLocalizations.of(context)!.noPic,
