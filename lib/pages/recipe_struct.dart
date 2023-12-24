@@ -8,6 +8,7 @@
 // ignore_for_file: prefer_const_constructors, must_be_immutable, no_leading_underscores_for_local_identifiers
 
 import 'dart:io';
+import 'dart:math';
 
 import 'package:Cooky/pages/home.dart';
 import 'package:Cooky/pages/edit_recipe.dart';
@@ -17,6 +18,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:Cooky/data/recipe_database/database.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'dart:ui' as ui;
 
 class RecipeStruct extends StatefulWidget {
   final String recipeName;
@@ -439,7 +441,7 @@ class _RecipeStructState extends State<RecipeStruct> {
                         ConstrainedBox(
                             constraints: BoxConstraints(
                                 maxHeight:
-                                    MediaQuery.of(context).size.height * 0.50,
+                                    MediaQuery.of(context).size.height * 0.35,
                                 maxWidth:
                                     MediaQuery.of(context).size.width * 0.95),
                             child: Center(
@@ -572,13 +574,14 @@ class _RecipeStructState extends State<RecipeStruct> {
                       alignment: Alignment.bottomCenter,
                       child: FloatingActionButton.extended(
                         onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => ShowRecipeSteps(
-                                      steps: widget.stepsRecipeFromCreateSteps,
-                                    )),
-                          );
+                          //   Navigator.push(
+                          //     context,
+                          //     MaterialPageRoute(
+                          //         builder: (context) => ShowRecipeSteps(
+                          //               steps: widget.stepsRecipeFromCreateSteps,
+                          //             )),
+                          //   );
+                          print(MediaQuery.of(context).size.height);
                         },
                         label: Text(AppLocalizations.of(context)!.startToCook),
                       ),
