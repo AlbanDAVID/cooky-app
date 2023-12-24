@@ -436,8 +436,12 @@ class _RecipeStructState extends State<RecipeStruct> {
                         // Spacing between title and image
 
                         // Recipe picture
-                        Container(
-                            height: 400,
+                        ConstrainedBox(
+                            constraints: BoxConstraints(
+                                maxHeight:
+                                    MediaQuery.of(context).size.height * 0.50,
+                                maxWidth:
+                                    MediaQuery.of(context).size.width * 0.95),
                             child: Center(
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(10.0),
