@@ -67,9 +67,10 @@ class _MyImagePickerPageState extends State<MyImagePickerPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            SizedBox(
-              height: 500,
-              width: 400,
+            ConstrainedBox(
+              constraints: BoxConstraints(
+                  maxHeight: MediaQuery.of(context).size.height * 0.60,
+                  maxWidth: MediaQuery.of(context).size.width * 0.95),
               child: _image == null
                   ? Text(AppLocalizations.of(context)!.noPic,
                       textAlign: TextAlign.center)
@@ -81,7 +82,7 @@ class _MyImagePickerPageState extends State<MyImagePickerPage> {
                     ),
             ),
             const SizedBox(
-              height: 10,
+              height: 30,
             ),
             ElevatedButton(
               onPressed: () => _pickImage(ImageSource.gallery),
