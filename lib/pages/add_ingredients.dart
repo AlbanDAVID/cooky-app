@@ -154,28 +154,31 @@ class _AddIngredState extends State<AddIngred> {
                   context: context,
                   builder: (context) {
                     return AlertDialog(
-                      title: Text(AppLocalizations.of(context)!.addIngred2),
-                      content: Column(children: [
-                        TextField(
-                            controller: _controller,
-                            decoration: InputDecoration(
-                              border: OutlineInputBorder(),
-                              hintText:
-                                  AppLocalizations.of(context)!.ingredName,
-                            )),
-                        TextField(
-                            controller: _controller2,
-                            decoration: InputDecoration(
-                              border: OutlineInputBorder(),
-                              hintText: AppLocalizations.of(context)!.quantity,
-                            )),
-                        TextField(
-                            controller: _controller3,
-                            decoration: InputDecoration(
-                              border: OutlineInputBorder(),
-                              hintText: AppLocalizations.of(context)!.unit,
-                            ))
-                      ]),
+                      contentPadding: EdgeInsets.all(10.0),
+                      content: Container(
+                          height: 300,
+                          child: Column(children: [
+                            TextField(
+                                controller: _controller,
+                                decoration: InputDecoration(
+                                  border: OutlineInputBorder(),
+                                  hintText:
+                                      AppLocalizations.of(context)!.ingredName,
+                                )),
+                            TextField(
+                                controller: _controller2,
+                                decoration: InputDecoration(
+                                  border: OutlineInputBorder(),
+                                  hintText:
+                                      AppLocalizations.of(context)!.quantity,
+                                )),
+                            TextField(
+                                controller: _controller3,
+                                decoration: InputDecoration(
+                                  border: OutlineInputBorder(),
+                                  hintText: AppLocalizations.of(context)!.unit,
+                                ))
+                          ])),
                       actions: [
                         ElevatedButton(
                           child: Text(AppLocalizations.of(context)!.cancel),

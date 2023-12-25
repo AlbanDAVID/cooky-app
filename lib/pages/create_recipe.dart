@@ -204,7 +204,7 @@ class _CreateRecipeState extends State<CreateRecipe> {
             Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
               SizedBox(
                   // to have a limit if the text is too long (add ...)
-                  width: 300,
+                  width: 200,
                   child: Text(recipeNameFromAddRecipeName,
                       maxLines: 3,
                       overflow: TextOverflow.ellipsis,

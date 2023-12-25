@@ -47,7 +47,7 @@ class _AddTotalTimeState extends State<AddTotalTime> {
         ),
         body: Column(children: [
           SizedBox(
-              height: 500,
+              height: 400,
               child: ListView.builder(
                 itemCount: totalTimeList.length,
                 itemBuilder: (context, index) {

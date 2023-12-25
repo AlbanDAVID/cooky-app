@@ -183,7 +183,7 @@ class _EditRecipeState extends State<EditRecipe> {
       Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
         SizedBox(
             // to have a limit if the text is too long (add ...)
-            width: 300,
+            width: 200,
             child: Text(
               maxLines: 3,
               overflow: TextOverflow.ellipsis,

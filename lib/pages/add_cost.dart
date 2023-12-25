@@ -42,7 +42,7 @@ class _AddCostState extends State<AddCost> {
         ),
         body: Column(children: [
           SizedBox(
-              height: 500,
+              height: 300,
               child: ListView.builder(
                 itemCount: costList.length,
                 itemBuilder: (context, index) {

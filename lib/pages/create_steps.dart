@@ -25,14 +25,14 @@ class DialogAddSteps extends StatelessWidget {
   Widget build(BuildContext context) {
     return AlertDialog(
         content: Container(
-      height: 400,
+      height: 200,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           // get user input
           SizedBox(
-              height: 330,
-              width: 500,
+              height: 130,
+              width: 300,
               child: TextField(
                 maxLines:
                     null, // for automatically increase the height of TextField
@@ -79,14 +79,14 @@ class DialogEditStep extends StatelessWidget {
   Widget build(BuildContext context) {
     return AlertDialog(
         content: Container(
-      height: 400,
+      height: 200,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           // get user input
           SizedBox(
-              height: 330,
-              width: 500,
+              height: 130,
+              width: 300,
               child: TextField(
                 maxLines:
                     null, // for automatically increase the height of TextField

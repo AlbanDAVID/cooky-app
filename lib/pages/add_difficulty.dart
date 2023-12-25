@@ -42,7 +42,7 @@ class _AddDifficultyState extends State<AddDifficulty> {
         ),
         body: Column(children: [
           SizedBox(
-              height: 500,
+              height: 300,
               child: ListView.builder(
                 itemCount: difficultyList.length,
                 itemBuilder: (context, index) {
