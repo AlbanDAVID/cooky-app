@@ -924,8 +924,8 @@ class _ScrapingState extends State<Scraping> {
         itemCount: widget.scrapStepsRecipe.length,
         itemBuilder: (context, index) {
           return ListTile(
-            title:
-                Text(' Step ${index + 1}:\n${widget.scrapStepsRecipe[index]}'),
+            title: Text(
+                ' ${AppLocalizations.of(context)!.step} ${index + 1}:\n${widget.scrapStepsRecipe[index]}'),
             trailing: Wrap(
               spacing: -16,
               children: [
