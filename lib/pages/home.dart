@@ -654,20 +654,15 @@ class _HomeState extends State<Home> {
                                           },
                                           child: Center(
                                               child: Column(children: [
-                                            Text(
+                                            Chip(
+                                                label: Text(
                                               textAlign: TextAlign.center,
                                               box.getAt(index)!.categoryName,
                                               style: TextStyle(
-                                                fontSize: 20,
-                                              ),
-                                            ),
-                                            Text(
-                                              textAlign: TextAlign.center,
-                                              "_",
-                                              style: TextStyle(
-                                                fontSize: 20,
-                                              ),
-                                            ),
+                                                  fontSize: 20,
+                                                  color: Color.fromRGBO(
+                                                      123, 73, 202, 1)),
+                                            )),
                                           ])),
                                         ),
                                         trailing: isEditDeleteMode
