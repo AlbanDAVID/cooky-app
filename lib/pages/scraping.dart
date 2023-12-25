@@ -193,7 +193,7 @@ class _ScrapingState extends State<Scraping> {
       ),
       Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
         SizedBox(
-            width: 300,
+            width: 200,
             child: Text(
               maxLines: 3,
               overflow: TextOverflow.ellipsis,

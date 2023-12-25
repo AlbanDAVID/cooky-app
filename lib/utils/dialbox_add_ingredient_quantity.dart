@@ -66,7 +66,7 @@ class _AddIngredientQuantityState extends State<AddIngredientQuantity> {
         ),
         body: Column(children: [
           SizedBox(
-            height: 400,
+            height: 200,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [

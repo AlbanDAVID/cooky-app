@@ -14,6 +14,7 @@ import 'package:Cooky/pages/home.dart';
 import 'package:Cooky/pages/edit_recipe.dart';
 import 'package:Cooky/utils/steps_struct.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:Cooky/data/recipe_database/database.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -496,53 +497,26 @@ class _RecipeStructState extends State<RecipeStruct> {
                         SizedBox(height: 16),
                         // tags
                         if (widget.tags != null) ...[
-                          Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Expanded(
-                                    child: Padding(
-                                        padding: EdgeInsetsDirectional.fromSTEB(
-                                            40, 0, 0, 0),
-                                        child: SizedBox(
-                                            height: 70,
-                                            child: ListView.separated(
-                                              controller: _scrollController,
-                                              scrollDirection: Axis.horizontal,
-                                              itemCount: allTags.length,
-                                              itemBuilder: (context, index) {
-                                                return Chip(
-                                                    padding: EdgeInsets.all(0),
-                                                    label: Text(
-                                                        '${allTags[index]}',
-                                                        textAlign:
-                                                            TextAlign.center,
-                                                        style: TextStyle(
-                                                            fontSize: 10.0)));
-                                              },
-                                              separatorBuilder:
-                                                  (BuildContext context,
-                                                      int index) {
-                                                return SizedBox(
-                                                  width: 5,
-                                                );
-                                              },
-                                            )))),
-                                SizedBox(
-                                  width: 0,
+                          Container(
+                            padding:
+                                EdgeInsetsDirectional.fromSTEB(30, 0, 30, 0),
+                            height: 70,
+                            child: Wrap(
+                              spacing: 1.0,
+                              alignment: WrapAlignment.center,
+                              runSpacing:
+                                  1.0, // Espacement vertical entre les lignes
+                              children: List.generate(
+                                widget.tags!.length,
+                                (index) => Padding(
+                                  padding:
+                                      EdgeInsets.symmetric(horizontal: 2.0),
+                                  child: Text(widget.tags![index],
+                                      textAlign: TextAlign.center),
                                 ),
-                                if (showArrow)
-                                  IconButton(
-                                      onPressed: () {
-                                        _scrollController.animateTo(
-                                          _scrollController
-                                              .position.maxScrollExtent,
-                                          duration: Duration(milliseconds: 500),
-                                          curve: Curves.easeInOut,
-                                        );
-                                      },
-                                      icon:
-                                          Icon(Icons.arrow_circle_right_sharp)),
-                              ])
+                              ),
+                            ),
+                          )
                         ],
 
                         if (widget.tags == null) ...[
@@ -581,14 +555,13 @@ class _RecipeStructState extends State<RecipeStruct> {
                       alignment: Alignment.bottomCenter,
                       child: FloatingActionButton.extended(
                         onPressed: () {
-                          //   Navigator.push(
-                          //     context,
-                          //     MaterialPageRoute(
-                          //         builder: (context) => ShowRecipeSteps(
-                          //               steps: widget.stepsRecipeFromCreateSteps,
-                          //             )),
-                          //   );
-                          print(MediaQuery.of(context).size.height);
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => ShowRecipeSteps(
+                                      steps: widget.stepsRecipeFromCreateSteps,
+                                    )),
+                          );
                         },
                         label: Text(AppLocalizations.of(context)!.startToCook),
                       ),

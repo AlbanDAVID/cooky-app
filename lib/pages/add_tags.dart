@@ -133,31 +133,45 @@ class _AddTagsState extends State<AddTags> {
                   context: context,
                   builder: (context) {
                     return AlertDialog(
-                      title: Text(AppLocalizations.of(context)!.addTag),
-                      content: TextField(
-                          controller: _controller,
-                          decoration: InputDecoration(
-                            border: OutlineInputBorder(),
-                            hintText: AppLocalizations.of(context)!.writeTag,
-                          )),
-                      actions: [
-                        ElevatedButton(
-                          child: Text(AppLocalizations.of(context)!.add),
-                          onPressed: () async {
-                            selectedTags.add(
-                              _controller.text,
-                            );
-                            Navigator.pop(context);
+                        title: Text(AppLocalizations.of(context)!.addTag),
+                        content: TextField(
+                            controller: _controller,
+                            decoration: InputDecoration(
+                              border: OutlineInputBorder(),
+                              hintText: AppLocalizations.of(context)!.writeTag,
+                            )),
+                        actions: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              ElevatedButton(
+                                child:
+                                    Text(AppLocalizations.of(context)!.cancel),
+                                onPressed: () async {
+                                  Navigator.pop(context);
+                                },
+                              ),
+                              SizedBox(
+                                width: 8,
+                              ),
+                              ElevatedButton(
+                                child: Text(AppLocalizations.of(context)!.add),
+                                onPressed: () async {
+                                  selectedTags.add(
+                                    _controller.text,
+                                  );
+                                  Navigator.pop(context);
 
-                            _controller.clear();
+                                  _controller.clear();
 
-                            filterSearchResults('');
+                                  filterSearchResults('');
 
-                            setState(() {});
-                          },
-                        )
-                      ],
-                    );
+                                  setState(() {});
+                                },
+                              )
+                            ],
+                          )
+                        ]);
                   });
             },
             child: Icon(Icons.add),

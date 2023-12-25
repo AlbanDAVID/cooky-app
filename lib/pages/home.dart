@@ -150,7 +150,7 @@ class _HomeState extends State<Home> {
         context: context,
         builder: (BuildContext context) {
           return Container(
-              padding: EdgeInsetsDirectional.fromSTEB(0, 200, 0, 100),
+              padding: EdgeInsetsDirectional.fromSTEB(0, 125, 0, 90),
               child: AlertDialog(
                 title: Column(children: [
                   Text(AppLocalizations.of(context)!.areYouSure),
@@ -603,7 +603,7 @@ class _HomeState extends State<Home> {
                   ],
                   if (isSearchPressed == false) ...[
                     SizedBox(
-                        height: 700,
+                        height: 500,
                         child: ValueListenableBuilder(
                           valueListenable:
                               Hive.box<CategoriesNames>('catBox').listenable(),
