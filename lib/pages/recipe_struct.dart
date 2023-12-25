@@ -464,7 +464,7 @@ class _RecipeStructState extends State<RecipeStruct> {
                               if (widget.totalTime != "")
                                 Icon(Icons.access_time),
                               Text(
-                                (' ${widget.totalTime} '),
+                                (' ${widget.totalTime}  '),
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                 ),
@@ -475,7 +475,7 @@ class _RecipeStructState extends State<RecipeStruct> {
                               Row(children: [
                                 Icon(Icons.cookie_outlined),
                                 Text(
-                                  (' ${widget.difficulty} '),
+                                  (' ${widget.difficulty}  '),
                                   style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                   ),
@@ -486,7 +486,7 @@ class _RecipeStructState extends State<RecipeStruct> {
                               Row(children: [
                                 Icon(Icons.monetization_on_outlined),
                                 Text(
-                                  (' ${widget.cost} '),
+                                  (' ${widget.cost}  '),
                                   style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                   ),

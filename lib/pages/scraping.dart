@@ -750,7 +750,7 @@ class _ScrapingState extends State<Scraping> {
   // widget list view to show all selected ingredient and possibilty to edit, delete
   Widget showIngredientsSelected() {
     return SizedBox(
-        height: 600,
+        height: 400,
         child: ListView.builder(
           itemCount: widget.scrapAllIngredient.length,
           itemBuilder: (context, index) {
@@ -919,7 +919,7 @@ class _ScrapingState extends State<Scraping> {
   // widget list view to show all steps and possibilty to edit, delete
   Widget showStepsAdded() {
     return SizedBox(
-      height: 600,
+      height: 400,
       child: ListView.builder(
         itemCount: widget.scrapStepsRecipe.length,
         itemBuilder: (context, index) {
@@ -1085,7 +1085,7 @@ class _ScrapingState extends State<Scraping> {
   // widget list view to show all tags and possibilty to edit, delete
   Widget showTagsAdded() {
     return SizedBox(
-      height: 600,
+      height: 400,
       child: ListView.builder(
         itemCount: widget.scrapTags!.length,
         itemBuilder: (context, index) {

@@ -821,7 +821,7 @@ class _EditRecipeState extends State<EditRecipe> {
   // widget list view to show all selected ingredient and possibilty to edit, delete
   Widget showIngredientsSelected() {
     return SizedBox(
-        height: 600,
+        height: 400,
         child: ListView.builder(
           itemCount: widget.editAllIngredient.length,
           itemBuilder: (context, index) {
@@ -1003,7 +1003,7 @@ class _EditRecipeState extends State<EditRecipe> {
   // widget list view to show all steps and possibilty to edit, delete
   Widget showStepsAdded() {
     return SizedBox(
-      height: 600,
+      height: 400,
       child: ListView.builder(
         itemCount: widget.editStepsRecipe.length,
         itemBuilder: (context, index) {
@@ -1166,7 +1166,7 @@ class _EditRecipeState extends State<EditRecipe> {
   // widget list view to show all tags and possibilty to edit, delete
   Widget showTagsAdded() {
     return SizedBox(
-      height: 600,
+      height: 400,
       child: ListView.builder(
         itemCount: widget.tags!.length,
         itemBuilder: (context, index) {
