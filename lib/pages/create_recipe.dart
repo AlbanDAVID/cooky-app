@@ -680,27 +680,29 @@ class _CreateRecipeState extends State<CreateRecipe> {
         context: context,
         builder: (context) {
           return AlertDialog(
-              title: Text(AppLocalizations.of(context)!.addIngred2),
-              content: Column(children: [
-                TextField(
-                    controller: editName,
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      hintText: AppLocalizations.of(context)!.ingredName,
-                    )),
-                TextField(
-                    controller: editQuantity,
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      hintText: AppLocalizations.of(context)!.quantity,
-                    )),
-                TextField(
-                    controller: editUnit,
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      hintText: AppLocalizations.of(context)!.unit,
-                    ))
-              ]),
+              contentPadding: EdgeInsets.all(10.0),
+              content: Container(
+                  height: 300,
+                  child: Column(children: [
+                    TextField(
+                        controller: editName,
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(),
+                          hintText: AppLocalizations.of(context)!.ingredName,
+                        )),
+                    TextField(
+                        controller: editQuantity,
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(),
+                          hintText: AppLocalizations.of(context)!.quantity,
+                        )),
+                    TextField(
+                        controller: editUnit,
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(),
+                          hintText: AppLocalizations.of(context)!.unit,
+                        ))
+                  ])),
               actions: [
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
