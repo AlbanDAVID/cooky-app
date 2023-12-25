@@ -379,7 +379,7 @@ class _RecipeStructState extends State<RecipeStruct> {
                       ],
                     )),
                 SizedBox(
-                    height: 600,
+                    height: 400,
                     child: ListView.builder(
                       itemCount: widget.allIngredientSelected.length,
                       itemBuilder: (context, index) {
