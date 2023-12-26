@@ -355,7 +355,7 @@ class _RecipeStructState extends State<RecipeStruct> {
                 Padding(
                     padding: EdgeInsets.all(10),
                     child: Container(
-                      height: 400,
+                      height: 350,
                       decoration: BoxDecoration(
                         color: Color.fromRGBO(247, 242, 255, 1),
                         borderRadius: BorderRadius.circular(15.0),
