@@ -1,12 +1,12 @@
 <b>Découvrez Cooky, votre nouveau compagnon culinaire gratuit et open source qui respecte votre vie privée  !</b>
 <ul>
-  <li>Profitez d'une interface minimaliste et élégante.</li><br>
-  <li>Importez facilement des recettes depuis le web ou créez-les manuellement.</li><br>
-  <li>Bénéficiez d'une expérience intuitive pour créer vos recettes.</li><br>
-  <li>Sauvegardez un nombre illimité de recettes et consultez-les hors ligne.</li><br>
-  <li>Organisez vos recettes en utilisant des catégories et des tags, et retrouvez-les facilement grâce au moteur de recherche intégré.</li><br>
-  <li>Faites défiler les étapes d'un simple swipe pendant que vous cuisinez.</li><br>
-  <li>Suivez l'achat de vos ingrédients avec la liste de courses intégrée.</li><br>
+  <li>Profitez d'une interface minimaliste et élégante.</li>
+  <li>Importez facilement des recettes depuis le web ou créez-les manuellement.</li>
+  <li>Bénéficiez d'une expérience intuitive pour créer vos recettes.</li>
+  <li>Sauvegardez un nombre illimité de recettes et consultez-les hors ligne.</li>
+  <li>Organisez vos recettes en utilisant des catégories et des tags, et retrouvez-les facilement grâce au moteur de recherche intégré.</li>
+  <li>Faites défiler les étapes d'un simple swipe pendant que vous cuisinez.</li>
+  <li>Suivez l'achat de vos ingrédients avec la liste de courses intégrée.</li>
 </ul>
-<li>Vous pouvez me soutenir en ajoutant une étoile sur mon github et/ou en faisant un don.</li><br>
+Vous pouvez me soutenir en ajoutant une étoile sur mon github et/ou en faisant un don.
 
