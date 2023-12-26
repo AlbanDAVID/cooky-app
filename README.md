@@ -9,7 +9,7 @@
 
 <div align="center">
 
-[<img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png" width="150">](https://f-droid.org/fr/)
+[<img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png" width="150">](https://f-droid.org/packages/com.albdav.Cooky/)
 [<img src="https://github.com/AlbanDAVID/cooky-app/blob/main/graphics_readme/github-get-it-on.png" width="150">](https://github.com/AlbanDAVID/cooky-app/releases)
 
 </div>
