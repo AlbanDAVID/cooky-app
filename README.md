@@ -37,10 +37,14 @@
 
 ### Screenshots
 <div style="display: flex; justify-content: center;">
-  <img src="https://github.com/AlbanDAVID/cooky-app/blob/main/fastlane/metadata/android/en-US/images/phoneScreenshots/1.png" alt="screenshot1" style="width:275px; margin-right: 30px;">
-  <img src="https://github.com/AlbanDAVID/cooky-app/blob/main/fastlane/metadata/android/en-US/images/phoneScreenshots/2.png" alt="screenshot2" style="width:275px; margin-right: 30px;"> <br>
-  <img src="https://github.com/AlbanDAVID/cooky-app/blob/main/fastlane/metadata/android/en-US/images/phoneScreenshots/3.png" alt="screenshot3" style="width:275px; margin-right: 30px;">
-  <img src="https://github.com/AlbanDAVID/cooky-app/blob/main/fastlane/metadata/android/en-US/images/phoneScreenshots/4.png" alt="screenshot4" style="width:275px; margin-right: 30px;">
+![screenshot1](https://github.com/AlbanDAVID/cooky-app/blob/main/fastlane/metadata/android/en-US/images/phoneScreenshots/1.png){: width="275px" style="margin-right: 30px;"}
+![screenshot2](https://github.com/AlbanDAVID/cooky-app/blob/main/fastlane/metadata/android/en-US/images/phoneScreenshots/2.png){: width="275px" style="margin-right: 30px;"}
+
+---
+
+![screenshot3](https://github.com/AlbanDAVID/cooky-app/blob/main/fastlane/metadata/android/en-US/images/phoneScreenshots/3.png){: width="275px" style="margin-right: 30px;"}
+![screenshot4](https://github.com/AlbanDAVID/cooky-app/blob/main/fastlane/metadata/android/en-US/images/phoneScreenshots/4.png){: width="275px" style="margin-right: 30px;"}
+
 </div>
 <br>
 
