@@ -15,6 +15,7 @@ import 'package:Cooky/data/categories_database/categories_names_services.dart';
 import 'package:Cooky/pages/recipe_struct.dart';
 import 'package:Cooky/pages/scraping.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:Cooky/data/recipe_database/database.dart';
 import 'package:marmiteur/marmiteur.dart';
@@ -442,7 +443,9 @@ class _HomeState extends State<Home> {
           _showDialog();
         },
         child: Scaffold(
+          backgroundColor: Color.fromRGBO(247, 242, 255, 1),
           appBar: AppBar(
+              backgroundColor: Color.fromRGBO(247, 242, 255, 1),
               title: Text("Cooky",
                   style:
                       const TextStyle(color: Color.fromRGBO(104, 60, 173, 1))),

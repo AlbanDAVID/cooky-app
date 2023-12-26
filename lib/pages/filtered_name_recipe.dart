@@ -210,10 +210,11 @@ class _FilteredNameRecipeState extends State<FilteredNameRecipe> {
     return PopScope(
         canPop: false,
         child: Scaffold(
+          backgroundColor: const Color.fromRGBO(247, 242, 255, 1),
           appBar: AppBar(
-            title: Text(
-              widget.categoryName,
-            ),
+            backgroundColor: const Color.fromRGBO(247, 242, 255, 1),
+            title: Text(widget.categoryName,
+                style: const TextStyle(color: Color.fromRGBO(104, 60, 173, 1))),
             centerTitle: true,
             leading: IconButton(
               onPressed: () {
