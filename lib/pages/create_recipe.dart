@@ -859,7 +859,11 @@ class _CreateRecipeState extends State<CreateRecipe> {
   // widget list view to show all selected ingredient and possibilty to edit, delete
   Widget showIngredientsSelected() {
     setState(() {});
-    return SizedBox(
+    return Container(
+        decoration: BoxDecoration(
+          color: Color.fromRGBO(247, 242, 255, 1),
+          borderRadius: BorderRadius.circular(15.0),
+        ),
         height: 400,
         child: ListView.builder(
           itemCount: allIngredientSelectedCreateRecipe.length,
@@ -1037,7 +1041,11 @@ class _CreateRecipeState extends State<CreateRecipe> {
 
   // widget list view to show all steps and possibilty to edit, delete
   Widget showStepsAdded() {
-    return SizedBox(
+    return Container(
+      decoration: BoxDecoration(
+        color: Color.fromRGBO(247, 242, 255, 1),
+        borderRadius: BorderRadius.circular(15.0),
+      ),
       height: 400,
       child: ListView.builder(
         itemCount: stepsRecipeFromCreateSteps.length,
@@ -1213,8 +1221,12 @@ class _CreateRecipeState extends State<CreateRecipe> {
 
   // widget list view to show all steps and possibilty to edit, delete
   Widget showTagsAdded() {
-    return SizedBox(
+    return Container(
       height: 400,
+      decoration: BoxDecoration(
+        color: Color.fromRGBO(247, 242, 255, 1),
+        borderRadius: BorderRadius.circular(15.0),
+      ),
       child: ListView.builder(
         itemCount: tags!.length,
         itemBuilder: (context, index) {

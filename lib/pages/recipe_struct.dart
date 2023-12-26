@@ -66,7 +66,6 @@ class _RecipeStructState extends State<RecipeStruct> {
   String defautImage = "recipe_pics/no_image.png";
   List allTags = [];
   final ScrollController _scrollController = ScrollController();
-  bool showArrow = true;
 
   // load database
   final _myBox = Hive.box('mybox');
@@ -84,31 +83,6 @@ class _RecipeStructState extends State<RecipeStruct> {
     // init of tags list
     if (widget.tags != null) {
       allTags.addAll(widget.tags!);
-    }
-
-    // init scrollController :
-    _scrollController.addListener(_onScroll);
-
-    // Check if list is large enough to scroll and if it's the case, show arrow, else don't show arrow
-    WidgetsBinding.instance!.addPostFrameCallback((_) {
-      if (_scrollController.position.maxScrollExtent == 0) {
-        setState(() {
-          showArrow = false;
-        });
-      }
-    });
-  }
-
-  // manage visibility of the arrow (for tags list view horizontal scroll)
-  void _onScroll() {
-    if (_scrollController.offset > 0 && showArrow) {
-      setState(() {
-        showArrow = false;
-      });
-    } else if (_scrollController.offset <= 0 && !showArrow) {
-      setState(() {
-        showArrow = true;
-      });
     }
   }
 
@@ -378,23 +352,47 @@ class _RecipeStructState extends State<RecipeStruct> {
                         ),
                       ],
                     )),
-                SizedBox(
-                    height: 400,
-                    child: ListView.builder(
-                      itemCount: widget.allIngredientSelected.length,
-                      itemBuilder: (context, index) {
-                        final ingredient =
-                            widget.allIngredientSelected[index][0];
-                        final quantity = widget.allIngredientSelected[index][1];
-                        final unit = widget.allIngredientSelected[index][2];
+                Padding(
+                    padding: EdgeInsets.all(10),
+                    child: Container(
+                      height: 400,
+                      decoration: BoxDecoration(
+                        color: Color.fromRGBO(247, 242, 255, 1),
+                        borderRadius: BorderRadius.circular(15.0),
+                      ),
+                      child: ListView.builder(
+                        controller: _scrollController,
+                        itemCount: widget.allIngredientSelected.length,
+                        itemBuilder: (context, index) {
+                          final ingredient =
+                              widget.allIngredientSelected[index][0];
+                          final quantity =
+                              widget.allIngredientSelected[index][1];
+                          final unit = widget.allIngredientSelected[index][2];
 
-                        final formattedString =
-                            '$ingredient : ($quantity$unit)';
-                        return widget.isFromScrap
-                            ? ListTile(
-                                title:
-                                    Text(widget.allIngredientSelected[index]),
-                                trailing: Checkbox(
+                          final formattedString =
+                              '$ingredient : ($quantity$unit)';
+                          return widget.isFromScrap
+                              ? ListTile(
+                                  title:
+                                      Text(widget.allIngredientSelected[index]),
+                                  trailing: Checkbox(
+                                      value: _isChecked[index],
+                                      onChanged: (bool? value) {
+                                        if (_isChecked[index] == false) {
+                                          return setState(() {
+                                            _isChecked[index] = true;
+                                          });
+                                        } else {
+                                          return setState(() {
+                                            _isChecked[index] = false;
+                                          });
+                                        }
+                                      }),
+                                )
+                              : ListTile(
+                                  title: Text(formattedString),
+                                  trailing: Checkbox(
                                     value: _isChecked[index],
                                     onChanged: (bool? value) {
                                       if (_isChecked[index] == false) {
@@ -406,28 +404,34 @@ class _RecipeStructState extends State<RecipeStruct> {
                                           _isChecked[index] = false;
                                         });
                                       }
-                                    }),
-                              )
-                            : ListTile(
-                                title: Text(formattedString),
-                                trailing: Checkbox(
-                                  value: _isChecked[index],
-                                  onChanged: (bool? value) {
-                                    if (_isChecked[index] == false) {
-                                      return setState(() {
-                                        _isChecked[index] = true;
-                                      });
-                                    } else {
-                                      return setState(() {
-                                        _isChecked[index] = false;
-                                      });
-                                    }
-                                  },
-                                ),
-                              );
+                                    },
+                                  ),
+                                );
+                        },
+                      ),
+                    )),
+                Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                  IconButton(
+                      onPressed: () {
+                        _scrollController.animateTo(
+                          _scrollController.position.maxScrollExtent,
+                          duration: Duration(milliseconds: 500),
+                          curve: Curves.easeInOut,
+                        );
                       },
-                    ))
+                      icon: Icon(Icons.arrow_circle_down_rounded)),
+                  IconButton(
+                      onPressed: () {
+                        _scrollController.animateTo(
+                          _scrollController.position.minScrollExtent,
+                          duration: Duration(milliseconds: 500),
+                          curve: Curves.easeInOut,
+                        );
+                      },
+                      icon: Icon(Icons.arrow_circle_up_rounded)),
+                ])
               ],
+
               if (isShowIngredientPressed == false) ...[
                 Expanded(
                     child: ListView(children: [
