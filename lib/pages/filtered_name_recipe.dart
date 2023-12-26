@@ -214,7 +214,8 @@ class _FilteredNameRecipeState extends State<FilteredNameRecipe> {
           appBar: AppBar(
             backgroundColor: const Color.fromRGBO(247, 242, 255, 1),
             title: Text(widget.categoryName,
-                style: const TextStyle(color: Color.fromRGBO(104, 60, 173, 1))),
+                style:
+                    const TextStyle(color: Color.fromRGBO(147, 113, 202, 1))),
             centerTitle: true,
             leading: IconButton(
               onPressed: () {

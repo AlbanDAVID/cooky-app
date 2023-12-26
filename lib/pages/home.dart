@@ -448,7 +448,7 @@ class _HomeState extends State<Home> {
               backgroundColor: Color.fromRGBO(247, 242, 255, 1),
               title: Text("Cooky",
                   style:
-                      const TextStyle(color: Color.fromRGBO(104, 60, 173, 1))),
+                      const TextStyle(color: Color.fromRGBO(147, 113, 202, 1))),
               centerTitle: true,
               elevation: 0,
               //leading: const Icon(Icons.menu),
@@ -664,7 +664,7 @@ class _HomeState extends State<Home> {
                                               style: TextStyle(
                                                   fontSize: 20,
                                                   color: Color.fromRGBO(
-                                                      123, 73, 202, 1)),
+                                                      147, 113, 202, 1)),
                                             )),
                                           ])),
                                         ),
