@@ -1,8 +1,7 @@
 ## TODO ##
 
 Priority :
-- Size screen issue (for little screen)
-- are sure to leave the page (create recipe)
+- Add scroll bar listview
 - Fix photo bug (5% of the time, the app crash when we take a picture (come back to home page screen, error : Lost device connection))
 - Categories name and the text "Cooky" in the app bar are not aligned
 
