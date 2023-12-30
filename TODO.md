@@ -17,7 +17,7 @@
 **Bugs:**
 - [ ] Minor: indentation: when we add a new step after other steps have been created (step 1, step 2 (while there are already step 1 and 2, for example, we would have to repeat the indentation in relation to the elements already added))
 - [ ] Minor: when I delete a field in recipe create and I delete, then I edit: I see the "delete" in the text field to edit
-- [ ] Minor: in the edit page: when I delete or add an ingredient, step or tag, and I leave the page without saving and I come back to home and come see again the recipe, the changes are temporarily saved until I leave the page. However, it works as expected when I save the changes (and not just leave the page).
+- [ ] Minor: in the edit page: when I delete or add an ingredient, step or tag, and I leave the page without saving and I come back to home and go again to the recipe page, the changes are temporarily saved until I leave the app. However, it works as expected when I save the changes (and not just leave the page without saving).
 
 **Features to add:**
 - [ ] Improve responsivity: for example, the list view for ingredient does not take the whole screen on big screen (>= 6") (because I did the responsiveness according to 5" screen).
