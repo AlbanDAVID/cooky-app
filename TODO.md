@@ -7,7 +7,7 @@
 - [ ] Categories name and the text "Cooky" in the app bar are not aligned
 
 **Code:**
-- [ ] Refactor
+- [ ] Refacto
 
 **Translation:**
 - [ ] Any new language translation is welcome
@@ -21,7 +21,7 @@
 - [ ] Minor: in the edit page: when I delete or add an ingredient, step or tag, and I leave the page without saving and I come back to home and come see again the recipe, the changes are temporarily saved until I leave the page. However, it works as expected when I save the changes (and not just leave the page).
 
 **Features to add:**
-- [ ] Improve responsivity: for example, the list view for ingredient does not take the whole screen on big screen (>= 6") (because I did the responsiveness according to 5" screen).
+- [x] Improve responsivity: for example, the list view for ingredient does not take the whole screen on big screen (>= 6") (because I did the responsiveness according to 5" screen).
 - [ ] Connect to a nextcloud account
 - [ ] Backup database (possibility to export, import data and ask for conserve data before the app is uninstalled)
 - [ ] Ask for the right of the Cooky logo
