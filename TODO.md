@@ -4,7 +4,6 @@
 - [ ] Issue #5
 - [ ] Add scroll bar listview
 - [ ] Fix photo bug (5% of the time, the app crashes when we take a picture (comes back to home page screen, error: Lost device connection))
-- [ ] Categories name and the text "Cooky" in the app bar are not aligned
 
 **Code:**
 - [ ] Refacto
@@ -27,6 +26,7 @@
 - [ ] Ask for the right of the Cooky logo
 - [ ] Add stats page (number of recipes, etc.)
 - [ ] In create recipe page or edit page: align show ingredient, show steps and show tags with the others
+- [ ] Categories name and the text "Cooky" in the app bar are not aligned
 - [ ] Scrap error, try to add a better error catch (for now: name == null)
 - [ ] Check with all police size
 - [ ] Add create recipe button inside a category and when we click on it, the category is already there (in the required field when we create a recipe)
