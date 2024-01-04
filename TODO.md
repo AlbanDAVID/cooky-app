@@ -24,6 +24,7 @@
 - [ ] Connect to a nextcloud account
 - [ ] Backup database (possibility to export, import data and ask for conserve data before the app is uninstalled)
 - [ ] Ask for the right of the Cooky logo
+- [ ] Dark mode
 - [ ] Add stats page (number of recipes, etc.)
 - [ ] In create recipe page or edit page: align show ingredient, show steps and show tags with the others
 - [ ] Categories name and the text "Cooky" in the app bar are not aligned
