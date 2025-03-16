@@ -1,5 +1,5 @@
 <p align="center"> 
-  <b><i>THIS APP IS FOR NOW IN STAND-BY</i></b>
+  <b><i>THIS APP IS NO LONGER MAINTAINED FOR NOW.</i></b>
 </p>
 
 
