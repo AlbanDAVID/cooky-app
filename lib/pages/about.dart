@@ -114,7 +114,7 @@ class _AboutState extends State<About> {
                         textAlign: TextAlign.center),
                     ElevatedButton(
                       onPressed: () async {
-                        _launchURL('https://www.buymeacoffee.com/albdav');
+                        _launchURL('https://ko-fi.com/albandavid');
                       },
                       child: Text(
                         AppLocalizations.of(context)!.donate,
